@@ -65,6 +65,10 @@ interface DocumentState {
   previewCss: string;
   isLoading: boolean;
   isDirty: boolean;
+  isSaving: boolean;
+  lastSavedAt: number | null;
+  historyDepth: number;
+  futureDepth: number;
   postId: number | null;
   currentPost: BuilderPageRecord | null;
   pages: BuilderPageRecord[];
@@ -1099,7 +1103,7 @@ interface GridPosition {
 
 function findParentSlot(document: BuilderDocument, nodeId: string): ParentSlotRef | null {
   for (const parent of Object.values(document.nodes)) {
-    for (const [slotName, children] of Object.entries(parent.slots)) {
+    for (const [slotName, children] of Object.entries(parent.slots ?? {})) {
       const index = (children ?? []).indexOf(nodeId);
       if (index !== -1) {
         return { parentId: parent.id, slotName, index };
@@ -1126,6 +1130,7 @@ function insertNodeId(
 ): boolean {
   const target = targetId ? document.nodes[targetId] : document.nodes[document.root];
   if (!target) return false;
+  if (!target.slots) target.slots = {};
 
   if (position === 'inside') {
     const resolvedSlotName = resolveInsideSlot(target, slotName);
@@ -1139,6 +1144,7 @@ function insertNodeId(
   if (!parentRef) {
     const rootNode = document.nodes[document.root];
     if (!rootNode) return false;
+    if (!rootNode.slots) rootNode.slots = {};
     (rootNode.slots['default'] ??= []).push(nodeId);
     return true;
   }
@@ -1350,6 +1356,28 @@ function applyGridPlacement(
   node.props['gridRowStart'] = boundedInteger(gridPlacement.row, 1, 1, 12);
 }
 
+/*
+ * Documents authored outside the builder (REST/MCP agents) may omit the
+ * slots map or use the children shorthand. Normalize on load so every node
+ * is safe for the immer-driven mutating actions.
+ */
+function normalizeLoadedDocument(document: BuilderDocument): void {
+  for (const node of Object.values(document.nodes ?? {})) {
+    if (!node || typeof node !== 'object') continue;
+    if (!node.props || typeof node.props !== 'object') node.props = {};
+    if (!node.variants || typeof node.variants !== 'object') node.variants = {};
+    if (!node.slots || typeof node.slots !== 'object') {
+      node.slots = {};
+      const legacyChildren = (node as { children?: unknown }).children;
+      if (Array.isArray(legacyChildren)) {
+        node.slots['default'] = legacyChildren.filter(
+          (child): child is string => typeof child === 'string'
+        );
+      }
+      delete (node as { children?: unknown }).children;
+    }
+  }
+}
 export const useDocumentStore = create<DocumentState>()(
   immer((set, get) => ({
     document: null,
@@ -1357,6 +1385,10 @@ export const useDocumentStore = create<DocumentState>()(
     previewCss: '',
     isLoading: false,
     isDirty: false,
+    isSaving: false,
+    lastSavedAt: null,
+    historyDepth: 0,
+    futureDepth: 0,
     postId: null,
     currentPost: null,
     pages: [],
@@ -1377,6 +1409,7 @@ export const useDocumentStore = create<DocumentState>()(
         };
 
         const nextDocument = data.document ?? emptyDocument();
+        normalizeLoadedDocument(nextDocument);
         const normalizedOverlayIds = normalizeManagedOverlayIds(nextDocument);
         const normalizedMegaMenus = normalizeMegaMenuStructures(nextDocument, true);
         const nextHtml = typeof data.html === 'string' ? data.html : '';
@@ -1412,6 +1445,11 @@ export const useDocumentStore = create<DocumentState>()(
     async save() {
       const { document: currentDocument, postId } = get();
       if (!currentDocument || postId === null) return;
+      if (get().isSaving) return;
+
+      set((s) => {
+        s.isSaving = true;
+      });
 
       const document = JSON.parse(JSON.stringify(currentDocument)) as BuilderDocument;
       normalizeManagedOverlayIds(document);
@@ -1424,14 +1462,19 @@ export const useDocumentStore = create<DocumentState>()(
 
         const previewCss = await compileAndPersistPageCss(postId, payload.classCandidates);
 
+        markHistoryBaseline();
         set((s) => {
           s.document = document;
           s.previewHtml = payload.html;
           s.previewCss = previewCss;
           s.isDirty = false;
+          s.isSaving = false;
+          s.lastSavedAt = Date.now();
         });
       } catch {
-        /* save errors are surfaced by the browser/network panel for now */
+        set((s) => {
+          s.isSaving = false;
+        });
       }
     },
 
@@ -2250,4 +2293,138 @@ async function compileAndPersistPageCss(
   }
 
   return css;
+}
+
+/*
+ * F3: snapshot undo/redo + idle autosave.
+ *
+ * immer keeps every previous document immutable, so history is a list of
+ * plain references (zero copy). Rapid edits inside the coalescing window
+ * collapse into a single history entry (slider drags, keystrokes).
+ */
+type DocumentRef = BuilderDocument | null;
+
+const undoStack: DocumentRef[] = [];
+const redoStack: DocumentRef[] = [];
+const HISTORY_LIMIT = 120;
+const COALESCE_WINDOW_MS = 500;
+
+let historyLastDoc: DocumentRef = null;
+let historyLastPostId: number | null = null;
+let historyLastPushAt = 0;
+let historyRestoreToken: DocumentRef = null;
+let historyExpectBaseline = false;
+let lastEditAt = 0;
+
+function markHistoryBaseline(): void {
+  historyExpectBaseline = true;
+}
+
+function syncHistoryDepth(): void {
+  /* Never setState inside a dispatch: zustand notifies subscribers while
+   * the immer draft is still finalising, and a re-entrant produce throws.
+   * Flush on the microtask, after the current dispatch has committed. */
+  queueMicrotask(() => {
+    useDocumentStore.setState({
+      historyDepth: undoStack.length,
+      futureDepth: redoStack.length,
+    });
+  });
+}
+
+useDocumentStore.subscribe((state) => {
+  if (state.postId !== historyLastPostId) {
+    historyLastPostId = state.postId;
+    undoStack.length = 0;
+    redoStack.length = 0;
+    historyLastDoc = null;
+    historyLastPushAt = 0;
+    syncHistoryDepth();
+    return;
+  }
+
+  if (state.document === historyLastDoc) return;
+
+  if (historyRestoreToken !== null && state.document === historyRestoreToken) {
+    historyRestoreToken = null;
+    historyLastDoc = state.document;
+    return;
+  }
+
+  if (historyExpectBaseline) {
+    historyExpectBaseline = false;
+    historyLastDoc = state.document;
+    return;
+  }
+
+  /* First document arrival (initial load) sets the baseline silently. */
+  if (historyLastDoc === null && undoStack.length === 0) {
+    historyLastDoc = state.document;
+    return;
+  }
+
+  const now = Date.now();
+  lastEditAt = now;
+
+  if (now - historyLastPushAt > COALESCE_WINDOW_MS) {
+    undoStack.push(historyLastDoc);
+    if (undoStack.length > HISTORY_LIMIT) undoStack.shift();
+    redoStack.length = 0;
+    historyLastPushAt = now;
+    syncHistoryDepth();
+  }
+
+  historyLastDoc = state.document;
+});
+
+function applyHistoryRestore(target: DocumentRef): void {
+  historyRestoreToken = target;
+  useDocumentStore.setState({ document: target, isDirty: true });
+  syncHistoryDepth();
+  /* The canvas renders server-produced HTML, so every restore must
+   * regenerate it, exactly like the mutating actions do. */
+  void useDocumentStore.getState().refreshPreview();
+}
+
+export function undo(): boolean {
+  if (undoStack.length === 0) return false;
+  const target = undoStack.pop() ?? null;
+  redoStack.push(historyLastDoc);
+  historyRestoreToken = null;
+  historyExpectBaseline = false;
+  applyHistoryRestore(target);
+  return true;
+}
+
+export function redo(): boolean {
+  if (redoStack.length === 0) return false;
+  const target = redoStack.pop() ?? null;
+  undoStack.push(historyLastDoc);
+  historyRestoreToken = null;
+  historyExpectBaseline = false;
+  applyHistoryRestore(target);
+  return true;
+}
+
+export function historyDepths(): { past: number; future: number } {
+  return { past: undoStack.length, future: redoStack.length };
+}
+
+/* Idle autosave: only when dirty, not already saving, tab visible, and the
+ * designer paused typing for a moment. Server-side validation still gates
+ * every write (invalid documents keep the last good state via REST 400). */
+const AUTOSAVE_IDLE_MS = 15000;
+const AUTOSAVE_MIN_SPACING_MS = 20000;
+
+if (typeof window !== 'undefined') {
+  window.setInterval(() => {
+    const state = useDocumentStore.getState();
+    if (state.postId === null || !state.isDirty || state.isSaving || state.isLoading) return;
+    if (document.visibilityState !== 'visible') return;
+    const now = Date.now();
+    if (now - lastEditAt < AUTOSAVE_IDLE_MS) return;
+    if (state.lastSavedAt !== null && now - state.lastSavedAt < AUTOSAVE_MIN_SPACING_MS) return;
+    lastEditAt = now;
+    void state.save();
+  }, 5000);
 }
