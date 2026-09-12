@@ -9,6 +9,8 @@ export default tseslint.config(
       '**/vendor/**',
       '**/*.config.js',
       'packages/core-plugin/resources/**',
+      // Zero-dependency Node ESM proxy: plain JS, no tsconfig project.
+      'packages/mcp-server/**',
       'packages/*/coverage/**',
     ],
   },
