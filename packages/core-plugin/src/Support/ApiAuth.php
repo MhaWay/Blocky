@@ -56,6 +56,15 @@ final class ApiAuth {
 			);
 		}
 
+		if ( ! ApiKeyStore::rate_limit_ok( (string) $row['public_id'] ) ) {
+			ApiAudit::log( (string) $row['public_id'], 'rate_limited', '' );
+			return new \WP_Error(
+				'blocky_rate_limited',
+				__( 'Rate limit exceeded: 60 requests per minute per key.', 'blocky' ),
+				array( 'status' => 429 )
+			);
+		}
+
 		self::$key_row = $row;
 		// Core application-passwords (prio 20) already rejected
 		// our bearer scheme; a verified key must assert auth itself.
