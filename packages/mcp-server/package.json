@@ -1,0 +1,12 @@
+{
+  "name": "blocky-mcp-server",
+  "version": "0.1.0",
+  "description": "Stdio MCP proxy that forwards JSON-RPC to a Blocky-powered WordPress site.",
+  "type": "module",
+  "bin": {
+    "blocky-mcp": "./index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
