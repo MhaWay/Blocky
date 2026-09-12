@@ -8,10 +8,10 @@ import './theme-switch';
 
 // ── Island hydration ──────────────────────────────────────────────────────────
 
-type IslandModule = {
+interface IslandModule {
   mount: (el: HTMLElement) => void;
   unmount?: (el: HTMLElement) => void;
-};
+}
 
 const mountedIslands = new WeakSet<HTMLElement>();
 

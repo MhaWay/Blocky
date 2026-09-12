@@ -1,0 +1,96 @@
+/* Auto-generated — do not edit */
+/* Tailwind CSS 4 @theme block — maps token CSS vars to Tailwind utilities */
+@theme {
+  /* Reset Tailwind defaults to force token usage */
+  --color-*: initial;
+
+  /* Colours */
+  --color-neutral-0: var(--bky-color-neutral-0);
+  --color-neutral-50: var(--bky-color-neutral-50);
+  --color-neutral-100: var(--bky-color-neutral-100);
+  --color-neutral-200: var(--bky-color-neutral-200);
+  --color-neutral-300: var(--bky-color-neutral-300);
+  --color-neutral-400: var(--bky-color-neutral-400);
+  --color-neutral-500: var(--bky-color-neutral-500);
+  --color-neutral-600: var(--bky-color-neutral-600);
+  --color-neutral-700: var(--bky-color-neutral-700);
+  --color-neutral-800: var(--bky-color-neutral-800);
+  --color-neutral-900: var(--bky-color-neutral-900);
+  --color-neutral-950: var(--bky-color-neutral-950);
+  --color-neutral-1000: var(--bky-color-neutral-1000);
+  --color-brand-50: var(--bky-color-brand-50);
+  --color-brand-100: var(--bky-color-brand-100);
+  --color-brand-200: var(--bky-color-brand-200);
+  --color-brand-300: var(--bky-color-brand-300);
+  --color-brand-400: var(--bky-color-brand-400);
+  --color-brand-500: var(--bky-color-brand-500);
+  --color-brand-600: var(--bky-color-brand-600);
+  --color-brand-700: var(--bky-color-brand-700);
+  --color-brand-800: var(--bky-color-brand-800);
+  --color-brand-900: var(--bky-color-brand-900);
+  --color-brand-950: var(--bky-color-brand-950);
+  --color-success-500: var(--bky-color-success-500);
+  --color-success-700: var(--bky-color-success-700);
+  --color-warning-500: var(--bky-color-warning-500);
+  --color-warning-700: var(--bky-color-warning-700);
+  --color-danger-500: var(--bky-color-danger-500);
+  --color-danger-700: var(--bky-color-danger-700);
+  --color-surface-base: var(--bky-color-surface-base);
+  --color-surface-elevated: var(--bky-color-surface-elevated);
+  --color-surface-overlay: var(--bky-color-surface-overlay);
+  --color-surface-sunken: var(--bky-color-surface-sunken);
+  --color-border-subtle: var(--bky-color-border-subtle);
+  --color-border-base: var(--bky-color-border-base);
+  --color-border-strong: var(--bky-color-border-strong);
+  --color-text-base: var(--bky-color-text-base);
+  --color-text-muted: var(--bky-color-text-muted);
+  --color-text-faint: var(--bky-color-text-faint);
+  --color-text-inverse: var(--bky-color-text-inverse);
+  --color-text-on-accent: var(--bky-color-text-on-accent);
+  --color-accent-base: var(--bky-color-accent-base);
+  --color-accent-hover: var(--bky-color-accent-hover);
+  --color-accent-subtle: var(--bky-color-accent-subtle);
+  --color-accent-text: var(--bky-color-accent-text);
+  --color-feedback-success: var(--bky-color-feedback-success);
+  --color-feedback-warning: var(--bky-color-feedback-warning);
+  --color-feedback-danger: var(--bky-color-feedback-danger);
+
+  /* Radius */
+  --radius-none: var(--bky-radius-none);
+  --radius-sm: var(--bky-radius-sm);
+  --radius-base: var(--bky-radius-base);
+  --radius-md: var(--bky-radius-md);
+  --radius-lg: var(--bky-radius-lg);
+  --radius-xl: var(--bky-radius-xl);
+  --radius-2xl: var(--bky-radius-2xl);
+  --radius-3xl: var(--bky-radius-3xl);
+  --radius-full: var(--bky-radius-full);
+  --radius-card: var(--bky-radius-card);
+  --radius-button: var(--bky-radius-button);
+  --radius-input: var(--bky-radius-input);
+  --radius-badge: var(--bky-radius-badge);
+  --radius-image: var(--bky-radius-image);
+
+  /* Layout */
+  --spacing-gutter: var(--bky-layout-gutter);
+  --spacing-gutter-wide: var(--bky-layout-gutter-wide);
+  --spacing-container-max: var(--bky-layout-container-max);
+  --spacing-section-gap: var(--bky-layout-section-gap);
+  --spacing-block-gap: var(--bky-layout-block-gap);
+
+  /* Fonts */
+  --font-body: var(--bky-font-body);
+  --font-display: var(--bky-font-display);
+  --font-mono: var(--bky-font-mono);
+
+  /* Text sizes */
+  --text-xs: var(--bky-text-xs);
+  --text-sm: var(--bky-text-sm);
+  --text-base: var(--bky-text-base);
+  --text-lg: var(--bky-text-lg);
+  --text-xl: var(--bky-text-xl);
+  --text-2xl: var(--bky-text-2xl);
+  --text-3xl: var(--bky-text-3xl);
+  --text-4xl: var(--bky-text-4xl);
+  --text-5xl: var(--bky-text-5xl);
+}

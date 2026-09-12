@@ -12,5 +12,7 @@
     "tsx": "^4.15.7",
     "typescript": "^5.5.2"
   },
-  "files": ["build/**"]
+  "files": [
+    "build/**"
+  ]
 }

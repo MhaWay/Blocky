@@ -1,0 +1,4 @@
+**/dist/**
+**/vendor/**
+**/node_modules/**
+packages/core-plugin/resources/css/**

@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./src/index.ts",
   "exports": {
-    ".":       "./src/index.ts",
+    ".": "./src/index.ts",
     "./utils": "./src/utils/cx.ts"
   },
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@blocky/tsconfig": "workspace:*",
-    "typescript":       "^5.5.4",
-    "preact":           "^10.22.1"
+    "typescript": "^5.5.4",
+    "preact": "^10.22.1"
   }
 }

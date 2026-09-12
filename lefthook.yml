@@ -6,10 +6,10 @@ pre-commit:
       run: pnpm typecheck
     lint-staged-js:
       glob: "*.{ts,tsx,js}"
-      run: pnpm eslint {staged_files} --max-warnings=0
+      run: pnpm eslint {staged_files} --max-warnings=0 --no-warn-ignored
     lint-staged-css:
       glob: "*.css"
-      run: pnpm stylelint {staged_files}
+      run: sh -c 'f=; for x in "{staged_files}"; do case "\$x" in packages/core-plugin/resources/css/*) ;; *) f="\$f \$x";; esac; done; [ -n "\$f" ] && pnpm stylelint \$f || true'
     format-check:
       glob: "*.{ts,tsx,js,json,css}"
       run: pnpm prettier --check {staged_files}

@@ -6,6 +6,8 @@ namespace Blocky\Core\Rest;
 use Blocky\Core\Blocks\Registry;
 use Blocky\Core\Blocks\Renderer\Pipeline;
 use Blocky\Core\Compiler\PageCompiler;
+use Blocky\Core\Compiler\SiteStylesheet;
+use Blocky\Core\Support\CssSanitizer;
 use Blocky\Core\Tokens\ThemeEngine;
 
 /**
@@ -195,8 +197,9 @@ final class DocumentController extends \WP_REST_Controller
             return new \WP_Error('forbidden', \__('You cannot edit this post.', 'blocky'), ['status' => 403]);
         }
 
-        $css = (string) $request->get_param('css');
-        $this->pageCompiler->cacheCompiledCss($postId, trim($css));
+        $css = CssSanitizer::sanitize((string) $request->get_param('css'));
+        $this->pageCompiler->cacheCompiledCss($postId, $css);
+        SiteStylesheet::schedule_rebuild();
 
         return \rest_ensure_response([
             'saved' => true,

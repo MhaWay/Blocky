@@ -10,6 +10,7 @@ namespace Blocky\Core;
 use Blocky\Core\Blocks\Registry;
 use Blocky\Core\Blocks\Renderer\Pipeline;
 use Blocky\Core\Compiler\PageCompiler;
+use Blocky\Core\Compiler\SiteStylesheet;
 use Blocky\Core\Tokens\ThemeEngine;
 use Blocky\Core\Assets\AssetOrchestrator;
 use Blocky\Core\Rest\RestRegistrar;
@@ -73,6 +74,14 @@ final class Plugin
         \add_action('admin_notices',    [$this, 'renderAdminCacheNotice']);
         \add_action('admin_notices',    [$this, 'renderAdminFormsNotice']);
         \add_filter('the_content',      [$this, 'renderBlockyContent'], 9);
+
+        // Site stylesheet pipeline (L3): debounced CLI rebuilds (docs/research/04).
+        \add_action(SiteStylesheet::REBUILD_HOOK, static function (): void {
+            SiteStylesheet::from_globals()->rebuild();
+        });
+        \add_action('blocky/compiler/page_cache_warmed', static function (): void {
+            SiteStylesheet::schedule_rebuild();
+        }, 10, 0);
 
         // Allow third-party blocks to register before init fires
         \do_action('blocky/register_blocks', $this->registry);
@@ -658,6 +667,7 @@ final class Plugin
     public static function onActivate(): void
     {
         \flush_rewrite_rules();
+        SiteStylesheet::schedule_rebuild();
     }
 
     /**

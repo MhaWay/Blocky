@@ -7,23 +7,27 @@ import { useBlockRegistry } from '../store/blockRegistry';
 import { MegaMenuItemsControl } from './MegaMenuItemsControl';
 import { overlayIdForNode } from '../overlays/identity';
 import type { BlockDefinition, BuilderDocument, BuilderNode } from '../sdk/types';
-import { tailwindColorRoles, tailwindUtilityGroups, tailwindVariantOptions } from '../generated/tailwindUtilityCatalog';
+import {
+  tailwindColorRoles,
+  tailwindUtilityGroups,
+  tailwindVariantOptions,
+} from '../generated/tailwindUtilityCatalog';
 import { t } from '../i18n';
 
 export const Inspector: FunctionComponent = () => {
-  const selectedId   = useUiStore(s => s.selectedNodeId);
-  const responsiveBreakpoint = useUiStore(s => s.responsiveBreakpoint);
-  const setResponsiveBreakpoint = useUiStore(s => s.setResponsiveBreakpoint);
-  const document     = useDocumentStore(s => s.document);
-  const updateProps  = useDocumentStore(s => s.updateProps);
-  const updateVariant = useDocumentStore(s => s.updateVariant);
-  const removeBlock  = useDocumentStore(s => s.removeBlock);
-  const moveBlock    = useDocumentStore(s => s.moveBlock);
-  const definitions  = useBlockRegistry(s => s.definitions);
+  const selectedId = useUiStore((s) => s.selectedNodeId);
+  const responsiveBreakpoint = useUiStore((s) => s.responsiveBreakpoint);
+  const setResponsiveBreakpoint = useUiStore((s) => s.setResponsiveBreakpoint);
+  const document = useDocumentStore((s) => s.document);
+  const updateProps = useDocumentStore((s) => s.updateProps);
+  const updateVariant = useDocumentStore((s) => s.updateVariant);
+  const removeBlock = useDocumentStore((s) => s.removeBlock);
+  const moveBlock = useDocumentStore((s) => s.moveBlock);
+  const definitions = useBlockRegistry((s) => s.definitions);
   const [activeTab, setActiveTab] = useState('content');
 
   const node = selectedId ? document?.nodes[selectedId] : null;
-  const def  = node ? definitions.find(d => d.type === node.type) : null;
+  const def = node ? definitions.find((d) => d.type === node.type) : null;
   const isRoot = !!node && node.id === document?.root;
   const tabs = useMemo(() => {
     if (!def) return [];
@@ -33,8 +37,8 @@ export const Inspector: FunctionComponent = () => {
       { id: 'classes', label: t('inspector.classesTab', 'Classes'), controls: [] },
     ]);
   }, [def]);
-  const visibleTab = tabs.some(tab => tab.id === activeTab) ? activeTab : tabs[0]?.id;
-  const activeControls = tabs.find(tab => tab.id === visibleTab)?.controls ?? [];
+  const visibleTab = tabs.some((tab) => tab.id === activeTab) ? activeTab : tabs[0]?.id;
+  const activeControls = tabs.find((tab) => tab.id === visibleTab)?.controls ?? [];
 
   useEffect(() => {
     setActiveTab('content');
@@ -47,7 +51,9 @@ export const Inspector: FunctionComponent = () => {
     >
       <div class="flex items-center justify-between border-b border-border-subtle px-4 py-3">
         <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wide">
-          {node ? t('inspector.settingsTitle', '%s Settings', [friendlyName(node.type)]) : t('inspector.title', 'Inspector')}
+          {node
+            ? t('inspector.settingsTitle', '%s Settings', [friendlyName(node.type)])
+            : t('inspector.title', 'Inspector')}
         </h2>
         {node && !isRoot && (
           <button
@@ -58,26 +64,34 @@ export const Inspector: FunctionComponent = () => {
             {t('inspector.remove', 'Remove')}
           </button>
         )}
-        {isRoot && <span class="text-xs font-medium text-text-faint">{t('inspector.rootSection', 'Root section')}</span>}
+        {isRoot && (
+          <span class="text-xs font-medium text-text-faint">
+            {t('inspector.rootSection', 'Root section')}
+          </span>
+        )}
       </div>
 
       <div class="flex-1 overflow-y-auto p-4">
         {!node && (
-          <p class="text-sm text-text-faint">{t('inspector.selectBlock', 'Select a block on the canvas to edit its properties.')}</p>
+          <p class="text-sm text-text-faint">
+            {t('inspector.selectBlock', 'Select a block on the canvas to edit its properties.')}
+          </p>
         )}
 
         {node && def && (
           <div class="space-y-4">
             {tabs.length > 1 && (
               <div class="grid grid-cols-2 gap-1 rounded-input border border-border-subtle bg-surface-base p-1">
-                {tabs.map(tab => (
+                {tabs.map((tab) => (
                   <button
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(tab.id)}
-                    class={`rounded-input px-2 py-1.5 text-xs font-medium transition-colors ${tab.id === visibleTab
-                      ? 'bg-accent-base text-text-on-accent'
-                      : 'text-text-muted hover:bg-surface-overlay hover:text-text-base'}`}
+                    class={`rounded-input px-2 py-1.5 text-xs font-medium transition-colors ${
+                      tab.id === visibleTab
+                        ? 'bg-accent-base text-text-on-accent'
+                        : 'text-text-muted hover:bg-surface-overlay hover:text-text-base'
+                    }`}
                   >
                     {tab.label}
                   </button>
@@ -93,13 +107,13 @@ export const Inspector: FunctionComponent = () => {
             )}
 
             <div class="space-y-4">
-              {activeControls.map((control) => (
+              {activeControls.map((control) =>
                 isTemplatePartPageControl(node, control) ? (
                   <TemplatePartControl
                     key={`${visibleTab}-${control.id}`}
                     label={control.label}
                     value={valueForControl(node, def, control)}
-                    onChange={v => updateProps(node.id, { [control.id]: v })}
+                    onChange={(v) => updateProps(node.id, { [control.id]: v })}
                   />
                 ) : isStyleColorControl(control) ? (
                   <StyleColorControl
@@ -107,8 +121,10 @@ export const Inspector: FunctionComponent = () => {
                     control={control}
                     node={node}
                     value={valueForControl(node, def, control)}
-                    onVariantChange={v => updateVariant(node.id, control.variantKey ?? control.id, v)}
-                    onUpdate={props => updateProps(node.id, props)}
+                    onVariantChange={(v) =>
+                      updateVariant(node.id, control.variantKey ?? control.id, v)
+                    }
+                    onUpdate={(props) => updateProps(node.id, props)}
                   />
                 ) : (
                   <ControlField
@@ -117,55 +133,46 @@ export const Inspector: FunctionComponent = () => {
                     document={document}
                     node={node}
                     value={valueForControl(node, def, control)}
-                    onChange={v => {
+                    onChange={(v) => {
                       if (control.type === 'variant') {
                         updateVariant(node.id, control.variantKey ?? control.id, String(v));
                       } else {
                         updateProps(node.id, { [control.id]: v });
                       }
                     }}
-                    onUpdate={props => updateProps(node.id, props)}
+                    onUpdate={(props) => updateProps(node.id, props)}
                   />
                 )
-              ))}
+              )}
               {visibleTab === 'layout' && (
                 <>
                   {document && (
                     <GridItemPanel
                       document={document}
                       node={node}
-                      onMove={direction => moveBlock(node.id, direction)}
+                      onMove={(direction) => moveBlock(node.id, direction)}
                     />
                   )}
-                  <BoxModelPanel
-                    node={node}
-                    onUpdate={props => updateProps(node.id, props)}
-                  />
+                  <BoxModelPanel node={node} onUpdate={(props) => updateProps(node.id, props)} />
                   {shouldShowFlexLayoutPanel(node, classesForNode(node)) && (
                     <FlexLayoutPanel
                       node={node}
-                      onUpdate={props => updateProps(node.id, props)}
+                      onUpdate={(props) => updateProps(node.id, props)}
                     />
                   )}
                 </>
               )}
               {visibleTab === 'animations' && (
-                <AnimationsPanel
-                  node={node}
-                  onUpdate={props => updateProps(node.id, props)}
-                />
+                <AnimationsPanel node={node} onUpdate={(props) => updateProps(node.id, props)} />
               )}
               {visibleTab === 'classes' && (
-                <TailwindClassPanel
-                  node={node}
-                  onUpdate={props => updateProps(node.id, props)}
-                />
+                <TailwindClassPanel node={node} onUpdate={(props) => updateProps(node.id, props)} />
               )}
               {visibleTab === 'advanced' && (
                 <InteractionsPanel
                   document={document}
                   node={node}
-                  onUpdate={props => updateProps(node.id, props)}
+                  onUpdate={(props) => updateProps(node.id, props)}
                 />
               )}
             </div>
@@ -177,80 +184,96 @@ export const Inspector: FunctionComponent = () => {
 };
 
 interface BlockControl {
-  id:          string;
-  type:        'text' | 'richtext' | 'select' | 'toggle' | 'variant' | 'number' | 'range' | 'color' | 'media';
-  label:       string;
-  variantKey?:  string;
-  options?:    Array<[string | number, string]>;
-  tab?:        string;
-  min?:        number;
-  max?:        number;
-  step?:       number;
-  mediaType?:  string;    // 'image' | 'video' | '' (any)
-  mediaReturn?: string;   // 'id' (default) | 'url'
+  id: string;
+  type:
+    | 'text'
+    | 'richtext'
+    | 'select'
+    | 'toggle'
+    | 'variant'
+    | 'number'
+    | 'range'
+    | 'color'
+    | 'media';
+  label: string;
+  variantKey?: string;
+  options?: Array<[string | number, string]>;
+  tab?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  mediaType?: string; // 'image' | 'video' | '' (any)
+  mediaReturn?: string; // 'id' (default) | 'url'
 }
 
 interface InspectorTab {
-  id:       string;
-  label:    string;
+  id: string;
+  label: string;
   controls: BlockControl[];
 }
 
 interface ControlFieldProps {
-  control:  BlockControl;
+  control: BlockControl;
   document?: BuilderDocument | null;
-  node:     BuilderNode;
-  value:    unknown;
+  node: BuilderNode;
+  value: unknown;
   onChange: (v: unknown) => void;
   onUpdate: (props: Record<string, unknown>) => void;
 }
 
 interface StyleColorControlProps {
-  control:         BlockControl;
-  node:            BuilderNode;
-  value:           unknown;
+  control: BlockControl;
+  node: BuilderNode;
+  value: unknown;
   onVariantChange: (value: string) => void;
-  onUpdate:        (props: Record<string, unknown>) => void;
+  onUpdate: (props: Record<string, unknown>) => void;
 }
 
 interface StyleColorRoleConfig {
-  id:           'background' | 'text';
-  utility:      'bg' | 'text';
+  id: 'background' | 'text';
+  utility: 'bg' | 'text';
   variableName: string;
-  gradientVariableName?: string;
-  imageUrlVariableName?: string;
-  imagePositionXVariableName?: string;
-  imagePositionYVariableName?: string;
+  gradientVariableName?: string | undefined;
+  imageUrlVariableName?: string | undefined;
+  imagePositionXVariableName?: string | undefined;
+  imagePositionYVariableName?: string | undefined;
 }
 
 interface StyleGradientDraft {
-  from:  string;
-  to:    string;
+  from: string;
+  to: string;
   angle: string;
 }
 
 type InteractionEvent = 'click' | 'hover' | 'focus' | 'load';
-type InteractionAction = 'overlay.open' | 'overlay.close' | 'overlay.toggle' | 'class.add' | 'class.remove' | 'class.toggle' | 'custom.emit';
+type InteractionAction =
+  | 'overlay.open'
+  | 'overlay.close'
+  | 'overlay.toggle'
+  | 'class.add'
+  | 'class.remove'
+  | 'class.toggle'
+  | 'custom.emit';
 type InteractionDevice = 'any' | 'desktop' | 'tablet' | 'mobile';
 type InteractionLoginState = 'any' | 'logged-in' | 'logged-out';
 
 interface InteractionRule {
-  event:     InteractionEvent;
-  action:    InteractionAction;
-  target:    string;
-  className?: string;
-  delay?:    number;
-  debounce?: number;
-  throttle?: number;
-  once?:     boolean;
-  preventDefault?: boolean;
-  stopPropagation?: boolean;
-  device?:   InteractionDevice;
-  loginState?: InteractionLoginState;
-  queryKey?: string;
-  queryValue?: string;
-  cookieKey?: string;
-  cookieValue?: string;
+  event: InteractionEvent;
+  action: InteractionAction;
+  target: string;
+  className?: string | undefined;
+  delay?: number | undefined;
+  debounce?: number | undefined;
+  throttle?: number | undefined;
+  once?: boolean | undefined;
+  preventDefault?: boolean | undefined;
+  stopPropagation?: boolean | undefined;
+  device?: InteractionDevice | undefined;
+  loginState?: InteractionLoginState | undefined;
+  queryKey?: string | undefined;
+  queryValue?: string | undefined;
+  cookieKey?: string | undefined;
+  cookieValue?: string | undefined;
 }
 
 type LayoutIconKind = 'direction' | 'wrap' | 'justify' | 'align' | 'content';
@@ -258,7 +281,7 @@ type LayoutIconKind = 'direction' | 'wrap' | 'justify' | 'align' | 'content';
 interface VisualOption {
   value: string;
   label: string;
-  icon:  LayoutIconKind;
+  icon: LayoutIconKind;
 }
 
 const VISUAL_CONTROL_ICON_MAP: Record<string, Partial<Record<string, LayoutIconKind>>> = {
@@ -334,22 +357,41 @@ const STYLE_COLOR_CONTROL_ROLES: Record<string, StyleColorRoleConfig['id']> = {
   tone: 'text',
 };
 
-const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control, node, value, onVariantChange, onUpdate }) => {
-  const responsiveBreakpoint = useUiStore(s => s.responsiveBreakpoint);
+const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({
+  control,
+  node,
+  value,
+  onVariantChange,
+  onUpdate,
+}) => {
+  const responsiveBreakpoint = useUiStore((s) => s.responsiveBreakpoint);
   const role = styleColorRoleForControl(control);
   const scopedRole = role ? responsiveStyleRole(role, responsiveBreakpoint) : null;
   const colorVars = useMemo(() => colorVarsForNode(node), [node]);
   const styleVars = useMemo(() => styleVarsForNode(node), [node]);
   const activeClasses = useMemo(() => classesForNode(node), [node]);
-  const currentCustomColor = scopedRole ? normalizeHexColor(colorVars[scopedRole.variableName] ?? '') ?? CUSTOM_COLOR_DEFAULT : CUSTOM_COLOR_DEFAULT;
+  const currentCustomColor = scopedRole
+    ? (normalizeHexColor(colorVars[scopedRole.variableName] ?? '') ?? CUSTOM_COLOR_DEFAULT)
+    : CUSTOM_COLOR_DEFAULT;
   const currentGradient = scopedRole?.gradientVariableName
-    ? parseGradientValue(styleVars[scopedRole.gradientVariableName] ?? '') ?? DEFAULT_STYLE_GRADIENT
+    ? (parseGradientValue(styleVars[scopedRole.gradientVariableName] ?? '') ??
+      DEFAULT_STYLE_GRADIENT)
     : DEFAULT_STYLE_GRADIENT;
-  const currentImageUrl = scopedRole?.imageUrlVariableName ? parseBackgroundImageUrl(styleVars[scopedRole.imageUrlVariableName] ?? '') : '';
-  const currentImageFocalX = scopedRole?.imagePositionXVariableName ? parseBackgroundPositionValue(styleVars[scopedRole.imagePositionXVariableName] ?? '') : 50;
-  const currentImageFocalY = scopedRole?.imagePositionYVariableName ? parseBackgroundPositionValue(styleVars[scopedRole.imagePositionYVariableName] ?? '') : 50;
-  const hasCustomClass = scopedRole ? activeClasses.some(className => isCustomColorClass(className, scopedRole)) : false;
-  const hasGradientClass = scopedRole ? activeClasses.some(className => isCustomGradientClass(className, scopedRole)) : false;
+  const currentImageUrl = scopedRole?.imageUrlVariableName
+    ? parseBackgroundImageUrl(styleVars[scopedRole.imageUrlVariableName] ?? '')
+    : '';
+  const currentImageFocalX = scopedRole?.imagePositionXVariableName
+    ? parseBackgroundPositionValue(styleVars[scopedRole.imagePositionXVariableName] ?? '')
+    : 50;
+  const currentImageFocalY = scopedRole?.imagePositionYVariableName
+    ? parseBackgroundPositionValue(styleVars[scopedRole.imagePositionYVariableName] ?? '')
+    : 50;
+  const hasCustomClass = scopedRole
+    ? activeClasses.some((className) => isCustomColorClass(className, scopedRole))
+    : false;
+  const hasGradientClass = scopedRole
+    ? activeClasses.some((className) => isCustomGradientClass(className, scopedRole))
+    : false;
   const hasImageBackground = !!(scopedRole?.imageUrlVariableName && currentImageUrl);
   const isGradient = String(value) === GRADIENT_COLOR_VALUE || hasGradientClass;
   const isImage = String(value) === IMAGE_BACKGROUND_VALUE || hasImageBackground;
@@ -357,9 +399,20 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
   const [draftColor, setDraftColor] = useState(currentCustomColor);
   const [draftGradient, setDraftGradient] = useState<StyleGradientDraft>(currentGradient);
   const [draftImageUrl, setDraftImageUrl] = useState(currentImageUrl);
-  const selectedValue = role?.id === 'background'
-    ? (isImage ? IMAGE_BACKGROUND_VALUE : isGradient ? GRADIENT_COLOR_VALUE : isCustom ? CUSTOM_COLOR_VALUE : 'transparent')
-    : (isGradient ? GRADIENT_COLOR_VALUE : isCustom ? CUSTOM_COLOR_VALUE : String(value ?? ''));
+  const selectedValue =
+    role?.id === 'background'
+      ? isImage
+        ? IMAGE_BACKGROUND_VALUE
+        : isGradient
+          ? GRADIENT_COLOR_VALUE
+          : isCustom
+            ? CUSTOM_COLOR_VALUE
+            : 'transparent'
+      : isGradient
+        ? GRADIENT_COLOR_VALUE
+        : isCustom
+          ? CUSTOM_COLOR_VALUE
+          : String(value ?? '');
 
   useEffect(() => {
     setDraftColor(currentCustomColor);
@@ -374,7 +427,16 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
   }, [currentImageUrl, node.id, control.id]);
 
   if (!role || !scopedRole) {
-    return <ControlField control={control} document={null} node={node} value={value} onChange={v => onVariantChange(String(v))} onUpdate={onUpdate} />;
+    return (
+      <ControlField
+        control={control}
+        document={null}
+        node={node}
+        value={value}
+        onChange={(v) => onVariantChange(String(v))}
+        onUpdate={onUpdate}
+      />
+    );
   }
 
   const applyCustomColor = (nextColor: string): void => {
@@ -388,7 +450,9 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
     const normalizedGradient = gradientValueFromDraft(nextGradient);
     if (!normalizedGradient) return;
     onVariantChange(GRADIENT_COLOR_VALUE);
-    onUpdate(customGradientPropsForNode(node, scopedRole, normalizedGradient, responsiveBreakpoint));
+    onUpdate(
+      customGradientPropsForNode(node, scopedRole, normalizedGradient, responsiveBreakpoint)
+    );
   };
 
   const applyBackgroundImage = (nextUrl: string): void => {
@@ -396,7 +460,16 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
     const normalizedUrl = normalizeBackgroundImageUrl(nextUrl);
     if (!normalizedUrl) return;
     onVariantChange(IMAGE_BACKGROUND_VALUE);
-    onUpdate(customBackgroundImagePropsForNode(node, scopedRole, normalizedUrl, responsiveBreakpoint, currentImageFocalX, currentImageFocalY));
+    onUpdate(
+      customBackgroundImagePropsForNode(
+        node,
+        scopedRole,
+        normalizedUrl,
+        responsiveBreakpoint,
+        currentImageFocalX,
+        currentImageFocalY
+      )
+    );
   };
 
   const applyBackgroundFocalPoint = (next: { x: number; y: number }): void => {
@@ -404,17 +477,27 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
     const normalizedUrl = normalizeBackgroundImageUrl(draftImageUrl);
     if (!normalizedUrl) return;
     onVariantChange(IMAGE_BACKGROUND_VALUE);
-    onUpdate(customBackgroundImagePropsForNode(node, scopedRole, normalizedUrl, responsiveBreakpoint, next.x, next.y));
+    onUpdate(
+      customBackgroundImagePropsForNode(
+        node,
+        scopedRole,
+        normalizedUrl,
+        responsiveBreakpoint,
+        next.x,
+        next.y
+      )
+    );
   };
 
-  const selectableOptions = scopedRole.id === 'background'
-    ? [
-        ['transparent', t('inspector.backgroundTransparent', 'Transparent')],
-        [CUSTOM_COLOR_VALUE, t('inspector.backgroundCustom', 'Custom')],
-        [GRADIENT_COLOR_VALUE, t('inspector.backgroundGradient', 'Gradient')],
-        [IMAGE_BACKGROUND_VALUE, t('inspector.backgroundImage', 'Image')],
-      ] satisfies Array<[string, string]>
-    : control.options ?? [];
+  const selectableOptions =
+    scopedRole.id === 'background'
+      ? ([
+          ['transparent', t('inspector.backgroundTransparent', 'Transparent')],
+          [CUSTOM_COLOR_VALUE, t('inspector.backgroundCustom', 'Custom')],
+          [GRADIENT_COLOR_VALUE, t('inspector.backgroundGradient', 'Gradient')],
+          [IMAGE_BACKGROUND_VALUE, t('inspector.backgroundImage', 'Image')],
+        ] satisfies Array<[string, string]>)
+      : (control.options ?? []);
 
   const handleSelect = (nextValue: string): void => {
     if (nextValue === CUSTOM_COLOR_VALUE) {
@@ -457,10 +540,12 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base focus:border-accent-base focus:outline-none"
           value={selectedValue}
-          onChange={e => handleSelect((e.target as HTMLSelectElement).value)}
+          onChange={(e) => handleSelect((e.target as HTMLSelectElement).value)}
         >
           {selectableOptions.map(([val, label]) => (
-            <option key={String(val)} value={String(val)}>{label}</option>
+            <option key={String(val)} value={String(val)}>
+              {label}
+            </option>
           ))}
         </select>
       </label>
@@ -470,14 +555,14 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
           <input
             type="color"
             value={colorPickerValue(draftColor)}
-            onInput={e => handleColorInput((e.target as HTMLInputElement).value)}
+            onInput={(e) => handleColorInput((e.target as HTMLInputElement).value)}
             class="h-10 w-12 rounded-input border border-border-base bg-surface-base"
             aria-label={`${control.label} custom color picker`}
           />
           <input
             type="text"
             value={draftColor}
-            onInput={e => handleColorInput((e.target as HTMLInputElement).value)}
+            onInput={(e) => handleColorInput((e.target as HTMLInputElement).value)}
             class="min-w-0 flex-1 rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
             placeholder={CUSTOM_COLOR_DEFAULT}
@@ -494,14 +579,18 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
                 <input
                   type="color"
                   value={colorPickerValue(draftGradient.from)}
-                  onInput={e => updateGradientDraft({ from: (e.target as HTMLInputElement).value })}
+                  onInput={(e) =>
+                    updateGradientDraft({ from: (e.target as HTMLInputElement).value })
+                  }
                   class="h-10 w-12 rounded-input border border-border-base bg-surface-base"
                   aria-label={`${control.label} gradient start color picker`}
                 />
                 <input
                   type="text"
                   value={draftGradient.from}
-                  onInput={e => updateGradientDraft({ from: (e.target as HTMLInputElement).value })}
+                  onInput={(e) =>
+                    updateGradientDraft({ from: (e.target as HTMLInputElement).value })
+                  }
                   class="min-w-0 flex-1 rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                          text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
                   placeholder={CUSTOM_COLOR_DEFAULT}
@@ -515,14 +604,14 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
                 <input
                   type="color"
                   value={colorPickerValue(draftGradient.to)}
-                  onInput={e => updateGradientDraft({ to: (e.target as HTMLInputElement).value })}
+                  onInput={(e) => updateGradientDraft({ to: (e.target as HTMLInputElement).value })}
                   class="h-10 w-12 rounded-input border border-border-base bg-surface-base"
                   aria-label={`${control.label} gradient end color picker`}
                 />
                 <input
                   type="text"
                   value={draftGradient.to}
-                  onInput={e => updateGradientDraft({ to: (e.target as HTMLInputElement).value })}
+                  onInput={(e) => updateGradientDraft({ to: (e.target as HTMLInputElement).value })}
                   class="min-w-0 flex-1 rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                          text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
                   placeholder={GRADIENT_COLOR_TO_DEFAULT}
@@ -537,10 +626,14 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
               class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                      text-text-base focus:border-accent-base focus:outline-none"
               value={draftGradient.angle}
-              onChange={e => updateGradientDraft({ angle: (e.target as HTMLSelectElement).value })}
+              onChange={(e) =>
+                updateGradientDraft({ angle: (e.target as HTMLSelectElement).value })
+              }
             >
               {GRADIENT_ANGLE_OPTIONS.map(([angle, label]) => (
-                <option key={angle} value={angle}>{label}</option>
+                <option key={angle} value={angle}>
+                  {label}
+                </option>
               ))}
             </select>
           </label>
@@ -558,7 +651,7 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
               mediaReturn: 'url',
             }}
             value={draftImageUrl}
-            onChange={nextValue => {
+            onChange={(nextValue) => {
               const nextUrl = String(nextValue ?? '');
               setDraftImageUrl(nextUrl);
               applyBackgroundImage(nextUrl);
@@ -576,16 +669,29 @@ const StyleColorControl: FunctionComponent<StyleColorControlProps> = ({ control,
   );
 };
 
-const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document, node, value, onChange, onUpdate }) => {
+const ControlField: FunctionComponent<ControlFieldProps> = ({
+  control,
+  document,
+  node,
+  value,
+  onChange,
+  onUpdate,
+}) => {
   const strVal = String(value ?? '');
   const visualOptions = visualOptionsForControl(control);
 
   if (node.type === 'bky/mega-menu' && control.id === 'items') {
-    return <MegaMenuItemsControl label={control.label} value={value} onChange={items => onChange(items)} />;
+    return (
+      <MegaMenuItemsControl
+        label={control.label}
+        value={value}
+        onChange={(items) => onChange(items)}
+      />
+    );
   }
 
   if (control.id === 'targetOverlayId') {
-    const overlayIds = overlayIdsForInspector(document, node.id);
+    const overlayIds = overlayIdsForInspector(document ?? null, node.id);
     if (overlayIds.length > 0) {
       return (
         <label class="block space-y-1">
@@ -594,11 +700,13 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
             class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base focus:border-accent-base focus:outline-none"
             value={strVal}
-            onChange={e => onChange((e.target as HTMLSelectElement).value)}
+            onChange={(e) => onChange((e.target as HTMLSelectElement).value)}
           >
             <option value="">{t('inspector.selectOverlayTarget', 'Select overlay…')}</option>
-            {overlayIds.map(overlayId => (
-              <option key={overlayId} value={overlayId}>{overlayId}</option>
+            {overlayIds.map((overlayId) => (
+              <option key={overlayId} value={overlayId}>
+                {overlayId}
+              </option>
             ))}
           </select>
         </label>
@@ -615,7 +723,7 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
                  text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
           rows={3}
           value={strVal}
-          onInput={e => onChange((e.target as HTMLTextAreaElement).value)}
+          onInput={(e) => onChange((e.target as HTMLTextAreaElement).value)}
         />
       </label>
     );
@@ -630,13 +738,13 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
           <input
             type="color"
             value={colorValue}
-            onInput={e => onChange((e.target as HTMLInputElement).value)}
+            onInput={(e) => onChange((e.target as HTMLInputElement).value)}
             class="h-10 w-12 rounded-input border border-border-base bg-surface-base"
           />
           <input
             type="text"
             value={strVal}
-            onInput={e => onChange((e.target as HTMLInputElement).value)}
+            onInput={(e) => onChange((e.target as HTMLInputElement).value)}
             class="min-w-0 flex-1 rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
           />
@@ -653,7 +761,7 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
           <input
             type="checkbox"
             checked={strVal === '_blank'}
-            onChange={e => onChange((e.target as HTMLInputElement).checked ? '_blank' : '_self')}
+            onChange={(e) => onChange((e.target as HTMLInputElement).checked ? '_blank' : '_self')}
             class="h-4 w-4 rounded accent-accent-base"
           />
         </label>
@@ -679,10 +787,12 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base focus:border-accent-base focus:outline-none"
           value={strVal}
-          onChange={e => onChange((e.target as HTMLSelectElement).value)}
+          onChange={(e) => onChange((e.target as HTMLSelectElement).value)}
         >
           {options.map(([val, label]) => (
-            <option key={String(val)} value={String(val)}>{label}</option>
+            <option key={String(val)} value={String(val)}>
+              {label}
+            </option>
           ))}
         </select>
       </label>
@@ -696,7 +806,7 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
         <input
           type="checkbox"
           checked={value === true || strVal === 'true' || strVal === '1'}
-          onChange={e => onChange((e.target as HTMLInputElement).checked)}
+          onChange={(e) => onChange((e.target as HTMLInputElement).checked)}
           class="h-4 w-4 rounded accent-accent-base"
         />
       </label>
@@ -718,28 +828,41 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({ control, document,
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
           value={strVal}
-          onInput={e => onChange(Number((e.target as HTMLInputElement).value))}
+          onInput={(e) => onChange(Number((e.target as HTMLInputElement).value))}
         />
       </label>
     );
   }
 
   if (control.type === 'media') {
-    return <MediaControl control={control} node={node} value={value} onChange={onChange} onUpdate={onUpdate} />;
+    return (
+      <MediaControl
+        control={control}
+        node={node}
+        value={value}
+        onChange={onChange}
+        onUpdate={onUpdate}
+      />
+    );
   }
 
   return null;
 };
 
 interface VisualOptionControlProps {
-  label:    string;
-  value:    string;
-  options:  VisualOption[];
+  label: string;
+  value: string;
+  options: VisualOption[];
   onChange: (v: unknown) => void;
 }
 
-const VisualOptionControl: FunctionComponent<VisualOptionControlProps> = ({ label, value, options, onChange }) => {
-  const activeOption = options.find(option => option.value === value) ?? options[0];
+const VisualOptionControl: FunctionComponent<VisualOptionControlProps> = ({
+  label,
+  value,
+  options,
+  onChange,
+}) => {
+  const activeOption = options.find((option) => option.value === value) ?? options[0];
 
   return (
     <div class="block space-y-1.5">
@@ -748,7 +871,7 @@ const VisualOptionControl: FunctionComponent<VisualOptionControlProps> = ({ labe
         {activeOption && <span class="text-text-faint">{activeOption.label}</span>}
       </span>
       <div class="flex flex-wrap gap-1">
-        {options.map(option => {
+        {options.map((option) => {
           const isActive = option.value === value;
           return (
             <button
@@ -758,9 +881,11 @@ const VisualOptionControl: FunctionComponent<VisualOptionControlProps> = ({ labe
               title={option.label}
               aria-label={`${label}: ${option.label}`}
               aria-pressed={isActive}
-              class={`flex h-8 w-8 items-center justify-center rounded-input border transition-colors ${isActive
-                ? 'border-accent-base bg-accent-subtle text-accent-text'
-                : 'border-border-base bg-surface-base text-text-muted hover:border-accent-base hover:text-text-base'}`}
+              class={`flex h-8 w-8 items-center justify-center rounded-input border transition-colors ${
+                isActive
+                  ? 'border-accent-base bg-accent-subtle text-accent-text'
+                  : 'border-border-base bg-surface-base text-text-muted hover:border-accent-base hover:text-text-base'
+              }`}
             >
               <LayoutMiniIcon kind={option.icon} value={option.value} />
             </button>
@@ -773,7 +898,9 @@ const VisualOptionControl: FunctionComponent<VisualOptionControlProps> = ({ labe
 
 function visualOptionsForControl(control: BlockControl): VisualOption[] | null {
   if (control.type !== 'select' && control.type !== 'variant') return null;
-  const optionIconMap = VISUAL_CONTROL_ICON_MAP[control.variantKey ?? control.id] ?? VISUAL_CONTROL_ICON_MAP[control.id];
+  const optionIconMap =
+    VISUAL_CONTROL_ICON_MAP[control.variantKey ?? control.id] ??
+    VISUAL_CONTROL_ICON_MAP[control.id];
   if (!optionIconMap || !control.options?.length) return null;
 
   const options = control.options
@@ -793,7 +920,7 @@ function isTemplatePartPageControl(node: BuilderNode, control: BlockControl): bo
 }
 
 interface LayoutMiniIconProps {
-  kind:  LayoutIconKind;
+  kind: LayoutIconKind;
   value: string;
 }
 
@@ -806,25 +933,46 @@ const LayoutMiniIcon: FunctionComponent<LayoutMiniIconProps> = ({ kind, value })
 };
 
 const JustifyIcon: FunctionComponent<{ value: string }> = ({ value }) => {
-  const xPositions = value.endsWith('center') || value === 'center'
-    ? [6, 10, 14]
-    : value.endsWith('end') || value === 'end'
-      ? [10, 14, 18]
-      : value.endsWith('between') || value === 'between'
-        ? [3, 10, 17]
-        : value.endsWith('around') || value === 'around'
-          ? [4, 10, 16]
-          : value.endsWith('evenly') || value === 'evenly'
-            ? [3.5, 10, 16.5]
-            : [2, 6, 10];
+  const xPositions =
+    value.endsWith('center') || value === 'center'
+      ? [6, 10, 14]
+      : value.endsWith('end') || value === 'end'
+        ? [10, 14, 18]
+        : value.endsWith('between') || value === 'between'
+          ? [3, 10, 17]
+          : value.endsWith('around') || value === 'around'
+            ? [4, 10, 16]
+            : value.endsWith('evenly') || value === 'evenly'
+              ? [3.5, 10, 16.5]
+              : [2, 6, 10];
   const stretch = value.endsWith('stretch') || value === 'stretch';
   return (
     <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
       <line x1="2" y1="3" x2="2" y2="15" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
-      <line x1="20" y1="3" x2="20" y2="15" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
-      {stretch
-        ? <rect x="4" y="7" width="14" height="4" rx="0.8" fill="currentColor" />
-        : xPositions.map(position => <rect key={position} x={position} y="6" width="3" height="6" rx="0.8" fill="currentColor" />)}
+      <line
+        x1="20"
+        y1="3"
+        x2="20"
+        y2="15"
+        stroke="currentColor"
+        stroke-width="1.2"
+        opacity="0.55"
+      />
+      {stretch ? (
+        <rect x="4" y="7" width="14" height="4" rx="0.8" fill="currentColor" />
+      ) : (
+        xPositions.map((position) => (
+          <rect
+            key={position}
+            x={position}
+            y="6"
+            width="3"
+            height="6"
+            rx="0.8"
+            fill="currentColor"
+          />
+        ))
+      )}
     </svg>
   );
 };
@@ -832,53 +980,111 @@ const JustifyIcon: FunctionComponent<{ value: string }> = ({ value }) => {
 const AlignIcon: FunctionComponent<{ value: string }> = ({ value }) => {
   const baseline = value.endsWith('baseline') || value === 'baseline';
   const stretch = value.endsWith('stretch') || value === 'stretch';
-  const y = value.endsWith('center') || value === 'center'
-    ? 6
-    : value.endsWith('end') || value === 'end'
-      ? 10
-      : 2;
+  const y =
+    value.endsWith('center') || value === 'center'
+      ? 6
+      : value.endsWith('end') || value === 'end'
+        ? 10
+        : 2;
   return (
     <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
       <line x1="3" y1="2" x2="19" y2="2" stroke="currentColor" stroke-width="1.2" opacity="0.35" />
-      <line x1="3" y1="16" x2="19" y2="16" stroke="currentColor" stroke-width="1.2" opacity="0.35" />
-      {baseline && <line x1="3" y1="13" x2="19" y2="13" stroke="currentColor" stroke-width="1.2" opacity="0.8" />}
+      <line
+        x1="3"
+        y1="16"
+        x2="19"
+        y2="16"
+        stroke="currentColor"
+        stroke-width="1.2"
+        opacity="0.35"
+      />
+      {baseline && (
+        <line
+          x1="3"
+          y1="13"
+          x2="19"
+          y2="13"
+          stroke="currentColor"
+          stroke-width="1.2"
+          opacity="0.8"
+        />
+      )}
       {stretch
-        ? [4, 9, 14].map(position => <rect key={position} x={position} y="3" width="3" height="12" rx="0.8" fill="currentColor" />)
+        ? [4, 9, 14].map((position) => (
+            <rect
+              key={position}
+              x={position}
+              y="3"
+              width="3"
+              height="12"
+              rx="0.8"
+              fill="currentColor"
+            />
+          ))
         : [4, 9, 14].map((position, index) => (
-          <rect
-            key={position}
-            x={position}
-            y={baseline ? 13 - (index + 2) * 2 : y}
-            width="3"
-            height={baseline ? (index + 2) * 2 : 6}
-            rx="0.8"
-            fill="currentColor"
-          />
-        ))}
+            <rect
+              key={position}
+              x={position}
+              y={baseline ? 13 - (index + 2) * 2 : y}
+              width="3"
+              height={baseline ? (index + 2) * 2 : 6}
+              rx="0.8"
+              fill="currentColor"
+            />
+          ))}
     </svg>
   );
 };
 
 const ContentIcon: FunctionComponent<{ value: string }> = ({ value }) => {
-  const yPositions = value.endsWith('center') || value === 'center'
-    ? [5, 10]
-    : value.endsWith('end') || value === 'end'
-      ? [9, 13]
-      : value.endsWith('between') || value === 'between'
-        ? [3, 13]
-        : value.endsWith('around') || value === 'around'
-          ? [4, 12]
-          : value.endsWith('evenly') || value === 'evenly'
-            ? [4, 11]
-            : [2, 6];
+  const yPositions =
+    value.endsWith('center') || value === 'center'
+      ? [5, 10]
+      : value.endsWith('end') || value === 'end'
+        ? [9, 13]
+        : value.endsWith('between') || value === 'between'
+          ? [3, 13]
+          : value.endsWith('around') || value === 'around'
+            ? [4, 12]
+            : value.endsWith('evenly') || value === 'evenly'
+              ? [4, 11]
+              : [2, 6];
   const stretch = value.endsWith('stretch') || value === 'stretch';
   return (
     <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
       <line x1="3" y1="2" x2="19" y2="2" stroke="currentColor" stroke-width="1.2" opacity="0.35" />
-      <line x1="3" y1="16" x2="19" y2="16" stroke="currentColor" stroke-width="1.2" opacity="0.35" />
+      <line
+        x1="3"
+        y1="16"
+        x2="19"
+        y2="16"
+        stroke="currentColor"
+        stroke-width="1.2"
+        opacity="0.35"
+      />
       {stretch
-        ? [4, 10].map(position => <rect key={position} x="5" y={position} width="12" height="3" rx="0.8" fill="currentColor" />)
-        : yPositions.map(position => <rect key={position} x="5" y={position} width="12" height="3" rx="0.8" fill="currentColor" />)}
+        ? [4, 10].map((position) => (
+            <rect
+              key={position}
+              x="5"
+              y={position}
+              width="12"
+              height="3"
+              rx="0.8"
+              fill="currentColor"
+            />
+          ))
+        : yPositions.map((position) => (
+            <rect
+              key={position}
+              x="5"
+              y={position}
+              width="12"
+              height="3"
+              rx="0.8"
+              fill="currentColor"
+            />
+          ))}
     </svg>
   );
 };
@@ -902,7 +1108,15 @@ const DirectionIcon: FunctionComponent<{ value: string }> = ({ value }) => {
         />
       ))}
       <path
-        d={isColumn ? (isReverse ? 'M16 5v8m0-8-2 2m2-2 2 2' : 'M16 5v8m0 0-2-2m2 2 2-2') : (isReverse ? 'M17 13H5m0 0 2-2m-2 2 2 2' : 'M5 13h12m0 0-2-2m2 2-2 2')}
+        d={
+          isColumn
+            ? isReverse
+              ? 'M16 5v8m0-8-2 2m2-2 2 2'
+              : 'M16 5v8m0 0-2-2m2 2 2-2'
+            : isReverse
+              ? 'M17 13H5m0 0 2-2m-2 2 2 2'
+              : 'M5 13h12m0 0-2-2m2 2-2 2'
+        }
         stroke="currentColor"
         stroke-width="1.2"
         stroke-linecap="round"
@@ -918,16 +1132,26 @@ const WrapIcon: FunctionComponent<{ value: string }> = ({ value }) => {
   const isNowrap = value.endsWith('nowrap') || value === 'nowrap';
   return (
     <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
-      {isNowrap ? (
-        [3, 8, 13].map(position => <rect key={position} x={position} y="6" width="4" height="6" rx="0.8" fill="currentColor" />)
-      ) : (
-        [
-          [3, isReverse ? 10 : 3],
-          [8, isReverse ? 10 : 3],
-          [3, isReverse ? 3 : 10],
-          [8, isReverse ? 3 : 10],
-        ].map(([x, y]) => <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" rx="0.8" fill="currentColor" />)
-      )}
+      {isNowrap
+        ? [3, 8, 13].map((position) => (
+            <rect
+              key={position}
+              x={position}
+              y="6"
+              width="4"
+              height="6"
+              rx="0.8"
+              fill="currentColor"
+            />
+          ))
+        : [
+            [3, isReverse ? 10 : 3],
+            [8, isReverse ? 10 : 3],
+            [3, isReverse ? 3 : 10],
+            [8, isReverse ? 3 : 10],
+          ].map(([x, y]) => (
+            <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" rx="0.8" fill="currentColor" />
+          ))}
       <path
         d={isNowrap ? 'M4 14h14' : 'M13 5h4v4h-4'}
         stroke="currentColor"
@@ -943,26 +1167,26 @@ const WrapIcon: FunctionComponent<{ value: string }> = ({ value }) => {
 // ── MediaControl ────────────────────────────────────────────────────────────
 
 interface MediaControlProps {
-  control:  BlockControl;
-  value:    unknown;
+  control: BlockControl;
+  value: unknown;
   onChange: (v: unknown) => void;
-  node?:    BuilderNode;
+  node?: BuilderNode;
   onUpdate?: (props: Record<string, unknown>) => void;
 }
 
 interface ImageControlBindings {
-  alt:      string;
-  size:     string;
-  loading:  string;
+  alt: string;
+  size: string;
+  loading: string;
   decoding: string;
-  fit:      string;
-  focalX:   string;
-  focalY:   string;
+  fit: string;
+  focalX: string;
+  focalY: string;
 }
 
 interface MediaAttachmentPreview {
-  sourceUrl:   string | null;
-  altText:     string;
+  sourceUrl: string | null;
+  altText: string;
   sizeOptions: Array<[string, string]>;
 }
 
@@ -973,9 +1197,9 @@ interface TemplatePartControlProps {
 }
 
 interface FocalPointControlProps {
-  label:    string;
-  x:        number;
-  y:        number;
+  label: string;
+  x: number;
+  y: number;
   onChange: (next: { x: number; y: number }) => void;
 }
 
@@ -1036,7 +1260,10 @@ const FOCAL_POINT_PRESETS = [
   { key: 'bottom-right', x: 100, y: 100 },
 ];
 
-const RESPONSIVE_BREAKPOINT_OPTIONS: Array<{ id: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; label: string }> = [
+const RESPONSIVE_BREAKPOINT_OPTIONS: Array<{
+  id: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  label: string;
+}> = [
   { id: 'base', label: 'Base' },
   { id: 'sm', label: 'SM' },
   { id: 'md', label: 'MD' },
@@ -1045,11 +1272,15 @@ const RESPONSIVE_BREAKPOINT_OPTIONS: Array<{ id: 'base' | 'sm' | 'md' | 'lg' | '
   { id: '2xl', label: '2XL' },
 ];
 
-const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ label, value, onChange }) => {
-  const pages = useDocumentStore(s => s.pages);
-  const postId = useDocumentStore(s => s.postId);
-  const isLoadingPages = useDocumentStore(s => s.isLoadingPages);
-  const loadPageLibrary = useDocumentStore(s => s.loadPageLibrary);
+const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
+  label,
+  value,
+  onChange,
+}) => {
+  const pages = useDocumentStore((s) => s.pages);
+  const postId = useDocumentStore((s) => s.postId);
+  const isLoadingPages = useDocumentStore((s) => s.isLoadingPages);
+  const loadPageLibrary = useDocumentStore((s) => s.loadPageLibrary);
   const selectedPostId = Number(value ?? 0);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -1076,12 +1307,12 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) return availablePages;
 
-    return availablePages.filter(page => {
+    return availablePages.filter((page) => {
       const haystack = [page.title, page.status, page.type].join(' ').toLowerCase();
       return haystack.includes(normalizedQuery);
     });
   }, [availablePages, query]);
-  const selectedPage = availablePages.find(page => page.id === selectedPostId) ?? null;
+  const selectedPage = availablePages.find((page) => page.id === selectedPostId) ?? null;
 
   return (
     <div class="block space-y-2">
@@ -1091,24 +1322,48 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
           <div class="space-y-2">
             <div class="flex items-start justify-between gap-3">
               <div class="min-w-0">
-                <p class="truncate text-sm font-semibold text-text-base">{selectedPage.title || `Untitled #${selectedPage.id}`}</p>
-                <p class="mt-0.5 text-xs text-text-faint">{selectedPage.type} · {selectedPage.status}</p>
+                <p class="truncate text-sm font-semibold text-text-base">
+                  {selectedPage.title || `Untitled #${selectedPage.id}`}
+                </p>
+                <p class="mt-0.5 text-xs text-text-faint">
+                  {selectedPage.type} · {selectedPage.status}
+                </p>
               </div>
-              <span class={`shrink-0 rounded-badge px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${templatePartStatusClasses(selectedPage.status)}`}>
+              <span
+                class={`shrink-0 rounded-badge px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${templatePartStatusClasses(selectedPage.status)}`}
+              >
                 {selectedPage.status}
               </span>
             </div>
             <div class="flex items-center gap-2 text-xs text-text-muted">
-              <span class={`rounded-badge px-2 py-0.5 font-semibold uppercase tracking-wide ${selectedPage.hasDocument
-                ? 'bg-accent-subtle text-accent-text'
-                : 'bg-surface-overlay text-text-faint'}`}>
-                {selectedPage.hasDocument ? t('inspector.blockyShort', 'Blocky') : t('inspector.wordpress', 'WordPress')}
+              <span
+                class={`rounded-badge px-2 py-0.5 font-semibold uppercase tracking-wide ${
+                  selectedPage.hasDocument
+                    ? 'bg-accent-subtle text-accent-text'
+                    : 'bg-surface-overlay text-text-faint'
+                }`}
+              >
+                {selectedPage.hasDocument
+                  ? t('inspector.blockyShort', 'Blocky')
+                  : t('inspector.wordpress', 'WordPress')}
               </span>
-              <span>{selectedPage.hasDocument ? t('inspector.containsReusableBlockyDocument', 'Contains a reusable Blocky document.') : t('inspector.standardWordPressPageWithoutBlocky', 'Standard WordPress page without a saved Blocky document.')}</span>
+              <span>
+                {selectedPage.hasDocument
+                  ? t(
+                      'inspector.containsReusableBlockyDocument',
+                      'Contains a reusable Blocky document.'
+                    )
+                  : t(
+                      'inspector.standardWordPressPageWithoutBlocky',
+                      'Standard WordPress page without a saved Blocky document.'
+                    )}
+              </span>
             </div>
           </div>
         ) : (
-          <p class="text-sm text-text-faint">{t('inspector.noPageSelected', 'No page selected.')}</p>
+          <p class="text-sm text-text-faint">
+            {t('inspector.noPageSelected', 'No page selected.')}
+          </p>
         )}
       </div>
       <div class="flex gap-2">
@@ -1117,7 +1372,9 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
           onClick={() => setIsPickerOpen(true)}
           class="flex-1 rounded-input border border-border-base bg-surface-elevated px-3 py-1.5 text-xs font-medium text-text-base hover:border-accent-base hover:bg-accent-subtle focus:outline-none"
         >
-          {selectedPage ? t('inspector.changePage', 'Change page') : t('inspector.choosePage', 'Choose page')}
+          {selectedPage
+            ? t('inspector.changePage', 'Change page')
+            : t('inspector.choosePage', 'Choose page')}
         </button>
         {selectedPage && (
           <button
@@ -1133,7 +1390,10 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
         {isLoadingPages
           ? t('inspector.loadingBlockyPages', 'Loading Blocky pages...')
           : availablePages.length > 0
-            ? t('inspector.pagesListedHint', 'All pages are listed. Blocky pages are marked with a badge.')
+            ? t(
+                'inspector.pagesListedHint',
+                'All pages are listed. Blocky pages are marked with a badge.'
+              )
             : t('inspector.noPagesAvailableYet', 'No pages available yet.')}
       </p>
       {isPickerOpen && (
@@ -1143,12 +1403,16 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
         >
           <div
             class="flex max-h-[85vh] w-full max-w-5xl flex-col overflow-hidden rounded-card border border-border-strong bg-surface-elevated shadow-2xl"
-            onClick={event => event.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
             <div class="flex items-center justify-between gap-4 border-b border-border-subtle px-5 py-4">
               <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-text-faint">{t('inspector.templatePart', 'Template Part')}</p>
-                <p class="mt-1 text-lg font-semibold text-text-base">{t('inspector.selectPage', 'Select a page')}</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-text-faint">
+                  {t('inspector.templatePart', 'Template Part')}
+                </p>
+                <p class="mt-1 text-lg font-semibold text-text-base">
+                  {t('inspector.selectPage', 'Select a page')}
+                </p>
               </div>
               <button
                 type="button"
@@ -1166,8 +1430,11 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
                 <input
                   type="search"
                   value={query}
-                  onInput={event => setQuery((event.target as HTMLInputElement).value)}
-                  placeholder={t('inspector.filterPagesPlaceholder', 'Filter by page title or status…')}
+                  onInput={(event) => setQuery((event.target as HTMLInputElement).value)}
+                  placeholder={t(
+                    'inspector.filterPagesPlaceholder',
+                    'Filter by page title or status…'
+                  )}
                   class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
                 />
               </label>
@@ -1175,15 +1442,24 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
 
             <div class="flex-1 overflow-y-auto p-5">
               {isLoadingPages ? (
-                <div class="flex min-h-40 items-center justify-center text-sm text-text-muted">{t('inspector.loadingPages', 'Loading Blocky pages…')}</div>
+                <div class="flex min-h-40 items-center justify-center text-sm text-text-muted">
+                  {t('inspector.loadingPages', 'Loading Blocky pages…')}
+                </div>
               ) : filteredPages.length === 0 ? (
                 <div class="flex min-h-40 flex-col items-center justify-center gap-2 text-center text-text-muted">
-                  <p class="text-base font-semibold text-text-base">{t('inspector.noPagesFound', 'No pages found')}</p>
-                  <p class="text-sm">{t('inspector.noPagesFoundDescription', 'Try a different filter or create a new page.')}</p>
+                  <p class="text-base font-semibold text-text-base">
+                    {t('inspector.noPagesFound', 'No pages found')}
+                  </p>
+                  <p class="text-sm">
+                    {t(
+                      'inspector.noPagesFoundDescription',
+                      'Try a different filter or create a new page.'
+                    )}
+                  </p>
                 </div>
               ) : (
                 <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                  {filteredPages.map(page => {
+                  {filteredPages.map((page) => {
                     const isSelected = page.id === selectedPostId;
                     const isCurrentPage = page.id === postId;
                     return (
@@ -1196,16 +1472,22 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
                           onChange(page.id);
                           setIsPickerOpen(false);
                         }}
-                        class={`group flex min-h-44 flex-col items-start gap-4 rounded-card border p-4 text-left transition-colors ${isCurrentPage
-                          ? 'cursor-not-allowed border-border-subtle bg-surface-base opacity-70'
-                          : isSelected
-                            ? 'border-accent-base bg-accent-subtle'
-                            : 'border-border-subtle bg-surface-base hover:border-accent-base hover:bg-surface-overlay'}`}
+                        class={`group flex min-h-44 flex-col items-start gap-4 rounded-card border p-4 text-left transition-colors ${
+                          isCurrentPage
+                            ? 'cursor-not-allowed border-border-subtle bg-surface-base opacity-70'
+                            : isSelected
+                              ? 'border-accent-base bg-accent-subtle'
+                              : 'border-border-subtle bg-surface-base hover:border-accent-base hover:bg-surface-overlay'
+                        }`}
                       >
                         <div class="flex w-full items-start justify-between gap-3">
-                          <span class={`flex h-10 w-10 items-center justify-center rounded-input text-sm font-bold ${isSelected
-                            ? 'bg-accent-base text-text-on-accent'
-                            : 'bg-surface-elevated text-accent-base'}`}>
+                          <span
+                            class={`flex h-10 w-10 items-center justify-center rounded-input text-sm font-bold ${
+                              isSelected
+                                ? 'bg-accent-base text-text-on-accent'
+                                : 'bg-surface-elevated text-accent-base'
+                            }`}
+                          >
                             {page.hasDocument ? 'BK' : 'PG'}
                           </span>
                           <div class="flex items-center gap-2">
@@ -1214,26 +1496,56 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({ labe
                                 {t('inspector.current', 'Current')}
                               </span>
                             )}
-                            <span class={`rounded-badge px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${page.hasDocument
-                              ? 'bg-accent-subtle text-accent-text'
-                              : 'bg-surface-overlay text-text-faint'}`}>
-                              {page.hasDocument ? t('inspector.blockyShort', 'Blocky') : t('inspector.wpShort', 'WP')}
+                            <span
+                              class={`rounded-badge px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
+                                page.hasDocument
+                                  ? 'bg-accent-subtle text-accent-text'
+                                  : 'bg-surface-overlay text-text-faint'
+                              }`}
+                            >
+                              {page.hasDocument
+                                ? t('inspector.blockyShort', 'Blocky')
+                                : t('inspector.wpShort', 'WP')}
                             </span>
-                            <span class={`rounded-badge px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${templatePartStatusClasses(page.status)}`}>
+                            <span
+                              class={`rounded-badge px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${templatePartStatusClasses(page.status)}`}
+                            >
                               {page.status}
                             </span>
                           </div>
                         </div>
 
                         <div class="flex-1">
-                          <h3 class="line-clamp-2 text-base font-semibold text-text-base">{page.title || `Untitled #${page.id}`}</h3>
-                          <p class="mt-1 text-sm text-text-muted">{page.type} · {templatePartModifiedLabel(page.modified)}</p>
+                          <h3 class="line-clamp-2 text-base font-semibold text-text-base">
+                            {page.title || `Untitled #${page.id}`}
+                          </h3>
+                          <p class="mt-1 text-sm text-text-muted">
+                            {page.type} · {templatePartModifiedLabel(page.modified)}
+                          </p>
                         </div>
 
                         <div class="flex w-full items-center justify-between gap-3 text-xs text-text-faint">
-                          <span>{isCurrentPage ? t('inspector.currentPageUnavailable', 'Current page cannot be inserted into itself') : page.hasDocument ? t('inspector.containsBlockyDocument', 'Contains a Blocky document') : t('inspector.standardWordPressPage', 'Standard WordPress page')}</span>
-                          <span class={`font-semibold transition-transform ${isSelected ? 'text-accent-text' : 'text-accent-text group-hover:translate-x-0.5'}`}>
-                            {isCurrentPage ? t('inspector.unavailable', 'Unavailable') : isSelected ? t('inspector.selected', 'Selected') : t('inspector.useThis', 'Use this')}
+                          <span>
+                            {isCurrentPage
+                              ? t(
+                                  'inspector.currentPageUnavailable',
+                                  'Current page cannot be inserted into itself'
+                                )
+                              : page.hasDocument
+                                ? t(
+                                    'inspector.containsBlockyDocument',
+                                    'Contains a Blocky document'
+                                  )
+                                : t('inspector.standardWordPressPage', 'Standard WordPress page')}
+                          </span>
+                          <span
+                            class={`font-semibold transition-transform ${isSelected ? 'text-accent-text' : 'text-accent-text group-hover:translate-x-0.5'}`}
+                          >
+                            {isCurrentPage
+                              ? t('inspector.unavailable', 'Unavailable')
+                              : isSelected
+                                ? t('inspector.selected', 'Selected')
+                                : t('inspector.useThis', 'Use this')}
                           </span>
                         </div>
                       </button>
@@ -1259,60 +1571,113 @@ function templatePartStatusClasses(status: string): string {
 function templatePartModifiedLabel(value: string): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return t('inspector.recentlyUpdated', 'Recently updated');
-  return t('inspector.updatedOn', 'Updated %s', [date.toLocaleDateString(window.BlockyBuilderConfig?.locale ?? 'en-US', { day: '2-digit', month: 'short', year: 'numeric' })]);
+  return t('inspector.updatedOn', 'Updated %s', [
+    date.toLocaleDateString(window.BlockyBuilderConfig?.locale ?? 'en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }),
+  ]);
 }
 
-const MediaControl: FunctionComponent<MediaControlProps> = ({ control, value, onChange, node, onUpdate }) => {
+const MediaControl: FunctionComponent<MediaControlProps> = ({
+  control,
+  value,
+  onChange,
+  node,
+  onUpdate,
+}) => {
   const returnsUrl = control.mediaReturn === 'url';
   const attachmentId = returnsUrl ? 0 : Number(value ?? 0);
-  const urlValue     = returnsUrl ? String(value ?? '') : '';
+  const urlValue = returnsUrl ? String(value ?? '') : '';
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const [attachmentPreview, setAttachmentPreview] = useState<MediaAttachmentPreview>({
     sourceUrl: null,
     altText: '',
     sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS,
   });
-  const WP_REST_BASE = (window.BlockyBuilderConfig?.restUrl ?? '/wp-json/blocky/v1/').replace(/blocky\/v1\/?$/, 'wp/v2/');
-  const imageBindings = useMemo(() => mediaImageBindingsForControl(node, control), [control.id, control.mediaType, node?.type]);
-  const isExtendedImageControl = !!(imageBindings && node && onUpdate && control.mediaType === 'image' && !returnsUrl);
+  const WP_REST_BASE = (window.BlockyBuilderConfig?.restUrl ?? '/wp-json/blocky/v1/').replace(
+    /blocky\/v1\/?$/,
+    'wp/v2/'
+  );
+  const imageBindings = useMemo(
+    () => mediaImageBindingsForControl(node, control),
+    [control.id, control.mediaType, node?.type]
+  );
+  const isExtendedImageControl = !!(
+    imageBindings &&
+    node &&
+    onUpdate &&
+    control.mediaType === 'image' &&
+    !returnsUrl
+  );
   const currentAlt = imageBindings && node ? stringProp(node.props[imageBindings.alt]) : '';
-  const currentSize = imageBindings && node ? stringProp(node.props[imageBindings.size], 'large') : 'large';
-  const currentLoading = imageBindings && node ? stringProp(node.props[imageBindings.loading], 'lazy') : 'lazy';
-  const currentDecoding = imageBindings && node ? stringProp(node.props[imageBindings.decoding], 'async') : 'async';
-  const currentFit = imageBindings && node ? stringProp(node.props[imageBindings.fit], 'cover') : 'cover';
-  const currentFocalX = imageBindings && node ? percentageProp(node.props[imageBindings.focalX], 50) : 50;
-  const currentFocalY = imageBindings && node ? percentageProp(node.props[imageBindings.focalY], 50) : 50;
+  const currentSize =
+    imageBindings && node ? stringProp(node.props[imageBindings.size], 'large') : 'large';
+  const currentLoading =
+    imageBindings && node ? stringProp(node.props[imageBindings.loading], 'lazy') : 'lazy';
+  const currentDecoding =
+    imageBindings && node ? stringProp(node.props[imageBindings.decoding], 'async') : 'async';
+  const currentFit =
+    imageBindings && node ? stringProp(node.props[imageBindings.fit], 'cover') : 'cover';
+  const currentFocalX =
+    imageBindings && node ? percentageProp(node.props[imageBindings.focalX], 50) : 50;
+  const currentFocalY =
+    imageBindings && node ? percentageProp(node.props[imageBindings.focalY], 50) : 50;
   const availableSizeOptions = useMemo(
-    () => mergeSelectOptions(DEFAULT_IMAGE_SIZE_OPTIONS, attachmentPreview.sizeOptions, [[currentSize, labelFromId(currentSize)]]),
-    [attachmentPreview.sizeOptions, currentSize],
+    () =>
+      mergeSelectOptions(DEFAULT_IMAGE_SIZE_OPTIONS, attachmentPreview.sizeOptions, [
+        [currentSize, labelFromId(currentSize)],
+      ]),
+    [attachmentPreview.sizeOptions, currentSize]
   );
 
   useEffect(() => {
     if (returnsUrl) {
       setPreviewSrc(urlValue || null);
-      setAttachmentPreview({ sourceUrl: urlValue || null, altText: '', sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS });
+      setAttachmentPreview({
+        sourceUrl: urlValue || null,
+        altText: '',
+        sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS,
+      });
       return;
     }
     if (attachmentId <= 0) {
       setPreviewSrc(null);
-      setAttachmentPreview({ sourceUrl: null, altText: '', sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS });
+      setAttachmentPreview({
+        sourceUrl: null,
+        altText: '',
+        sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS,
+      });
       return;
     }
     fetch(`${WP_REST_BASE}media/${attachmentId}?_fields=source_url,alt_text,media_details`, {
       headers: { 'X-WP-Nonce': window.BlockyBuilderConfig?.nonce ?? '' },
     })
-      .then(res => res.ok ? res.json() : null)
-      .then((data: { source_url?: string; alt_text?: string; media_details?: { sizes?: Record<string, { width?: number; height?: number }> } } | null) => {
-        setPreviewSrc(data?.source_url ?? null);
-        setAttachmentPreview({
-          sourceUrl: data?.source_url ?? null,
-          altText: data?.alt_text ?? '',
-          sizeOptions: extractWordPressSizeOptions(data?.media_details?.sizes),
-        });
-      })
+      .then((res) => (res.ok ? res.json() : null))
+      .then(
+        (
+          data: {
+            source_url?: string;
+            alt_text?: string;
+            media_details?: { sizes?: Record<string, { width?: number; height?: number }> };
+          } | null
+        ) => {
+          setPreviewSrc(data?.source_url ?? null);
+          setAttachmentPreview({
+            sourceUrl: data?.source_url ?? null,
+            altText: data?.alt_text ?? '',
+            sizeOptions: extractWordPressSizeOptions(data?.media_details?.sizes),
+          });
+        }
+      )
       .catch(() => {
         setPreviewSrc(null);
-        setAttachmentPreview({ sourceUrl: null, altText: '', sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS });
+        setAttachmentPreview({
+          sourceUrl: null,
+          altText: '',
+          sizeOptions: DEFAULT_IMAGE_SIZE_OPTIONS,
+        });
       });
   }, [attachmentId, urlValue, returnsUrl, WP_REST_BASE]);
 
@@ -1338,21 +1703,33 @@ const MediaControl: FunctionComponent<MediaControlProps> = ({ control, value, on
   };
 
   const openPicker = () => {
-    const wp = (window as Window & { wp?: { media?: (opts: Record<string, unknown>) => { on: (ev: string, cb: () => void) => void; state: () => { get: (k: string) => { first: () => { toJSON: () => Record<string, unknown> } } }; open: () => void } } }).wp;
+    const wp = (
+      window as Window & {
+        wp?: {
+          media?: (opts: Record<string, unknown>) => {
+            on: (ev: string, cb: () => void) => void;
+            state: () => {
+              get: (k: string) => { first: () => { toJSON: () => Record<string, unknown> } };
+            };
+            open: () => void;
+          };
+        };
+      }
+    ).wp;
     if (!wp?.media) {
       alert(t('inspector.mediaLibraryUnavailable', 'WordPress media library not available.'));
       return;
     }
     const mediaType = control.mediaType || (returnsUrl ? 'video' : 'image');
     const frame = wp.media({
-      title:   control.label || t('inspector.selectMedia', 'Select Media'),
-      button:  { text: t('inspector.select', 'Select') },
+      title: control.label || t('inspector.selectMedia', 'Select Media'),
+      button: { text: t('inspector.select', 'Select') },
       multiple: false,
-      library:  mediaType ? { type: mediaType } : {},
+      library: mediaType ? { type: mediaType } : {},
     });
     frame.on('select', () => {
       const att = frame.state().get('selection').first().toJSON();
-      const nextValue = returnsUrl ? (att['url'] as string ?? '') : (att['id'] as number ?? 0);
+      const nextValue = returnsUrl ? ((att['url'] as string) ?? '') : ((att['id'] as number) ?? 0);
       if (isExtendedImageControl && imageBindings && onUpdate) {
         const nextProps: Record<string, unknown> = { [control.id]: nextValue };
         const selectedAlt = String(att['alt'] ?? att['alt_text'] ?? '').trim();
@@ -1374,10 +1751,11 @@ const MediaControl: FunctionComponent<MediaControlProps> = ({ control, value, on
       <span class="text-xs font-medium text-text-muted">{control.label}</span>
       {previewSrc && (
         <div class="relative overflow-hidden rounded-input border border-border-base bg-surface-base">
-          {control.mediaType === 'video' || returnsUrl
-            ? <video src={previewSrc} class="max-h-28 w-full object-cover" muted />
-            : <img src={previewSrc} alt="" class="max-h-28 w-full object-cover" />
-          }
+          {control.mediaType === 'video' || returnsUrl ? (
+            <video src={previewSrc} class="max-h-28 w-full object-cover" muted />
+          ) : (
+            <img src={previewSrc} alt="" class="max-h-28 w-full object-cover" />
+          )}
         </div>
       )}
       {!previewSrc && (
@@ -1409,24 +1787,48 @@ const MediaControl: FunctionComponent<MediaControlProps> = ({ control, value, on
       {isExtendedImageControl && (
         <div class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
           <label class="block space-y-1">
-            <span class="text-xs font-medium text-text-muted">{t('inspector.altText', 'Alt Text')}</span>
+            <span class="text-xs font-medium text-text-muted">
+              {t('inspector.altText', 'Alt Text')}
+            </span>
             <input
               type="text"
               value={currentAlt}
-              onInput={event => updateImageProp('alt', (event.target as HTMLInputElement).value)}
-              placeholder={attachmentPreview.altText || t('inspector.altSuggestion', 'Describe the image')}
+              onInput={(event) => updateImageProp('alt', (event.target as HTMLInputElement).value)}
+              placeholder={
+                attachmentPreview.altText || t('inspector.altSuggestion', 'Describe the image')
+              }
               class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
             />
           </label>
 
           <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <SelectField label={t('inspector.imageSize', 'Image Size')} value={currentSize} options={availableSizeOptions} onChange={nextValue => updateImageProp('size', nextValue)} />
-            <SelectField label={t('inspector.objectFit', 'Object Fit')} value={currentFit} options={IMAGE_FIT_OPTIONS} onChange={nextValue => updateImageProp('fit', nextValue)} />
+            <SelectField
+              label={t('inspector.imageSize', 'Image Size')}
+              value={currentSize}
+              options={availableSizeOptions}
+              onChange={(nextValue) => updateImageProp('size', nextValue)}
+            />
+            <SelectField
+              label={t('inspector.objectFit', 'Object Fit')}
+              value={currentFit}
+              options={IMAGE_FIT_OPTIONS}
+              onChange={(nextValue) => updateImageProp('fit', nextValue)}
+            />
           </div>
 
           <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <SelectField label={t('inspector.loading', 'Loading')} value={currentLoading} options={IMAGE_LOADING_OPTIONS} onChange={nextValue => updateImageProp('loading', nextValue)} />
-            <SelectField label={t('inspector.decoding', 'Decoding')} value={currentDecoding} options={IMAGE_DECODING_OPTIONS} onChange={nextValue => updateImageProp('decoding', nextValue)} />
+            <SelectField
+              label={t('inspector.loading', 'Loading')}
+              value={currentLoading}
+              options={IMAGE_LOADING_OPTIONS}
+              onChange={(nextValue) => updateImageProp('loading', nextValue)}
+            />
+            <SelectField
+              label={t('inspector.decoding', 'Decoding')}
+              value={currentDecoding}
+              options={IMAGE_DECODING_OPTIONS}
+              onChange={(nextValue) => updateImageProp('decoding', nextValue)}
+            />
           </div>
 
           <FocalPointControl
@@ -1441,23 +1843,32 @@ const MediaControl: FunctionComponent<MediaControlProps> = ({ control, value, on
   );
 };
 
-const FocalPointControl: FunctionComponent<FocalPointControlProps> = ({ label, x, y, onChange }) => (
+const FocalPointControl: FunctionComponent<FocalPointControlProps> = ({
+  label,
+  x,
+  y,
+  onChange,
+}) => (
   <div class="space-y-2">
     <span class="text-xs font-medium text-text-muted">{label}</span>
     <div class="grid grid-cols-3 gap-1">
-      {FOCAL_POINT_PRESETS.map(preset => {
+      {FOCAL_POINT_PRESETS.map((preset) => {
         const isActive = preset.x === x && preset.y === y;
         return (
           <button
             key={preset.key}
             type="button"
             onClick={() => onChange({ x: preset.x, y: preset.y })}
-            class={`flex h-8 items-center justify-center rounded-input border text-xs transition-colors ${isActive
-              ? 'border-accent-base bg-accent-subtle text-accent-text'
-              : 'border-border-base bg-surface-elevated text-text-muted hover:border-accent-base hover:text-text-base'}`}
+            class={`flex h-8 items-center justify-center rounded-input border text-xs transition-colors ${
+              isActive
+                ? 'border-accent-base bg-accent-subtle text-accent-text'
+                : 'border-border-base bg-surface-elevated text-text-muted hover:border-accent-base hover:text-text-base'
+            }`}
             aria-label={`${label}: ${preset.key}`}
           >
-            <span class={`h-2.5 w-2.5 rounded-full ${isActive ? 'bg-accent-text' : 'bg-current'}`} />
+            <span
+              class={`h-2.5 w-2.5 rounded-full ${isActive ? 'bg-accent-text' : 'bg-current'}`}
+            />
           </button>
         );
       })}
@@ -1471,7 +1882,9 @@ const FocalPointControl: FunctionComponent<FocalPointControlProps> = ({ label, x
           max={100}
           step={1}
           value={String(x)}
-          onInput={event => onChange({ x: percentageProp((event.target as HTMLInputElement).value, x), y })}
+          onInput={(event) =>
+            onChange({ x: percentageProp((event.target as HTMLInputElement).value, x), y })
+          }
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm text-text-base focus:border-accent-base focus:outline-none"
         />
       </label>
@@ -1483,7 +1896,9 @@ const FocalPointControl: FunctionComponent<FocalPointControlProps> = ({ label, x
           max={100}
           step={1}
           value={String(y)}
-          onInput={event => onChange({ x, y: percentageProp((event.target as HTMLInputElement).value, y) })}
+          onInput={(event) =>
+            onChange({ x, y: percentageProp((event.target as HTMLInputElement).value, y) })
+          }
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm text-text-base focus:border-accent-base focus:outline-none"
         />
       </label>
@@ -1497,10 +1912,12 @@ const SelectField: FunctionComponent<SelectFieldProps> = ({ label, value, option
     <select
       class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm text-text-base focus:border-accent-base focus:outline-none"
       value={value}
-      onChange={event => onChange((event.target as HTMLSelectElement).value)}
+      onChange={(event) => onChange((event.target as HTMLSelectElement).value)}
     >
       {options.map(([optionValue, optionLabel]) => (
-        <option key={optionValue} value={optionValue}>{optionLabel}</option>
+        <option key={optionValue} value={optionValue}>
+          {optionLabel}
+        </option>
       ))}
     </select>
   </label>
@@ -1511,23 +1928,30 @@ interface ResponsiveBreakpointBarProps {
   onChange: (value: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl') => void;
 }
 
-const ResponsiveBreakpointBar: FunctionComponent<ResponsiveBreakpointBarProps> = ({ value, onChange }) => (
+const ResponsiveBreakpointBar: FunctionComponent<ResponsiveBreakpointBarProps> = ({
+  value,
+  onChange,
+}) => (
   <div class="space-y-1 rounded-input border border-border-subtle bg-surface-base p-2">
     <div class="flex items-center justify-between gap-2">
-      <span class="text-xs font-medium text-text-muted">{t('inspector.breakpointScope', 'Breakpoint scope')}</span>
+      <span class="text-xs font-medium text-text-muted">
+        {t('inspector.breakpointScope', 'Breakpoint scope')}
+      </span>
       <span class="text-[11px] font-semibold uppercase tracking-wide text-text-faint">{value}</span>
     </div>
     <div class="grid grid-cols-6 gap-1">
-      {RESPONSIVE_BREAKPOINT_OPTIONS.map(option => {
+      {RESPONSIVE_BREAKPOINT_OPTIONS.map((option) => {
         const isActive = option.id === value;
         return (
           <button
             key={option.id}
             type="button"
             onClick={() => onChange(option.id)}
-            class={`rounded-input px-2 py-1 text-[11px] font-semibold transition-colors ${isActive
-              ? 'bg-accent-base text-text-on-accent'
-              : 'bg-surface-elevated text-text-muted hover:bg-surface-overlay hover:text-text-base'}`}
+            class={`rounded-input px-2 py-1 text-[11px] font-semibold transition-colors ${
+              isActive
+                ? 'bg-accent-base text-text-on-accent'
+                : 'bg-surface-elevated text-text-muted hover:bg-surface-overlay hover:text-text-base'
+            }`}
           >
             {option.label}
           </button>
@@ -1603,10 +2027,10 @@ const HOVER_OPACITY_OPTIONS: Array<[string, string]> = [
   ['opacity-100', '100%'],
 ];
 interface FlexLayoutGroup {
-  id:           string;
-  label:        string;
+  id: string;
+  label: string;
   defaultValue: string;
-  options:      VisualOption[];
+  options: VisualOption[];
 }
 
 const FLEX_LAYOUT_NODE_TYPES = new Set(['bky/container', 'bky/card']);
@@ -1649,23 +2073,50 @@ const FLEX_ALIGN_CONTENT_OPTIONS: VisualOption[] = [
   { value: 'content-around', label: 'Space Around', icon: 'content' },
   { value: 'content-evenly', label: 'Space Evenly', icon: 'content' },
 ];
-const FLEX_DISPLAY_GROUP: FlexLayoutGroup = { id: 'display', label: 'Display', defaultValue: 'flex', options: FLEX_DISPLAY_OPTIONS };
+const FLEX_DISPLAY_GROUP: FlexLayoutGroup = {
+  id: 'display',
+  label: 'Display',
+  defaultValue: 'flex',
+  options: FLEX_DISPLAY_OPTIONS,
+};
 const FLEX_LAYOUT_GROUPS: FlexLayoutGroup[] = [
   FLEX_DISPLAY_GROUP,
-  { id: 'direction', label: 'Direction', defaultValue: 'flex-row', options: FLEX_DIRECTION_OPTIONS },
+  {
+    id: 'direction',
+    label: 'Direction',
+    defaultValue: 'flex-row',
+    options: FLEX_DIRECTION_OPTIONS,
+  },
   { id: 'wrap', label: 'Wrap', defaultValue: 'flex-nowrap', options: FLEX_WRAP_OPTIONS },
-  { id: 'justify', label: 'Justify Content', defaultValue: 'justify-start', options: FLEX_JUSTIFY_OPTIONS },
-  { id: 'alignItems', label: 'Align Items', defaultValue: 'items-stretch', options: FLEX_ALIGN_ITEMS_OPTIONS },
-  { id: 'alignContent', label: 'Align Content', defaultValue: 'content-start', options: FLEX_ALIGN_CONTENT_OPTIONS },
+  {
+    id: 'justify',
+    label: 'Justify Content',
+    defaultValue: 'justify-start',
+    options: FLEX_JUSTIFY_OPTIONS,
+  },
+  {
+    id: 'alignItems',
+    label: 'Align Items',
+    defaultValue: 'items-stretch',
+    options: FLEX_ALIGN_ITEMS_OPTIONS,
+  },
+  {
+    id: 'alignContent',
+    label: 'Align Content',
+    defaultValue: 'content-start',
+    options: FLEX_ALIGN_CONTENT_OPTIONS,
+  },
 ];
-const FLEX_MANAGED_BASE_CLASSES = new Set(FLEX_LAYOUT_GROUPS.flatMap(group => group.options.map(option => option.value)));
+const FLEX_MANAGED_BASE_CLASSES = new Set(
+  FLEX_LAYOUT_GROUPS.flatMap((group) => group.options.map((option) => option.value))
+);
 type BoxModelKind = 'margin' | 'padding';
 type BoxModelSide = 'top' | 'right' | 'bottom' | 'left';
 type BoxModelUnit = 'px' | 'rem' | 'em' | '%' | 'vh' | 'vw';
 
 interface BoxModelSideConfig {
-  side:      BoxModelSide;
-  label:     string;
+  side: BoxModelSide;
+  label: string;
   shortLabel: string;
 }
 
@@ -1684,7 +2135,9 @@ const BOX_MODEL_VAR_PREFIX: Record<BoxModelKind, string> = {
   margin: '--bky-space-margin',
   padding: '--bky-space-padding',
 };
-const MOTION_TRANSITION_VALUES = new Set(MOTION_TRANSITION_OPTIONS.map(([value]) => value).filter(Boolean));
+const MOTION_TRANSITION_VALUES = new Set(
+  MOTION_TRANSITION_OPTIONS.map(([value]) => value).filter(Boolean)
+);
 const MOTION_EASING_VALUES = new Set(MOTION_EASING_OPTIONS.map(([value]) => value));
 const HOVER_SCALE_VALUES = new Set(HOVER_SCALE_OPTIONS.map(([value]) => value).filter(Boolean));
 const HOVER_OPACITY_VALUES = new Set(HOVER_OPACITY_OPTIONS.map(([value]) => value).filter(Boolean));
@@ -1713,8 +2166,8 @@ const INTERACTION_LOGIN_STATE_OPTIONS: Array<[InteractionLoginState, string]> = 
 ];
 
 const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, onUpdate }) => {
-  const responsiveBreakpoint = useUiStore(s => s.responsiveBreakpoint);
-  const setResponsiveBreakpoint = useUiStore(s => s.setResponsiveBreakpoint);
+  const responsiveBreakpoint = useUiStore((s) => s.responsiveBreakpoint);
+  const setResponsiveBreakpoint = useUiStore((s) => s.setResponsiveBreakpoint);
   const [query, setQuery] = useState('');
   const [prefix, setPrefix] = useState(breakpointPrefix(responsiveBreakpoint));
   const [customPrefix, setCustomPrefix] = useState('');
@@ -1734,29 +2187,34 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
   const styleVars = useMemo(() => styleVarsForNode(node), [node]);
   const hasMotionSet = useMemo(() => activeClasses.some(isMotionTimingClass), [activeClasses]);
   const activePrefix = prefix === CUSTOM_PREFIX ? normalizePrefix(customPrefix) : prefix;
-  const activeVariant = prefix === CUSTOM_PREFIX
-    ? null
-    : tailwindVariantOptions.find(option => option.prefix === activePrefix) ?? tailwindVariantOptions[0] ?? null;
-  const selectedColorRole = tailwindColorRoles.find(role => role.id === colorRole) ?? tailwindColorRoles[0] ?? null;
+  const activeVariant =
+    prefix === CUSTOM_PREFIX
+      ? null
+      : (tailwindVariantOptions.find((option) => option.prefix === activePrefix) ??
+        tailwindVariantOptions[0] ??
+        null);
+  const selectedColorRole =
+    tailwindColorRoles.find((role) => role.id === colorRole) ?? tailwindColorRoles[0] ?? null;
   const normalizedQuery = query.trim().toLowerCase();
 
   const filteredGroups = useMemo(() => {
     if (normalizedQuery === '') return tailwindUtilityGroups;
     return tailwindUtilityGroups
-      .map(group => ({
+      .map((group) => ({
         ...group,
         utilities: group.utilities
-          .map(utility => ({
+          .map((utility) => ({
             ...utility,
-            classes: utility.classes.filter(className =>
-              className.toLowerCase().includes(normalizedQuery)
-              || utility.label.toLowerCase().includes(normalizedQuery)
-              || group.label.toLowerCase().includes(normalizedQuery),
+            classes: utility.classes.filter(
+              (className) =>
+                className.toLowerCase().includes(normalizedQuery) ||
+                utility.label.toLowerCase().includes(normalizedQuery) ||
+                group.label.toLowerCase().includes(normalizedQuery)
             ),
           }))
-          .filter(utility => utility.classes.length > 0),
+          .filter((utility) => utility.classes.length > 0),
       }))
-      .filter(group => group.utilities.length > 0);
+      .filter((group) => group.utilities.length > 0);
   }, [normalizedQuery]);
 
   useEffect(() => {
@@ -1767,14 +2225,14 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
   const toggleClass = (className: string): void => {
     const nextClass = composeUtilityClass(activePrefix, className, forceOverride);
     if (activeClassSet.has(nextClass)) {
-      updateClasses(activeClasses.filter(current => current !== nextClass));
+      updateClasses(activeClasses.filter((current) => current !== nextClass));
       return;
     }
     updateClasses([...activeClasses, nextClass]);
   };
 
   const removeClass = (className: string): void => {
-    const nextClasses = activeClasses.filter(current => current !== className);
+    const nextClasses = activeClasses.filter((current) => current !== className);
     const variableName = variableNameFromUtilityClass(className);
     if (variableName && variableName in colorVars) {
       const nextVars = { ...colorVars };
@@ -1794,9 +2252,9 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
   const addManualClasses = (): void => {
     const nextClasses = manualClass
       .split(/\s+/)
-      .map(className => className.trim())
+      .map((className) => className.trim())
       .filter(Boolean)
-      .map(className => composeUtilityClass(activePrefix, className, forceOverride));
+      .map((className) => composeUtilityClass(activePrefix, className, forceOverride));
     if (!nextClasses.length) return;
     updateClasses([...new Set([...activeClasses, ...nextClasses])]);
     setManualClass('');
@@ -1809,7 +2267,7 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
     const runtimeClass = composeUtilityClass(
       activePrefix,
       `${selectedColorRole.utility}-[var(${variableName})]`,
-      forceOverride,
+      forceOverride
     );
     onUpdate({
       twClasses: [...new Set([...activeClasses, runtimeClass])],
@@ -1820,12 +2278,17 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
   const applyMotionSet = (): void => {
     const motionClasses = [motionTransition, motionDuration, motionDelay, motionEasing]
       .filter(Boolean)
-      .map(className => composeMotionClass(motionGuard, className));
-    updateClasses([...new Set([...activeClasses.filter(className => !isMotionTimingClass(className)), ...motionClasses])]);
+      .map((className) => composeMotionClass(motionGuard, className));
+    updateClasses([
+      ...new Set([
+        ...activeClasses.filter((className) => !isMotionTimingClass(className)),
+        ...motionClasses,
+      ]),
+    ]);
   };
 
   const clearMotionSet = (): void => {
-    updateClasses(activeClasses.filter(className => !isMotionTimingClass(className)));
+    updateClasses(activeClasses.filter((className) => !isMotionTimingClass(className)));
   };
 
   const updateClasses = (classes: string[]): void => {
@@ -1833,7 +2296,7 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
   };
 
   const renderVariantButton = (variantId: string): JSX.Element | null => {
-    const option = tailwindVariantOptions.find(item => item.id === variantId);
+    const option = tailwindVariantOptions.find((item) => item.id === variantId);
     if (!option) return null;
     const isActive = prefix !== CUSTOM_PREFIX && activeVariant?.id === option.id;
     return (
@@ -1847,9 +2310,11 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
           setPrefix(option.prefix);
           setCustomPrefix('');
         }}
-        class={`rounded-input border px-2 py-1.5 text-xs font-semibold ${isActive
-          ? 'border-accent-base bg-accent-subtle text-accent-text'
-          : 'border-border-base bg-surface-elevated text-text-muted hover:border-accent-base hover:text-text-base'}`}
+        class={`rounded-input border px-2 py-1.5 text-xs font-semibold ${
+          isActive
+            ? 'border-accent-base bg-accent-subtle text-accent-text'
+            : 'border-border-base bg-surface-elevated text-text-muted hover:border-accent-base hover:text-text-base'
+        }`}
         title={option.label}
         aria-label={option.label}
       >
@@ -1861,24 +2326,24 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
   return (
     <div class="space-y-4">
       <div class="space-y-2">
-        <div class="grid grid-cols-5 gap-1">
-          {QUICK_STATE_VARIANTS.map(renderVariantButton)}
-        </div>
-        <div class="grid grid-cols-5 gap-1">
-          {QUICK_SCREEN_VARIANTS.map(renderVariantButton)}
-        </div>
+        <div class="grid grid-cols-5 gap-1">{QUICK_STATE_VARIANTS.map(renderVariantButton)}</div>
+        <div class="grid grid-cols-5 gap-1">{QUICK_SCREEN_VARIANTS.map(renderVariantButton)}</div>
       </div>
 
       <label class="block space-y-1">
-        <span class="text-xs font-medium text-text-muted">{t('inspector.variantPrefix', 'Variant prefix')}</span>
+        <span class="text-xs font-medium text-text-muted">
+          {t('inspector.variantPrefix', 'Variant prefix')}
+        </span>
         <select
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base focus:border-accent-base focus:outline-none"
           value={prefix}
-          onChange={e => setPrefix((e.target as HTMLSelectElement).value)}
+          onChange={(e) => setPrefix((e.target as HTMLSelectElement).value)}
         >
-          {tailwindVariantOptions.map(option => (
-            <option key={option.id} value={option.prefix}>{option.label}</option>
+          {tailwindVariantOptions.map((option) => (
+            <option key={option.id} value={option.prefix}>
+              {option.label}
+            </option>
           ))}
           <option value={CUSTOM_PREFIX}>{t('inspector.customChain', 'Custom chain')}</option>
         </select>
@@ -1886,12 +2351,14 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
 
       {prefix === CUSTOM_PREFIX && (
         <label class="block space-y-1">
-          <span class="text-xs font-medium text-text-muted">{t('inspector.customVariantChain', 'Custom variant chain')}</span>
+          <span class="text-xs font-medium text-text-muted">
+            {t('inspector.customVariantChain', 'Custom variant chain')}
+          </span>
           <input
             type="text"
             value={customPrefix}
             placeholder={t('inspector.customVariantPlaceholder', 'md:hover')}
-            onInput={e => setCustomPrefix((e.target as HTMLInputElement).value)}
+            onInput={(e) => setCustomPrefix((e.target as HTMLInputElement).value)}
             class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
           />
@@ -1903,14 +2370,16 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
         <input
           type="checkbox"
           checked={forceOverride}
-          onChange={e => setForceOverride((e.target as HTMLInputElement).checked)}
+          onChange={(e) => setForceOverride((e.target as HTMLInputElement).checked)}
           class="h-4 w-4 accent-accent-base"
         />
       </label>
 
       <div class="space-y-2 rounded-input border border-border-subtle bg-surface-base p-3">
         <div class="flex items-center justify-between gap-2">
-          <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">{t('inspector.motionSet', 'Motion Set')}</span>
+          <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">
+            {t('inspector.motionSet', 'Motion Set')}
+          </span>
           {hasMotionSet && (
             <button
               type="button"
@@ -1922,12 +2391,37 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
           )}
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <MotionSelect label={t('inspector.transition', 'Transition')} value={motionTransition} options={MOTION_TRANSITION_OPTIONS} onChange={setMotionTransition} />
-          <MotionSelect label={t('inspector.duration', 'Duration')} value={motionDuration} options={MOTION_DURATION_OPTIONS} onChange={setMotionDuration} />
-          <MotionSelect label={t('inspector.delay', 'Delay')} value={motionDelay} options={MOTION_DELAY_OPTIONS} onChange={setMotionDelay} />
-          <MotionSelect label={t('inspector.easing', 'Easing')} value={motionEasing} options={MOTION_EASING_OPTIONS} onChange={setMotionEasing} />
+          <MotionSelect
+            label={t('inspector.transition', 'Transition')}
+            value={motionTransition}
+            options={MOTION_TRANSITION_OPTIONS}
+            onChange={setMotionTransition}
+          />
+          <MotionSelect
+            label={t('inspector.duration', 'Duration')}
+            value={motionDuration}
+            options={MOTION_DURATION_OPTIONS}
+            onChange={setMotionDuration}
+          />
+          <MotionSelect
+            label={t('inspector.delay', 'Delay')}
+            value={motionDelay}
+            options={MOTION_DELAY_OPTIONS}
+            onChange={setMotionDelay}
+          />
+          <MotionSelect
+            label={t('inspector.easing', 'Easing')}
+            value={motionEasing}
+            options={MOTION_EASING_OPTIONS}
+            onChange={setMotionEasing}
+          />
         </div>
-        <MotionSelect label={t('inspector.guard', 'Guard')} value={motionGuard} options={MOTION_GUARD_OPTIONS} onChange={setMotionGuard} />
+        <MotionSelect
+          label={t('inspector.guard', 'Guard')}
+          value={motionGuard}
+          options={MOTION_GUARD_OPTIONS}
+          onChange={setMotionGuard}
+        />
         <button
           type="button"
           onClick={applyMotionSet}
@@ -1943,16 +2437,18 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
             class="min-w-0 rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base focus:border-accent-base focus:outline-none"
             value={colorRole}
-            onChange={e => setColorRole((e.target as HTMLSelectElement).value)}
+            onChange={(e) => setColorRole((e.target as HTMLSelectElement).value)}
           >
-            {tailwindColorRoles.map(role => (
-              <option key={role.id} value={role.id}>{role.label}</option>
+            {tailwindColorRoles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.label}
+              </option>
             ))}
           </select>
           <input
             type="color"
             value={normalizeHexColor(hexColor) ?? '#000000'}
-            onInput={e => setHexColor((e.target as HTMLInputElement).value)}
+            onInput={(e) => setHexColor((e.target as HTMLInputElement).value)}
             class="h-10 w-12 rounded-input border border-border-base bg-surface-base"
             aria-label={t('inspector.hexColorPicker', 'Hex color picker')}
           />
@@ -1961,10 +2457,10 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
           <input
             type="text"
             value={hexColor}
-            onInput={e => setHexColor((e.target as HTMLInputElement).value)}
+            onInput={(e) => setHexColor((e.target as HTMLInputElement).value)}
             class="min-w-0 flex-1 rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
-                 placeholder={t('inspector.hexColorPlaceholder', '#0ea5e9')}
+            placeholder={t('inspector.hexColorPlaceholder', '#0ea5e9')}
           />
           <button
             type="button"
@@ -1978,11 +2474,13 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
       </div>
 
       <label class="block space-y-1">
-        <span class="text-xs font-medium text-text-muted">{t('inspector.searchUtilities', 'Search utilities')}</span>
+        <span class="text-xs font-medium text-text-muted">
+          {t('inspector.searchUtilities', 'Search utilities')}
+        </span>
         <input
           type="search"
           value={query}
-          onInput={e => setQuery((e.target as HTMLInputElement).value)}
+          onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
           placeholder={t('inspector.searchUtilitiesPlaceholder', 'padding, grid, bg, hover...')}
@@ -1990,14 +2488,16 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
       </label>
 
       <div class="space-y-2">
-        <span class="text-xs font-medium text-text-muted">{t('inspector.activeClasses', 'Active classes')}</span>
+        <span class="text-xs font-medium text-text-muted">
+          {t('inspector.activeClasses', 'Active classes')}
+        </span>
         {activeClasses.length === 0 ? (
           <p class="rounded-input border border-dashed border-border-base px-3 py-2 text-xs text-text-faint">
             {t('inspector.noTailwindClasses', 'No Tailwind utility classes on this block.')}
           </p>
         ) : (
           <div class="flex flex-wrap gap-1.5">
-            {activeClasses.map(className => (
+            {activeClasses.map((className) => (
               <button
                 key={className}
                 type="button"
@@ -2014,12 +2514,14 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
 
       <div class="space-y-2">
         <label class="block space-y-1">
-          <span class="text-xs font-medium text-text-muted">{t('inspector.manualClass', 'Manual class')}</span>
+          <span class="text-xs font-medium text-text-muted">
+            {t('inspector.manualClass', 'Manual class')}
+          </span>
           <input
             type="text"
             value={manualClass}
-            onInput={e => setManualClass((e.target as HTMLInputElement).value)}
-            onKeyDown={e => {
+            onInput={(e) => setManualClass((e.target as HTMLInputElement).value)}
+            onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
                 addManualClasses();
@@ -2027,7 +2529,10 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
             }}
             class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                    text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
-            placeholder={t('inspector.manualClassPlaceholder', 'w-[42rem] md:hover:bg-accent-subtle')}
+            placeholder={t(
+              'inspector.manualClassPlaceholder',
+              'w-[42rem] md:hover:bg-accent-subtle'
+            )}
           />
         </label>
         <button
@@ -2040,17 +2545,23 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
       </div>
 
       <div class="space-y-3">
-        {filteredGroups.map(group => (
+        {filteredGroups.map((group) => (
           <section key={group.id} class="space-y-2">
-            <h3 class="text-xs font-semibold uppercase tracking-wide text-text-faint">{group.label}</h3>
+            <h3 class="text-xs font-semibold uppercase tracking-wide text-text-faint">
+              {group.label}
+            </h3>
             <div class="space-y-2">
-              {group.utilities.map(utility => (
-                <details key={utility.id} open={normalizedQuery !== ''} class="rounded-input border border-border-subtle bg-surface-base">
+              {group.utilities.map((utility) => (
+                <details
+                  key={utility.id}
+                  open={normalizedQuery !== ''}
+                  class="rounded-input border border-border-subtle bg-surface-base"
+                >
                   <summary class="cursor-pointer px-3 py-2 text-xs font-medium text-text-muted">
                     {utility.label}
                   </summary>
                   <div class="flex flex-wrap gap-1.5 border-t border-border-subtle p-2">
-                    {utility.classes.map(className => {
+                    {utility.classes.map((className) => {
                       const nextClass = composeUtilityClass(activePrefix, className, forceOverride);
                       const isActive = activeClassSet.has(nextClass);
                       return (
@@ -2058,9 +2569,11 @@ const TailwindClassPanel: FunctionComponent<TailwindClassPanelProps> = ({ node, 
                           key={className}
                           type="button"
                           onClick={() => toggleClass(className)}
-                          class={`max-w-full rounded-input border px-2 py-1 text-left text-xs ${isActive
-                            ? 'border-accent-base bg-accent-subtle text-accent-text'
-                            : 'border-border-base bg-surface-elevated text-text-base hover:border-accent-base'}`}
+                          class={`max-w-full rounded-input border px-2 py-1 text-left text-xs ${
+                            isActive
+                              ? 'border-accent-base bg-accent-subtle text-accent-text'
+                              : 'border-border-base bg-surface-elevated text-text-base hover:border-accent-base'
+                          }`}
                           title={nextClass}
                         >
                           <span class="break-all">{nextClass}</span>
@@ -2085,17 +2598,24 @@ interface MotionSelectProps {
   onChange: (value: string) => void;
 }
 
-const MotionSelect: FunctionComponent<MotionSelectProps> = ({ label, value, options, onChange }) => (
+const MotionSelect: FunctionComponent<MotionSelectProps> = ({
+  label,
+  value,
+  options,
+  onChange,
+}) => (
   <label class="block space-y-1">
     <span class="text-xs font-medium text-text-muted">{label}</span>
     <select
       class="w-full rounded-input border border-border-base bg-surface-base px-2 py-1.5 text-xs
              text-text-base focus:border-accent-base focus:outline-none"
       value={value}
-      onChange={event => onChange((event.target as HTMLSelectElement).value)}
+      onChange={(event) => onChange((event.target as HTMLSelectElement).value)}
     >
       {options.map(([optionValue, optionLabel]) => (
-        <option key={optionValue || 'none'} value={optionValue}>{optionLabel}</option>
+        <option key={optionValue || 'none'} value={optionValue}>
+          {optionLabel}
+        </option>
       ))}
     </select>
   </label>
@@ -2107,7 +2627,7 @@ interface AnimationsPanelProps {
 }
 
 const AnimationsPanel: FunctionComponent<AnimationsPanelProps> = ({ node, onUpdate }) => {
-  const responsiveBreakpoint = useUiStore(s => s.responsiveBreakpoint);
+  const responsiveBreakpoint = useUiStore((s) => s.responsiveBreakpoint);
   const activeClasses = useMemo(() => classesForNode(node), [node]);
   const [transition, setTransition] = useState('transition');
   const [duration, setDuration] = useState('duration-200');
@@ -2117,30 +2637,56 @@ const AnimationsPanel: FunctionComponent<AnimationsPanelProps> = ({ node, onUpda
   const [hoverScale, setHoverScale] = useState('');
   const [hoverOpacity, setHoverOpacity] = useState('');
 
-  const hasAnimationSet = useMemo(() => activeClasses.some(isManagedAnimationClass), [activeClasses]);
+  const hasAnimationSet = useMemo(
+    () => activeClasses.some(isManagedAnimationClass),
+    [activeClasses]
+  );
   const activeTransition = useMemo(
-    () => activeClasses.map(baseUtilityClass).find(className => MOTION_TRANSITION_VALUES.has(className)) ?? 'transition',
-    [activeClasses],
+    () =>
+      activeClasses
+        .map(baseUtilityClass)
+        .find((className) => MOTION_TRANSITION_VALUES.has(className)) ?? 'transition',
+    [activeClasses]
   );
   const activeDuration = useMemo(
-    () => activeClasses.map(baseUtilityClass).find(className => /^duration-\d+$/.test(className)) ?? 'duration-200',
-    [activeClasses],
+    () =>
+      activeClasses.map(baseUtilityClass).find((className) => /^duration-\d+$/.test(className)) ??
+      'duration-200',
+    [activeClasses]
   );
   const activeDelay = useMemo(
-    () => activeClasses.map(baseUtilityClass).find(className => /^delay-\d+$/.test(className)) ?? '',
-    [activeClasses],
+    () =>
+      activeClasses.map(baseUtilityClass).find((className) => /^delay-\d+$/.test(className)) ?? '',
+    [activeClasses]
   );
   const activeEasing = useMemo(
-    () => activeClasses.map(baseUtilityClass).find(className => MOTION_EASING_VALUES.has(className)) ?? 'ease-out',
-    [activeClasses],
+    () =>
+      activeClasses
+        .map(baseUtilityClass)
+        .find((className) => MOTION_EASING_VALUES.has(className)) ?? 'ease-out',
+    [activeClasses]
   );
   const activeGuard = useMemo(() => {
-    if (activeClasses.some(className => variantPrefixesForClass(className).includes('motion-safe'))) return 'motion-safe';
-    if (activeClasses.some(className => variantPrefixesForClass(className).includes('motion-reduce'))) return 'motion-reduce';
+    if (
+      activeClasses.some((className) => variantPrefixesForClass(className).includes('motion-safe'))
+    )
+      return 'motion-safe';
+    if (
+      activeClasses.some((className) =>
+        variantPrefixesForClass(className).includes('motion-reduce')
+      )
+    )
+      return 'motion-reduce';
     return '';
   }, [activeClasses]);
-  const activeHoverScale = useMemo(() => activeHoverAnimationValue(activeClasses, HOVER_SCALE_VALUES), [activeClasses]);
-  const activeHoverOpacity = useMemo(() => activeHoverAnimationValue(activeClasses, HOVER_OPACITY_VALUES), [activeClasses]);
+  const activeHoverScale = useMemo(
+    () => activeHoverAnimationValue(activeClasses, HOVER_SCALE_VALUES),
+    [activeClasses]
+  );
+  const activeHoverOpacity = useMemo(
+    () => activeHoverAnimationValue(activeClasses, HOVER_OPACITY_VALUES),
+    [activeClasses]
+  );
 
   useEffect(() => {
     setTransition(activeTransition);
@@ -2150,7 +2696,16 @@ const AnimationsPanel: FunctionComponent<AnimationsPanelProps> = ({ node, onUpda
     setGuard(activeGuard);
     setHoverScale(activeHoverScale);
     setHoverOpacity(activeHoverOpacity);
-  }, [activeDelay, activeDuration, activeEasing, activeGuard, activeHoverOpacity, activeHoverScale, activeTransition, node.id]);
+  }, [
+    activeDelay,
+    activeDuration,
+    activeEasing,
+    activeGuard,
+    activeHoverOpacity,
+    activeHoverScale,
+    activeTransition,
+    node.id,
+  ]);
 
   const applyAnimationSet = (): void => {
     const scopePrefix = breakpointScopeValue(responsiveBreakpoint);
@@ -2158,26 +2713,34 @@ const AnimationsPanel: FunctionComponent<AnimationsPanelProps> = ({ node, onUpda
     const hoverPrefix = normalizePrefix([scopePrefix, guard, 'hover'].filter(Boolean).join(':'));
     const timingClasses = [transition, duration, delay, easing]
       .filter(Boolean)
-      .map(className => composeUtilityClass(guardPrefix, className, false));
+      .map((className) => composeUtilityClass(guardPrefix, className, false));
     const hoverClasses = [hoverScale, hoverOpacity]
       .filter(Boolean)
-      .map(className => composeUtilityClass(hoverPrefix, className, false));
+      .map((className) => composeUtilityClass(hoverPrefix, className, false));
 
     onUpdate({
-      twClasses: [...new Set([...activeClasses.filter(className => !isManagedAnimationClass(className)), ...timingClasses, ...hoverClasses])],
+      twClasses: [
+        ...new Set([
+          ...activeClasses.filter((className) => !isManagedAnimationClass(className)),
+          ...timingClasses,
+          ...hoverClasses,
+        ]),
+      ],
     });
   };
 
   const clearAnimationSet = (): void => {
     onUpdate({
-      twClasses: activeClasses.filter(className => !isManagedAnimationClass(className)),
+      twClasses: activeClasses.filter((className) => !isManagedAnimationClass(className)),
     });
   };
 
   return (
     <section class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
       <div class="flex items-center justify-between gap-2">
-        <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">{t('inspector.motionSet', 'Motion Set')}</span>
+        <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">
+          {t('inspector.motionSet', 'Motion Set')}
+        </span>
         {hasAnimationSet && (
           <button
             type="button"
@@ -2190,17 +2753,52 @@ const AnimationsPanel: FunctionComponent<AnimationsPanelProps> = ({ node, onUpda
       </div>
 
       <div class="grid grid-cols-2 gap-2">
-        <MotionSelect label={t('inspector.transition', 'Transition')} value={transition} options={MOTION_TRANSITION_OPTIONS} onChange={setTransition} />
-        <MotionSelect label={t('inspector.duration', 'Duration')} value={duration} options={MOTION_DURATION_OPTIONS} onChange={setDuration} />
-        <MotionSelect label={t('inspector.delay', 'Delay')} value={delay} options={MOTION_DELAY_OPTIONS} onChange={setDelay} />
-        <MotionSelect label={t('inspector.easing', 'Easing')} value={easing} options={MOTION_EASING_OPTIONS} onChange={setEasing} />
+        <MotionSelect
+          label={t('inspector.transition', 'Transition')}
+          value={transition}
+          options={MOTION_TRANSITION_OPTIONS}
+          onChange={setTransition}
+        />
+        <MotionSelect
+          label={t('inspector.duration', 'Duration')}
+          value={duration}
+          options={MOTION_DURATION_OPTIONS}
+          onChange={setDuration}
+        />
+        <MotionSelect
+          label={t('inspector.delay', 'Delay')}
+          value={delay}
+          options={MOTION_DELAY_OPTIONS}
+          onChange={setDelay}
+        />
+        <MotionSelect
+          label={t('inspector.easing', 'Easing')}
+          value={easing}
+          options={MOTION_EASING_OPTIONS}
+          onChange={setEasing}
+        />
       </div>
 
-      <MotionSelect label={t('inspector.guard', 'Guard')} value={guard} options={MOTION_GUARD_OPTIONS} onChange={setGuard} />
+      <MotionSelect
+        label={t('inspector.guard', 'Guard')}
+        value={guard}
+        options={MOTION_GUARD_OPTIONS}
+        onChange={setGuard}
+      />
 
       <div class="grid grid-cols-2 gap-2">
-        <MotionSelect label={t('inspector.hoverScale', 'Hover Scale')} value={hoverScale} options={HOVER_SCALE_OPTIONS} onChange={setHoverScale} />
-        <MotionSelect label={t('inspector.hoverOpacity', 'Hover Opacity')} value={hoverOpacity} options={HOVER_OPACITY_OPTIONS} onChange={setHoverOpacity} />
+        <MotionSelect
+          label={t('inspector.hoverScale', 'Hover Scale')}
+          value={hoverScale}
+          options={HOVER_SCALE_OPTIONS}
+          onChange={setHoverScale}
+        />
+        <MotionSelect
+          label={t('inspector.hoverOpacity', 'Hover Opacity')}
+          value={hoverOpacity}
+          options={HOVER_OPACITY_OPTIONS}
+          onChange={setHoverOpacity}
+        />
       </div>
 
       <button
@@ -2220,7 +2818,11 @@ interface InteractionsPanelProps {
   onUpdate: (props: Record<string, unknown>) => void;
 }
 
-const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document, node, onUpdate }) => {
+const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({
+  document,
+  node,
+  onUpdate,
+}) => {
   const interactions = useMemo(() => interactionsForNode(node), [node]);
   const overlayIds = useMemo(() => overlayIdsForInspector(document, node.id), [document, node.id]);
   const eventOptions: Array<[InteractionEvent, string]> = [
@@ -2259,8 +2861,15 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
     <section class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
       <div class="flex items-center justify-between gap-2">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-text-faint">{t('inspector.interactionsTitle', 'Interactions')}</p>
-          <p class="text-[11px] text-text-faint">{t('inspector.interactionsDescription', 'Trigger, action, target, and basic modifiers for runtime behaviors.')}</p>
+          <p class="text-xs font-semibold uppercase tracking-wide text-text-faint">
+            {t('inspector.interactionsTitle', 'Interactions')}
+          </p>
+          <p class="text-[11px] text-text-faint">
+            {t(
+              'inspector.interactionsDescription',
+              'Trigger, action, target, and basic modifiers for runtime behaviors.'
+            )}
+          </p>
         </div>
         {interactions.length > 0 && (
           <button
@@ -2275,12 +2884,19 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
 
       <div class="space-y-3">
         {interactions.map((rule, index) => (
-          <div key={`interaction-${index}`} class="space-y-3 rounded-input border border-border-subtle bg-surface-elevated p-3">
+          <div
+            key={`interaction-${index}`}
+            class="space-y-3 rounded-input border border-border-subtle bg-surface-elevated p-3"
+          >
             <div class="flex items-center justify-between gap-2">
-              <span class="text-xs font-semibold text-text-muted">{t('inspector.interactionRule', 'Rule %s', [String(index + 1)])}</span>
+              <span class="text-xs font-semibold text-text-muted">
+                {t('inspector.interactionRule', 'Rule %s', [String(index + 1)])}
+              </span>
               <button
                 type="button"
-                onClick={() => updateRules(interactions.filter((_, ruleIndex) => ruleIndex !== index))}
+                onClick={() =>
+                  updateRules(interactions.filter((_, ruleIndex) => ruleIndex !== index))
+                }
                 class="rounded-input px-2 py-1 text-xs font-medium text-feedback-danger hover:bg-surface-overlay"
               >
                 {t('inspector.remove', 'Remove')}
@@ -2292,13 +2908,13 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                 label={t('inspector.interactionEvent', 'Event')}
                 value={rule.event}
                 options={eventOptions}
-                onChange={value => updateRule(index, { event: value as InteractionEvent })}
+                onChange={(value) => updateRule(index, { event: value as InteractionEvent })}
               />
               <SelectField
                 label={t('inspector.interactionAction', 'Action')}
                 value={rule.action}
                 options={actionOptions}
-                onChange={value => updateRule(index, { action: value as InteractionAction })}
+                onChange={(value) => updateRule(index, { action: value as InteractionAction })}
               />
             </div>
 
@@ -2307,12 +2923,16 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                 <span>{t('inspector.interactionTarget', 'Target')}</span>
                 <select
                   value={rule.target}
-                  onChange={event => updateRule(index, { target: (event.target as HTMLSelectElement).value })}
+                  onChange={(event) =>
+                    updateRule(index, { target: (event.target as HTMLSelectElement).value })
+                  }
                   class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                 >
                   <option value="">{t('inspector.selectOverlayTarget', 'Select overlay…')}</option>
-                  {overlayIds.map(overlayId => (
-                    <option key={overlayId} value={overlayId}>{overlayId}</option>
+                  {overlayIds.map((overlayId) => (
+                    <option key={overlayId} value={overlayId}>
+                      {overlayId}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -2322,8 +2942,15 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                 <input
                   type="text"
                   value={rule.target}
-                  onInput={event => updateRule(index, { target: currentTargetValue(event) })}
-                  placeholder={rule.action === 'custom.emit' ? t('inspector.interactionTargetEventPlaceholder', 'blocky:event-name') : t('inspector.interactionTargetSelectorPlaceholder', '#overlay-id or .selector')}
+                  onInput={(event) => updateRule(index, { target: currentTargetValue(event) })}
+                  placeholder={
+                    rule.action === 'custom.emit'
+                      ? t('inspector.interactionTargetEventPlaceholder', 'blocky:event-name')
+                      : t(
+                          'inspector.interactionTargetSelectorPlaceholder',
+                          '#overlay-id or .selector'
+                        )
+                  }
                   class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                 />
               </label>
@@ -2335,7 +2962,7 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                 <input
                   type="text"
                   value={rule.className ?? ''}
-                  onInput={event => updateRule(index, { className: currentTargetValue(event) })}
+                  onInput={(event) => updateRule(index, { className: currentTargetValue(event) })}
                   placeholder={t('inspector.interactionClassPlaceholder', 'is-open')}
                   class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                 />
@@ -2343,19 +2970,29 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
             )}
 
             <div class="space-y-2 rounded-input border border-border-subtle bg-surface-base p-3">
-              <p class="text-[11px] font-semibold uppercase tracking-wide text-text-faint">{t('inspector.interactionConditions', 'Conditions')}</p>
+              <p class="text-[11px] font-semibold uppercase tracking-wide text-text-faint">
+                {t('inspector.interactionConditions', 'Conditions')}
+              </p>
               <div class="grid grid-cols-2 gap-2">
                 <SelectField
                   label={t('inspector.interactionDevice', 'Device')}
                   value={rule.device ?? 'any'}
-                  options={INTERACTION_DEVICE_OPTIONS.map(([value, label]) => [value, t(`inspector.interactionDevice.${value}`, label)])}
-                  onChange={value => updateRule(index, { device: value as InteractionDevice })}
+                  options={INTERACTION_DEVICE_OPTIONS.map(([value, label]) => [
+                    value,
+                    t(`inspector.interactionDevice.${value}`, label),
+                  ])}
+                  onChange={(value) => updateRule(index, { device: value as InteractionDevice })}
                 />
                 <SelectField
                   label={t('inspector.interactionLoginState', 'Login State')}
                   value={rule.loginState ?? 'any'}
-                  options={INTERACTION_LOGIN_STATE_OPTIONS.map(([value, label]) => [value, t(`inspector.interactionLoginState.${value}`, label)])}
-                  onChange={value => updateRule(index, { loginState: value as InteractionLoginState })}
+                  options={INTERACTION_LOGIN_STATE_OPTIONS.map(([value, label]) => [
+                    value,
+                    t(`inspector.interactionLoginState.${value}`, label),
+                  ])}
+                  onChange={(value) =>
+                    updateRule(index, { loginState: value as InteractionLoginState })
+                  }
                 />
               </div>
               <div class="grid grid-cols-2 gap-2">
@@ -2364,7 +3001,7 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="text"
                     value={rule.queryKey ?? ''}
-                    onInput={event => updateRule(index, { queryKey: currentTargetValue(event) })}
+                    onInput={(event) => updateRule(index, { queryKey: currentTargetValue(event) })}
                     placeholder={t('inspector.interactionQueryKeyPlaceholder', 'utm_campaign')}
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
@@ -2374,7 +3011,9 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="text"
                     value={rule.queryValue ?? ''}
-                    onInput={event => updateRule(index, { queryValue: currentTargetValue(event) })}
+                    onInput={(event) =>
+                      updateRule(index, { queryValue: currentTargetValue(event) })
+                    }
                     placeholder={t('inspector.interactionQueryValuePlaceholder', 'spring-sale')}
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
@@ -2386,7 +3025,7 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="text"
                     value={rule.cookieKey ?? ''}
-                    onInput={event => updateRule(index, { cookieKey: currentTargetValue(event) })}
+                    onInput={(event) => updateRule(index, { cookieKey: currentTargetValue(event) })}
                     placeholder={t('inspector.interactionCookieKeyPlaceholder', 'promo_seen')}
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
@@ -2396,7 +3035,9 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="text"
                     value={rule.cookieValue ?? ''}
-                    onInput={event => updateRule(index, { cookieValue: currentTargetValue(event) })}
+                    onInput={(event) =>
+                      updateRule(index, { cookieValue: currentTargetValue(event) })
+                    }
                     placeholder={t('inspector.interactionCookieValuePlaceholder', '1')}
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
@@ -2405,7 +3046,9 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
             </div>
 
             <div class="space-y-2 rounded-input border border-border-subtle bg-surface-base p-3">
-              <p class="text-[11px] font-semibold uppercase tracking-wide text-text-faint">{t('inspector.interactionModifiers', 'Modifiers')}</p>
+              <p class="text-[11px] font-semibold uppercase tracking-wide text-text-faint">
+                {t('inspector.interactionModifiers', 'Modifiers')}
+              </p>
               <div class="grid grid-cols-3 gap-2">
                 <label class="flex flex-col gap-1 text-xs font-medium text-text-muted">
                   <span>{t('inspector.interactionDelay', 'Delay (ms)')}</span>
@@ -2414,7 +3057,11 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                     min={0}
                     step={50}
                     value={String(rule.delay ?? 0)}
-                    onInput={event => updateRule(index, { delay: normalizeInteractionDelay(currentTargetValue(event)) })}
+                    onInput={(event) =>
+                      updateRule(index, {
+                        delay: normalizeInteractionDelay(currentTargetValue(event)),
+                      })
+                    }
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
                 </label>
@@ -2425,7 +3072,11 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                     min={0}
                     step={50}
                     value={String(rule.debounce ?? 0)}
-                    onInput={event => updateRule(index, { debounce: normalizeInteractionDelay(currentTargetValue(event)) })}
+                    onInput={(event) =>
+                      updateRule(index, {
+                        debounce: normalizeInteractionDelay(currentTargetValue(event)),
+                      })
+                    }
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
                 </label>
@@ -2436,7 +3087,11 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                     min={0}
                     step={50}
                     value={String(rule.throttle ?? 0)}
-                    onInput={event => updateRule(index, { throttle: normalizeInteractionDelay(currentTargetValue(event)) })}
+                    onInput={(event) =>
+                      updateRule(index, {
+                        throttle: normalizeInteractionDelay(currentTargetValue(event)),
+                      })
+                    }
                     class="rounded-input border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base"
                   />
                 </label>
@@ -2448,7 +3103,7 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="checkbox"
                     checked={rule.once ?? false}
-                    onChange={event => updateRule(index, { once: event.currentTarget.checked })}
+                    onChange={(event) => updateRule(index, { once: event.currentTarget.checked })}
                     class="h-4 w-4 rounded border-border-base text-accent-base"
                   />
                 </label>
@@ -2457,7 +3112,9 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="checkbox"
                     checked={rule.preventDefault ?? true}
-                    onChange={event => updateRule(index, { preventDefault: event.currentTarget.checked })}
+                    onChange={(event) =>
+                      updateRule(index, { preventDefault: event.currentTarget.checked })
+                    }
                     class="h-4 w-4 rounded border-border-base text-accent-base"
                   />
                 </label>
@@ -2466,7 +3123,9 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
                   <input
                     type="checkbox"
                     checked={rule.stopPropagation ?? false}
-                    onChange={event => updateRule(index, { stopPropagation: event.currentTarget.checked })}
+                    onChange={(event) =>
+                      updateRule(index, { stopPropagation: event.currentTarget.checked })
+                    }
                     class="h-4 w-4 rounded border-border-base text-accent-base"
                   />
                 </label>
@@ -2478,7 +3137,24 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
 
       <button
         type="button"
-        onClick={() => updateRules([...interactions, { event: 'click', action: 'overlay.open', target: '', delay: 0, debounce: 0, throttle: 0, once: false, preventDefault: true, stopPropagation: false, device: 'any', loginState: 'any' }])}
+        onClick={() =>
+          updateRules([
+            ...interactions,
+            {
+              event: 'click',
+              action: 'overlay.open',
+              target: '',
+              delay: 0,
+              debounce: 0,
+              throttle: 0,
+              once: false,
+              preventDefault: true,
+              stopPropagation: false,
+              device: 'any',
+              loginState: 'any',
+            },
+          ])
+        }
         class="w-full rounded-button bg-surface-elevated px-3 py-2 text-xs font-medium text-text-base hover:bg-surface-overlay"
       >
         {t('inspector.addInteraction', 'Add Interaction')}
@@ -2488,25 +3164,30 @@ const InteractionsPanel: FunctionComponent<InteractionsPanelProps> = ({ document
 };
 
 interface FlexLayoutPanelProps {
-  node:     BuilderNode;
+  node: BuilderNode;
   onUpdate: (props: Record<string, unknown>) => void;
 }
 
 interface GridItemPanelProps {
   document: BuilderDocument;
-  node:     BuilderNode;
-  onMove:   (direction: MoveDirection) => void;
+  node: BuilderNode;
+  onMove: (direction: MoveDirection) => void;
 }
 
 interface GridItemInfo {
-  kind:    'grid' | 'columns' | 'rows';
-  row:     number;
-  column:  number;
-  rows:    number;
+  kind: 'grid' | 'columns' | 'rows';
+  row: number;
+  column: number;
+  rows: number;
   columns: number;
 }
 
-const GRID_ITEM_MOVES: Array<{ direction: MoveDirection; label: string; icon: string; className: string }> = [
+const GRID_ITEM_MOVES: Array<{
+  direction: MoveDirection;
+  label: string;
+  icon: string;
+  className: string;
+}> = [
   { direction: 'up', label: 'Move up', icon: '▲', className: 'col-start-2 row-start-1' },
   { direction: 'left', label: 'Move left', icon: '◀', className: 'col-start-1 row-start-2' },
   { direction: 'right', label: 'Move right', icon: '▶', className: 'col-start-3 row-start-2' },
@@ -2517,20 +3198,19 @@ const GridItemPanel: FunctionComponent<GridItemPanelProps> = ({ document, node, 
   const info = useMemo(() => gridItemInfo(document, node.id), [document, node.id]);
   if (!info) return null;
 
-  const title = info.kind === 'grid'
-    ? 'Grid Item'
-    : info.kind === 'columns'
-      ? 'Column Item'
-      : 'Row Item';
+  const title =
+    info.kind === 'grid' ? 'Grid Item' : info.kind === 'columns' ? 'Column Item' : 'Row Item';
 
   return (
     <section class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
       <div class="flex items-center justify-between gap-2">
         <span class="text-xs font-semibold text-text-faint">{title}</span>
-        <span class="text-xs text-text-faint">R{info.row} C{info.column}</span>
+        <span class="text-xs text-text-faint">
+          R{info.row} C{info.column}
+        </span>
       </div>
       <div class="grid grid-cols-[2.25rem_2.25rem_2.25rem] grid-rows-[2.25rem_2.25rem_2.25rem] justify-center gap-1">
-        {GRID_ITEM_MOVES.map(move => {
+        {GRID_ITEM_MOVES.map((move) => {
           const disabled = gridMoveTargetIndex(info, move.direction) === null;
           return (
             <button
@@ -2540,15 +3220,20 @@ const GridItemPanel: FunctionComponent<GridItemPanelProps> = ({ document, node, 
               disabled={disabled}
               title={move.label}
               aria-label={move.label}
-              class={`${move.className} flex h-9 w-9 items-center justify-center rounded-input border text-xs transition-colors ${disabled
-                ? 'cursor-not-allowed border-border-subtle bg-surface-elevated text-text-faint opacity-50'
-                : 'border-border-base bg-surface-elevated text-text-base hover:border-accent-base hover:bg-accent-subtle hover:text-accent-text'}`}
+              class={`${move.className} flex h-9 w-9 items-center justify-center rounded-input border text-xs transition-colors ${
+                disabled
+                  ? 'cursor-not-allowed border-border-subtle bg-surface-elevated text-text-faint opacity-50'
+                  : 'border-border-base bg-surface-elevated text-text-base hover:border-accent-base hover:bg-accent-subtle hover:text-accent-text'
+              }`}
             >
               {move.icon}
             </button>
           );
         })}
-        <div class="col-start-2 row-start-2 flex h-9 w-9 items-center justify-center rounded-input border border-dashed border-border-base bg-surface-elevated" aria-hidden="true">
+        <div
+          class="col-start-2 row-start-2 flex h-9 w-9 items-center justify-center rounded-input border border-dashed border-border-base bg-surface-elevated"
+          aria-hidden="true"
+        >
           <span class="h-1.5 w-1.5 rounded-full bg-text-faint" />
         </div>
       </div>
@@ -2557,26 +3242,31 @@ const GridItemPanel: FunctionComponent<GridItemPanelProps> = ({ document, node, 
 };
 
 interface BoxModelPanelProps {
-  node:     BuilderNode;
+  node: BuilderNode;
   onUpdate: (props: Record<string, unknown>) => void;
 }
 
 interface ParsedBoxValue {
   value: string;
-  unit:  BoxModelUnit;
+  unit: BoxModelUnit;
 }
 
 const BoxModelPanel: FunctionComponent<BoxModelPanelProps> = ({ node, onUpdate }) => {
-  const responsiveBreakpoint = useUiStore(s => s.responsiveBreakpoint);
+  const responsiveBreakpoint = useUiStore((s) => s.responsiveBreakpoint);
   const activeClasses = useMemo(() => classesForNode(node), [node]);
   const styleVars = useMemo(() => styleVarsForNode(node), [node]);
 
-  const updateSide = (kind: BoxModelKind, side: BoxModelSide, nextValue: string, nextUnit: BoxModelUnit): void => {
+  const updateSide = (
+    kind: BoxModelKind,
+    side: BoxModelSide,
+    nextValue: string,
+    nextUnit: BoxModelUnit
+  ): void => {
     const variableName = boxModelVariableName(kind, side, responsiveBreakpoint);
     const className = boxModelClassName(kind, side, responsiveBreakpoint);
     const normalizedValue = normalizeBoxModelNumber(nextValue);
     const nextVars = { ...styleVars };
-    const nextClasses = activeClasses.filter(currentClass => currentClass !== className);
+    const nextClasses = activeClasses.filter((currentClass) => currentClass !== className);
 
     if (normalizedValue === '') {
       delete nextVars[variableName];
@@ -2589,17 +3279,24 @@ const BoxModelPanel: FunctionComponent<BoxModelPanelProps> = ({ node, onUpdate }
   };
 
   const clearKind = (kind: BoxModelKind): void => {
-    const classNames = new Set(BOX_MODEL_SIDES.map(({ side }) => boxModelClassName(kind, side, responsiveBreakpoint)));
+    const classNames = new Set(
+      BOX_MODEL_SIDES.map(({ side }) => boxModelClassName(kind, side, responsiveBreakpoint))
+    );
     const nextVars = { ...styleVars };
-    BOX_MODEL_SIDES.forEach(({ side }) => delete nextVars[boxModelVariableName(kind, side, responsiveBreakpoint)]);
+    BOX_MODEL_SIDES.forEach(
+      ({ side }) => delete nextVars[boxModelVariableName(kind, side, responsiveBreakpoint)]
+    );
     onUpdate({
-      twClasses: activeClasses.filter(className => !classNames.has(className)),
+      twClasses: activeClasses.filter((className) => !classNames.has(className)),
       twStyleVars: nextVars,
     });
   };
 
   const hasAnySpacing = BOX_MODEL_SIDES.some(({ side }) => {
-    return boxModelVariableName('margin', side, responsiveBreakpoint) in styleVars || boxModelVariableName('padding', side, responsiveBreakpoint) in styleVars;
+    return (
+      boxModelVariableName('margin', side, responsiveBreakpoint) in styleVars ||
+      boxModelVariableName('padding', side, responsiveBreakpoint) in styleVars
+    );
   });
 
   return (
@@ -2611,14 +3308,21 @@ const BoxModelPanel: FunctionComponent<BoxModelPanelProps> = ({ node, onUpdate }
             type="button"
             onClick={() => {
               const classNames = new Set(
-                (['margin', 'padding'] as BoxModelKind[]).flatMap(kind => BOX_MODEL_SIDES.map(({ side }) => boxModelClassName(kind, side, responsiveBreakpoint))),
+                (['margin', 'padding'] as BoxModelKind[]).flatMap((kind) =>
+                  BOX_MODEL_SIDES.map(({ side }) =>
+                    boxModelClassName(kind, side, responsiveBreakpoint)
+                  )
+                )
               );
               const nextVars = { ...styleVars };
               BOX_MODEL_SIDES.forEach(({ side }) => {
                 delete nextVars[boxModelVariableName('margin', side, responsiveBreakpoint)];
                 delete nextVars[boxModelVariableName('padding', side, responsiveBreakpoint)];
               });
-              onUpdate({ twClasses: activeClasses.filter(className => !classNames.has(className)), twStyleVars: nextVars });
+              onUpdate({
+                twClasses: activeClasses.filter((className) => !classNames.has(className)),
+                twStyleVars: nextVars,
+              });
             }}
             class="rounded-input px-2 py-1 text-xs font-medium text-feedback-danger hover:bg-surface-overlay"
           >
@@ -2650,17 +3354,27 @@ const BoxModelPanel: FunctionComponent<BoxModelPanelProps> = ({ node, onUpdate }
 };
 
 interface BoxModelEditorProps {
-  kind:      BoxModelKind;
-  title:     string;
+  kind: BoxModelKind;
+  title: string;
   breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   styleVars: Record<string, string>;
-  onClear:   () => void;
-  onChange:  (side: BoxModelSide, value: string, unit: BoxModelUnit) => void;
+  onClear: () => void;
+  onChange: (side: BoxModelSide, value: string, unit: BoxModelUnit) => void;
 }
 
-const BoxModelEditor: FunctionComponent<BoxModelEditorProps> = ({ kind, title, breakpoint, styleVars, onClear, onChange }) => {
+const BoxModelEditor: FunctionComponent<BoxModelEditorProps> = ({
+  kind,
+  title,
+  breakpoint,
+  styleVars,
+  onClear,
+  onChange,
+}) => {
   const values = Object.fromEntries(
-    BOX_MODEL_SIDES.map(({ side }) => [side, parseBoxModelValue(styleVars[boxModelVariableName(kind, side, breakpoint)])]),
+    BOX_MODEL_SIDES.map(({ side }) => [
+      side,
+      parseBoxModelValue(styleVars[boxModelVariableName(kind, side, breakpoint)]),
+    ])
   ) as Record<BoxModelSide, ParsedBoxValue>;
   const hasValues = BOX_MODEL_SIDES.some(({ side }) => values[side].value !== '');
 
@@ -2668,9 +3382,7 @@ const BoxModelEditor: FunctionComponent<BoxModelEditorProps> = ({ kind, title, b
     <details open={hasValues} class="rounded-input border border-border-subtle bg-surface-elevated">
       <summary class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-xs font-medium text-text-muted">
         <span>{title}</span>
-        {hasValues && (
-          <span class="text-text-faint">Custom</span>
-        )}
+        {hasValues && <span class="text-text-faint">Custom</span>}
       </summary>
       <div class="space-y-2 border-t border-border-subtle p-2">
         {hasValues && (
@@ -2684,32 +3396,52 @@ const BoxModelEditor: FunctionComponent<BoxModelEditorProps> = ({ kind, title, b
             </button>
           </div>
         )}
-      <div class="grid grid-cols-[1fr_4.75rem_1fr] grid-rows-[auto_auto_auto] gap-2 rounded-input border border-border-subtle bg-surface-elevated p-2">
-        <div class="col-start-2 row-start-1">
-          <BoxSideInput side="top" config={BOX_MODEL_SIDES[0]} state={values.top} onChange={onChange} />
+        <div class="grid grid-cols-[1fr_4.75rem_1fr] grid-rows-[auto_auto_auto] gap-2 rounded-input border border-border-subtle bg-surface-elevated p-2">
+          <div class="col-start-2 row-start-1">
+            <BoxSideInput
+              side="top"
+              config={BOX_MODEL_SIDES[0]}
+              state={values.top}
+              onChange={onChange}
+            />
+          </div>
+          <div class="col-start-1 row-start-2 flex items-center">
+            <BoxSideInput
+              side="left"
+              config={BOX_MODEL_SIDES[3]}
+              state={values.left}
+              onChange={onChange}
+            />
+          </div>
+          <div class="col-start-2 row-start-2 flex min-h-16 items-center justify-center rounded-input border border-dashed border-border-base bg-surface-base text-[11px] font-medium text-text-faint">
+            {title}
+          </div>
+          <div class="col-start-3 row-start-2 flex items-center">
+            <BoxSideInput
+              side="right"
+              config={BOX_MODEL_SIDES[1]}
+              state={values.right}
+              onChange={onChange}
+            />
+          </div>
+          <div class="col-start-2 row-start-3">
+            <BoxSideInput
+              side="bottom"
+              config={BOX_MODEL_SIDES[2]}
+              state={values.bottom}
+              onChange={onChange}
+            />
+          </div>
         </div>
-        <div class="col-start-1 row-start-2 flex items-center">
-          <BoxSideInput side="left" config={BOX_MODEL_SIDES[3]} state={values.left} onChange={onChange} />
-        </div>
-        <div class="col-start-2 row-start-2 flex min-h-16 items-center justify-center rounded-input border border-dashed border-border-base bg-surface-base text-[11px] font-medium text-text-faint">
-          {title}
-        </div>
-        <div class="col-start-3 row-start-2 flex items-center">
-          <BoxSideInput side="right" config={BOX_MODEL_SIDES[1]} state={values.right} onChange={onChange} />
-        </div>
-        <div class="col-start-2 row-start-3">
-          <BoxSideInput side="bottom" config={BOX_MODEL_SIDES[2]} state={values.bottom} onChange={onChange} />
-        </div>
-      </div>
       </div>
     </details>
   );
 };
 
 interface BoxSideInputProps {
-  side:     BoxModelSide;
-  config:   BoxModelSideConfig | undefined;
-  state:    ParsedBoxValue;
+  side: BoxModelSide;
+  config: BoxModelSideConfig | undefined;
+  state: ParsedBoxValue;
   onChange: (side: BoxModelSide, value: string, unit: BoxModelUnit) => void;
 }
 
@@ -2720,17 +3452,23 @@ const BoxSideInput: FunctionComponent<BoxSideInputProps> = ({ side, config, stat
       type="number"
       inputMode="decimal"
       value={state.value}
-      onInput={event => onChange(side, (event.target as HTMLInputElement).value, state.unit)}
+      onInput={(event) => onChange(side, (event.target as HTMLInputElement).value, state.unit)}
       class="w-full min-w-0 rounded-input border border-border-base bg-surface-base px-2 py-1 text-center text-xs text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
       placeholder={config?.shortLabel ?? ''}
     />
     <select
       value={state.unit}
-      onChange={event => onChange(side, state.value, (event.target as HTMLSelectElement).value as BoxModelUnit)}
+      onChange={(event) =>
+        onChange(side, state.value, (event.target as HTMLSelectElement).value as BoxModelUnit)
+      }
       class="w-full rounded-input border border-border-base bg-surface-base px-1 py-1 text-center text-xs text-text-muted focus:border-accent-base focus:outline-none"
       aria-label={`${config?.label ?? side} unit`}
     >
-      {BOX_MODEL_UNITS.map(unit => <option key={unit} value={unit}>{unit}</option>)}
+      {BOX_MODEL_UNITS.map((unit) => (
+        <option key={unit} value={unit}>
+          {unit}
+        </option>
+      ))}
     </select>
   </label>
 );
@@ -2744,8 +3482,8 @@ const FlexLayoutPanel: FunctionComponent<FlexLayoutPanelProps> = ({ node, onUpda
   };
 
   const applyClassGroup = (group: FlexLayoutGroup, className: string): void => {
-    const groupValues = new Set(group.options.map(option => option.value));
-    const nextClasses = activeClasses.filter(currentClass => {
+    const groupValues = new Set(group.options.map((option) => option.value));
+    const nextClasses = activeClasses.filter((currentClass) => {
       const baseClassName = baseClassForLayoutPanel(currentClass);
       return !baseClassName || !groupValues.has(baseClassName);
     });
@@ -2759,10 +3497,12 @@ const FlexLayoutPanel: FunctionComponent<FlexLayoutPanelProps> = ({ node, onUpda
   };
 
   const clearFlexLayout = (): void => {
-    updateClasses(activeClasses.filter(className => {
-      const baseClassName = baseClassForLayoutPanel(className);
-      return !baseClassName || !FLEX_MANAGED_BASE_CLASSES.has(baseClassName);
-    }));
+    updateClasses(
+      activeClasses.filter((className) => {
+        const baseClassName = baseClassForLayoutPanel(className);
+        return !baseClassName || !FLEX_MANAGED_BASE_CLASSES.has(baseClassName);
+      })
+    );
   };
 
   return (
@@ -2791,13 +3531,13 @@ const FlexLayoutPanel: FunctionComponent<FlexLayoutPanelProps> = ({ node, onUpda
         </button>
       ) : (
         <div class="space-y-3">
-          {FLEX_LAYOUT_GROUPS.map(group => (
+          {FLEX_LAYOUT_GROUPS.map((group) => (
             <VisualOptionControl
               key={group.id}
               label={group.label}
               value={activeValueForFlexGroup(activeClasses, group)}
               options={group.options}
-              onChange={className => applyClassGroup(group, String(className))}
+              onChange={(className) => applyClassGroup(group, String(className))}
             />
           ))}
         </div>
@@ -2808,12 +3548,16 @@ const FlexLayoutPanel: FunctionComponent<FlexLayoutPanelProps> = ({ node, onUpda
 
 function gridItemInfo(document: BuilderDocument, nodeId: string): GridItemInfo | null {
   for (const parent of Object.values(document.nodes)) {
-    if (parent.type !== 'bky/grid' && parent.type !== 'bky/columns' && parent.type !== 'bky/rows') continue;
+    if (parent.type !== 'bky/grid' && parent.type !== 'bky/columns' && parent.type !== 'bky/rows')
+      continue;
     for (const children of Object.values(parent.slots)) {
       const index = (children ?? []).indexOf(nodeId);
       if (index === -1) continue;
       if (parent.type === 'bky/columns' || parent.type === 'bky/rows') {
-        const slotName = Object.entries(parent.slots).find(([, slotChildren]) => (slotChildren ?? []).includes(nodeId))?.[0] ?? '';
+        const slotName =
+          Object.entries(parent.slots).find(([, slotChildren]) =>
+            (slotChildren ?? []).includes(nodeId)
+          )?.[0] ?? '';
         const slotIndex = structuredSlotIndex(parent.type, slotName);
         if (slotIndex === null) return null;
 
@@ -2882,26 +3626,34 @@ function structuredSlotIndex(type: 'bky/columns' | 'bky/rows', slotName: string)
 }
 
 function structuredSlotCount(node: BuilderNode, prefix: 'column-' | 'row-'): number {
-  return Object.keys(node.slots).filter(slotName => slotName.startsWith(prefix)).length;
+  return Object.keys(node.slots).filter((slotName) => slotName.startsWith(prefix)).length;
 }
 
 function gridColumnCountForNode(node: BuilderNode): number {
   return boundedInteger(node.props['columns'] ?? node.variants['columns'], 3, 1, 12);
 }
 
-function gridRowCountForNode(node: BuilderNode, childCount: number, positions: Map<string, GridItemPosition>): number {
+function gridRowCountForNode(
+  node: BuilderNode,
+  childCount: number,
+  positions: Map<string, GridItemPosition>
+): number {
   const configuredRows = boundedInteger(node.props['rows'] ?? node.variants['rows'], 1, 1, 12);
   const implicitRows = Math.max(1, Math.ceil(childCount / gridColumnCountForNode(node)));
-  const placedRows = Math.max(1, ...Array.from(positions.values(), position => position.row));
+  const placedRows = Math.max(1, ...Array.from(positions.values(), (position) => position.row));
   return Math.max(configuredRows, implicitRows, placedRows);
 }
 
 interface GridItemPosition {
-  row:    number;
+  row: number;
   column: number;
 }
 
-function gridChildPositionsForInspector(document: BuilderDocument, children: string[], columns: number): Map<string, GridItemPosition> {
+function gridChildPositionsForInspector(
+  document: BuilderDocument,
+  children: string[],
+  columns: number
+): Map<string, GridItemPosition> {
   const positions = new Map<string, GridItemPosition>();
   children.forEach((childId, index) => {
     positions.set(childId, gridPositionForNode(document.nodes[childId], index, columns));
@@ -2909,7 +3661,11 @@ function gridChildPositionsForInspector(document: BuilderDocument, children: str
   return positions;
 }
 
-function gridPositionForNode(node: BuilderNode | undefined, index: number, columns: number): GridItemPosition {
+function gridPositionForNode(
+  node: BuilderNode | undefined,
+  index: number,
+  columns: number
+): GridItemPosition {
   const fallback = {
     column: (index % columns) + 1,
     row: Math.floor(index / columns) + 1,
@@ -2930,10 +3686,15 @@ function boundedInteger(value: unknown, fallback: number, min: number, max: numb
 function classesForNode(node: BuilderNode): string[] {
   const rawClasses = node.props['twClasses'];
   if (typeof rawClasses === 'string') {
-    return rawClasses.split(/\s+/).map(className => className.trim()).filter(Boolean);
+    return rawClasses
+      .split(/\s+/)
+      .map((className) => className.trim())
+      .filter(Boolean);
   }
   if (Array.isArray(rawClasses)) {
-    return rawClasses.filter((className): className is string => typeof className === 'string' && className.trim() !== '');
+    return rawClasses.filter(
+      (className): className is string => typeof className === 'string' && className.trim() !== ''
+    );
   }
   return [];
 }
@@ -2944,8 +3705,12 @@ function styleVarsForNode(node: BuilderNode): Record<string, string> {
   return Object.fromEntries(
     Object.entries(rawVars).filter((entry): entry is [string, string] => {
       const [name, value] = entry;
-      return /^--bky-[a-z0-9-]+$/.test(name) && typeof value === 'string' && normalizeStyleVarValue(name, value) !== null;
-    }),
+      return (
+        /^--bky-[a-z0-9-]+$/.test(name) &&
+        typeof value === 'string' &&
+        normalizeStyleVarValue(name, value) !== null
+      );
+    })
   );
 }
 
@@ -2965,14 +3730,26 @@ function normalizeStyleVarValue(name: string, value: string): string | null {
   return null;
 }
 
-function boxModelVariableName(kind: BoxModelKind, side: BoxModelSide, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'base'): string {
+function boxModelVariableName(
+  kind: BoxModelKind,
+  side: BoxModelSide,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'base'
+): string {
   return breakpoint === 'base'
     ? `${BOX_MODEL_VAR_PREFIX[kind]}-${side}`
     : `${BOX_MODEL_VAR_PREFIX[kind].replace('--bky-space-', `--bky-space-${breakpoint}-`)}-${side}`;
 }
 
-function boxModelClassName(kind: BoxModelKind, side: BoxModelSide, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'base'): string {
-  return composeUtilityClass(breakpointPrefix(breakpoint), `${BOX_MODEL_CLASS_PREFIX[kind][side]}-[var(${boxModelVariableName(kind, side, breakpoint)})]`, false);
+function boxModelClassName(
+  kind: BoxModelKind,
+  side: BoxModelSide,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'base'
+): string {
+  return composeUtilityClass(
+    breakpointPrefix(breakpoint),
+    `${BOX_MODEL_CLASS_PREFIX[kind][side]}-[var(${boxModelVariableName(kind, side, breakpoint)})]`,
+    false
+  );
 }
 
 function parseBoxModelValue(value: string | undefined): ParsedBoxValue {
@@ -2995,23 +3772,25 @@ function normalizeCssLength(value: string): string | null {
 }
 
 function shouldShowFlexLayoutPanel(node: BuilderNode, activeClasses: string[]): boolean {
-  return FLEX_LAYOUT_NODE_TYPES.has(node.type)
-    || activeClasses.some(className => {
+  return (
+    FLEX_LAYOUT_NODE_TYPES.has(node.type) ||
+    activeClasses.some((className) => {
       const baseClassName = baseClassForLayoutPanel(className);
       return baseClassName !== null && FLEX_MANAGED_BASE_CLASSES.has(baseClassName);
-    });
+    })
+  );
 }
 
 function activeValueForFlexGroup(activeClasses: string[], group: FlexLayoutGroup): string {
   const activeBaseClasses = activeClasses
     .map(baseClassForLayoutPanel)
     .filter((className): className is string => className !== null);
-  const activeOption = group.options.find(option => activeBaseClasses.includes(option.value));
+  const activeOption = group.options.find((option) => activeBaseClasses.includes(option.value));
   return activeOption?.value ?? group.defaultValue;
 }
 
 function hasFlexDisplayClass(activeClasses: string[]): boolean {
-  return activeClasses.some(className => {
+  return activeClasses.some((className) => {
     const baseClassName = baseClassForLayoutPanel(className);
     return baseClassName === 'flex' || baseClassName === 'inline-flex';
   });
@@ -3028,8 +3807,12 @@ function colorVarsForNode(node: BuilderNode): Record<string, string> {
   return Object.fromEntries(
     Object.entries(rawVars).filter((entry): entry is [string, string] => {
       const [name, value] = entry;
-      return /^--bky-tw-[a-z0-9-]+$/.test(name) && typeof value === 'string' && normalizeHexColor(value) !== null;
-    }),
+      return (
+        /^--bky-tw-[a-z0-9-]+$/.test(name) &&
+        typeof value === 'string' &&
+        normalizeHexColor(value) !== null
+      );
+    })
   );
 }
 
@@ -3039,13 +3822,17 @@ function isStyleColorControl(control: BlockControl): boolean {
 
 function styleColorRoleForControl(control: BlockControl): StyleColorRoleConfig | null {
   const roleId = STYLE_COLOR_CONTROL_ROLES[control.variantKey ?? control.id];
-  return roleId ? STYLE_COLOR_ROLES[roleId] ?? null : null;
+  return roleId ? (STYLE_COLOR_ROLES[roleId] ?? null) : null;
 }
 
-function responsiveStyleRole(role: StyleColorRoleConfig, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'): StyleColorRoleConfig {
+function responsiveStyleRole(
+  role: StyleColorRoleConfig,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+): StyleColorRoleConfig {
   if (breakpoint === 'base') return role;
 
-  const replaceScope = (value: string | undefined): string | undefined => value?.replace('-base-', `-${breakpoint}-`);
+  const replaceScope = (value: string | undefined): string | undefined =>
+    value?.replace('-base-', `-${breakpoint}-`);
 
   return {
     ...role,
@@ -3057,17 +3844,32 @@ function responsiveStyleRole(role: StyleColorRoleConfig, breakpoint: 'base' | 's
   };
 }
 
-function customColorPropsForNode(node: BuilderNode, role: StyleColorRoleConfig, color: string, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'): Record<string, unknown> {
+function customColorPropsForNode(
+  node: BuilderNode,
+  role: StyleColorRoleConfig,
+  color: string,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+): Record<string, unknown> {
   const nextStyleVars = { ...styleVarsForNode(node) };
   if (role.gradientVariableName) delete nextStyleVars[role.gradientVariableName];
   return {
-    twClasses: [...new Set([...removeStyleColorRuntimeClasses(classesForNode(node), role), customColorClassName(role, breakpoint)])],
+    twClasses: [
+      ...new Set([
+        ...removeStyleColorRuntimeClasses(classesForNode(node), role),
+        customColorClassName(role, breakpoint),
+      ]),
+    ],
     twColorVars: { ...colorVarsForNode(node), [role.variableName]: color },
     twStyleVars: nextStyleVars,
   };
 }
 
-function customGradientPropsForNode(node: BuilderNode, role: StyleColorRoleConfig, gradient: string, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'): Record<string, unknown> {
+function customGradientPropsForNode(
+  node: BuilderNode,
+  role: StyleColorRoleConfig,
+  gradient: string,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+): Record<string, unknown> {
   const nextColorVars = { ...colorVarsForNode(node) };
   delete nextColorVars[role.variableName];
 
@@ -3079,13 +3881,21 @@ function customGradientPropsForNode(node: BuilderNode, role: StyleColorRoleConfi
   }
 
   return {
-    twClasses: [...new Set([...removeStyleColorRuntimeClasses(classesForNode(node), role), customGradientClassName(role, breakpoint)])],
+    twClasses: [
+      ...new Set([
+        ...removeStyleColorRuntimeClasses(classesForNode(node), role),
+        customGradientClassName(role, breakpoint),
+      ]),
+    ],
     twColorVars: nextColorVars,
     twStyleVars: { ...styleVarsForNode(node), [role.gradientVariableName]: gradient },
   };
 }
 
-function clearStyleColorPropsForNode(node: BuilderNode, role: StyleColorRoleConfig): Record<string, unknown> {
+function clearStyleColorPropsForNode(
+  node: BuilderNode,
+  role: StyleColorRoleConfig
+): Record<string, unknown> {
   const nextColorVars = { ...colorVarsForNode(node) };
   delete nextColorVars[role.variableName];
   const nextStyleVars = { ...styleVarsForNode(node) };
@@ -3101,7 +3911,9 @@ function clearStyleColorPropsForNode(node: BuilderNode, role: StyleColorRoleConf
 }
 
 function removeStyleColorRuntimeClasses(classes: string[], role: StyleColorRoleConfig): string[] {
-  return classes.filter(className => !isCustomColorClass(className, role) && !isCustomGradientClass(className, role));
+  return classes.filter(
+    (className) => !isCustomColorClass(className, role) && !isCustomGradientClass(className, role)
+  );
 }
 
 function isCustomColorClass(className: string, role: StyleColorRoleConfig): boolean {
@@ -3112,23 +3924,46 @@ function isCustomGradientClass(className: string, role: StyleColorRoleConfig): b
   return !!role.gradientVariableName && className.includes(`var(${role.gradientVariableName})`);
 }
 
-function customColorClassName(role: StyleColorRoleConfig, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'): string {
-  return composeUtilityClass(breakpointPrefix(breakpoint), `${role.utility}-[var(${role.variableName})]`, true);
+function customColorClassName(
+  role: StyleColorRoleConfig,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+): string {
+  return composeUtilityClass(
+    breakpointPrefix(breakpoint),
+    `${role.utility}-[var(${role.variableName})]`,
+    true
+  );
 }
 
-function customGradientClassName(role: StyleColorRoleConfig, breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'): string {
+function customGradientClassName(
+  role: StyleColorRoleConfig,
+  breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+): string {
   if (!role.gradientVariableName) return '';
-  return composeUtilityClass(breakpointPrefix(breakpoint), `bg-[linear-gradient(var(${role.gradientVariableName}))]`, true);
+  return composeUtilityClass(
+    breakpointPrefix(breakpoint),
+    `bg-[linear-gradient(var(${role.gradientVariableName}))]`,
+    true
+  );
 }
 
-function customBackgroundImagePropsForNode(node: BuilderNode, role: StyleColorRoleConfig, imageUrl: string, _breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl', focalX = 50, focalY = 50): Record<string, unknown> {
+function customBackgroundImagePropsForNode(
+  node: BuilderNode,
+  role: StyleColorRoleConfig,
+  imageUrl: string,
+  _breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl',
+  focalX = 50,
+  focalY = 50
+): Record<string, unknown> {
   const nextColorVars = { ...colorVarsForNode(node) };
   delete nextColorVars[role.variableName];
   const nextStyleVars = { ...styleVarsForNode(node) };
   if (role.gradientVariableName) delete nextStyleVars[role.gradientVariableName];
   if (role.imageUrlVariableName) nextStyleVars[role.imageUrlVariableName] = imageUrl;
-  if (role.imagePositionXVariableName) nextStyleVars[role.imagePositionXVariableName] = `${percentageProp(focalX, 50)}%`;
-  if (role.imagePositionYVariableName) nextStyleVars[role.imagePositionYVariableName] = `${percentageProp(focalY, 50)}%`;
+  if (role.imagePositionXVariableName)
+    nextStyleVars[role.imagePositionXVariableName] = `${percentageProp(focalX, 50)}%`;
+  if (role.imagePositionYVariableName)
+    nextStyleVars[role.imagePositionYVariableName] = `${percentageProp(focalY, 50)}%`;
   return {
     twClasses: removeStyleColorRuntimeClasses(classesForNode(node), role),
     twColorVars: nextColorVars,
@@ -3212,7 +4047,11 @@ function colorPickerValue(value: string): string {
 
   const hex = normalized.slice(1);
   if (hex.length === 3 || hex.length === 4) {
-    return `#${hex.slice(0, 3).split('').map(char => `${char}${char}`).join('')}`;
+    return `#${hex
+      .slice(0, 3)
+      .split('')
+      .map((char) => `${char}${char}`)
+      .join('')}`;
   }
   if (hex.length === 8) return `#${hex.slice(0, 6)}`;
   return normalized;
@@ -3239,7 +4078,8 @@ function breakpointPrefix(breakpoint: 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
 function composeUtilityClass(prefix: string, className: string, forceOverride: boolean): string {
   const utilityClass = `${prefix}${className}`;
-  if (!forceOverride || utilityClass.includes(':!') || utilityClass.startsWith('!')) return utilityClass;
+  if (!forceOverride || utilityClass.includes(':!') || utilityClass.startsWith('!'))
+    return utilityClass;
 
   const lastVariantSeparator = utilityClass.lastIndexOf(':');
   if (lastVariantSeparator === -1) return `!${utilityClass}`;
@@ -3252,30 +4092,39 @@ function composeMotionClass(guard: string, className: string): string {
 
 function isMotionTimingClass(className: string): boolean {
   const baseClassName = baseUtilityClass(className);
-  return MOTION_TRANSITION_VALUES.has(baseClassName)
-    || MOTION_EASING_VALUES.has(baseClassName)
-    || /^duration-\d+$/.test(baseClassName)
-    || /^delay-\d+$/.test(baseClassName);
+  return (
+    MOTION_TRANSITION_VALUES.has(baseClassName) ||
+    MOTION_EASING_VALUES.has(baseClassName) ||
+    /^duration-\d+$/.test(baseClassName) ||
+    /^delay-\d+$/.test(baseClassName)
+  );
 }
 
 function variantPrefixesForClass(className: string): string[] {
   const parts = className.trim().split(':');
-  return parts.slice(0, -1).map(part => part.replace(/^!/, ''));
+  return parts.slice(0, -1).map((part) => part.replace(/^!/, ''));
 }
 
 function isHoverAnimationClass(className: string, allowedValues: Set<string>): boolean {
-  return variantPrefixesForClass(className).includes('hover') && allowedValues.has(baseUtilityClass(className));
+  return (
+    variantPrefixesForClass(className).includes('hover') &&
+    allowedValues.has(baseUtilityClass(className))
+  );
 }
 
 function activeHoverAnimationValue(activeClasses: string[], allowedValues: Set<string>): string {
-  const activeClass = activeClasses.find(className => isHoverAnimationClass(className, allowedValues));
+  const activeClass = activeClasses.find((className) =>
+    isHoverAnimationClass(className, allowedValues)
+  );
   return activeClass ? baseUtilityClass(activeClass) : '';
 }
 
 function isManagedAnimationClass(className: string): boolean {
-  return isMotionTimingClass(className)
-    || isHoverAnimationClass(className, HOVER_SCALE_VALUES)
-    || isHoverAnimationClass(className, HOVER_OPACITY_VALUES);
+  return (
+    isMotionTimingClass(className) ||
+    isHoverAnimationClass(className, HOVER_SCALE_VALUES) ||
+    isHoverAnimationClass(className, HOVER_OPACITY_VALUES)
+  );
 }
 
 function baseUtilityClass(className: string): string {
@@ -3285,16 +4134,16 @@ function baseUtilityClass(className: string): string {
 
 function tabsForDefinition(def: BlockDefinition): InspectorTab[] {
   if (def.editorConfig?.tabs?.length) {
-    return def.editorConfig.tabs.map(tab => ({
+    return def.editorConfig.tabs.map((tab) => ({
       id: tab.id,
       label: tab.label,
-      controls: tab.controls.map(control => normalizeControl(control, def)),
+      controls: tab.controls.map((control) => normalizeControl(control, def)),
     }));
   }
 
   const controls = controlsForDefinition(def);
   const grouped = new Map<string, BlockControl[]>();
-  controls.forEach(control => {
+  controls.forEach((control) => {
     const tabId = control.tab ?? tabForControl(control.id);
     grouped.set(tabId, [...(grouped.get(tabId) ?? []), control]);
   });
@@ -3308,48 +4157,52 @@ function tabsForDefinition(def: BlockDefinition): InspectorTab[] {
 
 function ensureFixedInspectorTabs(tabs: InspectorTab[]): InspectorTab[] {
   return orderInspectorTabs(
-    ensureAdvancedTab(
-      ensureAnimationsTab(
-        ensureStyleTab(
-          ensureLayoutTab(
-            ensureContentTab(tabs),
-          ),
-        ),
-      ),
-    ),
+    ensureAdvancedTab(ensureAnimationsTab(ensureStyleTab(ensureLayoutTab(ensureContentTab(tabs)))))
   );
 }
 
 function ensureContentTab(tabs: InspectorTab[]): InspectorTab[] {
-  if (tabs.some(tab => tab.id === 'content')) return tabs;
+  if (tabs.some((tab) => tab.id === 'content')) return tabs;
   return [{ id: 'content', label: t('inspector.contentTab', 'Content'), controls: [] }, ...tabs];
 }
 
 function ensureLayoutTab(tabs: InspectorTab[]): InspectorTab[] {
-  if (tabs.some(tab => tab.id === 'layout')) return tabs;
-  const classesIndex = tabs.findIndex(tab => tab.id === 'classes');
-  const layoutTab: InspectorTab = { id: 'layout', label: t('inspector.layoutTab', 'Layout'), controls: [] };
+  if (tabs.some((tab) => tab.id === 'layout')) return tabs;
+  const classesIndex = tabs.findIndex((tab) => tab.id === 'classes');
+  const layoutTab: InspectorTab = {
+    id: 'layout',
+    label: t('inspector.layoutTab', 'Layout'),
+    controls: [],
+  };
   if (classesIndex === -1) return [...tabs, layoutTab];
   return [...tabs.slice(0, classesIndex), layoutTab, ...tabs.slice(classesIndex)];
 }
 
 function ensureStyleTab(tabs: InspectorTab[]): InspectorTab[] {
-  if (tabs.some(tab => tab.id === 'style')) return tabs;
-  const classesIndex = tabs.findIndex(tab => tab.id === 'classes');
-  const styleTab: InspectorTab = { id: 'style', label: t('inspector.styleTab', 'Style'), controls: [] };
+  if (tabs.some((tab) => tab.id === 'style')) return tabs;
+  const classesIndex = tabs.findIndex((tab) => tab.id === 'classes');
+  const styleTab: InspectorTab = {
+    id: 'style',
+    label: t('inspector.styleTab', 'Style'),
+    controls: [],
+  };
   if (classesIndex === -1) return [...tabs, styleTab];
   return [...tabs.slice(0, classesIndex), styleTab, ...tabs.slice(classesIndex)];
 }
 
 function ensureAdvancedTab(tabs: InspectorTab[]): InspectorTab[] {
-  if (tabs.some(tab => tab.id === 'advanced')) return tabs;
+  if (tabs.some((tab) => tab.id === 'advanced')) return tabs;
   return [...tabs, { id: 'advanced', label: t('inspector.advancedTab', 'Advanced'), controls: [] }];
 }
 
 function ensureAnimationsTab(tabs: InspectorTab[]): InspectorTab[] {
-  if (tabs.some(tab => tab.id === 'animations')) return tabs;
-  const classesIndex = tabs.findIndex(tab => tab.id === 'classes');
-  const animationsTab: InspectorTab = { id: 'animations', label: t('inspector.animationsTab', 'Animations'), controls: [] };
+  if (tabs.some((tab) => tab.id === 'animations')) return tabs;
+  const classesIndex = tabs.findIndex((tab) => tab.id === 'classes');
+  const animationsTab: InspectorTab = {
+    id: 'animations',
+    label: t('inspector.animationsTab', 'Animations'),
+    controls: [],
+  };
   if (classesIndex === -1) return [...tabs, animationsTab];
   return [...tabs.slice(0, classesIndex), animationsTab, ...tabs.slice(classesIndex)];
 }
@@ -3367,16 +4220,16 @@ function orderInspectorTabs(tabs: InspectorTab[]): InspectorTab[] {
   return tabs
     .map((tab, index) => ({ tab, index }))
     .sort((left, right) => {
-      const leftOrder = tabOrder[left.tab.id] ?? (100 + left.index);
-      const rightOrder = tabOrder[right.tab.id] ?? (100 + right.index);
+      const leftOrder = tabOrder[left.tab.id] ?? 100 + left.index;
+      const rightOrder = tabOrder[right.tab.id] ?? 100 + right.index;
       return leftOrder - rightOrder || left.index - right.index;
     })
-    .map(entry => entry.tab);
+    .map((entry) => entry.tab);
 }
 
 function controlsForDefinition(def: BlockDefinition): BlockControl[] {
   if (def.editorConfig?.controls?.length) {
-    return def.editorConfig.controls.map(control => normalizeControl(control, def));
+    return def.editorConfig.controls.map((control) => normalizeControl(control, def));
   }
 
   const schema = def.schema as { properties?: Record<string, SchemaProperty> };
@@ -3388,7 +4241,7 @@ function controlsForDefinition(def: BlockDefinition): BlockControl[] {
         type: 'variant',
         label: labelFromId(id),
         variantKey: id,
-        options: Object.keys(variantOptions).map(option => [option, labelFromId(option)]),
+        options: Object.keys(variantOptions).map((option) => [option, labelFromId(option)]),
         tab: tabForControl(id),
       };
     }
@@ -3398,7 +4251,7 @@ function controlsForDefinition(def: BlockDefinition): BlockControl[] {
         id,
         type: 'select',
         label: labelFromId(id),
-        options: property.enum.map(option => [String(option), labelFromId(String(option))]),
+        options: property.enum.map((option) => [String(option), labelFromId(String(option))]),
         tab: tabForControl(id),
       };
     }
@@ -3408,7 +4261,13 @@ function controlsForDefinition(def: BlockDefinition): BlockControl[] {
     }
 
     if (property.type === 'number' || property.type === 'integer') {
-      const control: BlockControl = { id, type: 'number', label: labelFromId(id), tab: tabForControl(id), step: 1 };
+      const control: BlockControl = {
+        id,
+        type: 'number',
+        label: labelFromId(id),
+        tab: tabForControl(id),
+        step: 1,
+      };
       if (property.minimum !== undefined) control.min = property.minimum;
       if (property.maximum !== undefined) control.max = property.maximum;
       return control;
@@ -3446,7 +4305,10 @@ function normalizeControl(control: RawControl, def?: BlockDefinition): BlockCont
     const variantKey = normalized.variantKey ?? control.id;
     const variantOptions = def?.variants?.[variantKey];
     if (variantOptions) {
-      normalized.options = Object.keys(variantOptions).map(option => [option, labelFromId(option)]);
+      normalized.options = Object.keys(variantOptions).map((option) => [
+        option,
+        labelFromId(option),
+      ]);
     }
   }
   if (control.tab) normalized.tab = control.tab;
@@ -3461,9 +4323,11 @@ function normalizeControl(control: RawControl, def?: BlockDefinition): BlockCont
 function isLinkTargetControl(control: BlockControl): boolean {
   if (control.id !== 'target' || control.type !== 'select') return false;
   const options = control.options ?? [];
-  return options.length === 2
-    && options.some(([value]) => String(value) === '_self')
-    && options.some(([value]) => String(value) === '_blank');
+  return (
+    options.length === 2 &&
+    options.some(([value]) => String(value) === '_self') &&
+    options.some(([value]) => String(value) === '_blank')
+  );
 }
 
 function interactionsForNode(node: BuilderNode): InteractionRule[] {
@@ -3477,24 +4341,39 @@ function interactionsForNode(node: BuilderNode): InteractionRule[] {
     const action = stringProp(entry['action']);
     if (!isInteractionEvent(event) || !isInteractionAction(action)) return [];
 
-    return [{
-      event,
-      action,
-      target: stringProp(entry['target']),
-      className: stringProp(entry['className']) || undefined,
-      delay: typeof entry['delay'] === 'number' && Number.isFinite(entry['delay']) ? Math.max(0, Math.round(entry['delay'])) : 0,
-      debounce: typeof entry['debounce'] === 'number' && Number.isFinite(entry['debounce']) ? Math.max(0, Math.round(entry['debounce'])) : 0,
-      throttle: typeof entry['throttle'] === 'number' && Number.isFinite(entry['throttle']) ? Math.max(0, Math.round(entry['throttle'])) : 0,
-      once: entry['once'] === true,
-      preventDefault: entry['preventDefault'] !== false,
-      stopPropagation: entry['stopPropagation'] === true,
-      device: isInteractionDevice(stringProp(entry['device'], 'any')) ? stringProp(entry['device'], 'any') as InteractionDevice : 'any',
-      loginState: isInteractionLoginState(stringProp(entry['loginState'], 'any')) ? stringProp(entry['loginState'], 'any') as InteractionLoginState : 'any',
-      queryKey: stringProp(entry['queryKey']) || undefined,
-      queryValue: stringProp(entry['queryValue']) || undefined,
-      cookieKey: stringProp(entry['cookieKey']) || undefined,
-      cookieValue: stringProp(entry['cookieValue']) || undefined,
-    }];
+    return [
+      {
+        event,
+        action,
+        target: stringProp(entry['target']),
+        className: stringProp(entry['className']) || undefined,
+        delay:
+          typeof entry['delay'] === 'number' && Number.isFinite(entry['delay'])
+            ? Math.max(0, Math.round(entry['delay']))
+            : 0,
+        debounce:
+          typeof entry['debounce'] === 'number' && Number.isFinite(entry['debounce'])
+            ? Math.max(0, Math.round(entry['debounce']))
+            : 0,
+        throttle:
+          typeof entry['throttle'] === 'number' && Number.isFinite(entry['throttle'])
+            ? Math.max(0, Math.round(entry['throttle']))
+            : 0,
+        once: entry['once'] === true,
+        preventDefault: entry['preventDefault'] !== false,
+        stopPropagation: entry['stopPropagation'] === true,
+        device: isInteractionDevice(stringProp(entry['device'], 'any'))
+          ? (stringProp(entry['device'], 'any') as InteractionDevice)
+          : 'any',
+        loginState: isInteractionLoginState(stringProp(entry['loginState'], 'any'))
+          ? (stringProp(entry['loginState'], 'any') as InteractionLoginState)
+          : 'any',
+        queryKey: stringProp(entry['queryKey']) || undefined,
+        queryValue: stringProp(entry['queryValue']) || undefined,
+        cookieKey: stringProp(entry['cookieKey']) || undefined,
+        cookieValue: stringProp(entry['cookieValue']) || undefined,
+      },
+    ];
   });
 }
 
@@ -3512,14 +4391,19 @@ const INSPECTOR_OVERLAY_TYPES = new Set([
   'bky/command-palette',
 ]);
 
-function overlayIdsForInspector(document: BuilderDocument | null, currentNodeId?: string): string[] {
+function overlayIdsForInspector(
+  document: BuilderDocument | null,
+  currentNodeId?: string
+): string[] {
   if (!document) return [];
 
-  return Array.from(new Set(
-    Object.values(document.nodes)
-      .filter(node => INSPECTOR_OVERLAY_TYPES.has(node.type) && node.id !== currentNodeId)
-      .map(node => overlayIdForNode(node)),
-  )).sort((left, right) => left.localeCompare(right));
+  return Array.from(
+    new Set(
+      Object.values(document.nodes)
+        .filter((node) => INSPECTOR_OVERLAY_TYPES.has(node.type) && node.id !== currentNodeId)
+        .map((node) => overlayIdForNode(node))
+    )
+  ).sort((left, right) => left.localeCompare(right));
 }
 
 function isInteractionEvent(value: string): value is InteractionEvent {
@@ -3527,7 +4411,15 @@ function isInteractionEvent(value: string): value is InteractionEvent {
 }
 
 function isInteractionAction(value: string): value is InteractionAction {
-  return ['overlay.open', 'overlay.close', 'overlay.toggle', 'class.add', 'class.remove', 'class.toggle', 'custom.emit'].includes(value);
+  return [
+    'overlay.open',
+    'overlay.close',
+    'overlay.toggle',
+    'class.add',
+    'class.remove',
+    'class.toggle',
+    'custom.emit',
+  ].includes(value);
 }
 
 function isInteractionDevice(value: string): value is InteractionDevice {
@@ -3538,7 +4430,9 @@ function isInteractionLoginState(value: string): value is InteractionLoginState 
   return ['any', 'logged-in', 'logged-out'].includes(value);
 }
 
-function currentTargetValue(event: JSX.TargetedEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): string {
+function currentTargetValue(
+  event: JSX.TargetedEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+): string {
   return event.currentTarget.value;
 }
 
@@ -3549,12 +4443,27 @@ function normalizeInteractionDelay(value: string): number {
 }
 
 function isControlType(type: string): type is BlockControl['type'] {
-  return ['text', 'richtext', 'select', 'toggle', 'variant', 'number', 'range', 'color', 'media'].includes(type);
+  return [
+    'text',
+    'richtext',
+    'select',
+    'toggle',
+    'variant',
+    'number',
+    'range',
+    'color',
+    'media',
+  ].includes(type);
 }
 
 function valueForControl(node: BuilderNode, def: BlockDefinition, control: BlockControl): unknown {
   if (control.type === 'variant') {
-    return node.variants[control.variantKey ?? control.id] ?? node.props[control.id] ?? defaultFor(def, control.id) ?? '';
+    return (
+      node.variants[control.variantKey ?? control.id] ??
+      node.props[control.id] ??
+      defaultFor(def, control.id) ??
+      ''
+    );
   }
   return node.props[control.id] ?? defaultFor(def, control.id) ?? '';
 }
@@ -3565,10 +4474,70 @@ function defaultFor(def: BlockDefinition, id: string): unknown {
 }
 
 function tabForControl(id: string): string {
-  if (['content', 'text', 'label', 'href', 'target', 'alt', 'url', 'title', 'items', 'quote', 'citation', 'html'].includes(id)) return 'content';
-  if (['columns', 'rows', 'count', 'stackAt', 'maxWidth', 'contentWidth', 'fullWidth', 'minHeight', 'align', 'horizontalAlign', 'verticalAlign', 'alignItems', 'justifyItems', 'gap', 'rowGap', 'padding', 'paddingX', 'paddingY', 'width', 'aspectRatio', 'size'].includes(id)) return 'layout';
-  if (['transition', 'duration', 'delay', 'easing', 'guard', 'hoverScale', 'hoverOpacity'].includes(id)) return 'animations';
-  if (['background', 'textColor', 'color', 'tone', 'variant', 'rounded', 'border', 'radius', 'shadow', 'overflow'].includes(id)) return 'style';
+  if (
+    [
+      'content',
+      'text',
+      'label',
+      'href',
+      'target',
+      'alt',
+      'url',
+      'title',
+      'items',
+      'quote',
+      'citation',
+      'html',
+    ].includes(id)
+  )
+    return 'content';
+  if (
+    [
+      'columns',
+      'rows',
+      'count',
+      'stackAt',
+      'maxWidth',
+      'contentWidth',
+      'fullWidth',
+      'minHeight',
+      'align',
+      'horizontalAlign',
+      'verticalAlign',
+      'alignItems',
+      'justifyItems',
+      'gap',
+      'rowGap',
+      'padding',
+      'paddingX',
+      'paddingY',
+      'width',
+      'aspectRatio',
+      'size',
+    ].includes(id)
+  )
+    return 'layout';
+  if (
+    ['transition', 'duration', 'delay', 'easing', 'guard', 'hoverScale', 'hoverOpacity'].includes(
+      id
+    )
+  )
+    return 'animations';
+  if (
+    [
+      'background',
+      'textColor',
+      'color',
+      'tone',
+      'variant',
+      'rounded',
+      'border',
+      'radius',
+      'shadow',
+      'overflow',
+    ].includes(id)
+  )
+    return 'style';
   return 'advanced';
 }
 
@@ -3592,10 +4561,13 @@ function labelFromId(id: string): string {
   return id
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/[-_]/g, ' ')
-    .replace(/\b\w/g, char => char.toUpperCase());
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function mediaImageBindingsForControl(node: BuilderNode | undefined, control: BlockControl): ImageControlBindings | null {
+function mediaImageBindingsForControl(
+  node: BuilderNode | undefined,
+  control: BlockControl
+): ImageControlBindings | null {
   if (!node || control.mediaType !== 'image') return null;
   return IMAGE_CONTROL_BINDINGS[`${node.type}:${control.id}`] ?? null;
 }
@@ -3612,13 +4584,20 @@ function percentageProp(value: unknown, fallback: number): number {
   return Math.max(0, Math.min(100, Math.round(numericValue)));
 }
 
-function extractWordPressSizeOptions(sizes: Record<string, { width?: number; height?: number }> | undefined): Array<[string, string]> {
+function extractWordPressSizeOptions(
+  sizes: Record<string, { width?: number; height?: number }> | undefined
+): Array<[string, string]> {
   if (!sizes || typeof sizes !== 'object') return DEFAULT_IMAGE_SIZE_OPTIONS;
 
-  const dynamicOptions = Object.entries(sizes).map(([key, info]) => [
-    key,
-    info.width && info.height ? `${labelFromId(key)} (${info.width}x${info.height})` : labelFromId(key),
-  ] as [string, string]);
+  const dynamicOptions = Object.entries(sizes).map(
+    ([key, info]) =>
+      [
+        key,
+        info.width && info.height
+          ? `${labelFromId(key)} (${info.width}x${info.height})`
+          : labelFromId(key),
+      ] as [string, string]
+  );
 
   return mergeSelectOptions(DEFAULT_IMAGE_SIZE_OPTIONS, dynamicOptions);
 }
