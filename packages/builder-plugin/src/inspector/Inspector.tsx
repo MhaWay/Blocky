@@ -202,6 +202,7 @@ interface BlockControl {
   min?: number;
   max?: number;
   step?: number;
+  numericEnum?: boolean;
   mediaType?: string; // 'image' | 'video' | '' (any)
   mediaReturn?: string; // 'id' (default) | 'url'
 }
@@ -227,6 +228,47 @@ interface StyleColorControlProps {
   value: unknown;
   onVariantChange: (value: string) => void;
   onUpdate: (props: Record<string, unknown>) => void;
+}
+
+function SegmentedControl(props: {
+  label: string;
+  value: string;
+  options: Array<[string | number, string]>;
+  numericEnum?: boolean;
+  onChange: (v: unknown) => void;
+}) {
+  return (
+    <div class="space-y-1">
+      <span class="text-xs font-medium text-text-muted">{props.label}</span>
+      <div
+        class="flex overflow-hidden rounded-input border border-border-base"
+        role="group"
+        aria-label={props.label}
+      >
+        {props.options.map(([optionValue, optionLabel]) => {
+          const active = props.value === String(optionValue);
+          return (
+            <button
+              key={String(optionValue)}
+              type="button"
+              aria-pressed={active}
+              onClick={() =>
+                props.onChange(props.numericEnum ? Number(optionValue) : String(optionValue))
+              }
+              class={
+                'flex-1 px-2 py-1.5 text-xs font-medium transition-colors ' +
+                (active
+                  ? 'bg-accent-base text-white'
+                  : 'bg-surface-base text-text-muted hover:text-text-base')
+              }
+            >
+              {optionLabel}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 interface StyleColorRoleConfig {
@@ -780,6 +822,17 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({
     }
 
     const options = control.options ?? [];
+    if (options.length >= 2 && options.length <= 5) {
+      return (
+        <SegmentedControl
+          label={control.label}
+          value={strVal}
+          options={options}
+          numericEnum={control.numericEnum === true}
+          onChange={onChange}
+        />
+      );
+    }
     return (
       <label class="block space-y-1">
         <span class="text-xs font-medium text-text-muted">{control.label}</span>
@@ -787,7 +840,13 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base focus:border-accent-base focus:outline-none"
           value={strVal}
-          onChange={(e) => onChange((e.target as HTMLSelectElement).value)}
+          onChange={(e) =>
+            onChange(
+              control.numericEnum
+                ? Number((e.target as HTMLSelectElement).value)
+                : (e.target as HTMLSelectElement).value
+            )
+          }
         >
           {options.map(([val, label]) => (
             <option key={String(val)} value={String(val)}>
@@ -814,21 +873,66 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({
   }
 
   if (control.type === 'number' || control.type === 'range') {
+    const clamp = (next: number): number => {
+      if (control.min !== undefined) next = Math.max(control.min, next);
+      if (control.max !== undefined) next = Math.min(control.max, next);
+      return next;
+    };
+    const bounded = control.min !== undefined && control.max !== undefined;
+    const asSlider =
+      control.type === 'range' ||
+      (bounded && control.max! - control.min! <= 30 && (control.step ?? 1) >= 1);
+    const numVal = Number.isFinite(Number(strVal)) ? Number(strVal) : (control.min ?? 0);
+
+    if (asSlider) {
+      return (
+        <label class="block space-y-1">
+          <span class="flex items-center justify-between text-xs font-medium text-text-muted">
+            <span>{control.label}</span>
+            <span class="tabular-nums text-text-base">{clamp(numVal)}</span>
+          </span>
+          <input
+            type="range"
+            min={control.min}
+            max={control.max}
+            step={control.step ?? 1}
+            class="w-full accent-accent-base"
+            value={clamp(numVal)}
+            onInput={(e) => onChange(clamp(Number((e.target as HTMLInputElement).value)))}
+          />
+        </label>
+      );
+    }
+
     return (
       <label class="block space-y-1">
         <span class="flex items-center justify-between text-xs font-medium text-text-muted">
           <span>{control.label}</span>
-          {control.type === 'range' && <span>{strVal}</span>}
+          {(control.min !== undefined || control.max !== undefined) && (
+            <span class="text-[10px] text-text-faint">
+              {control.min ?? '-inf'}…{control.max ?? '+inf'}
+            </span>
+          )}
         </span>
         <input
-          type={control.type === 'range' ? 'range' : 'number'}
+          type="number"
           min={control.min}
           max={control.max}
-          step={control.step}
+          step={control.step ?? 1}
           class="w-full rounded-input border border-border-base bg-surface-base px-3 py-2 text-sm
                  text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
           value={strVal}
-          onInput={(e) => onChange(Number((e.target as HTMLInputElement).value))}
+          onInput={(e) => {
+            const raw = (e.target as HTMLInputElement).value;
+            if (raw.trim() === '' || !Number.isFinite(Number(raw))) return;
+            onChange(clamp(Number(raw)));
+          }}
+          onBlur={(e) => {
+            const input = e.target as HTMLInputElement;
+            if (input.value.trim() !== '' && Number.isFinite(Number(input.value))) {
+              input.value = String(clamp(Number(input.value)));
+            }
+          }}
         />
       </label>
     );
@@ -4247,13 +4351,17 @@ function controlsForDefinition(def: BlockDefinition): BlockControl[] {
     }
 
     if (Array.isArray(property.enum)) {
-      return {
+      const control: BlockControl = {
         id,
         type: 'select',
         label: labelFromId(id),
         options: property.enum.map((option) => [String(option), labelFromId(String(option))]),
         tab: tabForControl(id),
       };
+      if (property.enum.length > 0 && property.enum.every((option) => typeof option === 'number')) {
+        control.numericEnum = true;
+      }
+      return control;
     }
 
     if (property.type === 'boolean') {

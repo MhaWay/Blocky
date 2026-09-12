@@ -8,6 +8,7 @@ use Blocky\Core\Blocks\Renderer\Pipeline;
 use Blocky\Core\Compiler\PageCompiler;
 use Blocky\Core\Compiler\SiteStylesheet;
 use Blocky\Core\Support\CssSanitizer;
+use Blocky\Core\Support\PropsValidator;
 use Blocky\Core\Tokens\ThemeEngine;
 
 /**
@@ -175,6 +176,15 @@ final class DocumentController extends \WP_REST_Controller
         $json = \wp_json_encode($document);
         if ($json === false) {
             return new \WP_Error('invalid_document', \__('Invalid document structure.', 'blocky'), ['status' => 400]);
+        }
+
+        $errors = (new PropsValidator($this->registry))->validate(is_array($document) ? $document : []);
+        if ($errors !== []) {
+            return new \WP_Error(
+                'invalid_props',
+                \implode(\PHP_EOL, $errors),
+                ['status' => 400, 'errors' => $errors]
+            );
         }
 
         \update_post_meta($postId, '_blocky_document', $json);
