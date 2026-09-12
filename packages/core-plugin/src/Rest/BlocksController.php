@@ -24,7 +24,7 @@ final class BlocksController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => [$this, 'getItems'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('catalog:read', 'edit_posts'),
             ],
         ]);
 
@@ -32,7 +32,7 @@ final class BlocksController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => [$this, 'getItem'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('catalog:read', 'edit_posts'),
                 'args'                => [
                     'type' => ['required' => true, 'type' => 'string'],
                 ],
