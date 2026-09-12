@@ -2,7 +2,17 @@ import { expect, type Frame, type FrameLocator, type Locator, type Page } from '
 
 export const BUILDER_URL = '/wp-admin/admin.php?page=blocky-builder&post_id=9';
 
-type BuilderInspectorTabKey = 'content' | 'layout' | 'style' | 'animations' | 'advanced' | 'classes';
+export function builderUrl(postId = 9): string {
+  return `/wp-admin/admin.php?page=blocky-builder&post_id=${postId}`;
+}
+
+type BuilderInspectorTabKey =
+  | 'content'
+  | 'layout'
+  | 'style'
+  | 'animations'
+  | 'advanced'
+  | 'classes';
 
 export type BuilderInspectorCheck = {
   type: string;
@@ -12,6 +22,7 @@ type LoginToBuilderOptions = {
   attempts?: number;
   expectInspector?: boolean;
   waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit';
+  postId?: number;
 };
 
 const PREVIEW_IFRAME_SELECTOR = 'iframe[title="Page Preview"]';
@@ -23,7 +34,14 @@ const INSPECTOR_TAB_LABELS: Record<BuilderInspectorTabKey, string> = {
   advanced: 'Advanced',
   classes: 'Classes',
 };
-const INSPECTOR_TAB_ORDER: BuilderInspectorTabKey[] = ['content', 'layout', 'style', 'animations', 'advanced', 'classes'];
+const INSPECTOR_TAB_ORDER: BuilderInspectorTabKey[] = [
+  'content',
+  'layout',
+  'style',
+  'animations',
+  'advanced',
+  'classes',
+];
 
 export function builderPreviewFrame(page: Page): FrameLocator {
   return page.frameLocator(PREVIEW_IFRAME_SELECTOR);
@@ -33,13 +51,18 @@ export function inspectorTab(page: Page, name: string): Locator {
   return page.getByRole('button', { name, exact: true }).last();
 }
 
-export async function loginToBuilder(page: Page, options: LoginToBuilderOptions = {}): Promise<void> {
+export async function loginToBuilder(
+  page: Page,
+  options: LoginToBuilderOptions = {}
+): Promise<void> {
   const attempts = options.attempts ?? 2;
   const expectInspector = options.expectInspector ?? false;
   const waitUntil = options.waitUntil ?? 'networkidle';
 
+  const url = builderUrl(options.postId ?? 9);
+
   for (let attempt = 0; attempt < attempts; attempt += 1) {
-    await page.goto(BUILDER_URL, { waitUntil });
+    await page.goto(url, { waitUntil });
 
     if (page.url().includes('wp-login.php')) {
       await page.locator('#user_login').fill('admin');
@@ -57,14 +80,20 @@ export async function loginToBuilder(page: Page, options: LoginToBuilderOptions 
   await waitForBuilderReady(page, expectInspector);
 }
 
-export async function ensureCanvasBlock(page: Page, blockType: string, frame: FrameLocator = builderPreviewFrame(page)): Promise<void> {
+export async function ensureCanvasBlock(
+  page: Page,
+  blockType: string,
+  frame: FrameLocator = builderPreviewFrame(page)
+): Promise<void> {
   const existingCount = await frame.locator(`[data-bky-type="${blockType}"]`).count();
   if (existingCount > 0) {
     return;
   }
 
   await page.evaluate((type: string) => {
-    (window as Window & { BlockyBuilderDrag?: { blockType: string } }).BlockyBuilderDrag = { blockType: type };
+    (window as Window & { BlockyBuilderDrag?: { blockType: string } }).BlockyBuilderDrag = {
+      blockType: type,
+    };
   }, blockType);
 
   const previewFrame = await previewFrameHandle(page, 'transient block insertion');
@@ -73,7 +102,11 @@ export async function ensureCanvasBlock(page: Page, blockType: string, frame: Fr
   await expect(frame.locator(`[data-bky-type="${blockType}"]`).first()).toBeVisible();
 }
 
-export async function selectCanvasBlock(page: Page, blockType: string, frame: FrameLocator = builderPreviewFrame(page)): Promise<void> {
+export async function selectCanvasBlock(
+  page: Page,
+  blockType: string,
+  frame: FrameLocator = builderPreviewFrame(page)
+): Promise<void> {
   const block = frame.locator(`[data-bky-type="${blockType}"]`).first();
   await expect(block, `Missing block type ${blockType} in the preview canvas`).toBeVisible();
 
@@ -91,7 +124,7 @@ export async function selectCanvasBlock(page: Page, blockType: string, frame: Fr
 export async function assertBuilderInspectorChecks(
   page: Page,
   checks: BuilderInspectorCheck[],
-  frame: FrameLocator = builderPreviewFrame(page),
+  frame: FrameLocator = builderPreviewFrame(page)
 ): Promise<void> {
   for (const check of checks) {
     await ensureCanvasBlock(page, check.type, frame);
@@ -120,7 +153,10 @@ async function waitForBuilderReady(page: Page, expectInspector: boolean): Promis
 }
 
 async function previewFrameHandle(page: Page, purpose: string): Promise<Frame> {
-  const previewFrame = await page.locator(PREVIEW_IFRAME_SELECTOR).elementHandle().then(handle => handle?.contentFrame() ?? null);
+  const previewFrame = await page
+    .locator(PREVIEW_IFRAME_SELECTOR)
+    .elementHandle()
+    .then((handle) => handle?.contentFrame() ?? null);
   if (!previewFrame) {
     throw new Error(`Preview iframe is not available for ${purpose}`);
   }

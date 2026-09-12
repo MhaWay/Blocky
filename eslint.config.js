@@ -9,6 +9,8 @@ export default tseslint.config(
       '**/vendor/**',
       '**/*.config.js',
       'packages/core-plugin/resources/**',
+      // Playwright specs are transpiled by the runner, not by a tsc project.
+      'e2e/**',
       // Zero-dependency Node ESM proxy: plain JS, no tsconfig project.
       'packages/mcp-server/**',
       'packages/*/coverage/**',
