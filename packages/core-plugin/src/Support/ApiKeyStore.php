@@ -127,7 +127,10 @@ final class ApiKeyStore {
 	}
 
 	/**
-	 * Verify a presented key: hash lookup, revocation, scope, rate.
+	 * Verify a presented key: hash lookup, revocation, scope.
+	 *
+	 * Rate limiting is enforced by the caller (ApiAuth) so a throttled
+	 * request can answer 429 instead of masquerading as an invalid key.
 	 *
 	 * @param string $token Full bearer key.
 	 * @param string $scope Required scope.
@@ -157,10 +160,6 @@ final class ApiKeyStore {
 
 		$scopes = explode( ',', (string) ( $row['scopes'] ?? '' ) );
 		if ( ! in_array( $scope, $scopes, true ) ) {
-			return null;
-		}
-
-		if ( ! self::rate_limit_ok( (string) $row['public_id'] ) ) {
 			return null;
 		}
 
