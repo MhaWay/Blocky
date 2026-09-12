@@ -1,0 +1,38 @@
+/* Auto-generated — do not edit */
+/* Blocky design tokens — dark mode overrides */
+
+:root[data-mode='dark'] {
+  --bky-color-surface-base: #020617;
+  --bky-color-surface-elevated: #0f172a;
+  --bky-color-surface-overlay: #1e293b;
+  --bky-color-surface-sunken: #0f172a;
+  --bky-color-border-subtle: #1e293b;
+  --bky-color-border-base: #334155;
+  --bky-color-border-strong: #475569;
+  --bky-color-text-base: #f8fafc;
+  --bky-color-text-muted: #94a3b8;
+  --bky-color-text-faint: #475569;
+  --bky-color-accent-base: #60a5fa;
+  --bky-color-accent-hover: #93c5fd;
+  --bky-color-accent-subtle: #172554;
+  --bky-color-accent-text: #60a5fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-mode='auto'] {
+    --bky-color-surface-base: #020617;
+    --bky-color-surface-elevated: #0f172a;
+    --bky-color-surface-overlay: #1e293b;
+    --bky-color-surface-sunken: #0f172a;
+    --bky-color-border-subtle: #1e293b;
+    --bky-color-border-base: #334155;
+    --bky-color-border-strong: #475569;
+    --bky-color-text-base: #f8fafc;
+    --bky-color-text-muted: #94a3b8;
+    --bky-color-text-faint: #475569;
+    --bky-color-accent-base: #60a5fa;
+    --bky-color-accent-hover: #93c5fd;
+    --bky-color-accent-subtle: #172554;
+    --bky-color-accent-text: #60a5fa;
+  }
+}

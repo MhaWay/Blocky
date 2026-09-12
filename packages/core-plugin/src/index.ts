@@ -48,7 +48,14 @@ interface RegisteredOverlay {
 
 interface InteractionRule {
   event: 'click' | 'hover' | 'focus' | 'load';
-  action: 'overlay.open' | 'overlay.close' | 'overlay.toggle' | 'class.add' | 'class.remove' | 'class.toggle' | 'custom.emit';
+  action:
+    | 'overlay.open'
+    | 'overlay.close'
+    | 'overlay.toggle'
+    | 'class.add'
+    | 'class.remove'
+    | 'class.toggle'
+    | 'custom.emit';
   target: string;
   className?: string;
   delay?: number;
@@ -115,11 +122,13 @@ function exposeRuntime(): void {
       open: openOverlay,
       close: closeOverlay,
       toggle: toggleOverlay,
-      isOpen: overlayId => overlayStack.includes(overlayId),
+      isOpen: (overlayId) => overlayStack.includes(overlayId),
       refresh: refreshRuntime,
     },
     actions: {
-      run: (action, source) => executeAction(action, source),
+      run: (action, source) => {
+        executeAction(action, source);
+      },
       refresh: refreshRuntime,
     },
   };
@@ -137,19 +146,21 @@ function refreshRuntime(): void {
 }
 
 async function initLottieAnimations(): Promise<void> {
-  const roots = Array.from(document.querySelectorAll<HTMLElement>('[data-bky-lottie]')).filter(root => !initializedLottieNodes.has(root));
+  const roots = Array.from(document.querySelectorAll<HTMLElement>('[data-bky-lottie]')).filter(
+    (root) => !initializedLottieNodes.has(root)
+  );
   if (roots.length === 0) {
     return;
   }
 
   const module = await import('lottie-web')
-    .then(entry => ((entry as { default?: unknown }).default ?? entry) as LottieModule)
+    .then((entry) => ((entry as { default?: unknown }).default ?? entry) as LottieModule)
     .catch((): LottieModule | null => null);
   if (!module) {
     return;
   }
 
-  roots.forEach(root => {
+  roots.forEach((root) => {
     const path = root.dataset.bkyLottieSrc?.trim();
     const container = root.querySelector<HTMLElement>('[data-bky-lottie-canvas]');
     if (!path || !container) {
@@ -183,19 +194,21 @@ async function initLottieAnimations(): Promise<void> {
 }
 
 async function initCodeHighlights(): Promise<void> {
-  const roots = Array.from(document.querySelectorAll<HTMLElement>('[data-bky-code-highlight]')).filter(root => !initializedCodeHighlightNodes.has(root));
+  const roots = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-bky-code-highlight]')
+  ).filter((root) => !initializedCodeHighlightNodes.has(root));
   if (roots.length === 0) {
     return;
   }
 
   const module = await import('highlight.js')
-    .then(entry => ((entry as { default?: unknown }).default ?? entry) as HighlightJsModule)
+    .then((entry) => ((entry as { default?: unknown }).default ?? entry) as HighlightJsModule)
     .catch((): HighlightJsModule | null => null);
   if (!module) {
     return;
   }
 
-  roots.forEach(root => {
+  roots.forEach((root) => {
     const code = root.querySelector<HTMLElement>('code');
     if (code) {
       module.highlightElement(code);
@@ -207,7 +220,7 @@ async function initCodeHighlights(): Promise<void> {
 function registerOverlays(): void {
   const elements = document.querySelectorAll<HTMLElement>(OVERLAY_SELECTOR);
 
-  elements.forEach(element => {
+  elements.forEach((element) => {
     const overlayId = element.dataset.bkyOverlayId?.trim();
     if (!overlayId) return;
 
@@ -246,7 +259,7 @@ function registerOverlays(): void {
 }
 
 function bindOverlayGlobalHandlers(): void {
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', (event) => {
     const activeId = overlayStack[overlayStack.length - 1];
     if (!activeId) return;
 
@@ -263,7 +276,7 @@ function bindOverlayGlobalHandlers(): void {
     }
   });
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', (event) => {
     const activeId = overlayStack[overlayStack.length - 1];
     if (!activeId) return;
     const overlay = overlays.get(activeId);
@@ -272,9 +285,10 @@ function bindOverlayGlobalHandlers(): void {
     closeOverlay(activeId);
   });
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', (event) => {
     const target = event.target;
-    const source = target instanceof Element ? target.closest<HTMLElement>('[data-bky-cookie-set]') : null;
+    const source =
+      target instanceof Element ? target.closest<HTMLElement>('[data-bky-cookie-set]') : null;
     if (!source) return;
 
     const overlayId = source.dataset.bkyTarget?.trim() ?? '';
@@ -287,8 +301,10 @@ function bindOverlayGlobalHandlers(): void {
 
     const cookieValue = source.dataset.bkyCookieSet?.trim() === 'reject' ? 'rejected' : 'accepted';
     const durationDays = Number(overlay?.element.dataset.bkyCookieDuration ?? '180');
-    const maxAge = Number.isFinite(durationDays) ? Math.max(1, Math.round(durationDays)) * 24 * 60 * 60 : 180 * 24 * 60 * 60;
-    document.cookie = `${encodeURIComponent(cookieName)}=${encodeURIComponent(cookieValue)}; path=/; max-age=${maxAge}; SameSite=Lax`;
+    const maxAge = Number.isFinite(durationDays)
+      ? Math.max(1, Math.round(durationDays)) * 24 * 60 * 60
+      : 180 * 24 * 60 * 60;
+    document.cookie = `${encodeURIComponent(cookieName)}=${encodeURIComponent(cookieValue)}; path=/; max-age=${String(maxAge)}; SameSite=Lax`;
     closeOverlay(overlayId);
   });
 
@@ -296,7 +312,7 @@ function bindOverlayGlobalHandlers(): void {
   document.addEventListener('scroll', refreshAnchoredOverlayPositions, true);
 
   const closeRouteSensitiveOverlays = (): void => {
-    [...overlayStack].reverse().forEach(overlayId => {
+    [...overlayStack].reverse().forEach((overlayId) => {
       const overlay = overlays.get(overlayId);
       if (!overlay) return;
       if (parseOverlayRuleList(overlay.element.dataset.bkyCloseOn).includes('route-change')) {
@@ -310,30 +326,41 @@ function bindOverlayGlobalHandlers(): void {
 }
 
 function bindActionDelegates(): void {
-  const dispatchers: Array<[keyof DocumentEventMap, string]> = [
+  const dispatchers: [keyof DocumentEventMap, string][] = [
     ['click', 'click'],
     ['mouseenter', 'hover'],
     ['focusin', 'focus'],
   ];
 
   dispatchers.forEach(([domEvent, actionEvent]) => {
-    document.addEventListener(domEvent, event => {
-      const target = event.target;
-      const source = target instanceof Element ? target.closest<HTMLElement>(ACTION_SELECTOR) : null;
-      if (!source) return;
-      const interactions = interactionRulesForElement(source).filter(rule => rule.event === actionEvent);
-      if (interactions.length === 0) return;
+    document.addEventListener(
+      domEvent,
+      (event) => {
+        const target = event.target;
+        const source =
+          target instanceof Element ? target.closest<HTMLElement>(ACTION_SELECTOR) : null;
+        if (!source) return;
+        const interactions = interactionRulesForElement(source).filter(
+          (rule) => rule.event === actionEvent
+        );
+        if (interactions.length === 0) return;
 
-      interactions.forEach(rule => runInteractionRule(rule, source, event));
-    }, actionEvent === 'hover');
+        interactions.forEach((rule) => {
+          runInteractionRule(rule, source, event);
+        });
+      },
+      actionEvent === 'hover'
+    );
   });
 }
 
 function runLoadInteractions(): void {
-  document.querySelectorAll<HTMLElement>(ACTION_SELECTOR).forEach(source => {
+  document.querySelectorAll<HTMLElement>(ACTION_SELECTOR).forEach((source) => {
     interactionRulesForElement(source)
-      .filter(rule => rule.event === 'load')
-      .forEach(rule => runInteractionRule(rule, source));
+      .filter((rule) => rule.event === 'load')
+      .forEach((rule) => {
+        runInteractionRule(rule, source);
+      });
   });
 }
 
@@ -352,51 +379,75 @@ function interactionRulesForElement(source: HTMLElement): InteractionRule[] {
 
   const action = source.dataset.bkyAction?.trim();
   if (!action) return [];
+  const dsStr = (raw: string | undefined, fallback = ''): string => {
+    const trimmed = raw?.trim();
+    return trimmed === undefined || trimmed === '' ? fallback : trimmed;
+  };
+
   return normalizeInteractionRule({
-    event: source.dataset.bkyEvent?.trim() || 'click',
+    event: dsStr(source.dataset.bkyEvent, 'click'),
     action,
-    target: source.dataset.bkyTarget?.trim() || '',
-    className: source.dataset.bkyClass?.trim() || '',
+    target: dsStr(source.dataset.bkyTarget),
+    className: dsStr(source.dataset.bkyClass),
     delay: Number(source.dataset.bkyDelay ?? '0'),
     debounce: Number(source.dataset.bkyDebounce ?? '0'),
     throttle: Number(source.dataset.bkyThrottle ?? '0'),
     once: source.dataset.bkyOnce === 'true',
     preventDefault: source.dataset.bkyPreventDefault !== 'false',
     stopPropagation: source.dataset.bkyStopPropagation === 'true',
-    device: source.dataset.bkyDevice?.trim() || 'any',
-    loginState: source.dataset.bkyLoginState?.trim() || 'any',
-    queryKey: source.dataset.bkyQueryKey?.trim() || '',
-    queryValue: source.dataset.bkyQueryValue?.trim() || '',
-    cookieKey: source.dataset.bkyCookieKey?.trim() || '',
-    cookieValue: source.dataset.bkyCookieValue?.trim() || '',
+    device: dsStr(source.dataset.bkyDevice, 'any'),
+    loginState: dsStr(source.dataset.bkyLoginState, 'any'),
+    queryKey: dsStr(source.dataset.bkyQueryKey),
+    queryValue: dsStr(source.dataset.bkyQueryValue),
+    cookieKey: dsStr(source.dataset.bkyCookieKey),
+    cookieValue: dsStr(source.dataset.bkyCookieValue),
   });
 }
 
 function normalizeInteractionRule(entry: unknown): InteractionRule[] {
   if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return [];
 
-  const event = typeof entry['event'] === 'string' ? entry['event'].trim() : '';
-  const action = typeof entry['action'] === 'string' ? entry['action'].trim() : '';
+  const rec = entry as Record<string, unknown>;
+  const str = (key: string): string | undefined =>
+    typeof rec[key] === 'string' ? rec[key].trim() : undefined;
+  const num = (key: string): number =>
+    typeof rec[key] === 'number' && Number.isFinite(rec[key])
+      ? Math.max(0, Math.round(rec[key]))
+      : 0;
+
+  const event = str('event') ?? '';
+  const action = str('action') ?? '';
   if (!isInteractionEvent(event) || !isInteractionAction(action)) return [];
 
-  return [{
+  const rawDevice = str('device') ?? 'any';
+  const rawLoginState = str('loginState') ?? 'any';
+
+  const rule: InteractionRule = {
     event,
     action,
-    target: typeof entry['target'] === 'string' ? entry['target'].trim() : '',
-    className: typeof entry['className'] === 'string' ? entry['className'].trim() : undefined,
-    delay: typeof entry['delay'] === 'number' && Number.isFinite(entry['delay']) ? Math.max(0, Math.round(entry['delay'])) : 0,
-    debounce: typeof entry['debounce'] === 'number' && Number.isFinite(entry['debounce']) ? Math.max(0, Math.round(entry['debounce'])) : 0,
-    throttle: typeof entry['throttle'] === 'number' && Number.isFinite(entry['throttle']) ? Math.max(0, Math.round(entry['throttle'])) : 0,
-    once: entry['once'] === true,
-    preventDefault: entry['preventDefault'] !== false,
-    stopPropagation: entry['stopPropagation'] === true,
-    device: isInteractionDevice(typeof entry['device'] === 'string' ? entry['device'].trim() : 'any') ? (typeof entry['device'] === 'string' ? entry['device'].trim() : 'any') : 'any',
-    loginState: isInteractionLoginState(typeof entry['loginState'] === 'string' ? entry['loginState'].trim() : 'any') ? (typeof entry['loginState'] === 'string' ? entry['loginState'].trim() : 'any') : 'any',
-    queryKey: typeof entry['queryKey'] === 'string' ? entry['queryKey'].trim() : undefined,
-    queryValue: typeof entry['queryValue'] === 'string' ? entry['queryValue'].trim() : undefined,
-    cookieKey: typeof entry['cookieKey'] === 'string' ? entry['cookieKey'].trim() : undefined,
-    cookieValue: typeof entry['cookieValue'] === 'string' ? entry['cookieValue'].trim() : undefined,
-  }];
+    target: str('target') ?? '',
+    delay: num('delay'),
+    debounce: num('debounce'),
+    throttle: num('throttle'),
+    once: rec.once === true,
+    preventDefault: rec.preventDefault !== false,
+    stopPropagation: rec.stopPropagation === true,
+    device: isInteractionDevice(rawDevice) ? rawDevice : 'any',
+    loginState: isInteractionLoginState(rawLoginState) ? rawLoginState : 'any',
+  };
+
+  const className = str('className');
+  if (className !== undefined) rule.className = className;
+  const queryKey = str('queryKey');
+  if (queryKey !== undefined) rule.queryKey = queryKey;
+  const queryValue = str('queryValue');
+  if (queryValue !== undefined) rule.queryValue = queryValue;
+  const cookieKey = str('cookieKey');
+  if (cookieKey !== undefined) rule.cookieKey = cookieKey;
+  const cookieValue = str('cookieValue');
+  if (cookieValue !== undefined) rule.cookieValue = cookieValue;
+
+  return [rule];
 }
 
 function runInteractionRule(rule: InteractionRule, source: HTMLElement, event?: Event): void {
@@ -480,7 +531,7 @@ function executeAction(action: string, source: HTMLElement, rule?: InteractionRu
 function runClassAction(action: string, selector: string, className: string): void {
   if (!selector || !className) return;
 
-  document.querySelectorAll<HTMLElement>(selector).forEach(element => {
+  document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
     if (action === 'class.add') element.classList.add(className);
     if (action === 'class.remove') element.classList.remove(className);
     if (action === 'class.toggle') element.classList.toggle(className);
@@ -500,8 +551,7 @@ function matchesInteractionDevice(device: InteractionRule['device']): boolean {
   const width = window.innerWidth;
   if (device === 'mobile') return width < 640;
   if (device === 'tablet') return width >= 640 && width < 1024;
-  if (device === 'desktop') return width >= 1024;
-  return true;
+  return width >= 1024;
 }
 
 function matchesInteractionLoginState(loginState: InteractionRule['loginState']): boolean {
@@ -528,8 +578,8 @@ function readCookieValue(name: string): string | null {
   const encodedName = `${encodeURIComponent(name)}=`;
   const entry = document.cookie
     .split(';')
-    .map(value => value.trim())
-    .find(value => value.startsWith(encodedName));
+    .map((value) => value.trim())
+    .find((value) => value.startsWith(encodedName));
 
   if (!entry) return null;
 
@@ -553,7 +603,7 @@ function isInteractionThrottled(source: HTMLElement, ruleKey: string, throttle: 
 }
 
 function initAutomaticOverlayTriggers(): void {
-  overlays.forEach(overlay => {
+  overlays.forEach((overlay) => {
     if (overlay.element.dataset.bkyAutoTriggerBound === 'true') return;
 
     const cookieName = overlay.element.dataset.bkyCookieName?.trim();
@@ -568,7 +618,9 @@ function initAutomaticOverlayTriggers(): void {
       return;
     }
 
-    rules.forEach(rule => bindAutomaticOverlayTrigger(overlay, rule));
+    rules.forEach((rule) => {
+      bindAutomaticOverlayTrigger(overlay, rule);
+    });
     overlay.element.dataset.bkyAutoTriggerBound = 'true';
   });
 }
@@ -587,7 +639,11 @@ function bindAutomaticOverlayTrigger(overlay: RegisteredOverlay, rule: string): 
 
   if (rule === 'exit-intent') {
     const handler = (event: MouseEvent): void => {
-      if (event.relatedTarget === null && event.clientY <= 0 && openOverlay(overlay.id, null, 'auto')) {
+      if (
+        event.relatedTarget === null &&
+        event.clientY <= 0 &&
+        openOverlay(overlay.id, null, 'auto')
+      ) {
         document.removeEventListener('mouseout', handler);
       }
     };
@@ -630,11 +686,17 @@ function bindAutomaticOverlayTrigger(overlay: RegisteredOverlay, rule: string): 
     if (!selector) return;
     const target = document.querySelector<HTMLElement>(selector);
     if (!target) return;
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting) && openOverlay(overlay.id, null, 'auto')) {
-        observer.disconnect();
-      }
-    }, { threshold: 0.3 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries.some((entry) => entry.isIntersecting) &&
+          openOverlay(overlay.id, null, 'auto')
+        ) {
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
     observer.observe(target);
     return;
   }
@@ -642,10 +704,18 @@ function bindAutomaticOverlayTrigger(overlay: RegisteredOverlay, rule: string): 
   const inactivityMatch = /^inactivity:(\d+)$/.exec(rule);
   if (inactivityMatch) {
     const timeout = Math.max(250, Number(inactivityMatch[1] ?? '0'));
-    const activityEvents: Array<keyof DocumentEventMap> = ['mousemove', 'keydown', 'scroll', 'touchstart', 'click'];
+    const activityEvents: (keyof DocumentEventMap)[] = [
+      'mousemove',
+      'keydown',
+      'scroll',
+      'touchstart',
+      'click',
+    ];
     let timer = 0;
     const cleanup = (): void => {
-      activityEvents.forEach(eventName => document.removeEventListener(eventName, resetTimer, true));
+      activityEvents.forEach((eventName) => {
+        document.removeEventListener(eventName, resetTimer, true);
+      });
       if (timer) {
         window.clearTimeout(timer);
       }
@@ -660,7 +730,9 @@ function bindAutomaticOverlayTrigger(overlay: RegisteredOverlay, rule: string): 
         }
       }, timeout);
     };
-    activityEvents.forEach(eventName => document.addEventListener(eventName, resetTimer, true));
+    activityEvents.forEach((eventName) => {
+      document.addEventListener(eventName, resetTimer, true);
+    });
     resetTimer();
     return;
   }
@@ -670,7 +742,11 @@ function bindAutomaticOverlayTrigger(overlay: RegisteredOverlay, rule: string): 
     const key = queryParamMatch[1]?.trim() ?? '';
     const expectedValue = queryParamMatch[2]?.trim() ?? '';
     const params = new URLSearchParams(window.location.search);
-    if (key !== '' && params.has(key) && (expectedValue === '' || params.get(key) === expectedValue)) {
+    if (
+      key !== '' &&
+      params.has(key) &&
+      (expectedValue === '' || params.get(key) === expectedValue)
+    ) {
       openOverlay(overlay.id, null, 'auto');
     }
     return;
@@ -713,8 +789,8 @@ function bindAutomaticOverlayTrigger(overlay: RegisteredOverlay, rule: string): 
 function parseOverlayRuleList(value: string | undefined): string[] {
   return (value ?? '')
     .split(',')
-    .map(entry => entry.trim())
-    .filter(entry => entry !== '');
+    .map((entry) => entry.trim())
+    .filter((entry) => entry !== '');
 }
 
 function canAutoOpenOverlay(overlay: RegisteredOverlay): boolean {
@@ -782,7 +858,7 @@ function scheduleOverlayAutoClose(overlayId: string): void {
   if (!overlay) return;
 
   const timeoutRule = parseOverlayRuleList(overlay.element.dataset.bkyCloseOn)
-    .map(rule => /^timeout:(\d+)$/.exec(rule))
+    .map((rule) => /^timeout:(\d+)$/.exec(rule))
     .find(Boolean);
 
   if (!timeoutRule) return;
@@ -814,7 +890,9 @@ function matchesRouteExpression(expression: string): boolean {
 
   if (expression.startsWith('/') && expression.endsWith('/') && expression.length > 2) {
     try {
-      return new RegExp(expression.slice(1, -1)).test(window.location.pathname + window.location.search + window.location.hash);
+      return new RegExp(expression.slice(1, -1)).test(
+        window.location.pathname + window.location.search + window.location.hash
+      );
     } catch {
       return false;
     }
@@ -825,7 +903,7 @@ function matchesRouteExpression(expression: string): boolean {
 }
 
 function initCommandPalettes(): void {
-  document.querySelectorAll<HTMLElement>('[data-bky-command-palette]').forEach(root => {
+  document.querySelectorAll<HTMLElement>('[data-bky-command-palette]').forEach((root) => {
     if (initializedCommandPalettes.has(root)) return;
 
     const input = root.querySelector<HTMLInputElement>('[data-bky-command-search]');
@@ -837,8 +915,8 @@ function initCommandPalettes(): void {
 
     input.addEventListener('input', () => {
       const query = input.value.trim().toLowerCase();
-      items.forEach(item => {
-        const text = (item.dataset.bkyCommandItem ?? item.textContent ?? '').toLowerCase();
+      items.forEach((item) => {
+        const text = (item.dataset.bkyCommandItem ?? item.textContent).toLowerCase();
         item.hidden = query !== '' && !text.includes(query);
       });
     });
@@ -848,7 +926,7 @@ function initCommandPalettes(): void {
 }
 
 function initScrollProgressBars(): void {
-  document.querySelectorAll<HTMLElement>('[data-bky-scroll-progress]').forEach(root => {
+  document.querySelectorAll<HTMLElement>('[data-bky-scroll-progress]').forEach((root) => {
     if (initializedScrollProgressNodes.has(root)) return;
 
     const fill = root.querySelector<HTMLElement>('[data-bky-scroll-progress-fill]');
@@ -860,7 +938,7 @@ function initScrollProgressBars(): void {
     const update = (): void => {
       const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const progress = Math.max(0, Math.min(100, (window.scrollY / scrollable) * 100));
-      fill.style.width = `${progress}%`;
+      fill.style.width = `${String(progress)}%`;
     };
 
     window.addEventListener('scroll', update, { passive: true });
@@ -871,7 +949,7 @@ function initScrollProgressBars(): void {
 }
 
 function initStickyBars(): void {
-  document.querySelectorAll<HTMLElement>('[data-bky-sticky-bar]').forEach(root => {
+  document.querySelectorAll<HTMLElement>('[data-bky-sticky-bar]').forEach((root) => {
     if (initializedStickyBars.has(root)) return;
 
     const dismissButton = root.querySelector<HTMLElement>('[data-bky-sticky-dismiss]');
@@ -906,7 +984,7 @@ function initStickyBars(): void {
 }
 
 function initBackToTopButtons(): void {
-  document.querySelectorAll<HTMLElement>('[data-bky-back-to-top]').forEach(root => {
+  document.querySelectorAll<HTMLElement>('[data-bky-back-to-top]').forEach((root) => {
     if (initializedBackToTopButtons.has(root)) return;
 
     const threshold = Math.max(0, Math.min(100, Number(root.dataset.bkyShowAfter ?? '20')));
@@ -922,7 +1000,7 @@ function initBackToTopButtons(): void {
       setFloatingControlVisibility(root, progress >= threshold);
     };
 
-    root.addEventListener('click', event => {
+    root.addEventListener('click', (event) => {
       event.preventDefault();
       window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
     });
@@ -955,7 +1033,11 @@ function setFloatingControlVisibility(root: HTMLElement, visible: boolean): void
   root.classList.toggle('translate-y-4', !visible);
 }
 
-function openOverlay(id: string, trigger?: HTMLElement | null, origin: OverlayOpenOrigin = 'manual'): boolean {
+function openOverlay(
+  id: string,
+  trigger?: HTMLElement | null,
+  origin: OverlayOpenOrigin = 'manual'
+): boolean {
   const overlay = overlays.get(id.trim());
   if (!overlay) return false;
   if (overlayStack.includes(overlay.id)) return true;
@@ -985,7 +1067,9 @@ function openOverlay(id: string, trigger?: HTMLElement | null, origin: OverlayOp
   if (origin === 'auto') {
     markAutoOverlayOpen(overlay);
   }
-  overlay.element.dispatchEvent(new CustomEvent('blocky:overlay:open', { bubbles: true, detail: { id: overlay.id } }));
+  overlay.element.dispatchEvent(
+    new CustomEvent('blocky:overlay:open', { bubbles: true, detail: { id: overlay.id } })
+  );
   return true;
 }
 
@@ -1005,8 +1089,10 @@ function closeOverlay(id: string): boolean {
   overlay.element.style.zIndex = '';
   updateOverlayStackStyles();
   releaseScrollLock();
-  overlay.element.dispatchEvent(new CustomEvent('blocky:overlay:close', { bubbles: true, detail: { id: overlay.id } }));
-  overlay.lastTrigger?.focus?.();
+  overlay.element.dispatchEvent(
+    new CustomEvent('blocky:overlay:close', { bubbles: true, detail: { id: overlay.id } })
+  );
+  overlay.lastTrigger?.focus();
   return true;
 }
 
@@ -1039,6 +1125,9 @@ function trapFocus(event: KeyboardEvent, overlayId: string): void {
 
   const first = focusables[0];
   const last = focusables[focusables.length - 1];
+  if (!first || !last) {
+    return;
+  }
   const active = activeHTMLElement();
 
   if (event.shiftKey && active === first) {
@@ -1051,8 +1140,9 @@ function trapFocus(event: KeyboardEvent, overlayId: string): void {
 }
 
 function findFocusable(container: HTMLElement): HTMLElement[] {
-  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
-    .filter(element => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true');
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (element) => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true'
+  );
 }
 
 function activeHTMLElement(): HTMLElement | null {
@@ -1067,7 +1157,7 @@ function applyScrollLock(): void {
   bodyScrollPaddingRight = document.body.style.paddingRight;
   document.body.style.overflow = 'hidden';
   if (scrollbarWidth > 0) {
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    document.body.style.paddingRight = `${String(scrollbarWidth)}px`;
   }
 }
 
@@ -1084,7 +1174,7 @@ function prefersReducedMotion(): boolean {
 }
 
 function refreshAnchoredOverlayPositions(): void {
-  overlayStack.forEach(id => {
+  overlayStack.forEach((id) => {
     const overlay = overlays.get(id);
     if (!overlay) return;
     positionAnchoredOverlay(overlay.element, overlay.lastTrigger);
@@ -1103,28 +1193,34 @@ function positionAnchoredOverlay(element: HTMLElement, trigger: HTMLElement | nu
 
   const triggerRect = trigger.getBoundingClientRect();
   const panelRect = panel.getBoundingClientRect();
-  const placement = element.dataset.bkyPlacement?.trim() || (variant === 'tooltip' ? 'top' : 'bottom');
+  const placementRaw = element.dataset.bkyPlacement?.trim();
+  const placement =
+    placementRaw === undefined || placementRaw === ''
+      ? variant === 'tooltip'
+        ? 'top'
+        : 'bottom'
+      : placementRaw;
   const gap = variant === 'tooltip' ? 8 : 12;
   const viewportPadding = 12;
 
   let top = triggerRect.bottom + gap;
-  let left = triggerRect.left + (triggerRect.width / 2) - (panelRect.width / 2);
+  let left = triggerRect.left + triggerRect.width / 2 - panelRect.width / 2;
 
   if (placement === 'top') {
     top = triggerRect.top - panelRect.height - gap;
   } else if (placement === 'left') {
-    top = triggerRect.top + (triggerRect.height / 2) - (panelRect.height / 2);
+    top = triggerRect.top + triggerRect.height / 2 - panelRect.height / 2;
     left = triggerRect.left - panelRect.width - gap;
   } else if (placement === 'right') {
-    top = triggerRect.top + (triggerRect.height / 2) - (panelRect.height / 2);
+    top = triggerRect.top + triggerRect.height / 2 - panelRect.height / 2;
     left = triggerRect.right + gap;
   }
 
   const maxTop = Math.max(viewportPadding, window.innerHeight - panelRect.height - viewportPadding);
   const maxLeft = Math.max(viewportPadding, window.innerWidth - panelRect.width - viewportPadding);
   panel.style.position = 'fixed';
-  panel.style.top = `${clamp(top, viewportPadding, maxTop)}px`;
-  panel.style.left = `${clamp(left, viewportPadding, maxLeft)}px`;
+  panel.style.top = `${String(clamp(top, viewportPadding, maxTop))}px`;
+  panel.style.left = `${String(clamp(left, viewportPadding, maxLeft))}px`;
 }
 
 function resetAnchoredOverlayPosition(element: HTMLElement): void {
@@ -1144,14 +1240,24 @@ function isInteractionEvent(value: string): value is InteractionRule['event'] {
 }
 
 function isInteractionAction(value: string): value is InteractionRule['action'] {
-  return ['overlay.open', 'overlay.close', 'overlay.toggle', 'class.add', 'class.remove', 'class.toggle', 'custom.emit'].includes(value);
+  return [
+    'overlay.open',
+    'overlay.close',
+    'overlay.toggle',
+    'class.add',
+    'class.remove',
+    'class.toggle',
+    'custom.emit',
+  ].includes(value);
 }
 
 function isInteractionDevice(value: string): value is NonNullable<InteractionRule['device']> {
   return ['any', 'desktop', 'tablet', 'mobile'].includes(value);
 }
 
-function isInteractionLoginState(value: string): value is NonNullable<InteractionRule['loginState']> {
+function isInteractionLoginState(
+  value: string
+): value is NonNullable<InteractionRule['loginState']> {
   return ['any', 'logged-in', 'logged-out'].includes(value);
 }
 

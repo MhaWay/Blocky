@@ -118,7 +118,7 @@ final class PageCompiler
         preg_match_all('/class\s*=\s*["\']([^"\']+)["\']/', $html, $matches);
         $classes = [];
 
-        foreach ($matches[1] ?? [] as $classList) {
+        foreach ((array) $matches[1] as $classList) {
             foreach (preg_split('/\s+/', trim((string) $classList)) ?: [] as $className) {
                 if ($className === '') {
                     continue;

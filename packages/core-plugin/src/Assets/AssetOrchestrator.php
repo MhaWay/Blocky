@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Blocky\Core\Assets;
 
 use Blocky\Core\Compiler\PageCompiler;
+use Blocky\Core\Compiler\SiteStylesheet;
+use Blocky\Core\Compiler\TailwindBinary;
+use Blocky\Core\Support\CssSanitizer;
 use Blocky\Core\Tokens\ThemeEngine;
 use Blocky\Core\Tokens\ThemeSettings;
 
@@ -129,9 +132,16 @@ final class AssetOrchestrator
         \wp_add_inline_style('blocky-theme-overrides', $css);
     }
 
+    /**
+     * Site stylesheet as a static hashed file (L3 — docs/research/04).
+     *
+     * The bundled/CLI-compiled vocabulary is the only utility CSS the frontend
+     * needs. Page-scoped meta CSS is served inline ONLY as a stopgap when the
+     * server cannot rebuild the stylesheet (no exec) — never in the normal path.
+     */
     private function enqueueCompiledPageCss(): void
     {
-        if (!\is_singular()) {
+        if (!\is_singular() || !\is_main_query()) {
             return;
         }
 
@@ -140,14 +150,32 @@ final class AssetOrchestrator
             return;
         }
 
-        $css = \get_post_meta($postId, PageCompiler::CSS_CACHE_META_KEY, true);
-        if (!\is_string($css) || $css === '') {
+        if (!\is_string(\get_post_meta($postId, '_blocky_document', true))) {
             return;
         }
 
-        \wp_register_style('blocky-page-css', false, [], BLOCKY_CORE_VERSION);
-        \wp_enqueue_style('blocky-page-css');
-        \wp_add_inline_style('blocky-page-css', $css);
+        $site = SiteStylesheet::from_globals();
+        \wp_enqueue_style(
+            'blocky-site-css',
+            $site->available_url(),
+            [],
+            $site->available_version()
+        );
+
+        $built = (string) \get_option(SiteStylesheet::OPTION_FILE, '');
+        if ($built !== '') {
+            return;
+        }
+
+        // No site file yet: rebuild soon; without exec, serve page CSS inline as stopgap.
+        SiteStylesheet::schedule_rebuild();
+
+        if (TailwindBinary::detect_target() === null || !TailwindBinary::exec_available()) {
+            $css = CssSanitizer::sanitize((string) \get_post_meta($postId, PageCompiler::CSS_CACHE_META_KEY, true));
+            if ($css !== '') {
+                \wp_add_inline_style('blocky-site-css', $css);
+            }
+        }
     }
 
     // ── JS config ─────────────────────────────────────────────────────────────

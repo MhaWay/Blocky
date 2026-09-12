@@ -1,0 +1,191 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#3 \\$deps of function wp_enqueue_script_module expects array\\<int\\|string, array\\{id\\: string, import\\?\\: string\\}\\>, array\\{'blocky\\-vite\\-client'\\} given\\.$#"
+			count: 1
+			path: src/Assets/AssetOrchestrator.php
+
+		-
+			message: "#^Parameter \\$variants of class Blocky\\\\Core\\\\Blocks\\\\BlockDefinition constructor expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Registry.php
+
+		-
+			message: "#^Parameter \\$variants of class Blocky\\\\Core\\\\Blocks\\\\BlockDefinition constructor expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int\\|string, string\\>\\> given\\.$#"
+			count: 7
+			path: src/Blocks/Registry.php
+
+		-
+			message: "#^Offset 'nodes' on array\\{root\\: string, nodes\\: array\\<string, array\\<string, mixed\\>\\>\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Blocks/Renderer/Pipeline.php
+
+		-
+			message: "#^Offset 'root' on array\\{root\\: string, nodes\\: array\\<string, array\\<string, mixed\\>\\>\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Blocks/Renderer/Pipeline.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int\\|string, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/BasicGalleryRenderer.php
+
+		-
+			message: "#^Parameter \\#1 \\$args of function comment_form expects array\\{fields\\?\\: array\\{author\\: string, email\\: string, url\\: string, cookies\\: string\\}, comment_field\\?\\: string, must_log_in\\?\\: string, logged_in_as\\?\\: string, comment_notes_before\\?\\: string, comment_notes_after\\?\\: string, action\\?\\: string, novalidate\\?\\: bool, \\.\\.\\.\\}, array\\{title_reply\\: string, label_submit\\: string, comment_notes_before\\: ''\\|null, class_submit\\: 'submit inline\\-flex…'\\} given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/CommentFormRenderer.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_html expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/CommentsRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$timestamp of function wp_date expects int\\|null, int\\|false given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/CommentsRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/ContentCarouselRenderer.php
+
+		-
+			message: "#^Parameter \\#1 \\$post of function get_the_post_thumbnail expects int\\|WP_Post\\|null, int\\|false given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/FeaturedPostsRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int\\|string, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/GridRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/ImageCarouselRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int\\|string, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/ImageGalleryRenderer.php
+
+		-
+			message: "#^Access to an undefined property WP_Post\\:\\:\\$title\\.$#"
+			count: 4
+			path: src/Blocks/Renderers/MegaMenuRenderer.php
+
+		-
+			message: "#^Method Blocky\\\\Core\\\\Blocks\\\\Renderers\\\\MegaMenuRenderer\\:\\:normalizeItem\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/MegaMenuRenderer.php
+
+		-
+			message: "#^Method Blocky\\\\Core\\\\Blocks\\\\Renderers\\\\MegaMenuRenderer\\:\\:normalizeItems\\(\\) has parameter \\$rawItems with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/MegaMenuRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/MegaMenuRenderer.php
+
+		-
+			message: "#^Parameter \\#1 \\$args of function wp_nav_menu expects array\\{menu\\?\\: int\\|string\\|WP_Term, menu_class\\?\\: string, menu_id\\?\\: string, container\\?\\: string, container_class\\?\\: string, container_id\\?\\: string, container_aria_label\\?\\: string, fallback_cb\\?\\: \\(callable\\(\\)\\: mixed\\)\\|false, \\.\\.\\.\\}, array\\{theme_location\\: non\\-empty\\-string, container\\: false, echo\\: false, fallback_cb\\: false, menu_class\\: string\\} given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/NavMenuRenderer.php
+
+		-
+			message: "#^Parameter \\#1 \\$post of method Blocky\\\\Core\\\\Blocks\\\\Renderers\\\\PostNavigationRenderer\\:\\:linkHtml\\(\\) expects WP_Post\\|null, string\\|WP_Post\\|null given\\.$#"
+			count: 2
+			path: src/Blocks/Renderers/PostNavigationRenderer.php
+
+		-
+			message: "#^Parameter \\#2 \\$variantMap of method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:resolveVariantClasses\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<string, array\\<int, string\\>\\> given\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/PostsGridRenderer.php
+
+		-
+			message: "#^Cannot cast string\\|WP_Error to string\\.$#"
+			count: 2
+			path: src/Blocks/Renderers/TaxonomyListRenderer.php
+
+		-
+			message: "#^Cannot cast array\\|string to string\\.$#"
+			count: 1
+			path: src/Blocks/Renderers/VideoRenderer.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: src/Plugin.php
+
+		-
+			message: "#^Method Blocky\\\\Core\\\\Plugin\\:\\:queryFormSubmissionsByStatus\\(\\) has parameter \\$postStatus with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Plugin.php
+
+		-
+			message: "#^Offset 'type' on array on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Plugin.php
+
+		-
+			message: "#^Parameter \\#1 \\$route_namespace of function register_rest_route expects non\\-falsy\\-string, string given\\.$#"
+			count: 2
+			path: src/Rest/BlocksController.php
+
+		-
+			message: "#^Cannot access property \\$post_type on array\\<int\\|string, mixed\\>\\|WP_Post\\.$#"
+			count: 2
+			path: src/Rest/DocumentController.php
+
+		-
+			message: "#^Parameter \\#1 \\$post of method Blocky\\\\Core\\\\Rest\\\\DocumentController\\:\\:postPayload\\(\\) expects WP_Post, array\\<int\\|string, mixed\\>\\|WP_Post given\\.$#"
+			count: 4
+			path: src/Rest/DocumentController.php
+
+		-
+			message: "#^Parameter \\#1 \\$route_namespace of function register_rest_route expects non\\-falsy\\-string, string given\\.$#"
+			count: 6
+			path: src/Rest/DocumentController.php
+
+		-
+			message: "#^Parameter \\#1 \\$route_namespace of function register_rest_route expects non\\-falsy\\-string, string given\\.$#"
+			count: 3
+			path: src/Rest/ThemesController.php
+
+		-
+			message: "#^Method Blocky\\\\Core\\\\Support\\\\RenderContext\\:\\:__construct\\(\\) has parameter \\$nodeMap with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/RenderContext.php
+
+		-
+			message: "#^Offset 1 on array\\{string, numeric\\-string, non\\-empty\\-string, non\\-empty\\-string\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Support/RenderContext.php
+
+		-
+			message: "#^Offset 2 on array\\{string, numeric\\-string, non\\-empty\\-string, non\\-empty\\-string\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Support/RenderContext.php
+
+		-
+			message: "#^Offset 3 on array\\{string, numeric\\-string, non\\-empty\\-string, non\\-empty\\-string\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Support/RenderContext.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
+			count: 1
+			path: src/Support/RenderContext.php
+
+		-
+			message: "#^Method Blocky\\\\Core\\\\Tokens\\\\ThemeSettings\\:\\:sanitizeOverrides\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tokens/ThemeSettings.php
+
+		-
+			message: "#^Method Blocky\\\\Core\\\\Tokens\\\\ThemeSettings\\:\\:saveOverrides\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tokens/ThemeSettings.php

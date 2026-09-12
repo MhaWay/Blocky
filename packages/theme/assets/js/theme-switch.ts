@@ -3,9 +3,9 @@
  * Handles: mode (light/dark/auto), brand switching, persistence via cookie + localStorage
  */
 
-const COOKIE_MODE  = 'bky_mode';
+const COOKIE_MODE = 'bky_mode';
 const COOKIE_BRAND = 'bky_brand';
-const STORAGE_MODE  = 'bky-theme-mode';
+const STORAGE_MODE = 'bky-theme-mode';
 const STORAGE_BRAND = 'bky-theme-brand';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -33,8 +33,12 @@ async function ensureStylesheet(href: string): Promise<void> {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = href;
-    link.onload = () => resolve();
-    link.onerror = () => reject(new Error(`Failed to load stylesheet: ${href}`));
+    link.onload = () => {
+      resolve();
+    };
+    link.onerror = () => {
+      reject(new Error(`Failed to load stylesheet: ${href}`));
+    };
     document.head.appendChild(link);
   });
 
@@ -53,14 +57,14 @@ function setCookie(name: string, value: string, days = 365): void {
 // ── Current state ─────────────────────────────────────────────────────────────
 
 export function getThemeState(): ThemeState {
-  const mode  = (document.documentElement.dataset.mode  ?? 'auto') as ThemeMode;
+  const mode = (document.documentElement.dataset.mode ?? 'auto') as ThemeMode;
   const brand = document.documentElement.dataset.brand ?? 'default';
   return { mode, brand };
 }
 
 // ── Setters ───────────────────────────────────────────────────────────────────
 
-export async function setMode(mode: ThemeMode): Promise<void> {
+export function setMode(mode: ThemeMode): void {
   document.documentElement.dataset.mode = mode;
 
   const isDark =
@@ -77,7 +81,7 @@ export async function setMode(mode: ThemeMode): Promise<void> {
 }
 
 export async function setBrand(brand: ThemeBrand): Promise<void> {
-  const baseUrl = (document.documentElement.dataset.themeUrl ?? '') as string;
+  const baseUrl = document.documentElement.dataset.themeUrl ?? '';
 
   // Preload the brand CSS before switching to avoid flash
   if (brand !== 'default') {
@@ -99,13 +103,12 @@ export async function setBrand(brand: ThemeBrand): Promise<void> {
 
 export async function setTheme(state: Partial<ThemeState>): Promise<void> {
   const current = getThemeState();
-  const next = { ...current, ...state };
 
   if (state.brand !== undefined && state.brand !== current.brand) {
     await setBrand(state.brand);
   }
   if (state.mode !== undefined && state.mode !== current.mode) {
-    await setMode(state.mode);
+    setMode(state.mode);
   }
 }
 
