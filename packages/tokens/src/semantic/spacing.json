@@ -1,0 +1,17 @@
+{
+  "$schema": "https://design-tokens.github.io/dtcg/format/",
+  "layout": {
+    "gutter":        { "$value": "{spacing.6}",  "$type": "dimension", "$description": "Page horizontal padding" },
+    "gutter-wide":   { "$value": "{spacing.8}",  "$type": "dimension" },
+    "container-max": { "$value": "1280px",        "$type": "dimension" },
+    "section-gap":   { "$value": "{spacing.20}", "$type": "dimension" },
+    "block-gap":     { "$value": "{spacing.8}",  "$type": "dimension" }
+  },
+  "radius": {
+    "card":    { "$value": "{radius.xl}",   "$type": "dimension" },
+    "button":  { "$value": "{radius.md}",   "$type": "dimension" },
+    "input":   { "$value": "{radius.md}",   "$type": "dimension" },
+    "badge":   { "$value": "{radius.full}", "$type": "dimension" },
+    "image":   { "$value": "{radius.lg}",   "$type": "dimension" }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://design-tokens.github.io/dtcg/format/",
+  "color": {
+    "surface": {
+      "base":     { "$value": "{color.neutral.0}",   "$type": "color", "$description": "Main page background" },
+      "elevated": { "$value": "{color.neutral.50}",  "$type": "color", "$description": "Cards, popovers" },
+      "overlay":  { "$value": "{color.neutral.100}", "$type": "color", "$description": "Modals, drawers bg" },
+      "sunken":   { "$value": "{color.neutral.100}", "$type": "color", "$description": "Inputs, inset sections" }
+    },
+    "border": {
+      "subtle":  { "$value": "{color.neutral.100}", "$type": "color" },
+      "base":    { "$value": "{color.neutral.200}", "$type": "color" },
+      "strong":  { "$value": "{color.neutral.300}", "$type": "color" }
+    },
+    "text": {
+      "base":       { "$value": "{color.neutral.900}", "$type": "color", "$description": "Body text" },
+      "muted":      { "$value": "{color.neutral.500}", "$type": "color", "$description": "Secondary text" },
+      "faint":      { "$value": "{color.neutral.400}", "$type": "color", "$description": "Placeholder, disabled" },
+      "inverse":    { "$value": "{color.neutral.0}",   "$type": "color", "$description": "Text on dark bg" },
+      "on-accent":  { "$value": "{color.neutral.0}",   "$type": "color", "$description": "Text on accent bg" }
+    },
+    "accent": {
+      "base":    { "$value": "{color.brand.600}",  "$type": "color", "$description": "Primary action colour" },
+      "hover":   { "$value": "{color.brand.700}",  "$type": "color" },
+      "subtle":  { "$value": "{color.brand.50}",   "$type": "color" },
+      "text":    { "$value": "{color.brand.600}",  "$type": "color" }
+    },
+    "feedback": {
+      "success": { "$value": "{color.success.500}", "$type": "color" },
+      "warning": { "$value": "{color.warning.500}", "$type": "color" },
+      "danger":  { "$value": "{color.danger.500}",  "$type": "color" }
+    }
+  }
+}

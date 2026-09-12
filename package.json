@@ -1,0 +1,48 @@
+{
+  "name": "blocky-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Blocky — Enterprise WordPress theme + block builder powered by Tailwind CSS 4",
+  "packageManager": "pnpm@11.0.9",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "local:start": "powershell -ExecutionPolicy Bypass -File ./tools/wp-env/start-local-dev.ps1",
+    "local:stop": "powershell -ExecutionPolicy Bypass -File ./tools/wp-env/stop-local-dev.ps1",
+    "build": "turbo run build",
+    "build:tokens": "pnpm --filter @blocky/tokens build",
+    "build:theme": "pnpm --filter @blocky/theme build",
+    "build:core": "pnpm --filter @blocky/core-plugin build",
+    "build:builder": "pnpm --filter @blocky/builder-plugin build",
+    "test": "turbo run test",
+    "test:php": "pnpm wp-env run tests-cli phpunit",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,css,md}\" --ignore-path .gitignore",
+    "wp-env": "wp-env",
+    "wp": "pnpm wp-env run cli wp",
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
+    "env:clean": "wp-env clean all",
+    "env:destroy": "wp-env destroy",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "@blocky/eslint-config": "workspace:*",
+    "@blocky/tsconfig": "workspace:*",
+    "@playwright/test": "^1.44.1",
+    "@wordpress/env": "^10.10.0",
+    "eslint": "^9.5.0",
+    "lefthook": "^1.7.2",
+    "prettier": "^3.3.2",
+    "stylelint": "^16.6.1",
+    "stylelint-config-tailwindcss": "^0.0.7",
+    "turbo": "^2.0.9",
+    "typescript": "^5.5.2"
+  }
+}

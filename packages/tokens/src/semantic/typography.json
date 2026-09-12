@@ -1,0 +1,19 @@
+{
+  "$schema": "https://design-tokens.github.io/dtcg/format/",
+  "font": {
+    "body":    { "$value": "{fontFamily.sans}",    "$type": "fontFamily" },
+    "display": { "$value": "{fontFamily.display}",  "$type": "fontFamily" },
+    "mono":    { "$value": "{fontFamily.mono}",     "$type": "fontFamily" }
+  },
+  "text": {
+    "xs":   { "$value": "{fontSize.xs}",   "$type": "dimension" },
+    "sm":   { "$value": "{fontSize.sm}",   "$type": "dimension" },
+    "base": { "$value": "{fontSize.base}", "$type": "dimension" },
+    "lg":   { "$value": "{fontSize.lg}",   "$type": "dimension" },
+    "xl":   { "$value": "{fontSize.xl}",   "$type": "dimension" },
+    "2xl":  { "$value": "{fontSize.2xl}",  "$type": "dimension" },
+    "3xl":  { "$value": "{fontSize.3xl}",  "$type": "dimension" },
+    "4xl":  { "$value": "{fontSize.4xl}",  "$type": "dimension" },
+    "5xl":  { "$value": "{fontSize.5xl}",  "$type": "dimension" }
+  }
+}

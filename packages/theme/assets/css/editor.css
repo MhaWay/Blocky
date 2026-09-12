@@ -1,0 +1,27 @@
+/**
+ * Blocky Theme — Editor stylesheet
+ * Applied to the Gutenberg editor to match frontend appearance.
+ */
+
+@import "tailwindcss";
+@import "../../../tokens/build/tokens.tailwind.css";
+@import "../../../tokens/build/tokens.css";
+
+@source "../../**/*.{php,ts,tsx,html}";
+
+@layer base {
+  body {
+    font-family: var(--bky-font-body);
+    font-size: var(--bky-text-base);
+    line-height: 1.6;
+    color: var(--bky-color-text-base);
+    background-color: var(--bky-color-surface-base);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--bky-font-display);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+}

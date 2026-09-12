@@ -1,0 +1,70 @@
+<?php
+declare(strict_types=1);
+
+namespace Blocky\Core\Blocks\Renderers;
+
+use Blocky\Core\Blocks\Renderer\BlockRendererInterface;
+use Blocky\Core\Support\HtmlString;
+use Blocky\Core\Support\RenderContext;
+use Blocky\Core\Blocks\Node;
+
+final class ThemeToggleRenderer implements BlockRendererInterface
+{
+    public function render(Node $node, RenderContext $ctx): HtmlString
+    {
+        $label   = trim((string) ($node->props['label']   ?? 'Toggle Theme'));
+        $size    = (string) ($node->props['size']    ?? 'md');
+        $variant = (string) ($node->props['variant'] ?? 'outline');
+
+        $sizeClass = match ($size) {
+            'sm'  => 'px-3 py-1.5 text-sm',
+            'lg'  => 'px-6 py-3 text-lg',
+            default => 'px-4 py-2 text-base',
+        };
+
+        $variantClass = match ($variant) {
+            'solid'  => 'bg-surface-elevated text-text-base border border-border-base rounded-button hover:bg-surface-base',
+            'ghost'  => 'text-text-base hover:bg-surface-elevated rounded-button',
+            default  => 'border border-border-base text-text-base rounded-button hover:bg-surface-elevated',
+        };
+
+        $labelText  = $label !== '' ? htmlspecialchars($label, ENT_QUOTES, 'UTF-8') : 'Toggle Theme';
+        $buttonClass = "bky-theme-toggle inline-flex items-center gap-2 font-medium transition-colors {$sizeClass} {$variantClass}";
+
+        if ($ctx->isEditorMode()) {
+            $inner = '<span class="pointer-events-none select-none">'
+                . '<span aria-hidden="true" style="font-size:1.1em">☀️</span>'
+                . ' ' . $labelText
+                . '</span>';
+
+            return HtmlString::element('span', $ctx->blockAttrs($node, ['class' => $buttonClass, 'style' => 'cursor:default']), $inner);
+        }
+
+        // Frontend: toggle cookie + reload
+        $onclick = "
+(function(){
+  var c = document.cookie.match(/bky_mode=([^;]+)/);
+  var cur = c ? c[1] : 'light';
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.cookie = 'bky_mode=' + next + '; path=/; SameSite=Lax';
+  location.reload();
+})()";
+
+        $inner = '<span aria-hidden="true" style="font-size:1.1em" class="bky-theme-toggle-icon">☀️</span>'
+            . '<span class="bky-theme-toggle-label">' . $labelText . '</span>'
+            . '<script>'
+            . '(function(){'
+            . 'var c=document.cookie.match(/bky_mode=([^;]+)/);'
+            . 'var m=c?c[1]:"light";'
+            . 'var el=document.currentScript.previousElementSibling.previousElementSibling;'
+            . 'if(el) el.textContent=m==="dark"?"🌙":"☀️";'
+            . '})();'
+            . '</script>';
+
+        return HtmlString::element('button', $ctx->blockAttrs($node, [
+            'type'    => 'button',
+            'class'   => $buttonClass,
+            'onclick' => trim($onclick),
+        ]), $inner);
+    }
+}

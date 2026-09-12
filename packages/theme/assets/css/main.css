@@ -1,0 +1,233 @@
+/**
+ * Blocky Theme — main CSS entry point
+ *
+ * Order matters:
+ * 1. Tailwind base (reset, preflight)
+ * 2. Token @theme block (auto-generated from design tokens)
+ * 3. Token CSS variables (--bky-* custom properties)
+ * 4. Dark mode token overrides
+ * 5. Component layer
+ * 6. Utility overrides
+ */
+
+@import "tailwindcss";
+
+/* ── Design Token Integration ────────────────────────────────────────────────── */
+/* Auto-generated @theme block — maps --bky-* vars to Tailwind utilities */
+@import "../../../tokens/build/tokens.tailwind.css";
+
+/* ── CSS Custom Properties ───────────────────────────────────────────────────── */
+/* Light mode tokens (default) */
+@import "../../../tokens/build/tokens.css";
+
+/* Dark mode overrides */
+@import "../../../tokens/build/tokens.dark.css";
+
+/* ── Tailwind source scanning ────────────────────────────────────────────────── */
+@source "../../**/*.{php,ts,tsx,html,json}";
+@source "../../../core-plugin/src/**/*.php";
+@source "../../../builder-plugin/src/**/*.{ts,tsx}";
+
+/* ── Base layer ──────────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light;
+    font-family: var(--bky-font-body);
+    font-size: var(--bky-text-base);
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html[data-mode="dark"],
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bky-color-surface-base);
+    color: var(--bky-color-text-base);
+    margin: 0;
+  }
+
+  /* Focus ring — accessible and branded */
+  :focus-visible {
+    outline: 2px solid var(--bky-color-accent-base);
+    outline-offset: 2px;
+    border-radius: var(--bky-radius-sm);
+  }
+
+  /* Smooth scrolling for anchors */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Images */
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Typography baseline */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--bky-font-display);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--bky-color-text-base);
+  }
+
+  a {
+    color: var(--bky-color-accent-text);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  code, pre {
+    font-family: var(--bky-font-mono);
+  }
+}
+
+/* ── Component layer ─────────────────────────────────────────────────────────── */
+@layer components {
+  /* Container — respects layout token */
+  .container {
+    width: 100%;
+    max-width: var(--bky-layout-container-max);
+    margin-inline: auto;
+    padding-inline: var(--bky-layout-gutter);
+  }
+
+  .container--wide {
+    padding-inline: var(--bky-layout-gutter-wide);
+  }
+
+  /* Site Header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--bky-color-surface-base);
+    border-bottom: 1px solid var(--bky-color-border-subtle);
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--bky-spacing-4);
+    min-height: 4rem;
+  }
+
+  /* Site Footer */
+  .site-footer {
+    background-color: var(--bky-color-surface-elevated);
+    border-top: 1px solid var(--bky-color-border-subtle);
+    padding-block: var(--bky-spacing-8);
+    color: var(--bky-color-text-muted);
+    font-size: var(--bky-text-sm);
+  }
+
+  /* Prose — for rich text areas */
+  .prose {
+    max-width: 65ch;
+
+    & h1 { font-size: var(--bky-text-4xl); margin-bottom: var(--bky-spacing-6); }
+    & h2 { font-size: var(--bky-text-3xl); margin-block: var(--bky-spacing-6) var(--bky-spacing-4); }
+    & h3 { font-size: var(--bky-text-2xl); margin-block: var(--bky-spacing-5) var(--bky-spacing-3); }
+    & h4 { font-size: var(--bky-text-xl);  margin-block: var(--bky-spacing-4) var(--bky-spacing-2); }
+    & p  { margin-bottom: var(--bky-spacing-4); }
+    & ul, & ol { padding-left: var(--bky-spacing-6); margin-bottom: var(--bky-spacing-4); }
+    & li { margin-bottom: var(--bky-spacing-1); }
+    & a  { color: var(--bky-color-accent-text); font-weight: 500; }
+    & blockquote {
+      border-left: 3px solid var(--bky-color-accent-base);
+      padding-left: var(--bky-spacing-4);
+      color: var(--bky-color-text-muted);
+      font-style: italic;
+    }
+    & code {
+      background-color: var(--bky-color-surface-sunken);
+      padding: 0.1em 0.3em;
+      border-radius: var(--bky-radius-sm);
+      font-size: 0.875em;
+    }
+    & pre {
+      background-color: var(--bky-color-surface-sunken);
+      border: 1px solid var(--bky-color-border-base);
+      border-radius: var(--bky-radius-md);
+      padding: var(--bky-spacing-4);
+      overflow-x: auto;
+    }
+    & img {
+      border-radius: var(--bky-radius-image);
+      margin-block: var(--bky-spacing-6);
+    }
+    & hr {
+      border: none;
+      border-top: 1px solid var(--bky-color-border-base);
+      margin-block: var(--bky-spacing-8);
+    }
+  }
+
+  /* Skip link for accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--bky-spacing-4);
+    background: var(--bky-color-accent-base);
+    color: var(--bky-color-text-on-accent);
+    padding: var(--bky-spacing-2) var(--bky-spacing-4);
+    border-radius: var(--bky-radius-md);
+    font-weight: 600;
+    z-index: 100;
+    transition: top 0.2s;
+
+    &:focus {
+      top: var(--bky-spacing-4);
+    }
+  }
+
+  /* Loading state */
+  .bky-loading {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: wait;
+  }
+}
+
+/* ── Utility overrides ───────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Visually hidden (accessible) */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

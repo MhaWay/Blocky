@@ -1,0 +1,21 @@
+/*
+Theme Name: Blocky
+Theme URI: https://blocky.dev
+Author: GG-Ally
+Author URI: https://ggally.net
+Description: Ultra-performant WordPress theme powered by Tailwind CSS 4 and Blocky design tokens. Built for use with Blocky Core and Blocky Builder.
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 6.7
+Requires PHP: 8.2
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: blocky
+Tags: full-site-editing, block-editor, tailwind, design-tokens, performance, dark-mode
+*/
+
+/*
+ * This file is intentionally minimal.
+ * All styles are loaded via the Vite-compiled CSS pipeline.
+ * See assets/css/main.css for the entry point.
+ */

@@ -1,0 +1,31 @@
+{
+  "core": "WordPress/WordPress#6.7",
+  "phpVersion": "8.2",
+  "plugins": [
+    "./packages/core-plugin",
+    "./packages/builder-plugin"
+  ],
+  "themes": [
+    "./packages/theme"
+  ],
+  "mappings": {
+    "wp-content/mu-plugins/dev-helpers.php": "./tools/wp-env/dev-helpers.php"
+  },
+  "config": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_LOG": true,
+    "WP_DEBUG_DISPLAY": false,
+    "SCRIPT_DEBUG": true,
+    "WP_ENVIRONMENT_TYPE": "local",
+    "BLOCKY_DEV": true,
+    "BLOCKY_ASSET_URL": "http://localhost:5173"
+  },
+  "env": {
+    "tests": {
+      "config": {
+        "WP_DEBUG": true,
+        "WP_DEBUG_DISPLAY": false
+      }
+    }
+  }
+}

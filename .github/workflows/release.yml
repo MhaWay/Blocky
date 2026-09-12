@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build & Release ZIPs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with: { version: "9" }
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @blocky/tokens build
+      - run: pnpm build
+
+      # ── Package Theme ZIP ────────────────────────────────────────────────────
+      - name: Package theme
+        run: |
+          mkdir -p release
+          cp -r packages/theme release/blocky-theme
+          cp -r packages/theme/dist/* release/blocky-theme/dist/ 2>/dev/null || true
+          cd release && zip -r blocky-theme-${{ github.ref_name }}.zip blocky-theme
+          cd ..
+
+      # ── Package Core Plugin ZIP ───────────────────────────────────────────────
+      - name: Package core plugin
+        run: |
+          cd packages/core-plugin
+          composer install --no-dev --optimize-autoloader --no-interaction
+          cd ../..
+          cp -r packages/core-plugin release/blocky-core
+          cd release && zip -r blocky-core-${{ github.ref_name }}.zip blocky-core
+          cd ..
+
+      # ── Package Builder Plugin ZIP ────────────────────────────────────────────
+      - name: Package builder plugin
+        run: |
+          cp -r packages/builder-plugin release/blocky-builder
+          cp -r packages/builder-plugin/dist/* release/blocky-builder/dist/ 2>/dev/null || true
+          cd release && zip -r blocky-builder-${{ github.ref_name }}.zip blocky-builder
+          cd ..
+
+      # ── Create GitHub Release ─────────────────────────────────────────────────
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/blocky-theme-${{ github.ref_name }}.zip
+            release/blocky-core-${{ github.ref_name }}.zip
+            release/blocky-builder-${{ github.ref_name }}.zip
+          generate_release_notes: true

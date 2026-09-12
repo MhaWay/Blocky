@@ -1,0 +1,16 @@
+{
+  "name": "@blocky/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "dev": "tsx --watch scripts/build.ts",
+    "lint": "echo 'No JS lint for tokens'"
+  },
+  "devDependencies": {
+    "tsx": "^4.15.7",
+    "typescript": "^5.5.2"
+  },
+  "files": ["build/**"]
+}

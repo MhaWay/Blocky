@@ -1,0 +1,8 @@
+packages:
+  - "packages/*"
+  - "tools/eslint-config"
+  - "tools/tsconfig"
+allowBuilds:
+  esbuild: true
+  fs-ext-extra-prebuilt: true
+  lefthook: true

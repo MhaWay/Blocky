@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Blocky Core">
+    <description>PHPCS ruleset for Blocky Core plugin</description>
+
+    <file>src/</file>
+    <file>blocky-core.php</file>
+
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+    <arg value="sp"/>
+
+    <rule ref="WordPress">
+        <!-- We use PSR-4 namespaces -->
+        <exclude name="WordPress.Files.FileName"/>
+        <!-- We handle our own escaping via HtmlString -->
+        <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/>
+    </rule>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array" value="blocky"/>
+        </properties>
+    </rule>
+</ruleset>

@@ -1,0 +1,107 @@
+/* Builder chrome — full-screen SPA with Tailwind + Blocky tokens */
+@import "tailwindcss";
+
+/* Design tokens: Tailwind @theme mappings */
+@import "../../../tokens/build/tokens.tailwind.css";
+
+/* CSS custom properties (--bky-*) */
+@import "../../../tokens/build/tokens.css";
+
+/* Dark mode overrides */
+@import "../../../tokens/build/tokens.dark.css";
+
+/* Scan builder source for Tailwind classes */
+@source "../../../builder-plugin/src/**/*.{ts,tsx}";
+
+:root {
+  --builder-sidebar-width: 280px;
+  --builder-inspector-width: 320px;
+  --builder-toolbar-height: 48px;
+  --builder-footer-height: 36px;
+}
+
+.blocky-builder-root {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bky-color-surface-base, #f8fafc);
+  color: var(--bky-color-text-base, #1e293b);
+  font-family: var(--bky-font-sans, system-ui, sans-serif);
+  color-scheme: light;
+  z-index: 100000;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.blocky-builder-root[data-mode='dark'],
+.blocky-builder-root.dark {
+  color-scheme: dark;
+}
+
+.blocky-builder-root :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--bky-color-text-base, #1e293b) !important;
+}
+
+.blocky-builder-root :is(h1, h2, h3, h4, h5, h6).text-text-base {
+  color: var(--bky-color-text-base, #1e293b) !important;
+}
+
+.blocky-builder-root :is(h1, h2, h3, h4, h5, h6).text-text-muted {
+  color: var(--bky-color-text-muted, #64748b) !important;
+}
+
+.blocky-builder-root :is(h1, h2, h3, h4, h5, h6).text-text-faint {
+  color: var(--bky-color-text-faint, #94a3b8) !important;
+}
+
+.blocky-builder-root :is(h1, h2, h3, h4, h5, h6).text-accent-text {
+  color: var(--bky-color-accent-text, #1d4ed8) !important;
+}
+
+.blocky-builder-root :is(input, select, textarea, button) {
+  font: inherit;
+}
+
+.blocky-builder-root :is(input, textarea, [contenteditable='true']) {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.blocky-builder-root :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {
+  color-scheme: inherit;
+  background-color: var(--bky-color-surface-base, #f8fafc);
+  color: var(--bky-color-text-base, #1e293b);
+  border-color: var(--bky-color-border-base, #cbd5e1);
+}
+
+.blocky-builder-root :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea)::placeholder {
+  color: var(--bky-color-text-faint, #94a3b8);
+}
+
+.blocky-builder-root select option,
+.blocky-builder-root select optgroup {
+  background-color: var(--bky-color-surface-elevated, #ffffff);
+  color: var(--bky-color-text-base, #1e293b);
+}
+
+.blocky-builder-root :is(input[type='checkbox'], input[type='radio'], input[type='range']) {
+  color-scheme: inherit;
+  accent-color: var(--bky-color-accent-base, #3b82f6);
+}
+
+/* WordPress admin overrides */
+#wpadminbar,
+#adminmenumain,
+#wpfooter,
+.update-nag {
+  display: none !important;
+}
+
+#wpcontent,
+#wpbody,
+#wpbody-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+}

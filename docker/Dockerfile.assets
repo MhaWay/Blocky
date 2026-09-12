@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1.9
+FROM node:22-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable pnpm
+
+WORKDIR /app
+COPY pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY package.json ./
+COPY packages/tokens/package.json   packages/tokens/
+COPY packages/theme/package.json    packages/theme/
+COPY tools/eslint-config/package.json tools/eslint-config/
+COPY tools/tsconfig/package.json      tools/tsconfig/
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+COPY . .
+
+# ── Build tokens ──────────────────────────────────────────────────────────────
+FROM base AS tokens-build
+RUN pnpm --filter @blocky/tokens build
+
+# ── Build theme assets ────────────────────────────────────────────────────────
+FROM tokens-build AS theme-build
+RUN pnpm --filter @blocky/theme build
+
+# ── Build builder SPA ─────────────────────────────────────────────────────────
+FROM theme-build AS builder-build
+RUN pnpm --filter @blocky/builder-plugin build
+
+# ── Final production image (just static dist files) ───────────────────────────
+FROM scratch AS dist
+COPY --from=theme-build   /app/packages/theme/dist   /theme-dist
+COPY --from=builder-build /app/packages/builder-plugin/dist /builder-dist

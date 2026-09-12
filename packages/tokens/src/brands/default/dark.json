@@ -1,0 +1,27 @@
+{
+  "$description": "Default brand — dark mode semantic overrides",
+  "color": {
+    "surface": {
+      "base":     { "$value": "{color.neutral.950}", "$type": "color" },
+      "elevated": { "$value": "{color.neutral.900}", "$type": "color" },
+      "overlay":  { "$value": "{color.neutral.800}", "$type": "color" },
+      "sunken":   { "$value": "{color.neutral.900}", "$type": "color" }
+    },
+    "border": {
+      "subtle":  { "$value": "{color.neutral.800}", "$type": "color" },
+      "base":    { "$value": "{color.neutral.700}", "$type": "color" },
+      "strong":  { "$value": "{color.neutral.600}", "$type": "color" }
+    },
+    "text": {
+      "base":    { "$value": "{color.neutral.50}",  "$type": "color" },
+      "muted":   { "$value": "{color.neutral.400}", "$type": "color" },
+      "faint":   { "$value": "{color.neutral.600}", "$type": "color" }
+    },
+    "accent": {
+      "base":   { "$value": "{color.brand.400}", "$type": "color" },
+      "hover":  { "$value": "{color.brand.300}", "$type": "color" },
+      "subtle": { "$value": "{color.brand.950}", "$type": "color" },
+      "text":   { "$value": "{color.brand.400}", "$type": "color" }
+    }
+  }
+}

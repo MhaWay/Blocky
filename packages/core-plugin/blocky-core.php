@@ -1,0 +1,73 @@
+<?php
+/**
+ * Plugin Name: Blocky Core
+ * Plugin URI: https://blocky.dev
+ * Description: Core engine for the Blocky block builder ecosystem. Provides block registry, token resolver, render pipeline, REST API, and asset orchestration.
+ * Version: 0.1.0
+ * Requires at least: 6.5
+ * Requires PHP: 8.2
+ * Author: GG-Ally
+ * Author URI: https://ggally.net
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: blocky
+ * Domain Path: /languages
+ *
+ * @package Blocky\Core
+ */
+
+declare(strict_types=1);
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// ── Constants ─────────────────────────────────────────────────────────────────
+
+define('BLOCKY_CORE_VERSION',   '0.1.0');
+define('BLOCKY_CORE_FILE',      __FILE__);
+define('BLOCKY_CORE_DIR',       \plugin_dir_path(__FILE__));
+define('BLOCKY_CORE_URL',       \plugin_dir_url(__FILE__));
+define('BLOCKY_CORE_SLUG',      'blocky-core');
+
+// ── Autoloader ────────────────────────────────────────────────────────────────
+
+if (file_exists(BLOCKY_CORE_DIR . 'vendor/autoload.php')) {
+    require_once BLOCKY_CORE_DIR . 'vendor/autoload.php';
+} else {
+    // Simple PSR-4 autoloader fallback for development
+    spl_autoload_register(static function (string $class): void {
+        $prefix = 'Blocky\\Core\\';
+        $baseDir = BLOCKY_CORE_DIR . 'src/';
+
+        if (!str_starts_with($class, $prefix)) {
+            return;
+        }
+
+        $relative = substr($class, strlen($prefix));
+        $file = $baseDir . str_replace('\\', DIRECTORY_SEPARATOR, $relative) . '.php';
+
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    });
+}
+
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
+
+\add_action('plugins_loaded', static function (): void {
+    \load_plugin_textdomain('blocky', false, \dirname(\plugin_basename(__FILE__)) . '/languages');
+
+    $plugin = \Blocky\Core\Plugin::getInstance();
+    $plugin->boot();
+});
+
+// ── Activation / Deactivation hooks ──────────────────────────────────────────
+
+\register_activation_hook(__FILE__, static function (): void {
+    \Blocky\Core\Plugin::onActivate();
+});
+
+\register_deactivation_hook(__FILE__, static function (): void {
+    \Blocky\Core\Plugin::onDeactivate();
+});

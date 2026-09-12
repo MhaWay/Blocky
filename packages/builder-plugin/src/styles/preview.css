@@ -1,0 +1,81 @@
+/* Builder canvas preview stylesheet.
+ * This is intentionally broader than public page CSS: the editor needs a rich
+ * Tailwind 4 surface while public pages can later be compiled per route/page.
+ */
+@import "tailwindcss";
+
+@import "../../../tokens/build/tokens.tailwind.css";
+@import "../../../tokens/build/tokens.css";
+@import "../../../tokens/build/tokens.dark.css";
+@import "./generated/tailwind-utility-safelist.css";
+
+@source "../../../core-plugin/src/**/*.php";
+@source "../../../theme/**/*.{php,html,ts,tsx,json}";
+@source "../../../builder-plugin/src/**/*.{ts,tsx}";
+
+@source inline("{static,relative,absolute,fixed,sticky,block,inline-block,inline,flex,inline-flex,grid,hidden,contents,container}");
+@source inline("{overflow,overflow-x,overflow-y}-{auto,hidden,visible,scroll}");
+@source inline("{w,h,min-w,min-h,max-w,max-h}-{auto,full,screen,min,max,fit}");
+@source inline("{p,px,py,pt,pr,pb,pl,m,mx,my,mt,mr,mb,ml,gap}-{0,1,2,3,4,5,6,8,10,12,16,20,24,32}");
+@source inline("{space-x,space-y}-{0,1,2,3,4,5,6,8,10,12,16}");
+@source inline("text-{left,center,right,start,end,xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}");
+@source inline("font-{body,display,mono,normal,medium,semibold,bold}");
+@source inline("leading-{none,tight,snug,normal,relaxed,loose}");
+@source inline("tracking-{tighter,tight,normal,wide,wider,widest}");
+@source inline("{bg,text,border}-{surface-base,surface-elevated,surface-overlay,surface-sunken,border-subtle,border-base,border-strong,text-base,text-muted,text-faint,text-inverse,text-on-accent,accent-base,accent-hover,accent-subtle,accent-text,feedback-success,feedback-warning,feedback-danger}");
+@source inline("border{,-0,-2,-4,-8,-t,-r,-b,-l}");
+@source inline("rounded{,-none,-sm,-base,-md,-lg,-xl,-2xl,-3xl,-full,-card,-button,-input,-badge,-image}");
+@source inline("shadow{,-sm,-md,-lg,-xl,-2xl,-none}");
+@source inline("grid-cols-{1,2,3,4,5,6,12}");
+@source inline("{sm:,md:,lg:,xl:}grid-cols-{1,2,3,4,5,6,12}");
+@source inline("items-{start,center,end,stretch,baseline}");
+@source inline("justify-{start,center,end,between,around,evenly}");
+@source inline("content-{start,center,end,between,around,evenly}");
+@source inline("self-{auto,start,center,end,stretch,baseline}");
+@source inline("aspect-{auto,square,video}");
+@source inline("object-{contain,cover,fill,none,scale-down}");
+@source inline("transition{,-colors,-opacity,-shadow,-transform,-all}");
+@source inline("duration-{75,100,150,200,300,500,700,1000}");
+
+@layer base {
+  html {
+    color-scheme: light;
+    font-family: var(--bky-font-body, system-ui, sans-serif);
+    font-size: var(--bky-text-base, 1rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html[data-mode="dark"],
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 80vh;
+    background: var(--bky-color-surface-base, #fff);
+    color: var(--bky-color-text-base, #0f172a);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--bky-color-text-base, #0f172a);
+    font-family: var(--bky-font-display, var(--bky-font-body, system-ui, sans-serif));
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
