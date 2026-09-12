@@ -8,4 +8,6 @@ parameters:
     bootstrapFiles:
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
         - tests/phpstan-bootstrap.php
+    scanFiles:
+        - tests/phpstan/wp-cli-stub.php
     ignoreErrors: []

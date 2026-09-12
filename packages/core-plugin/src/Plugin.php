@@ -56,6 +56,11 @@ final class Plugin
         \add_action('init',             [$this, 'registerFormSubmissionPostType']);
         \add_action('init',             [$this->registry,   'registerBlockTypes']);
         \add_action('rest_api_init',    [new RestRegistrar($this->registry, $this->themeEngine, $this->pageCompiler), 'register']);
+        \Blocky\Core\Support\ApiAuth::register();
+        if (\defined('WP_CLI') && \WP_CLI) {
+            require_once BLOCKY_CORE_DIR . 'src/Cli/KeyCommand.php';
+            \WP_CLI::add_command('blocky key', \Blocky\Core\Cli\KeyCommand::class);
+        }
         \add_action('wp_enqueue_scripts', [$this->assets, 'enqueue']);
         \add_action('save_post',        [$this, 'onSavePost'], 10, 2);
         \add_action('admin_menu',       [$this, 'registerAdminMenuTools'], 90);
@@ -667,6 +672,8 @@ final class Plugin
     public static function onActivate(): void
     {
         \flush_rewrite_rules();
+        \Blocky\Core\Support\ApiKeyStore::install();
+        \Blocky\Core\Support\ApiAudit::install();
         SiteStylesheet::schedule_rebuild();
     }
 

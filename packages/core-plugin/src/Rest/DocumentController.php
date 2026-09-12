@@ -36,12 +36,12 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => [$this, 'listLibraryPages'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:read', 'edit_posts'),
             ],
             [
                 'methods'             => \WP_REST_Server::CREATABLE,
                 'callback'            => [$this, 'createLibraryPage'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'edit_posts'),
                 'args'                => [
                     'title' => ['required' => false, 'type' => 'string'],
                 ],
@@ -52,7 +52,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::DELETABLE,
                 'callback'            => [$this, 'deleteLibraryPage'],
-                'permission_callback' => fn() => \current_user_can('delete_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'delete_posts'),
                 'args'                => [
                     'post_id' => ['required' => true, 'type' => 'integer'],
                 ],
@@ -64,7 +64,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::CREATABLE,
                 'callback'            => [$this, 'render'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:read', 'edit_posts'),
                 'args'                => [
                     'document' => [
                         'required'          => true,
@@ -80,7 +80,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => [$this, 'getPostDocument'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:read', 'edit_posts'),
                 'args'                => [
                     'post_id' => ['required' => true, 'type' => 'integer'],
                 ],
@@ -88,7 +88,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::EDITABLE,
                 'callback'            => [$this, 'savePostDocument'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'edit_posts'),
                 'args'                => [
                     'post_id'  => ['required' => true, 'type' => 'integer'],
                     'document' => ['required' => true, 'type' => 'object'],
@@ -100,7 +100,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::EDITABLE,
                 'callback'            => [$this, 'savePostCss'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'edit_posts'),
                 'args'                => [
                     'post_id' => ['required' => true, 'type' => 'integer'],
                     'css'     => ['required' => true, 'type' => 'string'],
@@ -112,7 +112,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::EDITABLE,
                 'callback'            => [$this, 'updatePostDetails'],
-                'permission_callback' => fn() => \current_user_can('edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:read', 'edit_posts'),
                 'args'                => [
                     'post_id' => ['required' => true, 'type' => 'integer'],
                     'title'   => ['required' => false, 'type' => 'string'],
@@ -169,7 +169,7 @@ final class DocumentController extends \WP_REST_Controller
         $postId   = (int) $request->get_param('post_id');
         $document = $request->get_param('document');
 
-        if (!\current_user_can('edit_post', $postId)) {
+        if (!\Blocky\Core\Support\Access::allowed_post('documents:write', 'edit_post', $postId)) {
             return new \WP_Error('forbidden', \__('You cannot edit this post.', 'blocky'), ['status' => 403]);
         }
 
@@ -203,7 +203,7 @@ final class DocumentController extends \WP_REST_Controller
     {
         $postId = (int) $request->get_param('post_id');
 
-        if (!\current_user_can('edit_post', $postId)) {
+        if (!\Blocky\Core\Support\Access::allowed_post('documents:write', 'edit_post', $postId)) {
             return new \WP_Error('forbidden', \__('You cannot edit this post.', 'blocky'), ['status' => 403]);
         }
 
@@ -267,7 +267,7 @@ final class DocumentController extends \WP_REST_Controller
             return new \WP_Error('not_found', \__('Page not found.', 'blocky'), ['status' => 404]);
         }
 
-        if (!\current_user_can('delete_post', $postId)) {
+        if (!\Blocky\Core\Support\Access::allowed_post('documents:write', 'delete_post', $postId)) {
             return new \WP_Error('forbidden', \__('You cannot delete this page.', 'blocky'), ['status' => 403]);
         }
 
@@ -291,7 +291,7 @@ final class DocumentController extends \WP_REST_Controller
             return new \WP_Error('not_found', \__('Post not found.', 'blocky'), ['status' => 404]);
         }
 
-        if (!\current_user_can('edit_post', $postId)) {
+        if (!\Blocky\Core\Support\Access::allowed_post('documents:write', 'edit_post', $postId)) {
             return new \WP_Error('forbidden', \__('You cannot edit this post.', 'blocky'), ['status' => 403]);
         }
 
