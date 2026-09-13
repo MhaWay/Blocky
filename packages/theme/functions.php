@@ -236,10 +236,13 @@ function body_classes(array $classes): array
 
 // ── Nav menus ──────────────────────────────────────────────────────────────────
 
-\register_nav_menus([
-    'primary' => __('Primary Navigation', 'blocky'),
-    'footer'  => __('Footer Navigation', 'blocky'),
-]);
+// Translated at init: file-scope __() would load the textdomain too early.
+\add_action('init', static function (): void {
+    \register_nav_menus([
+        'primary' => __('Primary Navigation', 'blocky'),
+        'footer'  => __('Footer Navigation', 'blocky'),
+    ]);
+});
 
 // ── Remove unnecessary head clutter ───────────────────────────────────────────
 
