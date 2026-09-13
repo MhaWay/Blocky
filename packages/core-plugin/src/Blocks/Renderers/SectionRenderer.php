@@ -26,6 +26,7 @@ final class SectionRenderer implements BlockRendererInterface
             self::classFrom($node, 'shadow', ['none' => 'shadow-none', 'sm' => 'shadow-sm', 'base' => 'shadow', 'md' => 'shadow-md', 'lg' => 'shadow-lg'], 'none'),
             self::classFrom($node, 'overflow', ['visible' => 'overflow-visible', 'hidden' => 'overflow-hidden'], 'visible'),
             self::safeClassList((string) ($node->props['customClass'] ?? '')),
+            RenderContext::nodeUtilityClasses($node),
         ]));
 
         $containerClass = implode(' ', array_filter([

@@ -109,7 +109,39 @@ final class Registry
      */
     public function register(BlockDefinition $definition): void
     {
-        $this->definitions[$definition->type] = $definition;
+        $this->definitions[$definition->type] = self::withTailwindChannel($definition);
+    }
+
+    /**
+     * Every block gets the visual Tailwind channel (Classes tab) in its
+     * schema so the parser never strips twClasses / twColorVars / twStyleVars.
+     */
+    private static function withTailwindChannel(BlockDefinition $definition): BlockDefinition
+    {
+        $schema = $definition->schema;
+        if (isset($schema['properties']['twClasses'])) {
+            return $definition;
+        }
+        $schema['properties'] = array_merge((array) ($schema['properties'] ?? []), [
+            'twClasses'    => ['type' => 'array', 'default' => []],
+            'twColorVars'  => ['type' => 'array', 'default' => []],
+            'twStyleVars'  => ['type' => 'array', 'default' => []],
+        ]);
+        return new BlockDefinition(
+            $definition->type,
+            $schema,
+            $definition->variants,
+            $definition->renderer,
+            $definition->editorConfig,
+            $definition->interactive,
+            $definition->cssHandles,
+            $definition->jsHandles,
+            $definition->label,
+            $definition->category,
+            $definition->description,
+            $definition->keywords,
+            $definition->icon
+        );
     }
 
     /**
