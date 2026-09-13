@@ -5,6 +5,7 @@ import type { MoveDirection } from '../store/document';
 import { useUiStore } from '../store/ui';
 import { useBlockRegistry } from '../store/blockRegistry';
 import { MegaMenuItemsControl } from './MegaMenuItemsControl';
+import { ListItemsControl } from './ListItemsControl';
 import { overlayIdForNode } from '../overlays/identity';
 import type { BlockDefinition, BuilderDocument, BuilderNode } from '../sdk/types';
 import {
@@ -185,6 +186,8 @@ export const Inspector: FunctionComponent = () => {
 
 interface BlockControl {
   id: string;
+  /** Descriptor-driven line-list editor fields (pipe-protocol string props). */
+  listFields?: ListFieldDescriptor[];
   type:
     | 'text'
     | 'richtext'
@@ -728,6 +731,17 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({
         label={control.label}
         value={value}
         onChange={(items) => onChange(items)}
+      />
+    );
+  }
+
+  if (control.listFields && control.listFields.length > 0) {
+    return (
+      <ListItemsControl
+        label={control.label}
+        fields={control.listFields}
+        value={value}
+        onChange={onChange}
       />
     );
   }
@@ -4381,12 +4395,16 @@ function controlsForDefinition(def: BlockDefinition): BlockControl[] {
       return control;
     }
 
-    return {
+    const control: BlockControl = {
       id,
       type: ['text', 'content', 'items', 'quote', 'html'].includes(id) ? 'richtext' : 'text',
       label: labelFromId(id),
       tab: tabForControl(id),
     };
+    if (Array.isArray(property.listFields) && property.listFields.length > 0) {
+      control.listFields = property.listFields;
+    }
+    return control;
   });
 }
 
@@ -4396,6 +4414,13 @@ interface SchemaProperty {
   default?: unknown;
   minimum?: number;
   maximum?: number;
+  listFields?: ListFieldDescriptor[];
+}
+
+export interface ListFieldDescriptor {
+  key: string;
+  label: string;
+  kind?: 'text' | 'url' | 'image' | 'number';
 }
 
 type RawControl = NonNullable<BlockDefinition['editorConfig']['controls']>[number];
@@ -4422,6 +4447,15 @@ function normalizeControl(control: RawControl, def?: BlockDefinition): BlockCont
   if (control.tab) normalized.tab = control.tab;
   if (control.min !== undefined) normalized.min = control.min;
   if (control.max !== undefined) normalized.max = control.max;
+  // Descriptor-driven line-list editing works for editorConfig controls too:
+  // the schema property owns listFields, so blocks stay declarative (rule 5).
+  const schemaProperties = def?.schema as
+    | { properties?: Record<string, SchemaProperty> }
+    | undefined;
+  const listFields = schemaProperties?.properties?.[control.id]?.listFields;
+  if (Array.isArray(listFields) && listFields.length > 0) {
+    normalized.listFields = listFields;
+  }
   if (control.step !== undefined) normalized.step = control.step;
   if (control.mediaType) normalized.mediaType = control.mediaType;
   if (control.mediaReturn) normalized.mediaReturn = control.mediaReturn;
