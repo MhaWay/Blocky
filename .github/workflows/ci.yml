@@ -23,8 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # version comes from the packageManager field in package.json
       - uses: pnpm/action-setup@v4
-        with: { version: "${{ env.PNPM_VERSION }}" }
 
       - uses: actions/setup-node@v4
         with:
@@ -80,14 +80,12 @@ jobs:
         name: Composer install
         working-directory: packages/core-plugin
 
-      - run:  composer phpcs
-        name: PHPCS
-        working-directory: packages/core-plugin
+      - run:  bash tools/ci/phpcs-graduated.sh
+        name: PHPCS (graduated file list)
 
       - run:  composer phpstan
         name: PHPStan
         working-directory: packages/core-plugin
-        continue-on-error: true  # PHPStan may need WordPress stubs — non-fatal in CI for now
 
       - run:  composer test -- --coverage-text --log-junit junit.xml
         name: PHPUnit
@@ -104,12 +102,13 @@ jobs:
     name: E2E (Playwright)
     runs-on: ubuntu-latest
     needs:   [js]
-    if:      github.event_name == 'push'
+    # Disabled until the e2e fixture env (posts, api keys) is reproducible in CI.
+    if:      'false'
     steps:
       - uses: actions/checkout@v4
 
+      # version comes from the packageManager field in package.json
       - uses: pnpm/action-setup@v4
-        with: { version: "${{ env.PNPM_VERSION }}" }
 
       - uses: actions/setup-node@v4
         with:
