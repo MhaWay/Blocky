@@ -84,7 +84,7 @@ class KeyCommand extends \WP_CLI_Command {
 	public function revoke( array $args, array $assoc_args ): void {
 		unset( $assoc_args );
 		$public_id = (string) ( $args[0] ?? '' );
-		if ( $public_id !== '' && ApiKeyStore::revoke( $public_id ) ) {
+		if ( '' !== $public_id && ApiKeyStore::revoke( $public_id ) ) {
 			\WP_CLI::success( 'Revoked ' . $public_id );
 		} else {
 			\WP_CLI::warning( 'No active key with id ' . $public_id );

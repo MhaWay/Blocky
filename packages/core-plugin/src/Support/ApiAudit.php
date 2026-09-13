@@ -89,7 +89,7 @@ final class ApiAudit {
 		$table = $wpdb->prefix . self::TABLE;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom audit table, reads are admin-only and cheap.
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus a class constant.
-		$rows  = $wpdb->get_results(
+		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table built from prefix and class constant.
 				'SELECT id, key_public_id, action, detail, ip_hash, created_at FROM ' . $table . ' ORDER BY id DESC LIMIT %d',

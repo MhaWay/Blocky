@@ -200,7 +200,7 @@ final class ApiKeyStore {
 		$table = self::table_name();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- admin-only list from custom table.
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus class constant.
-		$rows  = $wpdb->get_results(
+		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT id, public_id, name, scopes, created_by, created_at, last_used_at, revoked_at FROM ' . $table . ' ORDER BY id DESC LIMIT 200'
 			),
