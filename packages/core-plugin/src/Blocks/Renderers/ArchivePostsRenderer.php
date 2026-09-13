@@ -27,10 +27,18 @@ final class ArchivePostsRenderer implements BlockRendererInterface
         $showExcerpt = (bool) ($node->props['showExcerpt'] ?? true);
         $html = '<div class="space-y-4">';
         foreach ($query->posts as $post) {
+            \setup_postdata($post);
+            $structure = ComponentStructure::render($ctx, $node);
+            if ($structure !== null) {
+                $html .= '<article class="h-full">' . $structure->toString() . '</article>';
+                \wp_reset_postdata();
+                continue;
+            }
             $html .= '<article class="rounded-card border border-border-subtle bg-surface-base p-5">'
                 . '<h3 class="text-lg font-semibold"><a href="' . \esc_url((string) \get_permalink($post)) . '" class="hover:text-accent-text">' . \esc_html((string) \get_the_title($post)) . '</a></h3>'
                 . ($showExcerpt ? '<p class="mt-2 text-sm leading-6 text-text-muted">' . \esc_html(wp_strip_all_tags((string) \get_the_excerpt($post))) . '</p>' : '')
                 . '</article>';
+            \wp_reset_postdata();
         }
         $html .= '</div>';
 

@@ -11,6 +11,7 @@ const TEMPLATE_KINDS: { id: PageStarterId; label: string }[] = [
   { id: 'menu', label: t('templates.kindMenu', 'Menu') },
   { id: 'sidebar', label: t('templates.kindSidebar', 'Sidebar') },
   { id: 'single-post', label: t('templates.kindArticle', 'Article') },
+  { id: 'component', label: t('templates.kindComponent', 'Component') },
 ];
 
 const KIND_LABELS: Record<string, string> = Object.fromEntries(

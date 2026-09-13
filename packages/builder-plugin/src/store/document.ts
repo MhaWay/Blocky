@@ -39,7 +39,8 @@ export type PageStarterId =
   | 'footer'
   | 'menu'
   | 'sidebar'
-  | 'single-post';
+  | 'single-post'
+  | 'component';
 export interface GridPlacement {
   column: number;
   row: number;
@@ -1968,6 +1969,18 @@ function starterDocument(starter: PageStarterId = 'page'): BuilderDocument {
       });
       break;
     }
+    case 'component': {
+      const cardId = addStarterNode(document, 'bky/section', rootId, 'default', {
+        props: { paddingX: 'base', paddingY: 'base', gap: 'base', contentWidth: 'container' },
+      });
+      addStarterNode(document, 'bky/wp-featured-image', cardId, 'default');
+      addStarterNode(document, 'bky/wp-post-title', cardId, 'default', { props: { level: 3 } });
+      addStarterNode(document, 'bky/data-field', cardId, 'default', {
+        props: { field: 'excerpt' },
+      });
+      addStarterNode(document, 'bky/data-field', cardId, 'default', { props: { field: 'date' } });
+      break;
+    }
     case 'single-post': {
       root.props = {
         ...root.props,
@@ -2221,6 +2234,8 @@ function defaultTitleForStarter(starter: PageStarterId = 'page'): string {
       return 'Landing Page';
     case 'single-post':
       return 'Article Template';
+    case 'component':
+      return 'New Component';
     case 'base-template':
       return 'Base Template';
     case 'header':

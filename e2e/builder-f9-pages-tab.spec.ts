@@ -42,4 +42,20 @@ test.describe('Builder F9 sidebar pages tab', () => {
     }
     await expect(sidebar.getByPlaceholder(/search templates/i)).toBeVisible();
   });
+
+  test('components and the data-field block are discoverable', async ({ page }) => {
+    const sidebar = page.locator('aside').first();
+
+    await sidebar.getByRole('button', { name: 'Templates', exact: true }).click();
+    await expect(sidebar.getByRole('button', { name: '+ Component' })).toBeVisible();
+
+    await sidebar.getByRole('button', { name: 'Blocks', exact: true }).click();
+    await sidebar.getByPlaceholder(/search blocks/i).fill('data field');
+    await expect(
+      sidebar
+        .locator('button')
+        .filter({ hasText: /Data Field/ })
+        .first()
+    ).toBeVisible();
+  });
 });

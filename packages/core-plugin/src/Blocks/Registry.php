@@ -18,6 +18,8 @@ use Blocky\Core\Blocks\Renderers\RowsRenderer;
 use Blocky\Core\Blocks\Renderers\ContainerRenderer;
 use Blocky\Core\Blocks\Renderers\ColumnsRenderer;
 use Blocky\Core\Blocks\Renderers\CardRenderer;
+use Blocky\Core\Blocks\Renderers\DataFieldRenderer;
+use Blocky\Core\Support\DataFields;
 use Blocky\Core\Blocks\Renderers\DividerRenderer;
 use Blocky\Core\Blocks\Renderers\SpacerRenderer;
 use Blocky\Core\Blocks\Renderers\ListRenderer;
@@ -240,6 +242,7 @@ final class Registry
         $this->register(self::makeWpFeaturedImage());
         $this->register(self::makeWpTemplatePart());
         $this->register(self::makeWpShortcode());
+        $this->register(self::makeDataField());
         $this->register(self::makeWpHook());
         $this->register(self::makeThemeToggle());
     }
@@ -2008,6 +2011,7 @@ final class Registry
                     'postType' => ['type' => 'string', 'default' => 'post'],
                     'perPage' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 12, 'default' => 3],
                     'showExcerpt' => ['type' => 'boolean', 'default' => true],
+                    'structureId' => ['type' => 'integer', 'minimum' => 0, 'default' => 0],
                 ],
             ],
             variants: [],
@@ -2018,6 +2022,7 @@ final class Registry
                         ['id' => 'postType', 'type' => 'text', 'label' => 'Post Type'],
                         ['id' => 'perPage', 'type' => 'number', 'label' => 'Posts Per Page', 'min' => 1, 'max' => 12, 'step' => 1],
                         ['id' => 'showExcerpt', 'type' => 'toggle', 'label' => 'Show Excerpt'],
+                        ['id' => 'structureId', 'type' => 'select', 'label' => 'Structure'],
                     ]],
                 ],
             ]),
@@ -2040,6 +2045,7 @@ final class Registry
                     'perPage' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 12, 'default' => 6],
                     'columns' => ['type' => 'string', 'enum' => ['2', '3', '4'], 'default' => '3'],
                     'showExcerpt' => ['type' => 'boolean', 'default' => true],
+                    'structureId' => ['type' => 'integer', 'minimum' => 0, 'default' => 0],
                 ],
             ],
             variants: [
@@ -2052,6 +2058,7 @@ final class Registry
                         ['id' => 'postType', 'type' => 'text', 'label' => 'Post Type'],
                         ['id' => 'perPage', 'type' => 'number', 'label' => 'Posts Per Page', 'min' => 1, 'max' => 12, 'step' => 1],
                         ['id' => 'showExcerpt', 'type' => 'toggle', 'label' => 'Show Excerpt'],
+                        ['id' => 'structureId', 'type' => 'select', 'label' => 'Structure'],
                     ]],
                     ['id' => 'layout', 'label' => 'Layout', 'controls' => [
                         ['id' => 'columns', 'type' => 'variant', 'label' => 'Columns', 'variantKey' => 'columns'],
@@ -2077,6 +2084,7 @@ final class Registry
                     'perPage' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 12, 'default' => 3],
                     'layout' => ['type' => 'string', 'enum' => ['list', 'grid'], 'default' => 'grid'],
                     'showExcerpt' => ['type' => 'boolean', 'default' => true],
+                    'structureId' => ['type' => 'integer', 'minimum' => 0, 'default' => 0],
                     'stickyOnly' => ['type' => 'boolean', 'default' => true],
                 ],
             ],
@@ -2089,6 +2097,7 @@ final class Registry
                         ['id' => 'perPage', 'type' => 'number', 'label' => 'Posts Per Page', 'min' => 1, 'max' => 12, 'step' => 1],
                         ['id' => 'layout', 'type' => 'select', 'label' => 'Layout', 'options' => [['list', 'List'], ['grid', 'Grid']]],
                         ['id' => 'showExcerpt', 'type' => 'toggle', 'label' => 'Show Excerpt'],
+                        ['id' => 'structureId', 'type' => 'select', 'label' => 'Structure'],
                         ['id' => 'stickyOnly', 'type' => 'toggle', 'label' => 'Sticky Posts Only'],
                     ]],
                 ],
@@ -2145,6 +2154,7 @@ final class Registry
                 'properties' => [
                     'perPage' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 12, 'default' => 6],
                     'showExcerpt' => ['type' => 'boolean', 'default' => true],
+                    'structureId' => ['type' => 'integer', 'minimum' => 0, 'default' => 0],
                 ],
             ],
             variants: [],
@@ -2154,6 +2164,7 @@ final class Registry
                     ['id' => 'content', 'label' => 'Content', 'controls' => [
                         ['id' => 'perPage', 'type' => 'number', 'label' => 'Fallback Posts Per Page', 'min' => 1, 'max' => 12, 'step' => 1],
                         ['id' => 'showExcerpt', 'type' => 'toggle', 'label' => 'Show Excerpt'],
+                        ['id' => 'structureId', 'type' => 'select', 'label' => 'Structure'],
                     ]],
                 ],
             ]),
@@ -4739,6 +4750,41 @@ final class Registry
                 'tabs' => [
                     ['id' => 'content', 'label' => 'Content', 'controls' => [
                         ['id' => 'shortcode', 'type' => 'text', 'label' => 'Shortcode'],
+                    ]],
+                ],
+            ]),
+        );
+    }
+
+    private static function makeDataField(): BlockDefinition
+    {
+        /** @var array<array{0: string, 1: string}> $options */
+        $options = [];
+        foreach (DataFields::all() as $key => $meta) {
+            $options[] = [$key, $meta['label']];
+        }
+
+        return new BlockDefinition(
+            type: 'bky/data-field',
+            label: self::tr('Data Field'),
+            category: 'wordpress',
+            description: self::tr('Displays one WP data value (title, excerpt, image, price, user bio...) of the current item, page or author.'),
+            keywords: ['dynamic', 'data', 'field', 'loop', 'title', 'image', 'price'],
+            icon: 'DF',
+            schema: [
+                'type' => 'object',
+                'properties' => [
+                    'field' => ['type' => 'string', 'default' => 'title'],
+                    'fallback' => ['type' => 'string', 'default' => ''],
+                ],
+            ],
+            variants: [],
+            renderer: new DataFieldRenderer(),
+            editorConfig: self::localizeEditorConfig([
+                'tabs' => [
+                    ['id' => 'content', 'label' => 'Content', 'controls' => [
+                        ['id' => 'field', 'type' => 'select', 'label' => 'Field', 'options' => $options],
+                        ['id' => 'fallback', 'type' => 'text', 'label' => 'Fallback text'],
                     ]],
                 ],
             ]),
