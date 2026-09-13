@@ -9,6 +9,7 @@ import { blockPresetDefinitions } from '../generated/blockPresetCatalog';
 import type { BlockPresetDefinition } from '../generated/blockPresetCatalog';
 import { ThemePanel } from '../theme/ThemePanel';
 import { OverlayPanel } from './OverlayPanel';
+import { PagesPanel } from './PagesPanel';
 import { t } from '../i18n';
 
 type SidebarTab = 'layout' | 'content' | 'wordpress';
@@ -119,8 +120,8 @@ export const Sidebar: FunctionComponent = () => {
       class="flex flex-col border-r border-border-subtle bg-surface-elevated"
       style={{ width: 'var(--builder-sidebar-width)' }}
     >
-      <div class="grid grid-cols-2 gap-1 border-b border-border-subtle p-2">
-        {(['blocks', 'theme'] as const).map((panel) => (
+      <div class="grid grid-cols-3 gap-1 border-b border-border-subtle p-2">
+        {(['blocks', 'pages', 'theme'] as const).map((panel) => (
           <button
             key={panel}
             type="button"
@@ -131,10 +132,16 @@ export const Sidebar: FunctionComponent = () => {
                 : 'text-text-muted hover:bg-surface-overlay hover:text-text-base'
             }`}
           >
-            {panel === 'blocks' ? t('sidebar.blocks', 'Blocks') : t('sidebar.theme', 'Theme')}
+            {panel === 'blocks'
+              ? t('sidebar.blocks', 'Blocks')
+              : panel === 'pages'
+                ? t('sidebar.pages', 'Pages')
+                : t('sidebar.theme', 'Theme')}
           </button>
         ))}
       </div>
+
+      {activePanel === 'pages' && <PagesPanel />}
 
       {activePanel === 'theme' && <ThemePanel />}
 
