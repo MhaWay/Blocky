@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { builderPreviewFrame, loginToBuilder } from './helpers/builder';
 
-const FIXTURE_POST_ID = Number(process.env.BLOCKY_E2E_POST_ID ?? 11);
+// Dedicated fixture post so this writer never races the post-11 specs.
+const FIXTURE_POST_ID = Number(process.env.BLOCKY_PERF_POST_ID ?? 15);
 const SITE = process.env.BLOCKY_E2E_SITE ?? 'http://127.0.0.1:8888';
 const KEY = process.env.BLOCKY_API_KEY ?? '';
 
@@ -51,7 +52,7 @@ test.describe('F6 frontend size budgets', () => {
   test('a rich builder page ships within the CSS/JS/request budgets', async ({ page }) => {
     await seedFixture();
 
-    await page.goto(`${SITE}/mcp-target/`, { waitUntil: 'networkidle' });
+    await page.goto(`${SITE}/perf-target/`, { waitUntil: 'networkidle' });
 
     const assets = await page.evaluate(() => {
       const out = { css: 0, js: 0, cssFiles: 0, jsFiles: 0, lazyChunks: 0, total: 0 };
