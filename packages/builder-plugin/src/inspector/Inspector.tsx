@@ -112,6 +112,7 @@ export const Inspector: FunctionComponent = () => {
                 isTemplatePartPageControl(node, control) ? (
                   <TemplatePartControl
                     key={`${visibleTab}-${control.id}`}
+                    kindFilter={control.id === 'structureId' ? 'component' : undefined}
                     label={control.label}
                     value={valueForControl(node, def, control)}
                     onChange={(v) => updateProps(node.id, { [control.id]: v })}
@@ -1033,8 +1034,16 @@ function visualOptionsForControl(control: BlockControl): VisualOption[] | null {
   return options.length >= 2 ? options : null;
 }
 
+const LOOP_STRUCTURE_TYPES = new Set([
+  'bky/posts-grid',
+  'bky/posts-list',
+  'bky/featured-posts',
+  'bky/archive-posts',
+]);
+
 function isTemplatePartPageControl(node: BuilderNode, control: BlockControl): boolean {
-  return node.type === 'bky/wp-template-part' && control.id === 'postId';
+  if (node.type === 'bky/wp-template-part' && control.id === 'postId') return true;
+  return LOOP_STRUCTURE_TYPES.has(node.type) && control.id === 'structureId';
 }
 
 interface LayoutMiniIconProps {
@@ -1312,6 +1321,8 @@ interface TemplatePartControlProps {
   label: string;
   value: unknown;
   onChange: (v: unknown) => void;
+  /** When set, only documents of this template kind are selectable. */
+  kindFilter?: string | undefined;
 }
 
 interface FocalPointControlProps {
@@ -1392,6 +1403,7 @@ const RESPONSIVE_BREAKPOINT_OPTIONS: Array<{
 
 const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
   label,
+  kindFilter,
   value,
   onChange,
 }) => {
@@ -1420,7 +1432,10 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isPickerOpen]);
 
-  const availablePages = useMemo(() => pages, [pages]);
+  const availablePages = useMemo(
+    () => (kindFilter ? pages.filter((page) => page.templateKind === kindFilter) : pages),
+    [pages, kindFilter]
+  );
   const filteredPages = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) return availablePages;
@@ -1487,7 +1502,12 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
       <div class="flex gap-2">
         <button
           type="button"
-          onClick={() => setIsPickerOpen(true)}
+          onClick={() => {
+            if (pages.length === 0 && !isLoadingPages) {
+              void loadPageLibrary();
+            }
+            setIsPickerOpen(true);
+          }}
           class="flex-1 rounded-input border border-border-base bg-surface-elevated px-3 py-1.5 text-xs font-medium text-text-base hover:border-accent-base hover:bg-accent-subtle focus:outline-none"
         >
           {selectedPage
@@ -1526,7 +1546,9 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
             <div class="flex items-center justify-between gap-4 border-b border-border-subtle px-5 py-4">
               <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-text-faint">
-                  {t('inspector.templatePart', 'Template Part')}
+                  {kindFilter === 'component'
+                    ? t('templates.kindComponent', 'Component')
+                    : t('inspector.templatePart', 'Template Part')}
                 </p>
                 <p class="mt-1 text-lg font-semibold text-text-base">
                   {t('inspector.selectPage', 'Select a page')}

@@ -307,7 +307,7 @@ final class DocumentController extends \WP_REST_Controller
         // Template starters record their kind so the builder Templates tab
         // can manage them; regular pages keep the meta empty.
         $starter = \sanitize_key((string) ($request->get_param('starter') ?? 'page'));
-        $templateKinds = ['base-template', 'header', 'footer', 'menu', 'sidebar', 'single-post'];
+        $templateKinds = ['base-template', 'header', 'footer', 'menu', 'sidebar', 'single-post', 'component'];
         if (\in_array($starter, $templateKinds, true)) {
             \update_post_meta((int) $postId, self::TEMPLATE_META_KEY, $starter);
         }

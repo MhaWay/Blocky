@@ -40,6 +40,11 @@ final class FeaturedPostsRenderer implements BlockRendererInterface
         $cards = '';
         while ($query->have_posts()) {
             $query->the_post();
+            $structure = ComponentStructure::render($ctx, $node);
+            if ($structure !== null) {
+                $cards .= '<article class="h-full">' . $structure->toString() . '</article>';
+                continue;
+            }
             $thumbnail = has_post_thumbnail()
                 ? '<a href="' . esc_url((string) get_permalink()) . '" class="block overflow-hidden rounded-card">' . get_the_post_thumbnail(get_the_ID(), 'medium_large', ['class' => 'aspect-video w-full object-cover']) . '</a>'
                 : '';

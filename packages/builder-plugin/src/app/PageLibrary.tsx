@@ -97,6 +97,16 @@ const TEMPLATE_STARTERS: Array<{
     icon: 'A',
     title: t('library.singlePostTitle', 'Article Template'),
   },
+  {
+    id: 'component',
+    label: t('library.componentLabel', 'Component'),
+    description: t(
+      'library.componentDescription',
+      'Structure for one item of a grid, list or loop (card, product tile...).'
+    ),
+    icon: 'C',
+    title: t('library.componentTitle', 'New Component'),
+  },
 ];
 
 export const PageLibrary: FunctionComponent = () => {

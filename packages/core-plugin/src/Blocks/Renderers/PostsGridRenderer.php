@@ -34,6 +34,11 @@ final class PostsGridRenderer implements BlockRendererInterface
         $cards = '';
         while ($query->have_posts()) {
             $query->the_post();
+            $structure = ComponentStructure::render($ctx, $node);
+            if ($structure !== null) {
+                $cards .= '<article class="h-full">' . $structure->toString() . '</article>';
+                continue;
+            }
             $cards .= '<article class="flex h-full flex-col rounded-card border border-border-subtle bg-surface-base p-5">'
                 . '<h3 class="text-lg font-semibold"><a href="' . \esc_url((string) \get_permalink()) . '" class="hover:text-accent-text">' . \esc_html((string) \get_the_title()) . '</a></h3>'
                 . ($showExcerpt ? '<p class="mt-2 text-sm leading-6 text-text-muted">' . \esc_html(wp_strip_all_tags((string) \get_the_excerpt())) . '</p>' : '')
