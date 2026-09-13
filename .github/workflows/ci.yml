@@ -45,6 +45,9 @@ jobs:
       - run: pnpm build
         name: Build all packages
 
+      - run: bash tools/ci/size-budget.sh
+        name: Size budgets (gzip gates)
+
       - uses: actions/upload-artifact@v4
         with:
           name: js-dist
