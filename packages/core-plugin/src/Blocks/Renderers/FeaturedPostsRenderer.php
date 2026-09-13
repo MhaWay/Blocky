@@ -63,6 +63,6 @@ final class FeaturedPostsRenderer implements BlockRendererInterface
         $content = ($title !== '' ? '<h3 class="text-lg font-semibold text-text-base">' . esc_html($title) . '</h3>' : '')
             . '<div class="mt-4 ' . esc_attr($layoutClasses) . '">' . $cards . '</div>';
 
-        return HtmlString::element('section', $ctx->blockAttrs($node, ['class' => 'space-y-0']), $content);
+        return ComponentStructure::decorate($ctx, $node, HtmlString::element('section', $ctx->blockAttrs($node, ['class' => 'space-y-0']), $content)->toString());
     }
 }

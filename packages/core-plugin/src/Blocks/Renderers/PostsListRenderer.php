@@ -38,6 +38,6 @@ final class PostsListRenderer implements BlockRendererInterface
         }
         \wp_reset_postdata();
 
-        return HtmlString::element('div', $ctx->blockAttrs($node, ['class' => 'space-y-4']), $items);
+        return ComponentStructure::decorate($ctx, $node, HtmlString::element('div', $ctx->blockAttrs($node, ['class' => 'space-y-4']), $items)->toString());
     }
 }
