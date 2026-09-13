@@ -9,24 +9,26 @@ import { BLOCKY_THEME_DARK_TOKENS_CSS, BLOCKY_THEME_TOKENS_CSS } from '../tailwi
 import { t } from '../i18n';
 
 export const Canvas: FunctionComponent = () => {
-  const document       = useDocumentStore(s => s.document);
-  const previewHtml    = useDocumentStore(s => s.previewHtml);
-  const previewCss     = useDocumentStore(s => s.previewCss);
-  const selectedId     = useUiStore(s => s.selectedNodeId);
-  const previewOverlayNodeId = useUiStore(s => s.previewOverlayNodeId);
-  const previewThemeMode = useUiStore(s => s.previewThemeMode);
-  const previewFrameNonce = useUiStore(s => s.previewFrameNonce);
-  const selectNode     = useUiStore(s => s.selectNode);
-  const hoverNode      = useUiStore(s => s.hoverNode);
-  const createPost     = useDocumentStore(s => s.createPost);
-  const removeBlock    = useDocumentStore(s => s.removeBlock);
-  const duplicateBlock = useDocumentStore(s => s.duplicateBlock);
-  const moveBlock      = useDocumentStore(s => s.moveBlock);
-  const insertBlock    = useDocumentStore(s => s.insertBlock);
-  const moveBlockTo    = useDocumentStore(s => s.moveBlockTo);
-  const updateProps    = useDocumentStore(s => s.updateProps);
-  const deviceMode     = useUiStore(s => s.deviceMode);
-  const themeCss       = useThemeStore(s => s.css);
+  const document = useDocumentStore((s) => s.document);
+  const previewHtml = useDocumentStore((s) => s.previewHtml);
+  const loadPost = useDocumentStore((s) => s.loadPost);
+  const currentPostId = useDocumentStore((s) => s.postId);
+  const previewCss = useDocumentStore((s) => s.previewCss);
+  const selectedId = useUiStore((s) => s.selectedNodeId);
+  const previewOverlayNodeId = useUiStore((s) => s.previewOverlayNodeId);
+  const previewThemeMode = useUiStore((s) => s.previewThemeMode);
+  const previewFrameNonce = useUiStore((s) => s.previewFrameNonce);
+  const selectNode = useUiStore((s) => s.selectNode);
+  const hoverNode = useUiStore((s) => s.hoverNode);
+  const createPost = useDocumentStore((s) => s.createPost);
+  const removeBlock = useDocumentStore((s) => s.removeBlock);
+  const duplicateBlock = useDocumentStore((s) => s.duplicateBlock);
+  const moveBlock = useDocumentStore((s) => s.moveBlock);
+  const insertBlock = useDocumentStore((s) => s.insertBlock);
+  const moveBlockTo = useDocumentStore((s) => s.moveBlockTo);
+  const updateProps = useDocumentStore((s) => s.updateProps);
+  const deviceMode = useUiStore((s) => s.deviceMode);
+  const themeCss = useThemeStore((s) => s.css);
 
   // Listen to postMessage from the canvas iframe (select / hover / actions)
   useEffect(() => {
@@ -44,32 +46,70 @@ export const Canvas: FunctionComponent = () => {
         mediaType?: string;
         mediaReturn?: string;
         propKey?: string;
+        postId?: number;
       };
       if (!data || typeof data.type !== 'string' || !data.type.startsWith('bky:')) return;
       switch (data.type) {
-        case 'bky:select':    selectNode(data.id ?? null);                                       break;
-        case 'bky:hover':     hoverNode(data.id ?? null);                                        break;
-        case 'bky:delete':    if (data.id) removeBlock(data.id);                                 break;
-        case 'bky:duplicate': if (data.id) duplicateBlock(data.id);                              break;
-        case 'bky:move':      if (data.id && data.direction) moveBlock(data.id, data.direction); break;
+        case 'bky:select':
+          selectNode(data.id ?? null);
+          break;
+        case 'bky:hover':
+          hoverNode(data.id ?? null);
+          break;
+        case 'bky:editStructure':
+          if (typeof data.postId === 'number' && data.postId > 0 && data.postId !== currentPostId) {
+            void loadPost(data.postId);
+          }
+          break;
+        case 'bky:delete':
+          if (data.id) removeBlock(data.id);
+          break;
+        case 'bky:duplicate':
+          if (data.id) duplicateBlock(data.id);
+          break;
+        case 'bky:move':
+          if (data.id && data.direction) moveBlock(data.id, data.direction);
+          break;
         case 'bky:insert':
-          if (data.blockType) insertBlock(data.blockType, data.targetId, data.position, data.slotName, data.preset, data.gridPlacement);
+          if (data.blockType)
+            insertBlock(
+              data.blockType,
+              data.targetId,
+              data.position,
+              data.slotName,
+              data.preset,
+              data.gridPlacement
+            );
           break;
         case 'bky:move-to':
-          if (data.id && data.targetId && data.position) moveBlockTo(data.id, data.targetId, data.position, data.slotName, data.gridPlacement);
+          if (data.id && data.targetId && data.position)
+            moveBlockTo(data.id, data.targetId, data.position, data.slotName, data.gridPlacement);
           break;
       }
     };
     window.addEventListener('message', handler);
     return () => window.removeEventListener('message', handler);
-  }, [selectNode, hoverNode, removeBlock, duplicateBlock, moveBlock, insertBlock, moveBlockTo, updateProps]);
+  }, [
+    selectNode,
+    hoverNode,
+    removeBlock,
+    duplicateBlock,
+    moveBlock,
+    insertBlock,
+    moveBlockTo,
+    updateProps,
+  ]);
 
   if (!document) {
     return (
       <div class="flex h-full flex-col items-center justify-center gap-6 text-text-muted">
         <div class="flex flex-col items-center gap-2">
-          <p class="text-lg font-semibold text-text-base">{t('canvas.noDocumentLoaded', 'No document loaded')}</p>
-          <p class="text-sm">{t('canvas.noDocumentDescription', 'Create a new page or open an existing post.')}</p>
+          <p class="text-lg font-semibold text-text-base">
+            {t('canvas.noDocumentLoaded', 'No document loaded')}
+          </p>
+          <p class="text-sm">
+            {t('canvas.noDocumentDescription', 'Create a new page or open an existing post.')}
+          </p>
         </div>
         <button
           type="button"
@@ -83,13 +123,9 @@ export const Canvas: FunctionComponent = () => {
   }
 
   const deviceWidth =
-    deviceMode === 'mobile' ? '390px' :
-    deviceMode === 'tablet' ? '820px' :
-    '1200px';
-  const deviceMax =
-    deviceMode === 'desktop' ? '1200px' : deviceWidth;
-  const deviceMin =
-    deviceMode === 'desktop' ? '1200px' : deviceWidth;
+    deviceMode === 'mobile' ? '390px' : deviceMode === 'tablet' ? '820px' : '1200px';
+  const deviceMax = deviceMode === 'desktop' ? '1200px' : deviceWidth;
+  const deviceMin = deviceMode === 'desktop' ? '1200px' : deviceWidth;
 
   return (
     <div class="relative h-full overflow-auto bg-surface-base p-8">
@@ -97,40 +133,53 @@ export const Canvas: FunctionComponent = () => {
         class="relative mx-auto rounded-card border border-border-subtle bg-white shadow-sm overflow-hidden transition-all duration-200"
         style={{ maxWidth: deviceMax, minWidth: deviceMin, width: deviceWidth }}
       >
-        <CanvasFrame html={previewHtml} previewCss={previewCss} selectedId={selectedId} previewOverlayNodeId={previewOverlayNodeId} themeCss={themeCss} previewThemeMode={previewThemeMode} previewFrameNonce={previewFrameNonce} />
+        <CanvasFrame
+          html={previewHtml}
+          previewCss={previewCss}
+          selectedId={selectedId}
+          previewOverlayNodeId={previewOverlayNodeId}
+          themeCss={themeCss}
+          previewThemeMode={previewThemeMode}
+          previewFrameNonce={previewFrameNonce}
+        />
       </div>
     </div>
   );
 };
 
 interface CanvasFrameProps {
-  html:       string;
+  html: string;
   previewCss: string;
   selectedId: string | null;
   previewOverlayNodeId: string | null;
-  themeCss:   string;
+  themeCss: string;
   previewThemeMode: 'light' | 'dark';
   previewFrameNonce: number;
 }
 
-const CanvasFrame: FunctionComponent<CanvasFrameProps> = ({ html, previewCss, selectedId, previewOverlayNodeId, themeCss, previewThemeMode, previewFrameNonce }) => {
+const CanvasFrame: FunctionComponent<CanvasFrameProps> = ({
+  html,
+  previewCss,
+  selectedId,
+  previewOverlayNodeId,
+  themeCss,
+  previewThemeMode,
+  previewFrameNonce,
+}) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const previewScrollRef = useRef({ top: 0, left: 0 });
   const scrollWindowRef = useRef<Window | null>(null);
-  const insertBlock = useDocumentStore(s => s.insertBlock);
+  const insertBlock = useDocumentStore((s) => s.insertBlock);
 
   // Propagate selectedId into the iframe whenever it changes (no full reload)
   useEffect(() => {
-    iframeRef.current?.contentWindow?.postMessage(
-      { type: 'bky:host-select', id: selectedId },
-      '*',
-    );
+    iframeRef.current?.contentWindow?.postMessage({ type: 'bky:host-select', id: selectedId }, '*');
   }, [selectedId, html]);
 
   useEffect(() => {
     iframeRef.current?.contentWindow?.postMessage(
       { type: 'bky:host-overlay-preview', nodeId: previewOverlayNodeId },
-      '*',
+      '*'
     );
   }, [previewOverlayNodeId, html]);
 
@@ -141,9 +190,10 @@ const CanvasFrame: FunctionComponent<CanvasFrameProps> = ({ html, previewCss, se
   };
 
   const handleDrop = (event: JSX.TargetedDragEvent<HTMLDivElement>) => {
-    const blockType = window.BlockyBuilderDrag?.blockType
-      || event.dataTransfer?.getData('application/blocky-block-type')
-      || event.dataTransfer?.getData('text/plain');
+    const blockType =
+      window.BlockyBuilderDrag?.blockType ||
+      event.dataTransfer?.getData('application/blocky-block-type') ||
+      event.dataTransfer?.getData('text/plain');
 
     if (!blockType || !blockType.startsWith('bky/')) return;
     event.preventDefault();
@@ -151,9 +201,12 @@ const CanvasFrame: FunctionComponent<CanvasFrameProps> = ({ html, previewCss, se
     delete window.BlockyBuilderDrag;
   };
 
-  useEffect(() => () => {
-    scrollWindowRef.current = null;
-  }, []);
+  useEffect(
+    () => () => {
+      scrollWindowRef.current = null;
+    },
+    []
+  );
 
   const handleFrameLoad = () => {
     const frameWindow = iframeRef.current?.contentWindow;
@@ -195,7 +248,12 @@ const CanvasFrame: FunctionComponent<CanvasFrameProps> = ({ html, previewCss, se
   );
 };
 
-function buildSrcdoc(html: string, previewCss: string, themeCss: string, previewThemeMode: 'light' | 'dark'): string {
+function buildSrcdoc(
+  html: string,
+  previewCss: string,
+  themeCss: string,
+  previewThemeMode: 'light' | 'dark'
+): string {
   const htmlClass = previewThemeMode === 'dark' ? 'dark' : '';
   const emptySlotLabel = t('canvas.dropBlocksHere', 'Drop blocks here');
   const canvasLabels = {
@@ -413,6 +471,14 @@ function buildSrcdoc(html: string, previewCss: string, themeCss: string, preview
   [data-bky-editor-overlay-preview="true"][data-bky-overlay-variant="drawer"] [data-bky-overlay-panel] {
     max-height: 100vh;
   }
+[data-bky-structure-id] { position: relative; }
+.bky-structure-edit { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .15s ease; background: rgba(15,23,42,.08); }
+[data-bky-structure-id]:hover { overflow: hidden; }
+[data-bky-structure-id]:hover .bky-structure-content { filter: blur(2.5px); }
+[data-bky-structure-id]:hover .bky-structure-edit { opacity: 1; pointer-events: auto; }
+.bky-structure-edit button { background: #4f46e5; color: #fff; border: 0; border-radius: 999px; padding: 8px 16px; font: 600 12px/1.3 system-ui, sans-serif; cursor: pointer; box-shadow: 0 10px 24px rgba(15,23,42,.28); }
+.bky-structure-edit button:hover { background: #4338ca; }
+.bky-structure-hint { font: 600 11px/1.5 system-ui, sans-serif; color: #5b5bd6; background: #eef2ff; border: 1px dashed #a5b4fc; border-radius: 8px; padding: 6px 10px; margin: 0 0 8px; }
 </style>
 ${themeCss ? `<style id="blocky-runtime-theme">${escapeHtml(themeCss)}</style>` : ''}
 </head>
@@ -429,7 +495,7 @@ ${html}
   }
   function parseColor(value){
     if (!value) return null;
-    var match = value.match(/rgba?\(([^)]+)\)/i);
+    var match = value.match(/rgba?[(]([^)]+)[)]/i);
     if (!match) return null;
     var parts = match[1].split(',').map(function(part){ return part.trim(); });
     if (parts.length < 3) return null;
@@ -740,6 +806,11 @@ ${html}
     var element = eventElement(e);
     closeContextMenu();
     if (element && element.closest('.bky-hover-toolbar')) return;
+    var editBtn = element && element.closest('[data-bky-edit-structure]');
+    if (editBtn) {
+      var structPid = parseInt(editBtn.getAttribute('data-bky-edit-structure'), 10);
+      if (structPid > 0) { send('bky:editStructure', { postId: structPid }); e.preventDefault(); return; }
+    }
     var node = element && element.closest('[data-bky-id]');
     send('bky:select', { id: node ? node.getAttribute('data-bky-id') : null });
     e.preventDefault();
@@ -841,8 +912,5 @@ function escapeAttribute(value: string): string {
 }
 
 function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }

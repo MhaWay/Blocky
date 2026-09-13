@@ -46,6 +46,6 @@ final class PostsGridRenderer implements BlockRendererInterface
         }
         \wp_reset_postdata();
 
-        return HtmlString::element('div', $ctx->blockAttrs($node, ['class' => trim('grid gap-6 ' . $columnsClass)]), $cards);
+        return ComponentStructure::decorate($ctx, $node, HtmlString::element('div', $ctx->blockAttrs($node, ['class' => trim('grid gap-6 ' . $columnsClass)]), $cards)->toString());
     }
 }

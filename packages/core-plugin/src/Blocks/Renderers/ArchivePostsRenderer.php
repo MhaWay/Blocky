@@ -42,6 +42,6 @@ final class ArchivePostsRenderer implements BlockRendererInterface
         }
         $html .= '</div>';
 
-        return HtmlString::element('div', $ctx->blockAttrs($node), $html);
+        return ComponentStructure::decorate($ctx, $node, HtmlString::element('div', $ctx->blockAttrs($node), $html)->toString());
     }
 }
