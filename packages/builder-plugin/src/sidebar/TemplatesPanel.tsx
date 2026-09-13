@@ -1,15 +1,28 @@
 import type { FunctionComponent } from 'preact';
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { type BuilderPageRecord, useDocumentStore } from '../store/document';
+import { type BuilderPageRecord, type PageStarterId, useDocumentStore } from '../store/document';
 import { useUiStore } from '../store/ui';
 import { builderLocale, t } from '../i18n';
 
+const TEMPLATE_KINDS: { id: PageStarterId; label: string }[] = [
+  { id: 'base-template', label: t('templates.kindBase', 'Base') },
+  { id: 'header', label: t('templates.kindHeader', 'Header') },
+  { id: 'footer', label: t('templates.kindFooter', 'Footer') },
+  { id: 'menu', label: t('templates.kindMenu', 'Menu') },
+  { id: 'sidebar', label: t('templates.kindSidebar', 'Sidebar') },
+  { id: 'single-post', label: t('templates.kindArticle', 'Article') },
+];
+
+const KIND_LABELS: Record<string, string> = Object.fromEntries(
+  TEMPLATE_KINDS.map((kind) => [kind.id, kind.label])
+);
+
 /**
- * Sidebar 'Pages' panel: a compact WP-admin-style overview of every WP page.
- * Open any page (Blocky-built or plain WP - the document gets assigned to
- * Blocky on first save), create a new one, or trash it.
+ * Sidebar 'Templates' panel: manages reusable template documents (header,
+ * footer, menus, sidebars, base and single-post templates). Opening one
+ * loads it into the editor; creating one picks the starter and opens it.
  */
-export const PagesPanel: FunctionComponent = () => {
+export const TemplatesPanel: FunctionComponent = () => {
   const pages = useDocumentStore((s) => s.pages);
   const isLoadingPages = useDocumentStore((s) => s.isLoadingPages);
   const loadPageLibrary = useDocumentStore((s) => s.loadPageLibrary);
@@ -24,12 +37,13 @@ export const PagesPanel: FunctionComponent = () => {
     void loadPageLibrary();
   }, [loadPageLibrary]);
 
-  const filtered = useMemo(() => {
+  const templates = useMemo(() => {
     const q = query.trim().toLowerCase();
-    // Reusable templates live in their own Templates tab.
-    const visible = pages.filter((p) => p.templateKind === '');
-    if (!q) return visible;
-    return visible.filter((p) => [p.title, p.status].join(' ').toLowerCase().includes(q));
+    return pages.filter(
+      (p) =>
+        p.templateKind !== '' &&
+        (!q || [p.title, p.templateKind].join(' ').toLowerCase().includes(q))
+    );
   }, [pages, query]);
 
   const open = async (page: BuilderPageRecord) => {
@@ -37,30 +51,41 @@ export const PagesPanel: FunctionComponent = () => {
     setActivePanel('blocks');
   };
 
-  const add = async () => {
-    await createPost({ starter: 'page' });
+  const create = async (starter: PageStarterId) => {
+    await createPost({ starter });
     setActivePanel('blocks');
   };
 
   const trash = async (page: BuilderPageRecord) => {
-    const ok = window.confirm(t('pages.trashConfirm', 'Move "%s" to the trash?', [page.title]));
+    const ok = window.confirm(
+      t('templates.trashConfirm', 'Move template "%s" to the trash?', [page.title])
+    );
     if (!ok) return;
     await deletePage(page.id);
   };
 
   return (
     <div class="flex min-h-0 flex-1 flex-col">
-      <div class="flex items-center justify-between gap-2 px-3 pt-3">
+      <div class="px-3 pt-3">
         <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-text-faint">
-          {t('sidebar.pages', 'Pages')}
+          {t('sidebar.templates', 'Templates')}
         </h2>
-        <button
-          type="button"
-          onClick={() => void add()}
-          class="rounded-input bg-accent-base px-2.5 py-1 text-xs font-semibold text-text-on-accent transition-colors hover:bg-accent-strong"
-        >
-          {t('pages.add', 'Add Page')}
-        </button>
+        <p class="mt-1 text-[11px] leading-snug text-text-muted">
+          {t('templates.description', 'Reusable parts and layouts. Click one to edit it.')}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-1 px-3 pt-2">
+        {TEMPLATE_KINDS.map((kind) => (
+          <button
+            key={kind.id}
+            type="button"
+            onClick={() => void create(kind.id)}
+            class="rounded-badge border border-border-base bg-surface-overlay px-2 py-0.5 text-[11px] font-semibold text-text-base transition-colors hover:border-accent-base hover:text-accent-text"
+          >
+            + {kind.label}
+          </button>
+        ))}
       </div>
 
       <div class="px-3 pb-2 pt-2">
@@ -68,24 +93,31 @@ export const PagesPanel: FunctionComponent = () => {
           type="search"
           value={query}
           onInput={(event) => setQuery((event.target as HTMLInputElement).value)}
-          placeholder={t('pages.searchPlaceholder', 'Search pages…')}
+          placeholder={t('templates.searchPlaceholder', 'Search templates…')}
           class="w-full rounded-input border border-border-base bg-surface-base px-2.5 py-1.5 text-sm text-text-base placeholder:text-text-faint focus:border-accent-base focus:outline-none"
         />
       </div>
 
       <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-3">
-        {isLoadingPages && pages.length === 0 ? (
-          <p class="px-2 py-4 text-sm text-text-muted">{t('pages.loading', 'Loading pages…')}</p>
-        ) : filtered.length === 0 ? (
+        {isLoadingPages && templates.length === 0 ? (
+          <p class="px-2 py-4 text-sm text-text-muted">
+            {t('templates.loading', 'Loading templates…')}
+          </p>
+        ) : templates.length === 0 ? (
           <div class="px-2 py-6 text-center">
-            <p class="text-sm font-semibold text-text-base">{t('pages.empty', 'No pages found')}</p>
+            <p class="text-sm font-semibold text-text-base">
+              {t('templates.empty', 'No templates yet')}
+            </p>
             <p class="mt-1 text-xs text-text-muted">
-              {t('pages.emptyDescription', 'Use Add Page to create one.')}
+              {t(
+                'templates.emptyDescription',
+                'Create a header, footer or article template above.'
+              )}
             </p>
           </div>
         ) : (
           <ul class="flex flex-col gap-1">
-            {filtered.map((page) => (
+            {templates.map((page) => (
               <li
                 key={page.id}
                 class={
@@ -99,30 +131,13 @@ export const PagesPanel: FunctionComponent = () => {
                   type="button"
                   onClick={() => void open(page)}
                   class="flex w-full items-center justify-between gap-2 text-left"
-                  title={t('pages.openHint', 'Open this page in the editor')}
+                  title={t('templates.openHint', 'Open this template in the editor')}
                 >
                   <span class="min-w-0 flex-1 truncate text-sm font-medium text-text-base">
                     {page.title}
                   </span>
-                  <span class="flex shrink-0 items-center gap-1.5">
-                    {page.hasDocument ? (
-                      <span
-                        class="rounded-badge bg-accent-base px-1.5 py-px text-[10px] font-bold text-text-on-accent"
-                        title={t('pages.builtWith', 'Built with Blocky')}
-                      >
-                        BK
-                      </span>
-                    ) : null}
-                    <span
-                      class={
-                        'rounded-badge px-1.5 py-px text-[10px] font-semibold uppercase ' +
-                        (page.status === 'publish'
-                          ? 'bg-feedback-success/12 text-feedback-success'
-                          : 'bg-surface-overlay text-text-muted')
-                      }
-                    >
-                      {page.status}
-                    </span>
+                  <span class="shrink-0 rounded-badge bg-accent-base px-1.5 py-px text-[10px] font-bold text-text-on-accent">
+                    {(KIND_LABELS[page.templateKind] ?? page.templateKind).toUpperCase()}
                   </span>
                 </button>
                 <div class="mt-1 flex items-center justify-between text-[11px] text-text-faint">
@@ -135,7 +150,7 @@ export const PagesPanel: FunctionComponent = () => {
                         rel="noreferrer"
                         class="text-accent-text hover:underline"
                       >
-                        {t('pages.view', 'View')}
+                        {t('templates.view', 'Preview')}
                       </a>
                     ) : null}
                     <button
@@ -143,7 +158,7 @@ export const PagesPanel: FunctionComponent = () => {
                       onClick={() => void trash(page)}
                       class="text-feedback-danger hover:underline"
                     >
-                      {t('pages.trash', 'Trash')}
+                      {t('templates.trash', 'Trash')}
                     </button>
                   </span>
                 </div>
@@ -158,8 +173,8 @@ export const PagesPanel: FunctionComponent = () => {
 
 function formatModified(value: string): string {
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return t('pages.recentlyModified', 'Recently updated');
-  return t('pages.updatedOn', 'Updated %s', [
+  if (Number.isNaN(date.getTime())) return t('templates.recentlyModified', 'Recently updated');
+  return t('templates.updatedOn', 'Updated %s', [
     date.toLocaleDateString(builderLocale(), { day: '2-digit', month: 'short', year: 'numeric' }),
   ]);
 }

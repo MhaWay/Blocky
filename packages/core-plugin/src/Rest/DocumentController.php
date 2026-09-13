@@ -24,6 +24,13 @@ final class DocumentController extends \WP_REST_Controller
      */
     public const EDITOR_META_KEY = '_blocky_editor';
 
+    /**
+     * Assignment marker for reusable templates: value is the template
+     * kind ('header', 'footer', 'single-post', ...). Empty means the
+     * document is a regular page.
+     */
+    public const TEMPLATE_META_KEY = '_blocky_template';
+
     protected $namespace = 'blocky/v1';
     protected $rest_base = 'documents';
 
@@ -297,6 +304,14 @@ final class DocumentController extends \WP_REST_Controller
         // Created pages belong to Blocky from birth.
         \update_post_meta((int) $postId, self::EDITOR_META_KEY, 'blocky');
 
+        // Template starters record their kind so the builder Templates tab
+        // can manage them; regular pages keep the meta empty.
+        $starter = \sanitize_key((string) ($request->get_param('starter') ?? 'page'));
+        $templateKinds = ['base-template', 'header', 'footer', 'menu', 'sidebar', 'single-post'];
+        if (\in_array($starter, $templateKinds, true)) {
+            \update_post_meta((int) $postId, self::TEMPLATE_META_KEY, $starter);
+        }
+
         $post = \get_post((int) $postId);
         if ($post === null) {
             return new \WP_Error('not_found', \__('Created page could not be loaded.', 'blocky'), ['status' => 500]);
@@ -424,6 +439,7 @@ final class DocumentController extends \WP_REST_Controller
             // mysql2date(DATE_ATOM, ..., false) emits epoch garbage; emit real ISO-8601 UTC.
             'modified'    => \gmdate(DATE_ATOM, \strtotime((string) ($post->post_modified_gmt ?: $post->post_modified)) ?: \time()),
             'hasDocument' => \get_post_meta($post->ID, '_blocky_document', true) !== '',
+            'templateKind' => (string) \get_post_meta($post->ID, self::TEMPLATE_META_KEY, true),
         ];
     }
 }

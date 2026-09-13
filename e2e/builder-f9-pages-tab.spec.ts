@@ -28,4 +28,18 @@ test.describe('Builder F9 sidebar pages tab', () => {
     await expect(rows).toHaveCount(1);
     await expect(rows.first()).toContainText('MCP Target');
   });
+
+  test('templates tab offers quick creation for every kind', async ({ page }) => {
+    const sidebar = page.locator('aside').first();
+    await sidebar.getByRole('button', { name: 'Templates', exact: true }).click();
+
+    await expect(
+      sidebar.getByText('Reusable parts and layouts. Click one to edit it.')
+    ).toBeVisible();
+
+    for (const kind of ['Base', 'Header', 'Footer', 'Menu', 'Sidebar', 'Article']) {
+      await expect(sidebar.getByRole('button', { name: '+ ' + kind })).toBeVisible();
+    }
+    await expect(sidebar.getByPlaceholder(/search templates/i)).toBeVisible();
+  });
 });

@@ -38,7 +38,8 @@ export type PageStarterId =
   | 'header'
   | 'footer'
   | 'menu'
-  | 'sidebar';
+  | 'sidebar'
+  | 'single-post';
 export interface GridPlacement {
   column: number;
   row: number;
@@ -52,6 +53,8 @@ export interface BuilderPageRecord {
   link: string;
   modified: string;
   hasDocument: boolean;
+  /** Template kind when this document IS a reusable template (e.g. 'header'). */
+  templateKind: string;
 }
 
 export interface CreatePostOptions {
@@ -1485,7 +1488,10 @@ export const useDocumentStore = create<DocumentState>()(
         s.isLoading = true;
       });
       try {
-        const res = await apiFetch('documents/library', 'POST', { title });
+        const res = await apiFetch('documents/library', 'POST', {
+          title,
+          starter: options.starter ?? 'page',
+        });
         const data = (await res.json()) as { post?: unknown };
         const nextPost = normalizePageRecord(data.post);
 
@@ -1962,6 +1968,39 @@ function starterDocument(starter: PageStarterId = 'page'): BuilderDocument {
       });
       break;
     }
+    case 'single-post': {
+      root.props = {
+        ...root.props,
+        paddingY: 'none',
+        paddingX: 'none',
+        fullWidth: true,
+        contentWidth: 'full',
+        gap: 'none',
+      };
+      const headerSlotId = addStarterNode(document, 'bky/section', rootId, 'default', {
+        props: {
+          paddingY: 'none',
+          paddingX: 'none',
+          fullWidth: true,
+          contentWidth: 'full',
+          background: 'transparent',
+          gap: 'none',
+        },
+      });
+      addStarterNode(document, 'bky/wp-template-part', headerSlotId, 'default', {
+        props: { postId: 0 },
+      });
+      const articleSectionId = addStarterNode(document, 'bky/section', rootId, 'default', {
+        props: { paddingY: 'lg', paddingX: 'base', contentWidth: 'container', gap: 'base' },
+      });
+      addStarterNode(document, 'bky/wp-post-title', articleSectionId, 'default', {
+        props: { level: 1 },
+      });
+      addStarterNode(document, 'bky/wp-post-content', articleSectionId, 'default');
+      addStarterNode(document, 'bky/author-box', articleSectionId, 'default');
+      addStarterNode(document, 'bky/post-navigation', articleSectionId, 'default');
+      break;
+    }
     case 'landing': {
       root.props = {
         ...root.props,
@@ -2180,6 +2219,8 @@ function defaultTitleForStarter(starter: PageStarterId = 'page'): string {
   switch (starter) {
     case 'landing':
       return 'Landing Page';
+    case 'single-post':
+      return 'Article Template';
     case 'base-template':
       return 'Base Template';
     case 'header':
@@ -2212,6 +2253,7 @@ function normalizePageRecord(value: unknown): BuilderPageRecord | null {
     link: typeof record.link === 'string' ? record.link : '',
     modified: typeof record.modified === 'string' ? record.modified : '',
     hasDocument: record.hasDocument === true,
+    templateKind: typeof record.templateKind === 'string' ? record.templateKind : '',
   };
 }
 
