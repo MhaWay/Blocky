@@ -1472,7 +1472,7 @@ final class Registry
                 'type' => 'object',
                 'properties' => [
                     'icon' => ['type' => 'string', 'default' => '✓'],
-                    'items' => ['type' => 'string', 'default' => "First item\nSecond item\nThird item"],
+                    'items' => ['type' => 'string', 'default' => "First item\nSecond item\nThird item", 'listFields' => [ [ 'key' => 'item', 'label' => 'Item' ] ]],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                     'tone' => ['type' => 'string', 'enum' => ['base', 'muted', 'accent'], 'default' => 'base'],
                 ],
@@ -1790,7 +1790,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => "facebook|https://facebook.com\ninstagram|https://instagram.com\nlinkedin|https://linkedin.com"],
+                    'items' => ['type' => 'string', 'default' => "facebook|https://facebook.com\ninstagram|https://instagram.com\nlinkedin|https://linkedin.com", 'listFields' => [ [ 'key' => 'network', 'label' => 'Network' ], [ 'key' => 'url', 'label' => 'URL', 'kind' => 'url' ] ]],
                     'layout' => ['type' => 'string', 'enum' => ['row', 'column'], 'default' => 'row'],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                     'align' => ['type' => 'string', 'enum' => ['start', 'center', 'end'], 'default' => 'start'],
@@ -1936,7 +1936,7 @@ final class Registry
                 'type' => 'object',
                 'properties' => [
                     'menuLocation' => ['type' => 'string', 'default' => ''],
-                    'items' => ['type' => 'string', 'default' => "Home|/\nAbout|/about\nContact|/contact"],
+                    'items' => ['type' => 'string', 'default' => "Home|/\nAbout|/about\nContact|/contact", 'listFields' => [ [ 'key' => 'label', 'label' => 'Label' ], [ 'key' => 'url', 'label' => 'URL', 'kind' => 'url' ] ]],
                     'layout' => ['type' => 'string', 'enum' => ['row', 'column'], 'default' => 'row'],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                     'align' => ['type' => 'string', 'enum' => ['start', 'center', 'end'], 'default' => 'start'],
@@ -2207,7 +2207,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => ''],
+                    'items' => ['type' => 'string', 'default' => '', 'listFields' => [ [ 'key' => 'source', 'label' => 'Image', 'kind' => 'image' ], [ 'key' => 'caption', 'label' => 'Caption' ] ]],
                     'columns' => ['type' => 'string', 'enum' => ['2', '3', '4'], 'default' => '3'],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                     'aspectRatio' => ['type' => 'string', 'enum' => ['square', 'video', 'wide'], 'default' => 'square'],
@@ -2248,7 +2248,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => ''],
+                    'items' => ['type' => 'string', 'default' => '', 'listFields' => [ [ 'key' => 'source', 'label' => 'Image', 'kind' => 'image' ] ]],
                     'columns' => ['type' => 'string', 'enum' => ['2', '3', '4'], 'default' => '3'],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                 ],
@@ -2284,7 +2284,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => ''],
+                    'items' => ['type' => 'string', 'default' => '', 'listFields' => [ [ 'key' => 'source', 'label' => 'Image', 'kind' => 'image' ], [ 'key' => 'caption', 'label' => 'Caption' ] ]],
                     'slidesVisible' => ['type' => 'string', 'enum' => ['1', '2', '3'], 'default' => '1'],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                     'aspectRatio' => ['type' => 'string', 'enum' => ['square', 'video', 'wide'], 'default' => 'video'],
@@ -2349,7 +2349,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => "Slide 1|Highlight your offer|Learn more|#\nSlide 2|Guide visitors to the next step|Contact us|#"],
+                    'items' => ['type' => 'string', 'default' => "Slide 1|Highlight your offer|Learn more|#\nSlide 2|Guide visitors to the next step|Contact us|#", 'listFields' => [ [ 'key' => 'title', 'label' => 'Title' ], [ 'key' => 'content', 'label' => 'Content' ], [ 'key' => 'button', 'label' => 'Button label' ], [ 'key' => 'url', 'label' => 'Link URL', 'kind' => 'url' ] ]],
                     'slidesVisible' => ['type' => 'string', 'enum' => ['1', '2', '3'], 'default' => '1'],
                     'gap' => ['type' => 'string', 'enum' => ['sm', 'base', 'lg'], 'default' => 'base'],
                     'align' => ['type' => 'string', 'enum' => ['start', 'center'], 'default' => 'start'],
@@ -2556,7 +2556,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => "Strategy Session|60 minute workshop|€120\nImplementation Sprint|Landing page setup|€900"],
+                    'items' => ['type' => 'string', 'default' => "Strategy Session|60 minute workshop|€120\nImplementation Sprint|Landing page setup|€900", 'listFields' => [ [ 'key' => 'name', 'label' => 'Plan' ], [ 'key' => 'description', 'label' => 'Description' ], [ 'key' => 'price', 'label' => 'Price' ] ]],
                     'showDividers' => ['type' => 'boolean', 'default' => true],
                     'tone' => ['type' => 'string', 'enum' => ['surface', 'accent'], 'default' => 'surface'],
                 ],
@@ -2643,7 +2643,7 @@ final class Registry
                 'type' => 'object',
                 'properties' => [
                     'attachmentId' => ['type' => 'integer', 'default' => 0],
-                    'points' => ['type' => 'string', 'default' => "Hero area|28|35|Point out the main value proposition.\nCall to action|70|62|Use a second marker for the next step."],
+                    'points' => ['type' => 'string', 'default' => "Hero area|28|35|Point out the main value proposition.\nCall to action|70|62|Use a second marker for the next step.", 'listFields' => [ [ 'key' => 'label', 'label' => 'Label' ], [ 'key' => 'x', 'label' => 'X %', 'kind' => 'number' ], [ 'key' => 'y', 'label' => 'Y %', 'kind' => 'number' ], [ 'key' => 'content', 'label' => 'Content' ] ]],
                     'tone' => ['type' => 'string', 'enum' => ['surface', 'accent'], 'default' => 'surface'],
                 ],
             ],
@@ -2800,7 +2800,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => "Launch faster\nReusable sections\nWordPress native\nTailwind-first"],
+                    'items' => ['type' => 'string', 'default' => "Launch faster\nReusable sections\nWordPress native\nTailwind-first", 'listFields' => [ [ 'key' => 'text', 'label' => 'Text' ] ]],
                     'speed' => ['type' => 'integer', 'minimum' => 8, 'maximum' => 60, 'default' => 20],
                     'direction' => ['type' => 'string', 'enum' => ['left', 'right'], 'default' => 'left'],
                     'pauseOnHover' => ['type' => 'boolean', 'default' => true],
@@ -3773,7 +3773,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => "Tab 1|First tab content\nTab 2|Second tab content\nTab 3|Third tab content"],
+                    'items' => ['type' => 'string', 'default' => "Tab 1|First tab content\nTab 2|Second tab content\nTab 3|Third tab content", 'listFields' => [ [ 'key' => 'title', 'label' => 'Tab title' ], [ 'key' => 'content', 'label' => 'Tab content' ] ]],
                     'activeIndex' => ['type' => 'integer', 'minimum' => 0, 'maximum' => 10, 'default' => 0],
                 ],
             ],
@@ -3802,7 +3802,7 @@ final class Registry
             schema: [
                 'type' => 'object',
                 'properties' => [
-                    'items' => ['type' => 'string', 'default' => "Question 1|Answer one\nQuestion 2|Answer two"],
+                    'items' => ['type' => 'string', 'default' => "Question 1|Answer one\nQuestion 2|Answer two", 'listFields' => [ [ 'key' => 'title', 'label' => 'Item title' ], [ 'key' => 'content', 'label' => 'Item content' ] ]],
                     'openFirst' => ['type' => 'boolean', 'default' => true],
                 ],
             ],

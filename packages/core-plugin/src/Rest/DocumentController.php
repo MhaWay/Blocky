@@ -122,9 +122,30 @@ final class DocumentController extends \WP_REST_Controller
         ]);
     }
 
+    /**
+     * Read the `document` parameter from the raw JSON body.
+     *
+     * WP_REST_Request unslashes the whole body before json_decode, which
+     * silently rewrites escaped characters inside string values (`\n` turns
+     * into `n`). Decoding the raw body keeps multi-line props verbatim.
+     * Falls back to get_param() for form-encoded requests, where the body
+     * legitimately arrives slashed.
+     */
+    private static function document_param(\WP_REST_Request $request): mixed
+    {
+        $body    = (string) $request->get_body();
+        $decoded = $body !== '' ? json_decode($body, true) : null;
+
+        if (is_array($decoded) && array_key_exists('document', $decoded)) {
+            return $decoded['document'];
+        }
+
+        return $request->get_param('document');
+    }
+
     public function render(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
-        $document = $request->get_param('document');
+        $document = self::document_param($request);
         $json     = \wp_json_encode($document);
 
         if ($json === false) {
@@ -167,7 +188,7 @@ final class DocumentController extends \WP_REST_Controller
     public function savePostDocument(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
         $postId   = (int) $request->get_param('post_id');
-        $document = $request->get_param('document');
+        $document = self::document_param($request);
 
         if (!\Blocky\Core\Support\Access::allowed_post('documents:write', 'edit_post', $postId)) {
             return new \WP_Error('forbidden', \__('You cannot edit this post.', 'blocky'), ['status' => 403]);
@@ -187,7 +208,9 @@ final class DocumentController extends \WP_REST_Controller
             );
         }
 
-        \update_post_meta($postId, '_blocky_document', $json);
+        // WP's meta read path unslashes by convention; store slashed so
+        // JSON escapes (\n, \") survive the round-trip intact.
+        \update_post_meta($postId, '_blocky_document', \wp_slash($json));
         $compiled = $this->pageCompiler->warmFrontendCache($postId, $json);
 
         $html = $this->pipeline->renderDocument($json, true);
@@ -207,7 +230,13 @@ final class DocumentController extends \WP_REST_Controller
             return new \WP_Error('forbidden', \__('You cannot edit this post.', 'blocky'), ['status' => 403]);
         }
 
-        $css = CssSanitizer::sanitize((string) $request->get_param('css'));
+        // Same raw-body read as document_param: escaped newlines must survive.
+        $body_raw  = (string) $request->get_body();
+        $body_json = $body_raw !== '' ? json_decode($body_raw, true) : null;
+        $css       = is_array($body_json) && array_key_exists('css', $body_json)
+            ? (string) $body_json['css']
+            : (string) $request->get_param('css');
+        $css       = CssSanitizer::sanitize($css);
         $this->pageCompiler->cacheCompiledCss($postId, $css);
         SiteStylesheet::schedule_rebuild();
 
