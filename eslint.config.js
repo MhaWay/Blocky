@@ -19,10 +19,24 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
+    // Build-time config files lint outside the tsc projects; their resolved-type
+    // rules buy nothing here.
+    files: ['**/vite.config.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+    },
+  },
+  {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        projectService: {
+          // Config-style files live outside the per-package tsc projects.
+          allowDefaultProject: ['packages/*/vite.config.ts', 'playwright.config.ts'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
