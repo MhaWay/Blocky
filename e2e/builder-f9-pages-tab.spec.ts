@@ -1,0 +1,31 @@
+import { test, expect } from '@playwright/test';
+import { loginToBuilder } from './helpers/builder';
+
+/**
+ * Sidebar 'Pages' tab: WP-admin-style page overview with create/open/trash.
+ * Read-only assertions only - this spec must never mutate shared fixtures.
+ */
+test.describe('Builder F9 sidebar pages tab', () => {
+  test.beforeEach(async ({ page }) => {
+    await loginToBuilder(page);
+  });
+
+  test('lists every WP page with badges and supports search', async ({ page }) => {
+    const sidebar = page.locator('aside').first();
+    await sidebar.getByRole('button', { name: 'Pages', exact: true }).click();
+
+    await expect(sidebar.getByRole('button', { name: 'Add Page' })).toBeVisible();
+
+    const rows = sidebar.locator('ul li');
+    await expect(rows.filter({ hasText: 'Audit Grid' })).toBeVisible();
+
+    // Built-with-Blocky badge shows on a page that has a document.
+    await expect(
+      rows.filter({ hasText: 'Audit Grid' }).locator('[title="Built with Blocky"]')
+    ).toBeVisible();
+
+    await sidebar.getByPlaceholder(/search pages/i).fill('MCP');
+    await expect(rows).toHaveCount(1);
+    await expect(rows.first()).toContainText('MCP Target');
+  });
+});
