@@ -10,6 +10,7 @@ import type { BlockPresetDefinition } from '../generated/blockPresetCatalog';
 import { ThemePanel } from '../theme/ThemePanel';
 import { OverlayPanel } from './OverlayPanel';
 import { PagesPanel } from './PagesPanel';
+import { TemplatesPanel } from './TemplatesPanel';
 import { t } from '../i18n';
 
 type SidebarTab = 'layout' | 'content' | 'wordpress';
@@ -120,28 +121,33 @@ export const Sidebar: FunctionComponent = () => {
       class="flex flex-col border-r border-border-subtle bg-surface-elevated"
       style={{ width: 'var(--builder-sidebar-width)' }}
     >
-      <div class="grid grid-cols-3 gap-1 border-b border-border-subtle p-2">
-        {(['blocks', 'pages', 'theme'] as const).map((panel) => (
+      <div class="grid grid-cols-4 gap-1 border-b border-border-subtle p-2">
+        {(['blocks', 'pages', 'templates', 'theme'] as const).map((panel) => (
           <button
             key={panel}
             type="button"
             onClick={() => setActivePanel(panel)}
-            class={`rounded-input px-2 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors ${
+            class={`rounded-input px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors ${
               activePanel === panel
                 ? 'bg-accent-base text-text-on-accent'
                 : 'text-text-muted hover:bg-surface-overlay hover:text-text-base'
             }`}
           >
-            {panel === 'blocks'
-              ? t('sidebar.blocks', 'Blocks')
-              : panel === 'pages'
-                ? t('sidebar.pages', 'Pages')
-                : t('sidebar.theme', 'Theme')}
+            {
+              {
+                blocks: t('sidebar.blocks', 'Blocks'),
+                pages: t('sidebar.pages', 'Pages'),
+                templates: t('sidebar.templates', 'Templates'),
+                theme: t('sidebar.theme', 'Theme'),
+              }[panel]
+            }
           </button>
         ))}
       </div>
 
       {activePanel === 'pages' && <PagesPanel />}
+
+      {activePanel === 'templates' && <TemplatesPanel />}
 
       {activePanel === 'theme' && <ThemePanel />}
 
