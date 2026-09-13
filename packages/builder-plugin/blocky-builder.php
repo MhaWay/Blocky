@@ -39,7 +39,8 @@ spl_autoload_register(static function (string $class): void {
     }
 });
 
-\add_action('plugins_loaded', static function (): void {
+// Same WP 6.7 rule as core: translations load at init, not plugins_loaded.
+\add_action('init', static function (): void {
     \load_plugin_textdomain('blocky', false, \dirname(\plugin_basename(__FILE__)) . '/languages');
 
     // Require Core Plugin

@@ -55,12 +55,14 @@ if (file_exists(BLOCKY_CORE_DIR . 'vendor/autoload.php')) {
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
-\add_action('plugins_loaded', static function (): void {
+// WP 6.7+: translations (and anything that uses them) must load at init,
+// not plugins_loaded - boot() registers core block labels via __().
+\add_action('init', static function (): void {
     \load_plugin_textdomain('blocky', false, \dirname(\plugin_basename(__FILE__)) . '/languages');
 
     $plugin = \Blocky\Core\Plugin::getInstance();
     $plugin->boot();
-});
+}, 1);
 
 // ── Activation / Deactivation hooks ──────────────────────────────────────────
 
