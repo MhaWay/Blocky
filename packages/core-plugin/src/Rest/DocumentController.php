@@ -17,6 +17,13 @@ use Blocky\Core\Tokens\ThemeEngine;
  */
 final class DocumentController extends \WP_REST_Controller
 {
+    /**
+     * Assignment marker: which editor OWNS this document. Set when Blocky
+     * creates the page or saves its document; drives the admin 'Built with
+     * Blocky' badge and the primary 'Edit with Blocky' row action.
+     */
+    public const EDITOR_META_KEY = '_blocky_editor';
+
     protected $namespace = 'blocky/v1';
     protected $rest_base = 'documents';
 
@@ -211,6 +218,16 @@ final class DocumentController extends \WP_REST_Controller
         // WP's meta read path unslashes by convention; store slashed so
         // JSON escapes (\n, \") survive the round-trip intact.
         \update_post_meta($postId, '_blocky_document', \wp_slash($json));
+
+        // Application rule: saving a document assigns the page to Blocky.
+        \update_post_meta($postId, self::EDITOR_META_KEY, 'blocky');
+
+        // The Gutenberg metabox entry creates auto-drafts; promote on first
+        // save so the page surfaces in the Pages list and the builder library.
+        $savedPost = \get_post($postId);
+        if ($savedPost instanceof \WP_Post && $savedPost->post_status === 'auto-draft') {
+            \wp_update_post(['ID' => $postId, 'post_status' => 'draft'], false);
+        }
         $compiled = $this->pageCompiler->warmFrontendCache($postId, $json);
 
         $html = $this->pipeline->renderDocument($json, true);
@@ -276,6 +293,9 @@ final class DocumentController extends \WP_REST_Controller
         if ($postId instanceof \WP_Error) {
             return $postId;
         }
+
+        // Created pages belong to Blocky from birth.
+        \update_post_meta((int) $postId, self::EDITOR_META_KEY, 'blocky');
 
         $post = \get_post((int) $postId);
         if ($post === null) {

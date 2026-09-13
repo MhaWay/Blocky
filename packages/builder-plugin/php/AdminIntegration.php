@@ -26,6 +26,10 @@ final class AdminIntegration
         \add_filter('page_row_actions',          [$this, 'addRowAction'],          10, 2);
         \add_filter('post_row_actions',          [$this, 'addRowAction'],          10, 2);
         \add_action('admin_bar_menu',            [$this, 'addAdminBarNode'],       200);
+        \add_filter('manage_pages_columns',        [$this, 'addBuiltColumn'],         10);
+        \add_filter('manage_posts_columns',        [$this, 'addBuiltColumn'],         10);
+        \add_action('manage_pages_custom_column',  [$this, 'renderBuiltColumn'],      10, 2);
+        \add_action('manage_posts_custom_column',  [$this, 'renderBuiltColumn'],      10, 2);
         \add_action('add_meta_boxes',            [$this, 'registerMetaBox']);
         \add_action('admin_enqueue_scripts',     [$this, 'enqueueAdminStyles']);
         \add_action('enqueue_block_editor_assets', [$this, 'blockEditorIntegration']);
@@ -43,8 +47,17 @@ final class AdminIntegration
             return $actions;
         }
 
-        $url  = \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $post->ID));
-        $link = '<a href="' . $url . '">' . \esc_html__('Blocky Editor', 'blocky') . '</a>';
+        $url   = \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $post->ID));
+        $built = $this->isBlockyBuilt((int) $post->ID);
+        $label = $built
+            ? \__('Edit with Blocky', 'blocky')
+            : \__('Blocky Editor', 'blocky');
+        $link  = '<a href="' . $url . '">' . \esc_html($label) . '</a>';
+
+        // Elementor-style assignment: on Blocky pages the builder link leads.
+        if ($built) {
+            return ['blocky_editor' => $link] + $actions;
+        }
 
         // Insert after "edit" action when present; otherwise prepend.
         $merged   = [];
@@ -61,6 +74,50 @@ final class AdminIntegration
         }
 
         return $merged;
+    }
+
+    // ── 'Built with Blocky' admin column ──────────────────────────────────
+
+    /**
+     * @param  array<string, string> $columns
+     * @return array<string, string>
+     */
+    public function addBuiltColumn(array $columns): array
+    {
+        $with = [];
+        foreach ($columns as $key => $label) {
+            $with[$key] = $label;
+            if ($key === 'title') {
+                $with['blocky_built'] = __('Blocky', 'blocky');
+            }
+        }
+        if (!isset($with['blocky_built'])) {
+            $with = ['blocky_built' => __('Blocky', 'blocky')] + $with;
+        }
+        return $with;
+    }
+
+    public function renderBuiltColumn(string $column, int $postId): void
+    {
+        if ($column !== 'blocky_built' || !$this->isBlockyBuilt($postId)) {
+            return;
+        }
+
+        echo '<span class="blocky-built-badge" title="' . esc_attr__('Built with Blocky', 'blocky') . '">' . esc_html__('Blocky', 'blocky') . '</span>';
+    }
+
+    /**
+     * Application rule: a page belongs to Blocky when Blocky created it or
+     * saved its document (marker), or when a document exists even without
+     * the marker (pages built before the rule shipped).
+     */
+    public function isBlockyBuilt(int $postId): bool
+    {
+        if (\get_post_meta($postId, \Blocky\Core\Rest\DocumentController::EDITOR_META_KEY, true) === 'blocky') {
+            return true;
+        }
+
+        return \get_post_meta($postId, '_blocky_document', true) !== '';
     }
 
     // ── Admin bar button ─────────────────────────────────────────────────────
@@ -314,6 +371,21 @@ JS;
 /* ── Post list – row action ──────────────────────────────────────── */
 .row-actions span.blocky_editor a { color: #7c3aed; }
 .row-actions span.blocky_editor a:hover { color: #6d28d9; text-decoration: underline; }
+
+/* ── Post list – Built with Blocky badge ─────────────────────────── */
+.blocky-built-badge {
+    display: inline-block;
+    padding: 1px 9px;
+    border-radius: 999px;
+    background: #7c3aed;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.6;
+    vertical-align: middle;
+    cursor: default;
+}
+td.blocky_built.column-blocky_built { width: 80px; text-align: center; }
 
 /* ── Sidebar meta box ────────────────────────────────────────────── */
 .blocky-metabox-btn {
