@@ -197,6 +197,10 @@ final class RenderContext
                 $classes[] = $options[$selected];
             }
         }
+        $utility = self::nodeUtilityClasses($node);
+        if ($utility !== '') {
+            $classes[] = $utility;
+        }
         return implode(' ', array_filter($classes));
     }
 
@@ -218,7 +222,7 @@ final class RenderContext
         return rtrim($existing, ';') . '; ' . $style;
     }
 
-    private static function nodeUtilityClasses(Node $node): string
+    public static function nodeUtilityClasses(Node $node): string
     {
         $rawClasses = $node->props['twClasses'] ?? [];
         if (is_string($rawClasses)) {
@@ -244,7 +248,7 @@ final class RenderContext
 
     private static function sanitizeUtilityClass(string $className): string
     {
-        return preg_replace('/[^A-Za-z0-9_:\-\[\]\/\.%#(),!]/', '', trim($className)) ?? '';
+        return preg_replace('/[^A-Za-z0-9_:\-\[\]\/\.%#(),!\x27]/', '', trim($className)) ?? '';
     }
 
     private static function nodeUtilityStyles(Node $node): string

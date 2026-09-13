@@ -211,13 +211,12 @@ final class TailwindBinary {
 
 		$debug   = defined( 'WP_DEBUG' ) && WP_DEBUG;
 		$windows = defined( 'PHP_WINDOWS_VERSION_MAJOR' );
-		$stderr  = $debug ? 'php://stderr' : ( $windows ? 'NUL' : '/dev/null' );
+		$redir   = $debug ? '2>&1' : '2> ' . escapeshellarg( $windows ? 'NUL' : '/dev/null' );
 		$cmd     = sprintf(
-			'%s -i %s -o %s --minify 2> %s',
+			'%s -i %s -o %s --minify ' . $redir,
 			escapeshellarg( $this->binary_path( $target ) ),
 			escapeshellarg( $entry_file ),
-			escapeshellarg( $output_file ),
-			$stderr
+			escapeshellarg( $output_file )
 		);
 
 		$out      = array();

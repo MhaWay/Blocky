@@ -87,7 +87,7 @@ final class OverlayRenderer implements BlockRendererInterface
             'aria-hidden' => (!$ctx->isEditorMode() && !$defaultOpen) ? 'true' : 'false',
             'tabindex' => '-1',
             'hidden' => (!$ctx->isEditorMode() && !$defaultOpen),
-            'class' => $rootClasses,
+            'class' => trim($rootClasses . ' ' . RenderContext::nodeUtilityClasses($node)),
         ]), $panel);
     }
 

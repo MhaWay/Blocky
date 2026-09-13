@@ -158,7 +158,7 @@ final class SiteStylesheet {
 				continue;
 			}
 			foreach ( $decoded as $candidate ) {
-				$valid_shape = is_string( $candidate ) && '' !== $candidate && 1 === preg_match( '/^[a-zA-Z0-9_:.\/%\[\]()#&+~<>=,-]+$/', $candidate );
+				$valid_shape = is_string( $candidate ) && '' !== $candidate && 1 === preg_match( '/^[a-zA-Z0-9_:.\/%\[\]()#&+~<>=,!\x27\-]+$/', $candidate );
 				if ( $valid_shape ) {
 					$union[ $candidate ] = true;
 				}
@@ -194,7 +194,9 @@ final class SiteStylesheet {
 			$entry_tmp = $this->upload_dir . '/entry.tmp.css';
 			$vocab_ref = str_replace( '\\', '/', $this->resources_dir ) . '/vocabulary.source.css';
 			$lines     = '@import "' . $vocab_ref . '";' . chr( 10 );
-			$lines    .= '@source inline("' . implode( ' ', $extra ) . '");' . chr( 10 );
+			foreach ( $extra as $candidate ) {
+				$lines .= '@source inline("' . $candidate . '");' . chr( 10 );
+			}
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents, WordPress.PHP.NoSilencedErrors.Discouraged -- temp entry inside uploads.
 			$written = @file_put_contents( $entry_tmp, $lines );
 			if ( false === $written ) {
