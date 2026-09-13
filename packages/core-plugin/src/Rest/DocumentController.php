@@ -401,7 +401,8 @@ final class DocumentController extends \WP_REST_Controller
             'status'      => $post->post_status,
             'type'        => $post->post_type,
             'link'        => \is_string($link) ? $link : '',
-            'modified'    => \mysql2date(DATE_ATOM, $post->post_modified_gmt !== '' ? $post->post_modified_gmt : $post->post_modified, false),
+            // mysql2date(DATE_ATOM, ..., false) emits epoch garbage; emit real ISO-8601 UTC.
+            'modified'    => \gmdate(DATE_ATOM, \strtotime((string) ($post->post_modified_gmt ?: $post->post_modified)) ?: \time()),
             'hasDocument' => \get_post_meta($post->ID, '_blocky_document', true) !== '',
         ];
     }

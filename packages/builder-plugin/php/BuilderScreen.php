@@ -46,7 +46,8 @@ final class BuilderScreen
             'assetUrl'           => '',
             'postTypes'          => $this->getSupportedPostTypes(),
             'compilerCssFragments' => $this->getCompilerCssFragments(),
-            'locale'             => \function_exists('get_user_locale') ? \get_user_locale() : \get_locale(),
+            // Intl tag: JS Intl throws RangeError on PHP-style tags.
+                    'locale'             => str_replace('_', '-', \function_exists('get_user_locale') ? \get_user_locale() : \get_locale()),
             'i18n'               => $this->getI18nStrings(),
         ]);
         // Inline config BEFORE the module script so window.BlockyBuilderConfig
