@@ -33,3 +33,14 @@ Lo slug `blocky` è occupato da "Blocky! – Additional Content Blocks" (abbando
 
 - I cataloghi IT/DE/ES/FR/PT-BR vanno dichiarati "awaiting native review" nel readme fino a revisione; GlotPress disponibile dopo la pubblicazione.
 - Mock di vetrina in /tmp/icon/mock.png contiene numeri fittizi (recensioni/installazioni) solo a scopo di prova: NON usare in materiali pubblici.
+
+## Rebrand (2026-09-14)
+
+Brand pubblico: **Blockwork™ – Page Builder** (GG-Ally). Motivo: "Blocky" debole, affollato
+(wp.org, DNS proxy 6.9k stelle, npm) e SEO invincibile; TMview mostra marchi "Blockwork" vivi solo
+in classi 28/41 (giocattoli/intrattenimento). Attesa: screenshot TMview filtrato classi 9/42 come
+verdetto finale. Verifica DPMA su "Blockwork Studio" (DE, 25/35/42) non automatizzabile.
+
+- Fase 1 (QUESTA PR): solo stringhe visibili, header plugin, readme, banner, cataloghi, e2e.
+- Fase 2 (dopo approvazione wp.org): identifier interni (namespace Blocky\*, text domain 'blocky',
+  slug admin page, meta keys _blocky_*, uploads/blocky/, window.Blocky*) → migrazione doc-version.

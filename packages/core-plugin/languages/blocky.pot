@@ -1,13 +1,10 @@
+# Translation template for Blockwork.
+# Copyright (c) 2026 GG-Ally
 msgid ""
 msgstr ""
-"Project-Id-Version: Blocky 0.1.0
-Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/blocky
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-"
+"Project-Id-Version: Blockwork 0.1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 
 msgid "%s Settings"
 msgstr ""
@@ -81,7 +78,7 @@ msgstr ""
 msgid "All Pages"
 msgstr ""
 
-msgid "All pages are listed. Blocky pages are marked with a badge."
+msgid "All pages are listed. Blockwork pages are marked with a badge."
 msgstr ""
 
 msgid "Alt Text"
@@ -159,40 +156,40 @@ msgstr ""
 msgid "Blocks"
 msgstr ""
 
-msgid "Blocky"
+msgid "Blockwork"
 msgstr ""
 
-msgid "Blocky Builder"
+msgid "Blockwork Builder"
+msgstr ""
+
+msgid "Blockwork Cache"
+msgstr ""
+
+msgid "Blockwork Editor"
+msgstr ""
+
+msgid "Blockwork Form Submission"
+msgstr ""
+
+msgid "Blockwork Form Submissions"
+msgstr ""
+
+msgid "Blockwork Forms"
+msgstr ""
+
+msgid "Blockwork cache rebuild complete. %1$d pages rebuilt, %2$d failures."
+msgstr ""
+
+msgid "Blockwork cache rebuild failed."
+msgstr ""
+
+msgid "Blockwork page cache cleared."
+msgstr ""
+
+msgid "Blockwork page cache rebuilt."
 msgstr ""
 
 msgid "Blocky Builder requires the Blocky Core plugin to be active."
-msgstr ""
-
-msgid "Blocky Cache"
-msgstr ""
-
-msgid "Blocky Editor"
-msgstr ""
-
-msgid "Blocky Form Submission"
-msgstr ""
-
-msgid "Blocky Form Submissions"
-msgstr ""
-
-msgid "Blocky Forms"
-msgstr ""
-
-msgid "Blocky cache rebuild complete. %1$d pages rebuilt, %2$d failures."
-msgstr ""
-
-msgid "Blocky cache rebuild failed."
-msgstr ""
-
-msgid "Blocky page cache cleared."
-msgstr ""
-
-msgid "Blocky page cache rebuilt."
 msgstr ""
 
 msgid "Blog"
@@ -207,10 +204,10 @@ msgstr ""
 msgid "Breakpoint scope"
 msgstr ""
 
-msgid "Built with Blocky"
+msgid "Built with Blockwork"
 msgstr ""
 
-msgid "Built-in POST forms are stored as private Blocky submissions and listed here for review."
+msgid "Built-in POST forms are stored as private Blockwork submissions and listed here for review."
 msgstr ""
 
 msgid "Built-in storage"
@@ -333,10 +330,10 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-msgid "Contains a Blocky document"
+msgid "Contains a Blockwork document"
 msgstr ""
 
-msgid "Contains a reusable Blocky document."
+msgid "Contains a reusable Blockwork document."
 msgstr ""
 
 msgid "Content"
@@ -345,7 +342,7 @@ msgstr ""
 msgid "Content Management"
 msgstr ""
 
-msgid "Continue in Blocky Editor"
+msgid "Continue in Blockwork Editor"
 msgstr ""
 
 msgid "Cookie"
@@ -384,7 +381,7 @@ msgstr ""
 msgid "Create an account"
 msgstr ""
 
-msgid "Create reusable parts or a full base template to connect to pages through Blocky WordPress blocks."
+msgid "Create reusable parts or a full base template to connect to pages through Blockwork WordPress blocks."
 msgstr ""
 
 msgid "Created page could not be loaded."
@@ -513,10 +510,10 @@ msgstr ""
 msgid "Edit element"
 msgstr ""
 
-msgid "Edit with Blocky"
+msgid "Edit with Blockwork"
 msgstr ""
 
-msgid "Edit with Blocky Builder"
+msgid "Edit with Blockwork Builder"
 msgstr ""
 
 msgid "Embed Google Maps"
@@ -774,7 +771,7 @@ msgstr ""
 msgid "Invisible scroll target with an editable anchor id."
 msgstr ""
 
-msgid "Key point one\\nKey point two\\nKey point three"
+msgid "Key point one\nKey point two\nKey point three"
 msgstr ""
 
 msgid "Landing"
@@ -816,10 +813,10 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
-msgid "Loading Blocky pages..."
+msgid "Loading Blockwork pages..."
 msgstr ""
 
-msgid "Loading Blocky pages…"
+msgid "Loading Blockwork pages…"
 msgstr ""
 
 msgid "Loading pages…"
@@ -897,7 +894,7 @@ msgstr ""
 msgid "Motion Set"
 msgstr ""
 
-msgid "Move \"%s\" to the trash?"
+msgid "Move \\"%s\\" to the trash?"
 msgstr ""
 
 msgid "Move down"
@@ -909,7 +906,7 @@ msgstr ""
 msgid "Move right"
 msgstr ""
 
-msgid "Move template \"%s\" to the trash?"
+msgid "Move template \\"%s\\" to the trash?"
 msgstr ""
 
 msgid "Move to Trash"
@@ -936,7 +933,7 @@ msgstr ""
 msgid "Navigation menu sourced from a WP location or a manual fallback list."
 msgstr ""
 
-msgid "New Blocky Page"
+msgid "New Blockwork Page"
 msgstr ""
 
 msgid "New Component"
@@ -954,13 +951,13 @@ msgstr ""
 msgid "New page"
 msgstr ""
 
-msgid "No Blocky document was found for this page."
+msgid "No Blockwork document was found for this page."
 msgstr ""
 
-msgid "No Blocky form submissions have been stored yet."
+msgid "No Blockwork form submissions have been stored yet."
 msgstr ""
 
-msgid "No Blocky forms were found yet. Add a Form block to a Blocky page to start collecting submissions."
+msgid "No Blockwork forms were found yet. Add a Form block to a Blockwork page to start collecting submissions."
 msgstr ""
 
 msgid "No Tailwind utility classes on this block."
@@ -1047,13 +1044,13 @@ msgstr ""
 msgid "Open Classic Editor"
 msgstr ""
 
-msgid "Open a Blocky page in the Builder or choose one of the recent pages below."
+msgid "Open a Blockwork page in the Builder or choose one of the recent pages below."
 msgstr ""
 
-msgid "Open in Blocky"
+msgid "Open in Blockwork"
 msgstr ""
 
-msgid "Open in Blocky Editor"
+msgid "Open in Blockwork Editor"
 msgstr ""
 
 msgid "Open the submission to view all fields."
@@ -1188,19 +1185,19 @@ msgstr ""
 msgid "Ready-made contact form preset saved into Blocky form submissions."
 msgstr ""
 
-msgid "Rebuild All Blocky Cache"
+msgid "Rebuild All Blockwork Cache"
 msgstr ""
 
 msgid "Rebuild Page Cache"
 msgstr ""
 
-msgid "Rebuild or clear the compiled cache for Blocky pages."
+msgid "Rebuild or clear the compiled cache for Blockwork pages."
 msgstr ""
 
-msgid "Rebuild the compiled frontend cache for all %d Blocky pages."
+msgid "Rebuild the compiled frontend cache for all %d Blockwork pages."
 msgstr ""
 
-msgid "Recent Blocky Pages"
+msgid "Recent Blockwork Pages"
 msgstr ""
 
 msgid "Recent Submissions"
@@ -1410,7 +1407,7 @@ msgstr ""
 msgid "Standard WordPress page"
 msgstr ""
 
-msgid "Standard WordPress page without a saved Blocky document."
+msgid "Standard WordPress page without a saved Blockwork document."
 msgstr ""
 
 msgid "Star Rating"
@@ -1551,10 +1548,10 @@ msgstr ""
 msgid "Theme data unavailable."
 msgstr ""
 
-msgid "This page does not contain a Blocky document."
+msgid "This page does not contain a Blockwork document."
 msgstr ""
 
-msgid "This page is edited with Blocky Builder."
+msgid "This page is edited with Blockwork Builder."
 msgstr ""
 
 msgid "Throttle (ms)"
@@ -1695,7 +1692,7 @@ msgstr ""
 msgid "WordPress media library not available."
 msgstr ""
 
-msgid "WordPress page without a saved Blocky document"
+msgid "WordPress page without a saved Blockwork document"
 msgstr ""
 
 msgid "You are already signed in."

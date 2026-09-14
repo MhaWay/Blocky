@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Blocky Core
+ * Plugin Name: Blockwork Engine (Blocky Core)
  * Plugin URI: https://blocky.dev
- * Description: Core engine for the Blocky block builder ecosystem. Provides block registry, token resolver, render pipeline, REST API, and asset orchestration.
+ * Description: Core engine for Blockwork: block registry, token resolver, render pipeline, Provides block registry, token resolver, render pipeline, REST API, and asset orchestration.
  * Version: 0.1.0
  * Requires at least: 6.5
  * Requires PHP: 8.2
