@@ -36,7 +36,7 @@ def main():
 
     src = os.path.join(PKG, 'builder-plugin')
     for m in os.listdir(src):
-        if m in ('readme.txt', 'blocky-builder.php', 'node_modules', 'tests', 'src', 'scripts'):
+        if m in ('readme.txt', 'blocky-builder.php', 'node_modules', 'tests', 'scripts'):
             continue
         s, d = os.path.join(src, m), os.path.join(OUT, 'builder', m)
         (shutil.copytree if os.path.isdir(s) else shutil.copy2)(s, d)
