@@ -121,11 +121,12 @@ export const Sidebar: FunctionComponent = () => {
       class="flex flex-col border-r border-border-subtle bg-surface-elevated"
       style={{ width: 'var(--builder-sidebar-width)' }}
     >
-      <div class="grid grid-cols-4 gap-1 border-b border-border-subtle p-2">
+      <div class="grid grid-cols-2 gap-1 border-b border-border-subtle p-2">
         {(['blocks', 'pages', 'templates', 'theme'] as const).map((panel) => (
           <button
             key={panel}
             type="button"
+            title={t('sidebar.' + panel, panel.charAt(0).toUpperCase() + panel.slice(1))}
             onClick={() => setActivePanel(panel)}
             class={`rounded-input px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors ${
               activePanel === panel
