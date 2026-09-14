@@ -24,7 +24,10 @@ def main():
     os.makedirs(OUT + '/builder', exist_ok=True)
 
     src = os.path.join(PKG, 'core-plugin')
+    DEV_FILES = {'composer.json', 'composer.lock', 'package.json', 'phpcs.xml', 'phpcs.xml.dist', 'phpunit.xml'}
     for m in os.listdir(src):
+        if m.startswith('.'):
+            continue
         if m in ('readme.txt', 'blocky-core.php', 'node_modules', 'tests'):
             continue
         s, d = os.path.join(src, m), os.path.join(OUT, 'engine', m)
@@ -35,12 +38,37 @@ def main():
                    '--working-dir', OUT + '/engine'], check=True)
 
     src = os.path.join(PKG, 'builder-plugin')
+    DEV_FILES = {'composer.json', 'composer.lock', 'package.json', 'phpcs.xml', 'phpcs.xml.dist', 'phpunit.xml'}
     for m in os.listdir(src):
+        if m.startswith('.'):
+            continue
         if m in ('readme.txt', 'blocky-builder.php', 'node_modules', 'tests', 'scripts'):
             continue
         s, d = os.path.join(src, m), os.path.join(OUT, 'builder', m)
         (shutil.copytree if os.path.isdir(s) else shutil.copy2)(s, d)
     strip_entry(os.path.join(src, 'blocky-builder.php'), OUT + '/builder/builder.php')
+
+    # Text domain must equal slug for the directory (Plugin Check ERROR otherwise).
+    import re as _re
+    pat = _re.compile(r"(,\s*)'blocky'(\s*\))")
+    for root, dirs, files in os.walk(OUT):
+        for f in files:
+            if not f.endswith('.php'):
+                continue
+            fp = os.path.join(root, f)
+            c = open(fp, encoding='utf-8').read()
+            c = pat.sub(lambda m: m.group(1) + "'gennaker-page-builder'" + m.group(2), c)
+            c = c.replace("load_plugin_textdomain('blocky'", "load_plugin_textdomain('gennaker-page-builder'")
+            open(fp, 'w', encoding='utf-8').write(c)
+    for sub in ('engine', 'builder'):
+        d = os.path.join(OUT, sub, 'languages')
+        if os.path.isdir(d):
+            for f in os.listdir(d):
+                if f.startswith('blocky-'):
+                    os.rename(os.path.join(d, f), os.path.join(d, 'gennaker-page-builder-' + f[7:]))
+            for f in os.listdir(d):
+                if f.endswith(('.po', '.pot')):
+                    os.remove(os.path.join(d, f))
 
     shutil.copy(os.path.join(HERE, 'gennaker-page-builder.php'), OUT + '/gennaker-page-builder.php')
     shutil.copy(os.path.join(HERE, 'readme.txt'), OUT + '/readme.txt')

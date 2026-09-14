@@ -316,7 +316,7 @@ final class Registry
 
     private static function tr(string $text): string
     {
-        return \__($text, 'blocky');
+        return \__($text, 'blocky'); // phpcs:ignore WordPress.WP.I18n -- callers pass literal descriptor labels only; extracted via xgettext.
     }
 
     private static function localizeEditorValue(mixed $value): mixed

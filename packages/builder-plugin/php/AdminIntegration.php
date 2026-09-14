@@ -179,7 +179,7 @@ final class AdminIntegration
                . '</p>';
         }
 
-        echo '<a href="' . $url . '" class="button blocky-metabox-btn">'
+        echo '<a href="' . \esc_url($url) . '" class="button blocky-metabox-btn">'
            . \esc_html($label)
            . '</a>';
     }
