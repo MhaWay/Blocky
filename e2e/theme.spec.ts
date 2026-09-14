@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Theme smoke tests', () => {
   test('homepage loads without JS errors', async ({ page }) => {
     const errors: string[] = [];
-    page.on('pageerror', e => errors.push(e.message));
+    page.on('pageerror', (e) => errors.push(e.message));
 
     await page.goto('/');
     await expect(page.locator('body')).toBeVisible();
@@ -14,7 +14,8 @@ test.describe('Theme smoke tests', () => {
   test('dark mode toggle works', async ({ page }) => {
     await page.goto('/');
 
-    // Programmatically activate dark mode
+    // theme-switch ships as a deferred module; wait for its global before poking it
+    await page.waitForFunction(() => typeof (window as Record<string, unknown>)['blockyTheme'] !== 'undefined');
     await page.evaluate(() => {
       (window as Record<string, unknown>)['blockyTheme']?.setMode?.('dark');
     });

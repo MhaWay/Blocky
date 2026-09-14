@@ -171,5 +171,3 @@
 @source inline("print:hidden");
 @source inline("{sm,md,lg,xl,2xl}:sr-only");
 
-VEOF
-wc -l /tmp/spike/vocab.css && grep -c "@source inline" /tmp/spike/vocab.css

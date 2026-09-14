@@ -28,15 +28,31 @@
           "color": "var(--bky-color-surface-elevated)",
           "name": "Surface Elevated"
         },
-        { "slug": "text-base", "color": "var(--bky-color-text-base)", "name": "Text Base" },
-        { "slug": "text-muted", "color": "var(--bky-color-text-muted)", "name": "Text Muted" },
-        { "slug": "accent-base", "color": "var(--bky-color-accent-base)", "name": "Accent" },
+        {
+          "slug": "text-base",
+          "color": "var(--bky-color-text-base)",
+          "name": "Text Base"
+        },
+        {
+          "slug": "text-muted",
+          "color": "var(--bky-color-text-muted)",
+          "name": "Text Muted"
+        },
+        {
+          "slug": "accent-base",
+          "color": "var(--bky-color-accent-base)",
+          "name": "Accent"
+        },
         {
           "slug": "accent-subtle",
           "color": "var(--bky-color-accent-subtle)",
           "name": "Accent Subtle"
         },
-        { "slug": "border-base", "color": "var(--bky-color-border-base)", "name": "Border" }
+        {
+          "slug": "border-base",
+          "color": "var(--bky-color-border-base)",
+          "name": "Border"
+        }
       ]
     },
     "typography": {
@@ -61,15 +77,51 @@
         }
       ],
       "fontSizes": [
-        { "slug": "xs", "size": "var(--bky-text-xs)", "name": "XS" },
-        { "slug": "sm", "size": "var(--bky-text-sm)", "name": "SM" },
-        { "slug": "base", "size": "var(--bky-text-base)", "name": "Base" },
-        { "slug": "lg", "size": "var(--bky-text-lg)", "name": "LG" },
-        { "slug": "xl", "size": "var(--bky-text-xl)", "name": "XL" },
-        { "slug": "2xl", "size": "var(--bky-text-2xl)", "name": "2XL" },
-        { "slug": "3xl", "size": "var(--bky-text-3xl)", "name": "3XL" },
-        { "slug": "4xl", "size": "var(--bky-text-4xl)", "name": "4XL" },
-        { "slug": "5xl", "size": "var(--bky-text-5xl)", "name": "5XL" }
+        {
+          "slug": "xs",
+          "size": "var(--bky-text-xs)",
+          "name": "XS"
+        },
+        {
+          "slug": "sm",
+          "size": "var(--bky-text-sm)",
+          "name": "SM"
+        },
+        {
+          "slug": "base",
+          "size": "var(--bky-text-base)",
+          "name": "Base"
+        },
+        {
+          "slug": "lg",
+          "size": "var(--bky-text-lg)",
+          "name": "LG"
+        },
+        {
+          "slug": "xl",
+          "size": "var(--bky-text-xl)",
+          "name": "XL"
+        },
+        {
+          "slug": "2xl",
+          "size": "var(--bky-text-2xl)",
+          "name": "2XL"
+        },
+        {
+          "slug": "3xl",
+          "size": "var(--bky-text-3xl)",
+          "name": "3XL"
+        },
+        {
+          "slug": "4xl",
+          "size": "var(--bky-text-4xl)",
+          "name": "4XL"
+        },
+        {
+          "slug": "5xl",
+          "size": "var(--bky-text-5xl)",
+          "name": "5XL"
+        }
       ]
     },
     "spacing": {
@@ -84,9 +136,19 @@
     },
     "blocks": {
       "core/button": {
-        "color": { "background": true, "text": true }
+        "color": {
+          "background": true,
+          "text": true
+        }
       }
-    }
+    },
+    "customTemplates": [
+      {
+        "name": "blank",
+        "title": "Blocky Canvas (no theme chrome)",
+        "postTypes": ["page"]
+      }
+    ]
   },
   "styles": {
     "color": {
@@ -107,29 +169,77 @@
           "letterSpacing": "-0.02em"
         }
       },
-      "h1": { "typography": { "fontSize": "var(--bky-text-5xl)" } },
-      "h2": { "typography": { "fontSize": "var(--bky-text-4xl)" } },
-      "h3": { "typography": { "fontSize": "var(--bky-text-3xl)" } },
-      "h4": { "typography": { "fontSize": "var(--bky-text-2xl)" } },
-      "h5": { "typography": { "fontSize": "var(--bky-text-xl)" } },
-      "h6": { "typography": { "fontSize": "var(--bky-text-lg)" } },
+      "h1": {
+        "typography": {
+          "fontSize": "var(--bky-text-5xl)"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontSize": "var(--bky-text-4xl)"
+        }
+      },
+      "h3": {
+        "typography": {
+          "fontSize": "var(--bky-text-3xl)"
+        }
+      },
+      "h4": {
+        "typography": {
+          "fontSize": "var(--bky-text-2xl)"
+        }
+      },
+      "h5": {
+        "typography": {
+          "fontSize": "var(--bky-text-xl)"
+        }
+      },
+      "h6": {
+        "typography": {
+          "fontSize": "var(--bky-text-lg)"
+        }
+      },
       "button": {
         "color": {
           "background": "var(--bky-color-accent-base)",
           "text": "var(--bky-color-text-on-accent)"
         },
-        "border": { "radius": "var(--bky-radius-button)" },
-        "typography": { "fontWeight": "600" }
+        "border": {
+          "radius": "var(--bky-radius-button)"
+        },
+        "typography": {
+          "fontWeight": "600"
+        }
       }
     }
   },
   "templateParts": [
-    { "name": "header", "title": "Header", "area": "header" },
-    { "name": "footer", "title": "Footer", "area": "footer" }
+    {
+      "name": "header",
+      "title": "Header",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Footer",
+      "area": "footer"
+    }
   ],
   "customTemplates": [
-    { "name": "front-page", "title": "Front Page", "postTypes": ["page"] },
-    { "name": "page", "title": "Page", "postTypes": ["page"] },
-    { "name": "single", "title": "Single Post", "postTypes": ["post"] }
+    {
+      "name": "front-page",
+      "title": "Front Page",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "page",
+      "title": "Page",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "single",
+      "title": "Single Post",
+      "postTypes": ["post"]
+    }
   ]
 }
