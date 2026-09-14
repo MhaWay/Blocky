@@ -1,0 +1,253 @@
+/*
+ * Entrance animations — closed-set presets driven by RenderContext::animationAttributes.
+ * Hidden states apply only under html.bky-anim-ready (set by the runtime, and never
+ * when prefers-reduced-motion), so no-JS and reduced-motion visitors always see content.
+ */
+
+.bky-anim-ready [data-bky-anim]:not(.bky-anim-in) {
+  opacity: 0;
+}
+
+.bky-anim-ready [data-bky-anim='fade-up']:not(.bky-anim-in) {
+  transform: translateY(28px);
+}
+.bky-anim-ready [data-bky-anim='fade-down']:not(.bky-anim-in) {
+  transform: translateY(-28px);
+}
+.bky-anim-ready [data-bky-anim='fade-left']:not(.bky-anim-in),
+.bky-anim-ready [data-bky-anim='slide-in-left']:not(.bky-anim-in) {
+  transform: translateX(-32px);
+}
+.bky-anim-ready [data-bky-anim='fade-right']:not(.bky-anim-in),
+.bky-anim-ready [data-bky-anim='slide-in-right']:not(.bky-anim-in) {
+  transform: translateX(32px);
+}
+.bky-anim-ready [data-bky-anim='slide-in-up']:not(.bky-anim-in),
+.bky-anim-ready [data-bky-anim='slide-in-down']:not(.bky-anim-in) {
+  opacity: 1;
+}
+.bky-anim-ready [data-bky-anim='slide-in-up']:not(.bky-anim-in) {
+  transform: translateY(48px);
+}
+.bky-anim-ready [data-bky-anim='slide-in-down']:not(.bky-anim-in) {
+  transform: translateY(-48px);
+}
+.bky-anim-ready [data-bky-anim='slide-in-left']:not(.bky-anim-in),
+.bky-anim-ready [data-bky-anim='slide-in-right']:not(.bky-anim-in) {
+  opacity: 1;
+}
+.bky-anim-ready [data-bky-anim='zoom-in']:not(.bky-anim-in) {
+  transform: scale(0.86);
+}
+.bky-anim-ready [data-bky-anim='zoom-out']:not(.bky-anim-in) {
+  transform: scale(1.14);
+}
+.bky-anim-ready [data-bky-anim='flip-up']:not(.bky-anim-in),
+.bky-anim-ready [data-bky-anim='flip-down']:not(.bky-anim-in) {
+  transform: perspective(900px) rotateX(-70deg);
+  transform-origin: top center;
+}
+.bky-anim-ready [data-bky-anim='flip-down']:not(.bky-anim-in) {
+  transform: perspective(900px) rotateX(70deg);
+  transform-origin: bottom center;
+}
+.bky-anim-ready [data-bky-anim='bounce-in']:not(.bky-anim-in) {
+  transform: scale(0.4);
+}
+.bky-anim-ready [data-bky-anim='blur-in']:not(.bky-anim-in) {
+  filter: blur(10px);
+}
+
+.bky-anim-ready [data-bky-anim].bky-anim-in {
+  animation-duration: 600ms;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.bky-anim-ready [data-bky-anim][data-bky-anim-speed='fast'].bky-anim-in {
+  animation-duration: 300ms;
+}
+.bky-anim-ready [data-bky-anim][data-bky-anim-speed='slow'].bky-anim-in {
+  animation-duration: 1000ms;
+}
+
+.bky-anim-ready [data-bky-anim][data-bky-anim-delay='100'].bky-anim-in {
+  animation-delay: 100ms;
+}
+.bky-anim-ready [data-bky-anim][data-bky-anim-delay='200'].bky-anim-in {
+  animation-delay: 200ms;
+}
+.bky-anim-ready [data-bky-anim][data-bky-anim-delay='400'].bky-anim-in {
+  animation-delay: 400ms;
+}
+.bky-anim-ready [data-bky-anim][data-bky-anim-delay='600'].bky-anim-in {
+  animation-delay: 600ms;
+}
+.bky-anim-ready [data-bky-anim][data-bky-anim-delay='800'].bky-anim-in {
+  animation-delay: 800ms;
+}
+
+.bky-anim-ready [data-bky-anim].bky-anim-in {
+  animation-name: bky-anim-fade-in;
+}
+.bky-anim-ready [data-bky-anim='fade-up'].bky-anim-in,
+.bky-anim-ready [data-bky-anim='slide-in-up'].bky-anim-in {
+  animation-name: bky-anim-fade-up;
+}
+.bky-anim-ready [data-bky-anim='fade-down'].bky-anim-in,
+.bky-anim-ready [data-bky-anim='slide-in-down'].bky-anim-in {
+  animation-name: bky-anim-fade-down;
+}
+.bky-anim-ready [data-bky-anim='fade-left'].bky-anim-in,
+.bky-anim-ready [data-bky-anim='slide-in-left'].bky-anim-in {
+  animation-name: bky-anim-fade-left;
+}
+.bky-anim-ready [data-bky-anim='fade-right'].bky-anim-in,
+.bky-anim-ready [data-bky-anim='slide-in-right'].bky-anim-in {
+  animation-name: bky-anim-fade-right;
+}
+.bky-anim-ready [data-bky-anim='zoom-in'].bky-anim-in {
+  animation-name: bky-anim-zoom-in;
+}
+.bky-anim-ready [data-bky-anim='zoom-out'].bky-anim-in {
+  animation-name: bky-anim-zoom-out;
+}
+.bky-anim-ready [data-bky-anim='flip-up'].bky-anim-in {
+  animation-name: bky-anim-flip-up;
+}
+.bky-anim-ready [data-bky-anim='flip-down'].bky-anim-in {
+  animation-name: bky-anim-flip-down;
+}
+.bky-anim-ready [data-bky-anim='bounce-in'].bky-anim-in {
+  animation-name: bky-anim-bounce-in;
+}
+.bky-anim-ready [data-bky-anim='blur-in'].bky-anim-in {
+  animation-name: bky-anim-blur-in;
+}
+
+@keyframes bky-anim-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes bky-anim-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes bky-anim-fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes bky-anim-fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes bky-anim-fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes bky-anim-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes bky-anim-zoom-out {
+  from {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes bky-anim-flip-up {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateX(-70deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0);
+  }
+}
+@keyframes bky-anim-flip-down {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateX(70deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0);
+  }
+}
+@keyframes bky-anim-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  75% {
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes bky-anim-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bky-anim-ready [data-bky-anim]:not(.bky-anim-in) {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .bky-anim-ready [data-bky-anim].bky-anim-in {
+    animation: none;
+  }
+}
