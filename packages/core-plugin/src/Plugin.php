@@ -342,7 +342,7 @@ final class Plugin
             $this->redirectAfterFormAction('failed', $redirectUrl, $formId);
         }
 
-        $nonce = isset($_POST['_blocky_form_nonce']) ? (string) \wp_unslash($_POST['_blocky_form_nonce']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
+        $nonce = isset($_POST['_blocky_form_nonce']) ? sanitize_text_field((string) \wp_unslash($_POST['_blocky_form_nonce'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
         if ($nonce === '' || !\wp_verify_nonce($nonce, 'blocky_frontend_form_' . $formId)) {
             $this->redirectAfterFormAction('invalid', $redirectUrl, $formId);
         }
@@ -391,7 +391,7 @@ final class Plugin
             $this->redirectAfterLoginAction('failed', $redirectUrl, $formId);
         }
 
-        $nonce = isset($_POST['_blocky_login_nonce']) ? (string) \wp_unslash($_POST['_blocky_login_nonce']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
+        $nonce = isset($_POST['_blocky_login_nonce']) ? sanitize_text_field((string) \wp_unslash($_POST['_blocky_login_nonce'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
         if ($nonce === '' || !\wp_verify_nonce($nonce, 'blocky_frontend_login_' . $formId)) {
             $this->redirectAfterLoginAction('failed', $redirectUrl, $formId);
         }
@@ -435,7 +435,7 @@ final class Plugin
             $this->redirectAfterRegisterAction('disabled', $redirectUrl, $formId);
         }
 
-        $nonce = isset($_POST['_blocky_register_nonce']) ? (string) \wp_unslash($_POST['_blocky_register_nonce']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
+        $nonce = isset($_POST['_blocky_register_nonce']) ? sanitize_text_field((string) \wp_unslash($_POST['_blocky_register_nonce'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
         if ($nonce === '' || !\wp_verify_nonce($nonce, 'blocky_frontend_register_' . $formId)) {
             $this->redirectAfterRegisterAction('failed', $redirectUrl, $formId);
         }
