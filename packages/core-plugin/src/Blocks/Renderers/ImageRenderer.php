@@ -68,7 +68,7 @@ final class ImageRenderer implements BlockRendererInterface
             $size,
             false,
             [
-                'class'   => trim("h-auto {$widthClasses} {$imageClasses}"),
+                'class'   => trim("h-auto {$widthClasses} {$imageClasses} " . RenderContext::nodeUtilityClasses($node)),
                 'alt'     => $alt,
                 'loading' => $loading,
                 'decoding' => $decoding,

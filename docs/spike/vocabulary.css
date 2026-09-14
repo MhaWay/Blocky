@@ -1,8 +1,8 @@
 /* Blocky Control Kit vocabulary — S2 spike entry (closed set del pannello) */
-@import "tailwindcss";
-@import "/root/state/blocky/packages/tokens/build/tokens.tailwind.css";
-@import "/root/state/blocky/packages/tokens/build/tokens.css";
-@import "/root/state/blocky/packages/tokens/build/tokens.dark.css";
+@import 'tailwindcss';
+@import '/root/state/blocky/packages/tokens/build/tokens.tailwind.css';
+@import '/root/state/blocky/packages/tokens/build/tokens.css';
+@import '/root/state/blocky/packages/tokens/build/tokens.dark.css';
 
 /* layout */
 @source inline("{static,relative,absolute,fixed,sticky,block,inline-block,inline,flex,inline-flex,grid,inline-grid,table,contents,hidden,flow-root}");
@@ -170,6 +170,3 @@
 @source inline("open:bg-surface-elevated");
 @source inline("print:hidden");
 @source inline("{sm,md,lg,xl,2xl}:sr-only");
-
-VEOF
-wc -l /tmp/spike/vocab.css && grep -c "@source inline" /tmp/spike/vocab.css

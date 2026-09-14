@@ -73,14 +73,8 @@ final class ButtonRenderer implements BlockRendererInterface
             ],
         ]);
 
-        $alignClass = $ctx->resolveVariantClasses($node, [
-            'align' => [
-                'start'   => 'justify-start',
-                'center'  => 'justify-center',
-                'end'     => 'justify-end',
-                'stretch' => 'justify-start',
-            ],
-        ]);
+        $alignKey = (string) ($node->props['align'] ?? 'start');
+        $alignClass = ['start' => 'justify-start', 'center' => 'justify-center', 'end' => 'justify-end', 'stretch' => 'justify-start'][$alignKey] ?? 'justify-start';
 
         $rel = $target === '_blank' ? 'noopener noreferrer' : null;
         $fullWidth = (bool) ($node->props['fullWidth'] ?? false);

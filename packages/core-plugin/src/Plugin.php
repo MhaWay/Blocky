@@ -122,7 +122,7 @@ final class Plugin
 
     public function renderBlockyContent(string $content): string
     {
-        if ($this->renderingBlockyContent || \is_admin() || !\is_singular() || !\in_the_loop() || !\is_main_query()) {
+        if ($this->renderingBlockyContent || \is_admin() || !\is_singular() || !\is_main_query()) {
             return $content;
         }
 

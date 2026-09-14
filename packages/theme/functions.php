@@ -276,3 +276,10 @@ function register_theme_variants(\Blocky\Core\Tokens\ThemeEngine $engine): void
         cssFile: '',
     ));
 }
+
+add_action("wp_enqueue_scripts", function (): void {
+    wp_enqueue_style("blocky-clone-fonts", get_stylesheet_directory_uri() . "/assets/fonts/fonts.css", array(), "1.0");
+});
+add_action("wp_enqueue_scripts", function (): void {
+    wp_enqueue_style("blocky-canvas", get_stylesheet_directory_uri() . "/assets/canvas.css", array(), "1.0");
+});
