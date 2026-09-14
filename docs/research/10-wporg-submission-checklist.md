@@ -44,3 +44,10 @@ verdetto finale. Verifica DPMA su "Blockwork Studio" (DE, 25/35/42) non automati
 - Fase 1 (QUESTA PR): solo stringhe visibili, header plugin, readme, banner, cataloghi, e2e.
 - Fase 2 (dopo approvazione wp.org): identifier interni (namespace Blocky\*, text domain 'blocky',
   slug admin page, meta keys _blocky_*, uploads/blocky/, window.Blocky*) → migrazione doc-version.
+
+### Verdetto marchio UBM 2005
+
+- Timeline TMview: 'nessuna informazione disponibile'; status 'Registrato' = flag base del feed UIBM (che non esporta rinnovi)
+- Calcolo scadenze: registrazione 18/10/2005 -> termine 2015, eventuale ultimo rinnovo fino a 18/10/2025, grace scaduto aprile 2026
+- Nessun evento di rinnovo a sistema: ipotesi prevalente = marchio deceduto; da confermare su registro UIBM (IPERES non interrogabile da qui)
+- Strategia invariata: uso + deposito IT combinato 9+42; worst case = opposizione di un e-commerce nautico, attaccabile con decadenza per non uso (art. 24 CPI)
