@@ -10,7 +10,7 @@
 <rect x="168" y="316" width="96" height="40" rx="14" fill="#2563EB"/>
 <g fill="#1E3A8A"><circle cx="112" cy="128" r="14"/><circle cx="400" cy="128" r="14"/><circle cx="112" cy="384" r="14"/><circle cx="400" cy="384" r="14"/></g>
 </g>
-<text x="470" y="240" font-family="DejaVu Sans, Arial" font-size="96" font-weight="bold" fill="#fff">Blockwork</text>
+<text x="470" y="240" font-family="DejaVu Sans, Arial" font-size="96" font-weight="bold" fill="#fff">Gennaker</text>
 <text x="472" y="320" font-family="DejaVu Sans, Arial" font-size="44" fill="#DBEAFE">The Tailwind-native page builder for WordPress</text>
 <text x="472" y="390" font-family="DejaVu Sans, Arial" font-size="30" fill="#BFDBFE">Static CSS. No bloat. Translated worldwide.</text>
 </svg>

@@ -36,7 +36,7 @@ Lo slug `blocky` è occupato da "Blocky! – Additional Content Blocks" (abbando
 
 ## Rebrand (2026-09-14)
 
-Brand pubblico: **Blockwork™ – Page Builder** (GG-Ally). Motivo: "Blocky" debole, affollato
+Brand pubblico: **Gennaker™ – Page Builder** (GG-Ally). Verdetto finale dopo l'analisi dei marchi: "Blockwork" era pulito in classe 9/42 ma debole; "Genna" occupato da SaaS USA attiva; "Gennaker" (la vela che incanala il vento, coerente con Tailwind) è risultato libero su ogni fronte: wp.org slug, npm, GitHub (~2 stelline), gennaker.com e .it registrabili. Motivo: "Blocky" debole, affollato
 (wp.org, DNS proxy 6.9k stelle, npm) e SEO invincibile; TMview mostra marchi "Blockwork" vivi solo
 in classi 28/41 (giocattoli/intrattenimento). Attesa: screenshot TMview filtrato classi 9/42 come
 verdetto finale. Verifica DPMA su "Blockwork Studio" (DE, 25/35/42) non automatizzabile.

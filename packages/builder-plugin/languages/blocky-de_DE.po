@@ -74,8 +74,8 @@ msgstr "Hinweis"
 msgid "All Pages"
 msgstr "Alle Seiten"
 
-msgid "All pages are listed. Blockwork pages are marked with a badge."
-msgstr "Alle Seiten werden aufgelistet. Blockwork-Seiten sind mit einem Badge markiert."
+msgid "All pages are listed. Gennaker pages are marked with a badge."
+msgstr "Alle Seiten werden aufgelistet. Gennaker-Seiten sind mit einem Badge markiert."
 
 msgid "Alt Text"
 msgstr "Alt-Text"
@@ -119,8 +119,8 @@ msgstr "Beitragsvorlage: Kopfbereich, Titel, Inhalt, Autor und Beitragsnavigatio
 msgid "Author Box"
 msgstr "Autoren-Box"
 
-msgid "Auto-generated heading index from the current Blocky document."
-msgstr ""
+msgid "Auto-generated heading index from the current Gennaker document."
+msgstr "Automatisch generiertes Überschriftenverzeichnis aus dem aktuellen Gennaker-Dokument."
 
 msgid "Back to All Submissions"
 msgstr "Zurück zu allen Einsendungen"
@@ -152,42 +152,6 @@ msgstr "Blocktyp nicht gefunden."
 msgid "Blocks"
 msgstr "Blöcke"
 
-msgid "Blockwork"
-msgstr ""
-
-msgid "Blockwork Builder"
-msgstr ""
-
-msgid "Blockwork Builder requires the Blockwork Core plugin to be active."
-msgstr "Blockwork Builder benötigt das aktive Plugin Blockwork Core."
-
-msgid "Blockwork Cache"
-msgstr "Blockwork-Cache"
-
-msgid "Blockwork Editor"
-msgstr "Blockwork-Editor"
-
-msgid "Blockwork Form Submission"
-msgstr "Blockwork-Formulareinsendung"
-
-msgid "Blockwork Form Submissions"
-msgstr "Blockwork-Formulareinsendungen"
-
-msgid "Blockwork Forms"
-msgstr "Blockwork-Formulare"
-
-msgid "Blockwork cache rebuild complete. %1$d pages rebuilt, %2$d failures."
-msgstr "Blockwork-Cache-Neuaufbau abgeschlossen. %1$d Seiten neu aufgebaut, %2$d Fehler."
-
-msgid "Blockwork cache rebuild failed."
-msgstr "Blockwork-Cache-Neuaufbau fehlgeschlagen."
-
-msgid "Blockwork page cache cleared."
-msgstr "Blockwork-Seitencache geleert."
-
-msgid "Blockwork page cache rebuilt."
-msgstr "Blockwork-Seitencache neu aufgebaut."
-
 msgid "Blog"
 msgstr ""
 
@@ -200,11 +164,11 @@ msgstr "Brotkrümel-Navigation"
 msgid "Breakpoint scope"
 msgstr "Breakpoint-Bereich"
 
-msgid "Built with Blockwork"
-msgstr "Erstellt mit Blockwork"
+msgid "Built with Gennaker"
+msgstr "Erstellt mit Gennaker"
 
-msgid "Built-in POST forms are stored as private Blockwork submissions and listed here for review."
-msgstr "Eingebaute POST-Formulare werden als private Blockwork-Einsendungen gespeichert und hier zur Prüfung aufgelistet."
+msgid "Built-in POST forms are stored as private Gennaker submissions and listed here for review."
+msgstr "Eingebaute POST-Formulare werden als private Gennaker-Einsendungen gespeichert und hier zur Prüfung aufgelistet."
 
 msgid "Built-in storage"
 msgstr "Eingebauter Speicher"
@@ -220,6 +184,9 @@ msgstr "Schaltfläche, mit der Besucher zwischen hellem und dunklem Modus wechse
 
 msgid "Button-like trigger that opens, toggles, or closes an overlay by ID."
 msgstr "Schaltflächenähnlicher Auslöser, der ein Overlay per ID öffnet, umschaltet oder schließt."
+
+msgid "Cache"
+msgstr ""
 
 msgid "Call To Action"
 msgstr "Call To Action"
@@ -326,11 +293,11 @@ msgstr "Kontaktformular"
 msgid "Container"
 msgstr "Container"
 
-msgid "Contains a Blockwork document"
-msgstr "Enthält ein Blockwork-Dokument"
+msgid "Contains a Gennaker document"
+msgstr "Enthält ein Gennaker-Dokument"
 
-msgid "Contains a reusable Blockwork document."
-msgstr "Enthält ein wiederverwendbares Blockwork-Dokument."
+msgid "Contains a reusable Gennaker document."
+msgstr "Enthält ein wiederverwendbares Gennaker-Dokument."
 
 msgid "Content"
 msgstr "Inhalt"
@@ -338,8 +305,8 @@ msgstr "Inhalt"
 msgid "Content Management"
 msgstr "Content-Management"
 
-msgid "Continue in Blockwork Editor"
-msgstr "Im Blockwork-Editor fortfahren"
+msgid "Continue in Gennaker Editor"
+msgstr "Im Gennaker-Editor fortfahren"
 
 msgid "Cookie"
 msgstr ""
@@ -377,8 +344,8 @@ msgstr "Erstelle eine neue Seite oder öffne einen bestehenden Beitrag."
 msgid "Create an account"
 msgstr "Konto erstellen"
 
-msgid "Create reusable parts or a full base template to connect to pages through Blockwork WordPress blocks."
-msgstr "Erstelle wiederverwendbare Teile oder eine komplette Basisvorlage für Seiten über die Blockwork-WordPress-Blöcke."
+msgid "Create reusable parts or a full base template to connect to pages through Gennaker WordPress blocks."
+msgstr "Erstelle wiederverwendbare Teile oder eine komplette Basisvorlage für Seiten über die Gennaker-WordPress-Blöcke."
 
 msgid "Created page could not be loaded."
 msgstr "Die erstellte Seite konnte nicht geladen werden."
@@ -506,11 +473,11 @@ msgstr "Ease-Funktion"
 msgid "Edit element"
 msgstr "Element bearbeiten"
 
-msgid "Edit with Blockwork"
-msgstr "Mit Blockwork bearbeiten"
+msgid "Edit with Gennaker"
+msgstr "Mit Gennaker bearbeiten"
 
-msgid "Edit with Blockwork Builder"
-msgstr "Mit Blockwork Builder bearbeiten"
+msgid "Edit with Gennaker Builder"
+msgstr "Mit Gennaker Builder bearbeiten"
 
 msgid "Embed Google Maps"
 msgstr "Google Maps einbetten"
@@ -623,11 +590,14 @@ msgstr "Textfeld"
 msgid "Form Textarea"
 msgstr "Textbereich"
 
-msgid "Form container that groups Blocky form fields and submit controls."
-msgstr ""
+msgid "Form container that groups Gennaker form fields and submit controls."
+msgstr "Formular-Container, der Gennaker-Feld- und Absende-Elemente gruppiert."
 
 msgid "Formatted code block with syntax highlighting and optional line numbers."
 msgstr "Formatierter Code-Block mit Syntax-Hervorhebung und optionalen Zeilennummern."
+
+msgid "Forms"
+msgstr ""
 
 msgid "Front and back content card with hover flip effect."
 msgstr "Vorder-/Rückseiten-Karte mit Flip-Effekt beim Überfahren."
@@ -643,6 +613,42 @@ msgstr "Seitenbreite Sektion mit Abstand- und Hintergrund-Steuerung."
 
 msgid "Generic iframe embed with sandbox and permission controls."
 msgstr "Allgemeiner Iframe-Embed mit Sandbox- und Berechtigungs-Steuerung."
+
+msgid "Gennaker"
+msgstr ""
+
+msgid "Gennaker Builder"
+msgstr ""
+
+msgid "Gennaker Builder requires the Gennaker Core plugin to be active."
+msgstr "Gennaker Builder benötigt das aktive Plugin Gennaker Core."
+
+msgid "Gennaker Cache"
+msgstr "Gennaker-Cache"
+
+msgid "Gennaker Editor"
+msgstr "Gennaker-Editor"
+
+msgid "Gennaker Form Submission"
+msgstr "Gennaker-Formulareinsendung"
+
+msgid "Gennaker Form Submissions"
+msgstr "Gennaker-Formulareinsendungen"
+
+msgid "Gennaker Forms"
+msgstr "Gennaker-Formulare"
+
+msgid "Gennaker cache rebuild complete. %1$d pages rebuilt, %2$d failures."
+msgstr "Gennaker-Cache-Neuaufbau abgeschlossen. %1$d Seiten neu aufgebaut, %2$d Fehler."
+
+msgid "Gennaker cache rebuild failed."
+msgstr "Gennaker-Cache-Neuaufbau fehlgeschlagen."
+
+msgid "Gennaker page cache cleared."
+msgstr "Gennaker-Seitencache geleert."
+
+msgid "Gennaker page cache rebuilt."
+msgstr "Gennaker-Seitencache neu aufgebaut."
 
 msgid "Global Cache"
 msgstr "Globaler Cache"
@@ -809,11 +815,11 @@ msgstr "Laden"
 msgid "Loading"
 msgstr "Lädt"
 
-msgid "Loading Blockwork pages..."
-msgstr "Blockwork-Seiten werden geladen..."
+msgid "Loading Gennaker pages..."
+msgstr "Gennaker-Seiten werden geladen..."
 
-msgid "Loading Blockwork pages…"
-msgstr "Blockwork-Seiten werden geladen…"
+msgid "Loading Gennaker pages…"
+msgstr "Gennaker-Seiten werden geladen…"
 
 msgid "Loading pages…"
 msgstr "Seiten werden geladen…"
@@ -929,11 +935,11 @@ msgstr "Navigationsmenü"
 msgid "Navigation menu sourced from a WP location or a manual fallback list."
 msgstr "Navigationsmenü aus einer WP-Position oder manuellen Ersatzliste."
 
-msgid "New Blockwork Page"
-msgstr "Neue Blockwork-Seite"
-
 msgid "New Component"
 msgstr "Neue Komponente"
+
+msgid "New Gennaker Page"
+msgstr "Neue Gennaker-Seite"
 
 msgid "New Layout"
 msgstr "Neues Layout"
@@ -947,14 +953,14 @@ msgstr "Neue Vorlagen"
 msgid "New page"
 msgstr "Neue Seite"
 
-msgid "No Blockwork document was found for this page."
-msgstr "Für diese Seite wurde kein Blockwork-Dokument gefunden."
+msgid "No Gennaker document was found for this page."
+msgstr "Für diese Seite wurde kein Gennaker-Dokument gefunden."
 
-msgid "No Blockwork form submissions have been stored yet."
-msgstr "Es wurden noch keine Blockwork-Formulareinsendungen gespeichert."
+msgid "No Gennaker form submissions have been stored yet."
+msgstr "Es wurden noch keine Gennaker-Formulareinsendungen gespeichert."
 
-msgid "No Blockwork forms were found yet. Add a Form block to a Blockwork page to start collecting submissions."
-msgstr "Es wurden noch keine Blockwork-Formulare gefunden. Füge einen Formular-Block zu einer Blockwork-Seite hinzu, um Einsendungen zu sammeln."
+msgid "No Gennaker forms were found yet. Add a Form block to a Gennaker page to start collecting submissions."
+msgstr "Es wurden noch keine Gennaker-Formulare gefunden. Füge einen Formular-Block zu einer Gennaker-Seite hinzu, um Einsendungen zu sammeln."
 
 msgid "No Tailwind utility classes on this block."
 msgstr "Keine Tailwind-Utility-Klassen an diesem Block."
@@ -1040,14 +1046,14 @@ msgstr "Cache öffnen"
 msgid "Open Classic Editor"
 msgstr "Klassischen Editor öffnen"
 
-msgid "Open a Blockwork page in the Builder or choose one of the recent pages below."
-msgstr "Öffne eine Blockwork-Seite im Builder oder wähle eine der letzten Seiten unten."
+msgid "Open a Gennaker page in the Builder or choose one of the recent pages below."
+msgstr "Öffne eine Gennaker-Seite im Builder oder wähle eine der letzten Seiten unten."
 
-msgid "Open in Blockwork"
-msgstr "In Blockwork öffnen"
+msgid "Open in Gennaker"
+msgstr "In Gennaker öffnen"
 
-msgid "Open in Blockwork Editor"
-msgstr "Im Blockwork-Editor öffnen"
+msgid "Open in Gennaker Editor"
+msgstr "Im Gennaker-Editor öffnen"
 
 msgid "Open the submission to view all fields."
 msgstr "Einsendung öffnen, um alle Felder zu sehen."
@@ -1178,23 +1184,23 @@ msgstr "Optionsgruppe mit zeilenbasierten Optionen."
 msgid "Rate limit exceeded: 60 requests per minute per key."
 msgstr "Ratenbegrenzung überschritten: 60 Anfragen pro Minute pro Schlüssel."
 
-msgid "Ready-made contact form preset saved into Blocky form submissions."
-msgstr ""
+msgid "Ready-made contact form preset saved into Gennaker form submissions."
+msgstr "Fertiges Kontaktformular, gespeichert in den Gennaker-Formulareinsendungen."
 
-msgid "Rebuild All Blockwork Cache"
-msgstr "Gesamten Blockwork-Cache neu aufbauen"
+msgid "Rebuild All Gennaker Cache"
+msgstr "Gesamten Gennaker-Cache neu aufbauen"
 
 msgid "Rebuild Page Cache"
 msgstr "Seitencache neu aufbauen"
 
-msgid "Rebuild or clear the compiled cache for Blockwork pages."
-msgstr "Kompilierten Cache für Blockwork-Seiten neu aufbauen oder leeren."
+msgid "Rebuild or clear the compiled cache for Gennaker pages."
+msgstr "Kompilierten Cache für Gennaker-Seiten neu aufbauen oder leeren."
 
-msgid "Rebuild the compiled frontend cache for all %d Blockwork pages."
-msgstr "Kompilierten Frontend-Cache für alle %d Blockwork-Seiten neu aufbauen."
+msgid "Rebuild the compiled frontend cache for all %d Gennaker pages."
+msgstr "Kompilierten Frontend-Cache für alle %d Gennaker-Seiten neu aufbauen."
 
-msgid "Recent Blockwork Pages"
-msgstr "Letzte Blockwork-Seiten"
+msgid "Recent Gennaker Pages"
+msgstr "Letzte Gennaker-Seiten"
 
 msgid "Recent Submissions"
 msgstr "Aktuelle Einsendungen"
@@ -1403,8 +1409,8 @@ msgstr "Tempo"
 msgid "Standard WordPress page"
 msgstr "Standard-WordPress-Seite"
 
-msgid "Standard WordPress page without a saved Blockwork document."
-msgstr "Standard-WordPress-Seite ohne gespeichertes Blockwork-Dokument."
+msgid "Standard WordPress page without a saved Gennaker document."
+msgstr "Standard-WordPress-Seite ohne gespeichertes Gennaker-Dokument."
 
 msgid "Star Rating"
 msgstr "Sternebewertung"
@@ -1448,8 +1454,8 @@ msgstr "Einsendungen"
 msgid "Submissions (%d)"
 msgstr "Einsendungen (%d)"
 
-msgid "Submit button for Blocky forms."
-msgstr ""
+msgid "Submit button for Gennaker forms."
+msgstr "Absende-Schaltfläche für Gennaker-Formulare."
 
 msgid "Submitted"
 msgstr "Absgesendet"
@@ -1544,11 +1550,11 @@ msgstr "Theme-Umschalter"
 msgid "Theme data unavailable."
 msgstr "Theme-Daten nicht verfügbar."
 
-msgid "This page does not contain a Blockwork document."
-msgstr "Diese Seite enthält kein Blockwork-Dokument."
+msgid "This page does not contain a Gennaker document."
+msgstr "Diese Seite enthält kein Gennaker-Dokument."
 
-msgid "This page is edited with Blockwork Builder."
-msgstr "Diese Seite wird mit dem Blockwork Builder bearbeitet."
+msgid "This page is edited with Gennaker Builder."
+msgstr "Diese Seite wird mit dem Gennaker Builder bearbeitet."
 
 msgid "Throttle (ms)"
 msgstr ""
@@ -1688,8 +1694,8 @@ msgstr "WordPress-Kommentarformular für den aktuellen Beitrag."
 msgid "WordPress media library not available."
 msgstr "WordPress-Medienbibliothek nicht verfügbar."
 
-msgid "WordPress page without a saved Blockwork document"
-msgstr "WordPress-Seite ohne gespeichertes Blockwork-Dokument"
+msgid "WordPress page without a saved Gennaker document"
+msgstr "WordPress-Seite ohne gespeichertes Gennaker-Dokument"
 
 msgid "You are already signed in."
 msgstr "Du bist bereits angemeldet."

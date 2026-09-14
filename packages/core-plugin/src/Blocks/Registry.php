@@ -3280,7 +3280,7 @@ final class Registry
             type: 'bky/contact-form',
             label: self::tr('Contact Form'),
             category: 'basic',
-            description: self::tr('Ready-made contact form preset saved into Blocky form submissions.'),
+            description: self::tr('Ready-made contact form preset saved into Gennaker form submissions.'),
             keywords: ['contact', 'form', 'message'],
             icon: 'Mail',
             schema: [
@@ -3535,7 +3535,7 @@ final class Registry
             type: 'bky/table-of-contents',
             label: self::tr('Table of Contents'),
             category: 'basic',
-            description: self::tr('Auto-generated heading index from the current Blocky document.'),
+            description: self::tr('Auto-generated heading index from the current Gennaker document.'),
             keywords: ['toc', 'contents', 'headings', 'anchor'],
             icon: 'ToC',
             schema: [
@@ -3899,7 +3899,7 @@ final class Registry
             type: 'bky/form',
             label: self::tr('Form'),
             category: 'basic',
-            description: self::tr('Form container that groups Blocky form fields and submit controls.'),
+            description: self::tr('Form container that groups Gennaker form fields and submit controls.'),
             keywords: ['form', 'fields', 'submit'],
             icon: 'Frm',
             schema: [
@@ -4317,7 +4317,7 @@ final class Registry
             type: 'bky/form-submit',
             label: self::tr('Form Submit'),
             category: 'basic',
-            description: self::tr('Submit button for Blocky forms.'),
+            description: self::tr('Submit button for Gennaker forms.'),
             keywords: ['form', 'submit', 'button'],
             icon: 'Sub',
             schema: [
@@ -4829,7 +4829,7 @@ final class Registry
             type: 'bky/wp-template-part',
             label: self::tr('Template Part'),
             category: 'wordpress',
-            description: self::tr('Renders another Blocky-built page inside the current layout for reusable headers, footers, sidebars, and sections.'),
+            description: self::tr('Renders another Gennaker-built page inside the current layout for reusable headers, footers, sidebars, and sections.'),
             keywords: ['template', 'partial', 'header', 'footer', 'sidebar', 'wordpress'],
             icon: 'WP',
             schema: [
