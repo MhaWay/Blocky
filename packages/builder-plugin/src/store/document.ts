@@ -508,7 +508,7 @@ function defaultPropsForType(type: string): Record<string, unknown> {
       aspectRatio: 'video',
     },
     'bky/code-highlight': {
-      code: "const hello = 'Blocky';\nconsole.log(hello);",
+      code: "const hello = 'Gennaker';\nconsole.log(hello);",
       language: 'javascript',
       caption: '',
       showLineNumbers: true,
