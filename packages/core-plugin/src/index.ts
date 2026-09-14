@@ -1,4 +1,5 @@
 import 'highlight.js/styles/github-dark.css';
+import './styles/animations.css';
 
 interface OverlayApi {
   open: (id: string, trigger?: HTMLElement | null) => boolean;
@@ -31,9 +32,15 @@ interface HighlightJsModule {
   highlightElement: (element: HTMLElement) => void;
 }
 
+interface AnimationApi {
+  refresh: () => void;
+  replay: (root?: HTMLElement) => void;
+}
+
 interface BlockyRuntime {
   overlays: OverlayApi;
   actions: ActionApi;
+  animations: AnimationApi;
 }
 
 interface BlockyWindow extends Window {
@@ -112,6 +119,7 @@ function init(): void {
   initStickyBars();
   initBackToTopButtons();
   initCommandPalettes();
+  initEntranceAnimations();
   exposeRuntime();
 }
 
@@ -131,6 +139,10 @@ function exposeRuntime(): void {
       },
       refresh: refreshRuntime,
     },
+    animations: {
+      refresh: initEntranceAnimations,
+      replay: replayEntranceAnimations,
+    },
   };
 }
 
@@ -143,6 +155,7 @@ function refreshRuntime(): void {
   initStickyBars();
   initBackToTopButtons();
   initCommandPalettes();
+  initEntranceAnimations();
 }
 
 async function initLottieAnimations(): Promise<void> {
@@ -1259,6 +1272,91 @@ function isInteractionLoginState(
   value: string
 ): value is NonNullable<InteractionRule['loginState']> {
   return ['any', 'logged-in', 'logged-out'].includes(value);
+}
+
+// ── Entrance animations (closed-set presets, data-bky-anim*) ──────────────────
+
+const animatedElements = new WeakSet<HTMLElement>();
+let entranceObserver: IntersectionObserver | null = null;
+let entranceObserverInstalled = false;
+
+function entranceObserverInstance(): IntersectionObserver | null {
+  if (entranceObserver === null) {
+    if (!('IntersectionObserver' in window)) return null;
+    entranceObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+          if (entry.isIntersecting) {
+            element.classList.add('bky-anim-in');
+            if (element.dataset.bkyAnimRepeat !== '1') {
+              entranceObserver?.unobserve(element);
+            }
+          } else if (element.dataset.bkyAnimRepeat === '1') {
+            element.classList.remove('bky-anim-in');
+          }
+        });
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -6% 0px' }
+    );
+  }
+  return entranceObserver;
+}
+
+function initEntranceAnimations(): void {
+  if (prefersReducedMotion()) return;
+
+  document.documentElement.classList.add('bky-anim-ready');
+
+  const pending = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-bky-anim]:not(.bky-anim-ready-known)')
+  );
+  pending.forEach((element) => {
+    if (animatedElements.has(element)) return;
+    animatedElements.add(element);
+    element.classList.add('bky-anim-ready-known');
+
+    if (element.dataset.bkyAnimTrigger === 'load') {
+      requestAnimationFrame(() => element.classList.add('bky-anim-in'));
+      return;
+    }
+
+    const observer = entranceObserverInstance();
+    if (observer === null) {
+      element.classList.add('bky-anim-in');
+      return;
+    }
+    observer.observe(element);
+  });
+
+  if (!entranceObserverInstalled && pending.length > 0) {
+    entranceObserverInstalled = true;
+    let entranceDebounce: number | null = null;
+    new MutationObserver(() => {
+      if (entranceDebounce !== null) window.clearTimeout(entranceDebounce);
+      entranceDebounce = window.setTimeout(() => initEntranceAnimations(), 250);
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+function replayEntranceAnimations(root?: HTMLElement): void {
+  const scope = root ?? document;
+  scope
+    .querySelectorAll<HTMLElement>('[data-bky-anim].bky-anim-in')
+    .forEach((element) => element.classList.remove('bky-anim-in'));
+  requestAnimationFrame(() => {
+    scope.querySelectorAll<HTMLElement>('[data-bky-anim]:not(.bky-anim-in)').forEach((element) => {
+      if (element.dataset.bkyAnimTrigger === 'load') {
+        element.classList.add('bky-anim-in');
+        return;
+      }
+      entranceObserverInstance()?.observe(element);
+      const rect = element.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        element.classList.add('bky-anim-in');
+      }
+    });
+  });
 }
 
 if (document.readyState === 'loading') {

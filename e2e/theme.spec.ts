@@ -15,7 +15,9 @@ test.describe('Theme smoke tests', () => {
     await page.goto('/');
 
     // theme-switch ships as a deferred module; wait for its global before poking it
-    await page.waitForFunction(() => typeof (window as Record<string, unknown>)['blockyTheme'] !== 'undefined');
+    await page.waitForFunction(
+      () => typeof (window as Record<string, unknown>)['blockyTheme'] !== 'undefined'
+    );
     await page.evaluate(() => {
       (window as Record<string, unknown>)['blockyTheme']?.setMode?.('dark');
     });

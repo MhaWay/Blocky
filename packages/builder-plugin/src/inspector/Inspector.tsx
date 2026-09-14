@@ -2875,80 +2875,195 @@ const AnimationsPanel: FunctionComponent<AnimationsPanelProps> = ({ node, onUpda
     });
   };
 
+  const entranceAnimation = useMemo(() => {
+    const raw = (node.props as Record<string, unknown> | undefined)?.['animation'];
+    const obj = raw !== null && typeof raw === 'object' ? (raw as Record<string, unknown>) : {};
+    const speeds = ['fast', 'normal', 'slow'];
+    const delays = [0, 100, 200, 400, 600, 800];
+    return {
+      preset: typeof obj['preset'] === 'string' ? obj['preset'] : '',
+      trigger: obj['trigger'] === 'load' ? 'load' : 'scroll',
+      speed: speeds.includes(String(obj['speed'])) ? String(obj['speed']) : 'normal',
+      delay: delays.includes(Number(obj['delay'])) ? Number(obj['delay']) : 0,
+      repeat: obj['repeat'] === true,
+    };
+  }, [node]);
+
+  const updateEntrance = (patch: Partial<typeof entranceAnimation>): void => {
+    const next = { ...entranceAnimation, ...patch };
+    if (next.preset === '') {
+      onUpdate({ animation: null });
+      return;
+    }
+    onUpdate({ animation: next });
+  };
+
   return (
-    <section class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">
-          {t('inspector.motionSet', 'Motion Set')}
-        </span>
-        {hasAnimationSet && (
-          <button
-            type="button"
-            onClick={clearAnimationSet}
-            class="rounded-input px-2 py-1 text-xs font-medium text-feedback-danger hover:bg-surface-overlay"
-          >
-            {t('inspector.clear', 'Clear')}
-          </button>
-        )}
-      </div>
+    <>
+      <section class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">
+            {t('inspector.entranceTitle', 'Entrance Animation')}
+          </span>
+          {entranceAnimation.preset !== '' && (
+            <button
+              type="button"
+              onClick={() => onUpdate({ animation: null })}
+              class="rounded-input px-2 py-1 text-xs font-medium text-feedback-danger hover:bg-surface-overlay"
+            >
+              {t('inspector.clear', 'Clear')}
+            </button>
+          )}
+        </div>
+        <p class="text-[11px] text-text-faint">
+          {t(
+            'inspector.entranceDescription',
+            'Closed-set entrance animations. Honors prefers-reduced-motion and no-JS.'
+          )}
+        </p>
+        <MotionSelect
+          label={t('inspector.entrancePreset', 'Preset')}
+          value={entranceAnimation.preset}
+          options={[
+            ['', 'None'],
+            ['fade-in', 'Fade In'],
+            ['fade-up', 'Fade Up'],
+            ['fade-down', 'Fade Down'],
+            ['fade-left', 'Fade Left'],
+            ['fade-right', 'Fade Right'],
+            ['zoom-in', 'Zoom In'],
+            ['zoom-out', 'Zoom Out'],
+            ['slide-in-up', 'Slide In Up'],
+            ['slide-in-down', 'Slide In Down'],
+            ['slide-in-left', 'Slide In Left'],
+            ['slide-in-right', 'Slide In Right'],
+            ['flip-up', 'Flip Up'],
+            ['flip-down', 'Flip Down'],
+            ['bounce-in', 'Bounce In'],
+            ['blur-in', 'Blur In'],
+          ]}
+          onChange={(value) => updateEntrance({ preset: value })}
+        />
+        <div class="grid grid-cols-2 gap-2">
+          <MotionSelect
+            label={t('inspector.entranceTrigger', 'Trigger')}
+            value={entranceAnimation.trigger}
+            options={[
+              ['scroll', t('inspector.entranceTriggerScroll', 'On Scroll')],
+              ['load', t('inspector.entranceTriggerLoad', 'On Load')],
+            ]}
+            onChange={(value) => updateEntrance({ trigger: value === 'load' ? 'load' : 'scroll' })}
+          />
+          <MotionSelect
+            label={t('inspector.entranceSpeed', 'Speed')}
+            value={entranceAnimation.speed}
+            options={[
+              ['fast', t('inspector.entranceSpeedFast', 'Fast')],
+              ['normal', t('inspector.entranceSpeedNormal', 'Normal')],
+              ['slow', t('inspector.entranceSpeedSlow', 'Slow')],
+            ]}
+            onChange={(value) => updateEntrance({ speed: value })}
+          />
+          <MotionSelect
+            label={t('inspector.entranceDelay', 'Delay')}
+            value={String(entranceAnimation.delay)}
+            options={[
+              ['0', t('inspector.entranceDelayNone', 'No delay')],
+              ['100', '100ms'],
+              ['200', '200ms'],
+              ['400', '400ms'],
+              ['600', '600ms'],
+              ['800', '800ms'],
+            ]}
+            onChange={(value) => updateEntrance({ delay: Number(value) || 0 })}
+          />
+        </div>
+        <label class="flex items-center gap-2 text-xs font-medium text-text-muted">
+          <input
+            type="checkbox"
+            checked={entranceAnimation.repeat}
+            onChange={(event) =>
+              updateEntrance({ repeat: (event.target as HTMLInputElement).checked })
+            }
+          />
+          {t('inspector.entranceRepeat', 'Replay on re-entry')}
+        </label>
+      </section>
 
-      <div class="grid grid-cols-2 gap-2">
-        <MotionSelect
-          label={t('inspector.transition', 'Transition')}
-          value={transition}
-          options={MOTION_TRANSITION_OPTIONS}
-          onChange={setTransition}
-        />
-        <MotionSelect
-          label={t('inspector.duration', 'Duration')}
-          value={duration}
-          options={MOTION_DURATION_OPTIONS}
-          onChange={setDuration}
-        />
-        <MotionSelect
-          label={t('inspector.delay', 'Delay')}
-          value={delay}
-          options={MOTION_DELAY_OPTIONS}
-          onChange={setDelay}
-        />
-        <MotionSelect
-          label={t('inspector.easing', 'Easing')}
-          value={easing}
-          options={MOTION_EASING_OPTIONS}
-          onChange={setEasing}
-        />
-      </div>
+      <section class="space-y-3 rounded-input border border-border-subtle bg-surface-base p-3">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-semibold uppercase tracking-wide text-text-faint">
+            {t('inspector.motionSet', 'Motion Set')}
+          </span>
+          {hasAnimationSet && (
+            <button
+              type="button"
+              onClick={clearAnimationSet}
+              class="rounded-input px-2 py-1 text-xs font-medium text-feedback-danger hover:bg-surface-overlay"
+            >
+              {t('inspector.clear', 'Clear')}
+            </button>
+          )}
+        </div>
 
-      <MotionSelect
-        label={t('inspector.guard', 'Guard')}
-        value={guard}
-        options={MOTION_GUARD_OPTIONS}
-        onChange={setGuard}
-      />
+        <div class="grid grid-cols-2 gap-2">
+          <MotionSelect
+            label={t('inspector.transition', 'Transition')}
+            value={transition}
+            options={MOTION_TRANSITION_OPTIONS}
+            onChange={setTransition}
+          />
+          <MotionSelect
+            label={t('inspector.duration', 'Duration')}
+            value={duration}
+            options={MOTION_DURATION_OPTIONS}
+            onChange={setDuration}
+          />
+          <MotionSelect
+            label={t('inspector.delay', 'Delay')}
+            value={delay}
+            options={MOTION_DELAY_OPTIONS}
+            onChange={setDelay}
+          />
+          <MotionSelect
+            label={t('inspector.easing', 'Easing')}
+            value={easing}
+            options={MOTION_EASING_OPTIONS}
+            onChange={setEasing}
+          />
+        </div>
 
-      <div class="grid grid-cols-2 gap-2">
         <MotionSelect
-          label={t('inspector.hoverScale', 'Hover Scale')}
-          value={hoverScale}
-          options={HOVER_SCALE_OPTIONS}
-          onChange={setHoverScale}
+          label={t('inspector.guard', 'Guard')}
+          value={guard}
+          options={MOTION_GUARD_OPTIONS}
+          onChange={setGuard}
         />
-        <MotionSelect
-          label={t('inspector.hoverOpacity', 'Hover Opacity')}
-          value={hoverOpacity}
-          options={HOVER_OPACITY_OPTIONS}
-          onChange={setHoverOpacity}
-        />
-      </div>
 
-      <button
-        type="button"
-        onClick={applyAnimationSet}
-        class="w-full rounded-button bg-surface-elevated px-3 py-2 text-xs font-medium text-text-base hover:bg-surface-overlay"
-      >
-        {t('inspector.applyMotionSet', 'Apply Motion Set')}
-      </button>
-    </section>
+        <div class="grid grid-cols-2 gap-2">
+          <MotionSelect
+            label={t('inspector.hoverScale', 'Hover Scale')}
+            value={hoverScale}
+            options={HOVER_SCALE_OPTIONS}
+            onChange={setHoverScale}
+          />
+          <MotionSelect
+            label={t('inspector.hoverOpacity', 'Hover Opacity')}
+            value={hoverOpacity}
+            options={HOVER_OPACITY_OPTIONS}
+            onChange={setHoverOpacity}
+          />
+        </div>
+
+        <button
+          type="button"
+          onClick={applyAnimationSet}
+          class="w-full rounded-button bg-surface-elevated px-3 py-2 text-xs font-medium text-text-base hover:bg-surface-overlay"
+        >
+          {t('inspector.applyMotionSet', 'Apply Motion Set')}
+        </button>
+      </section>
+    </>
   );
 };
 

@@ -67,6 +67,10 @@ final class RenderContext
             $attrs['style'] = self::appendStyle((string) ($attrs['style'] ?? ''), $utilityStyles);
         }
 
+        foreach (self::animationAttributes($node) as $attributeName => $attributeValue) {
+            $attrs[$attributeName] = $attributeValue;
+        }
+
         if (!$this->editorMode) {
             $interactionPayload = self::interactionPayload($node);
             if ($interactionPayload !== null) {
@@ -436,6 +440,62 @@ final class RenderContext
         }
 
         return base64_encode($encoded);
+    }
+
+    /**
+     * Validate the shared `animation` prop and expose it as data attributes.
+     *
+     * Closed set: presets, trigger, speed and delay steps only (AGENTS rule 1).
+     * The frontend runtime (src/index.ts + styles/animations.css) drives them.
+     *
+     * @return array<string, string>
+     */
+    private static function animationAttributes(Node $node): array
+    {
+        $raw = $node->props['animation'] ?? null;
+        if (!is_array($raw)) {
+            return [];
+        }
+
+        $presets = ['fade-in', 'fade-up', 'fade-down', 'fade-left', 'fade-right', 'zoom-in',
+            'zoom-out', 'slide-in-up', 'slide-in-down', 'slide-in-left', 'slide-in-right',
+            'flip-up', 'flip-down', 'bounce-in', 'blur-in'];
+        $preset = is_string($raw['preset'] ?? null) ? trim($raw['preset']) : '';
+        if (!in_array($preset, $presets, true)) {
+            return [];
+        }
+
+        $triggers = ['load', 'scroll'];
+        $trigger = is_string($raw['trigger'] ?? null) ? trim($raw['trigger']) : 'scroll';
+        if (!in_array($trigger, $triggers, true)) {
+            $trigger = 'scroll';
+        }
+
+        $speeds = ['fast', 'normal', 'slow'];
+        $speed = is_string($raw['speed'] ?? null) ? trim($raw['speed']) : 'normal';
+        if (!in_array($speed, $speeds, true)) {
+            $speed = 'normal';
+        }
+
+        $delaySteps = [0, 100, 200, 400, 600, 800];
+        $delay = is_numeric($raw['delay'] ?? null) ? (int) $raw['delay'] : 0;
+        if (!in_array($delay, $delaySteps, true)) {
+            $delay = 0;
+        }
+
+        $attrs = [
+            'data-bky-anim' => $preset,
+            'data-bky-anim-trigger' => $trigger,
+            'data-bky-anim-speed' => $speed,
+        ];
+        if ($delay !== 0) {
+            $attrs['data-bky-anim-delay'] = (string) $delay;
+        }
+        if (($raw['repeat'] ?? false) === true) {
+            $attrs['data-bky-anim-repeat'] = '1';
+        }
+
+        return $attrs;
     }
 
     private static function sanitizeHexColor(string $value): string
