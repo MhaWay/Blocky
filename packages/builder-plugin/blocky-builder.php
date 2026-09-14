@@ -47,7 +47,7 @@ spl_autoload_register(static function (string $class): void {
     if (!defined('BLOCKY_CORE_VERSION')) {
         \add_action('admin_notices', static function (): void {
             echo '<div class="notice notice-error"><p>'
-                . \esc_html__('Blockwork Builder requires the Blockwork Core plugin to be active.', 'blocky')
+                . \esc_html__('Gennaker Builder requires the Gennaker Core plugin to be active.', 'blocky')
                 . '</p></div>';
         });
         return;

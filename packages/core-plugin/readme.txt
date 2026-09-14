@@ -1,4 +1,4 @@
-=== Blockwork Engine ===
+=== Gennaker Engine ===
 Contributors: mhaway
 Tags: page builder, blocky, tailwind, builder, editor
 Requires at least: 6.4
@@ -8,13 +8,13 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The engine of Blockwork: rendering pipeline, closed-set block registry, three-layer CSS compiler and REST API.
+The engine of Gennaker: rendering pipeline, closed-set block registry, three-layer CSS compiler and REST API.
 
 == Description ==
 
-Blockwork Engine is the rendering engine behind the Blockwork builder: a closed-set block registry,
+Gennaker Engine is the rendering engine behind the Gennaker builder: a closed-set block registry,
 a deterministic CSS compiler (Tailwind vocabulary, static hashed stylesheets, no inline CSS)
-and a REST document API. It must be installed together with the Blockwork Builder plugin.
+and a REST document API. It must be installed together with the Gennaker Builder plugin.
 
 * 90+ blocks as declarative descriptors (no bespoke inspector code per block)
 * Closed-set controls only: arbitrary CSS is possible solely through an explicit code-mode channel
@@ -27,11 +27,11 @@ and a REST document API. It must be installed together with the Blockwork Builde
 
 1. Upload the blocky-core folder to /wp-content/plugins/.
 2. Activate through the Plugins screen.
-3. Activate Blockwork Builder as well.
+3. Activate Gennaker Builder as well.
 
 == Frequently Asked Questions ==
 
-= Does Blockwork use Google Fonts? =
+= Does Gennaker use Google Fonts? =
 No. System font stacks by default; fonts can be self-hosted.
 
 = Does it modify my content when converting a page? =

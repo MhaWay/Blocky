@@ -50,8 +50,8 @@ final class AdminIntegration
         $url   = \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $post->ID));
         $built = $this->isBlockyBuilt((int) $post->ID);
         $label = $built
-            ? \__('Edit with Blockwork', 'blocky')
-            : \__('Blockwork Editor', 'blocky');
+            ? \__('Edit with Gennaker', 'blocky')
+            : \__('Gennaker Editor', 'blocky');
         $link  = '<a href="' . $url . '">' . \esc_html($label) . '</a>';
 
         // Elementor-style assignment: on Blocky pages the builder link leads.
@@ -88,11 +88,11 @@ final class AdminIntegration
         foreach ($columns as $key => $label) {
             $with[$key] = $label;
             if ($key === 'title') {
-                $with['blocky_built'] = __('Blockwork', 'blocky');
+                $with['blocky_built'] = __('Gennaker', 'blocky');
             }
         }
         if (!isset($with['blocky_built'])) {
-            $with = ['blocky_built' => __('Blockwork', 'blocky')] + $with;
+            $with = ['blocky_built' => __('Gennaker', 'blocky')] + $with;
         }
         return $with;
     }
@@ -103,7 +103,7 @@ final class AdminIntegration
             return;
         }
 
-        echo '<span class="blocky-built-badge" title="' . esc_attr__('Built with Blockwork', 'blocky') . '">' . esc_html__('Blockwork', 'blocky') . '</span>';
+        echo '<span class="blocky-built-badge" title="' . esc_attr__('Built with Gennaker', 'blocky') . '">' . esc_html__('Gennaker', 'blocky') . '</span>';
     }
 
     /**
@@ -142,11 +142,11 @@ final class AdminIntegration
         $bar->add_node([
             'id'    => 'blocky-editor-link',
             'title' => '<span class="ab-icon dashicons dashicons-grid-view" aria-hidden="true"></span>'
-                     . \esc_html__('Blockwork Editor', 'blocky'),
+                     . \esc_html__('Gennaker Editor', 'blocky'),
             'href'  => \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $postId)),
             'meta'  => [
                 'class' => 'blocky-adminbar-btn',
-                'title' => \__('Edit with Blockwork Builder', 'blocky'),
+                'title' => \__('Edit with Gennaker Builder', 'blocky'),
             ],
         ]);
     }
@@ -157,7 +157,7 @@ final class AdminIntegration
     {
         \add_meta_box(
             'blocky-editor-metabox',
-            \__('Blockwork Editor', 'blocky'),
+            \__('Gennaker Editor', 'blocky'),
             [$this, 'renderMetaBox'],
             null,   // all post-type edit screens
             'side',
@@ -170,12 +170,12 @@ final class AdminIntegration
         $url         = \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $post->ID));
         $hasDocument = \get_post_meta($post->ID, '_blocky_document', true) !== '';
         $label       = $hasDocument
-            ? \__('Continue in Blockwork Editor', 'blocky')
-            : \__('Open in Blockwork Editor', 'blocky');
+            ? \__('Continue in Gennaker Editor', 'blocky')
+            : \__('Open in Gennaker Editor', 'blocky');
 
         if ($hasDocument) {
             echo '<p class="blocky-metabox-notice">'
-               . \esc_html__('This page is edited with Blockwork Builder.', 'blocky')
+               . \esc_html__('This page is edited with Gennaker Builder.', 'blocky')
                . '</p>';
         }
 
@@ -207,9 +207,9 @@ final class AdminIntegration
             'hasDocument' => $hasDocument,
             'builderUrl'  => \esc_url_raw($builderUrl),
             'i18n'        => [
-                'title'  => \__('Blockwork Editor', 'blocky'),
-                'notice' => \__('This page is edited with Blockwork Builder.', 'blocky'),
-                'cta'    => \__('Continue in Blockwork Editor', 'blocky'),
+                'title'  => \__('Gennaker Editor', 'blocky'),
+                'notice' => \__('This page is edited with Gennaker Builder.', 'blocky'),
+                'cta'    => \__('Continue in Gennaker Editor', 'blocky'),
             ],
         ]);
 
@@ -231,7 +231,7 @@ final class AdminIntegration
             'builderUrl'    => \esc_url_raw($builderUrl),
             'postId'        => $postId,
             'hasDocument'   => $hasDocument,
-            'label'         => \__('Edit with Blockwork', 'blocky'),
+            'label'         => \__('Edit with Gennaker', 'blocky'),
             'savingLabel'   => \__('Saving…', 'blocky'),
         ]);
 
@@ -319,15 +319,15 @@ final class AdminIntegration
             var overlay = document.createElement( 'div' );
             overlay.id  = 'blocky-editor-overlay';
             overlay.setAttribute( 'role', 'region' );
-            overlay.setAttribute( 'aria-label', i18n.title || 'Blockwork Editor' );
+            overlay.setAttribute( 'aria-label', i18n.title || 'Gennaker Editor' );
 
             overlay.innerHTML =
                 '<div class="blocky-ov-inner">' +
                     '<span class="blocky-ov-logo" aria-hidden="true">&#9783;</span>' +
-                    '<h2 class="blocky-ov-title">' + ( i18n.title  || 'Blockwork Editor' ) + '</h2>' +
-                    '<p  class="blocky-ov-desc">'  + ( i18n.notice || 'This page is edited with Blockwork Builder.' ) + '</p>' +
+                    '<h2 class="blocky-ov-title">' + ( i18n.title  || 'Gennaker Editor' ) + '</h2>' +
+                    '<p  class="blocky-ov-desc">'  + ( i18n.notice || 'This page is edited with Gennaker Builder.' ) + '</p>' +
                     '<a  class="blocky-ov-btn" href="' + data.builderUrl + '">' +
-                        ( i18n.cta || 'Continue in Blockwork Editor' ) +
+                        ( i18n.cta || 'Continue in Gennaker Editor' ) +
                     '</a>' +
                 '</div>';
 
