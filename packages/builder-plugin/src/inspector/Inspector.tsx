@@ -1477,7 +1477,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                 }`}
               >
                 {selectedPage.hasDocument
-                  ? t('inspector.blockyShort', 'Blocky')
+                  ? t('inspector.blockyShort', 'Gennaker')
                   : t('inspector.wordpress', 'WordPress')}
               </span>
               <span>
@@ -1644,7 +1644,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                               }`}
                             >
                               {page.hasDocument
-                                ? t('inspector.blockyShort', 'Blocky')
+                                ? t('inspector.blockyShort', 'Gennaker')
                                 : t('inspector.wpShort', 'WP')}
                             </span>
                             <span

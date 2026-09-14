@@ -51,3 +51,13 @@ verdetto finale. Verifica DPMA su "Blockwork Studio" (DE, 25/35/42) non automati
 - Calcolo scadenze: registrazione 18/10/2005 -> termine 2015, eventuale ultimo rinnovo fino a 18/10/2025, grace scaduto aprile 2026
 - Nessun evento di rinnovo a sistema: ipotesi prevalente = marchio deceduto; da confermare su registro UIBM (IPERES non interrogabile da qui)
 - Strategia invariata: uso + deposito IT combinato 9+42; worst case = opposizione di un e-commerce nautico, attaccabile con decadenza per non uso (art. 24 CPI)
+
+## Bundle wp.org PRONTO (2026-09-14)
+
+- scripts/wporg-bundle.py costruisce gennaker-page-builder.zip (~1.2MB): engine+builder in un plugin solo, main gennaker-page-builder.php, readme.txt ufficiale, vendor --no-dev, permessi 644/755 FORZATI.
+- LEZIONE: un main a 600 viene saltato IN SILENZIO da WP (@include_once) -> 30 test rossi senza errori; sempre chmod -R a+rX dopo docker cp e zip con external_attr 644.
+- Motore a profondita 2 (engine/, builder/) = invisibile allo scanner plugin WP -> un solo plugin in lista, niente conflitto di header.
+- Suite e2e 35/35 contro il bundle (validazione architettura finita).
+- Screenshots reali in assets/wporg/screenshots/; bug wordmark 'Blocky' fissa in Toolbar.tsx corretto (dist rebuild).
+- Upload: wordpress.org/plugins/new con lo zip asset della release v0.2.0-alpha (gennaker-page-builder-0.1.0.zip); review pre-approval 2-15 giorni.
+- NB: bug noto label TEMPLATESTHEME nel tab builder (P0 backlog) visibile nella screenshot-1; re-shoot dopo fix se si vuole.
