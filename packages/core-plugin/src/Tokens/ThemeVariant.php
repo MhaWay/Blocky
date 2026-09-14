@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Tokens;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 /**
  * A theme variant: a named combination of brand + mode with token overrides.
  */

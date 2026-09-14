@@ -13,6 +13,8 @@ declare( strict_types=1 );
 
 namespace Blocky\Core\Rest;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Blocks\Registry;
 use Blocky\Core\Support\ApiAudit;
 use Blocky\Core\Support\ApiAuth;

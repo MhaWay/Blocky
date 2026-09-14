@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Assets;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 /**
  * Vite manifest reader.
  * Reads `manifest.json` produced by Vite's build to resolve hashed asset URLs.

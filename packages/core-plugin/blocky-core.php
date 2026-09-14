@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 if (!defined('ABSPATH')) {
     exit;
 }

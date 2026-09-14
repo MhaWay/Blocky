@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Support;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 /**
  * Trusted HTML string wrapper — prevents accidental double-escaping.
  * Use HtmlString::of() only with already-escaped or trusted output.

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Tokens;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 /**
  * Stores runtime theme token overrides edited by the Blocky builder.
  */

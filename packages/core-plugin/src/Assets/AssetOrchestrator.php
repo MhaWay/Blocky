@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Assets;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Compiler\PageCompiler;
 use Blocky\Core\Compiler\SiteStylesheet;
 use Blocky\Core\Compiler\TailwindBinary;

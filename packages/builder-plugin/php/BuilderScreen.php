@@ -1,7 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Blocky\Builder;
+
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
 
 /**
  * Registers the Blocky builder admin page and loads the Preact SPA.

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Support;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 final class WpBlockConverter
 {
     /**

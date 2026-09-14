@@ -14,6 +14,8 @@ declare( strict_types=1 );
 
 namespace Blocky\Core\Compiler;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 /**
  * Builds and serves the single frontend stylesheet.
  */

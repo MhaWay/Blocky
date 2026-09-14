@@ -12,6 +12,8 @@
  * Text Domain:       gennaker-page-builder
  */
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 defined('ABSPATH') || exit;
 
 // Engine (block registry, tokens, compiler, REST).

@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Blocky\Builder;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 if (!defined('ABSPATH')) {
     exit;
 }

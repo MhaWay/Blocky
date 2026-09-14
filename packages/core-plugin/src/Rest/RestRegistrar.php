@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Rest;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Blocks\Registry;
 use Blocky\Core\Compiler\PageCompiler;
 use Blocky\Core\Tokens\ThemeEngine;
