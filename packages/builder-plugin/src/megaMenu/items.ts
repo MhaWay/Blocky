@@ -34,7 +34,7 @@ export function defaultMegaMenuItems(): MegaMenuItem[] {
       id: 'products',
       label: 'Products',
       href: '/products',
-      description: 'Explore the Blocky stack',
+      description: 'Explore the Gennaker stack',
       children: [
         createMegaMenuItem({
           id: 'builder',

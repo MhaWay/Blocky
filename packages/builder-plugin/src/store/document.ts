@@ -394,7 +394,7 @@ function defaultPropsForType(type: string): Record<string, unknown> {
     'bky/call-to-action': {
       attachmentId: 0,
       eyebrow: 'Limited release',
-      title: 'Launch a focused campaign with Blocky',
+      title: 'Launch a focused campaign with Gennaker',
       text: 'Combine persuasive copy, supporting media, and clear next steps inside a reusable CTA section.',
       primaryLabel: 'Start now',
       primaryUrl: '#',
@@ -408,7 +408,7 @@ function defaultPropsForType(type: string): Record<string, unknown> {
     },
     'bky/testimonial': {
       attachmentId: 0,
-      quote: 'Blocky helped us ship faster without losing layout control.',
+      quote: 'Gennaker helped us ship faster without losing layout control.',
       author: 'Alex Morgan',
       role: 'Product Marketing Lead',
       layout: 'card',
@@ -464,7 +464,7 @@ function defaultPropsForType(type: string): Record<string, unknown> {
     },
     'bky/animated-headline': {
       prefix: 'Build',
-      words: 'faster\nsmarter\nwith Blocky',
+      words: 'faster\nsmarter\nwith Gennaker',
       suffix: 'pages',
       effect: 'rotate',
       interval: 3,
@@ -2248,7 +2248,7 @@ function defaultTitleForStarter(starter: PageStarterId = 'page'): string {
       return 'Sidebar Layout';
     case 'page':
     default:
-      return 'New Blocky Page';
+      return 'New Gennaker Page';
   }
 }
 

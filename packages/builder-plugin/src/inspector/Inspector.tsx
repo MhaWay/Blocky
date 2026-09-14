@@ -1484,11 +1484,11 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                 {selectedPage.hasDocument
                   ? t(
                       'inspector.containsReusableBlockyDocument',
-                      'Contains a reusable Blocky document.'
+                      'Contains a reusable Gennaker document.'
                     )
                   : t(
                       'inspector.standardWordPressPageWithoutBlocky',
-                      'Standard WordPress page without a saved Blocky document.'
+                      'Standard WordPress page without a saved Gennaker document.'
                     )}
               </span>
             </div>
@@ -1526,11 +1526,11 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
       </div>
       <p class="text-xs text-text-faint">
         {isLoadingPages
-          ? t('inspector.loadingBlockyPages', 'Loading Blocky pages...')
+          ? t('inspector.loadingBlockyPages', 'Loading Gennaker pages...')
           : availablePages.length > 0
             ? t(
                 'inspector.pagesListedHint',
-                'All pages are listed. Blocky pages are marked with a badge.'
+                'All pages are listed. Gennaker pages are marked with a badge.'
               )
             : t('inspector.noPagesAvailableYet', 'No pages available yet.')}
       </p>
@@ -1583,7 +1583,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
             <div class="flex-1 overflow-y-auto p-5">
               {isLoadingPages ? (
                 <div class="flex min-h-40 items-center justify-center text-sm text-text-muted">
-                  {t('inspector.loadingPages', 'Loading Blocky pages…')}
+                  {t('inspector.loadingPages', 'Loading Gennaker pages…')}
                 </div>
               ) : filteredPages.length === 0 ? (
                 <div class="flex min-h-40 flex-col items-center justify-center gap-2 text-center text-text-muted">
@@ -1674,7 +1674,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                               : page.hasDocument
                                 ? t(
                                     'inspector.containsBlockyDocument',
-                                    'Contains a Blocky document'
+                                    'Contains a Gennaker document'
                                   )
                                 : t('inspector.standardWordPressPage', 'Standard WordPress page')}
                           </span>
