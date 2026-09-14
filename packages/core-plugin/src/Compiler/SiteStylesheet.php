@@ -179,6 +179,11 @@ final class SiteStylesheet {
 	 * @return bool True when a fresh stylesheet was produced.
 	 */
 	public function rebuild(): bool {
+		if ( \function_exists( 'get_option' ) && 'yes' !== \get_option( 'blocky_allow_engine_download', '' ) ) {
+			\update_option( 'blocky_engine_status', 'consent_needed' );
+			return false;
+		}
+		\update_option( 'blocky_engine_status', '' );
 		$target = TailwindBinary::detect_target();
 		if ( null === $target || ! TailwindBinary::exec_available() ) {
 			return false;
