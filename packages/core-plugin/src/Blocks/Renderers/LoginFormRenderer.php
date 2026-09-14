@@ -86,8 +86,8 @@ final class LoginFormRenderer implements BlockRendererInterface
 
     private static function renderStatus(string $formId): string
     {
-        $status = isset($_GET['blocky_login']) ? sanitize_key((string) $_GET['blocky_login']) : '';
-        $statusFormId = isset($_GET['blocky_form_id']) ? sanitize_text_field((string) \wp_unslash($_GET['blocky_form_id'])) : '';
+        $status = isset($_GET['blocky_login']) ? sanitize_key((string) $_GET['blocky_login']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only render flag for post-submit status; no state change.
+        $statusFormId = isset($_GET['blocky_form_id']) ? sanitize_text_field((string) \wp_unslash($_GET['blocky_form_id'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only render flag for post-submit status; no state change.
         if ($status === '' || $statusFormId !== $formId) {
             return '';
         }
