@@ -217,6 +217,68 @@ final class AdminIntegration
             \wp_add_inline_script('wp-edit-post', $this->getOverlayScript(), 'after');
             \wp_add_inline_style('wp-edit-post', $this->getBlockEditorStyles());
         }
+
+        $this->enqueueConvertButton($postId, $hasDocument, $builderUrl);
+    }
+
+    // ── Gutenberg header "Edit with Blocky" button ──────────────────────────
+
+    private function enqueueConvertButton(int $postId, bool $hasDocument, string $builderUrl): void
+    {
+        $config = \wp_json_encode([
+            'restUrl'       => \rest_url('blocky/v1/'),
+            'nonce'         => \wp_create_nonce('wp_rest'),
+            'builderUrl'    => \esc_url_raw($builderUrl),
+            'postId'        => $postId,
+            'hasDocument'   => $hasDocument,
+            'label'         => \__('Edit with Blocky', 'blocky'),
+            'savingLabel'   => \__('Saving…', 'blocky'),
+        ]);
+
+        echo '<script>window.blockyConvertConfig = ' . $config . ';</script>'; // phpcs:ignore WordPress.Security.EscapeOutput
+
+        $buildDir = BLOCKY_BUILDER_DIR . 'dist/';
+        $manifestPath = $buildDir . '.vite/manifest.json';
+
+        if (defined('BLOCKY_DEV') && BLOCKY_DEV && !file_exists($manifestPath)) {
+            \wp_enqueue_script_module(
+                'blocky-gutenberg-button',
+                $this->devAssetUrl() . '/src/gutenberg.ts',
+                [],
+                null
+            );
+            return;
+        }
+
+        if (!file_exists($manifestPath)) {
+            return;
+        }
+
+        $manifest = \json_decode((string) \file_get_contents($manifestPath), true);
+        $entry = is_array($manifest) ? ($manifest['src/gutenberg.ts'] ?? null) : null;
+        if (!is_array($entry) || !isset($entry['file']) || !is_string($entry['file'])) {
+            return;
+        }
+
+        $assetUrl = \rtrim(BLOCKY_BUILDER_URL, '/') . '/dist';
+        foreach ((array) ($entry['css'] ?? []) as $i => $cssFile) {
+            if (is_string($cssFile)) {
+                \wp_enqueue_style('blocky-gutenberg-css-' . $i, $assetUrl . '/' . $cssFile, [], null);
+            }
+        }
+        \wp_enqueue_script_module('blocky-gutenberg-button', $assetUrl . '/' . $entry['file'], [], null);
+    }
+
+    private function devAssetUrl(): string
+    {
+        if (defined('BLOCKY_BUILDER_ASSET_URL')) {
+            return \rtrim(BLOCKY_BUILDER_ASSET_URL, '/');
+        }
+        $envUrl = \getenv('BLOCKY_BUILDER_DEV_URL');
+        if (is_string($envUrl) && $envUrl !== '') {
+            return \rtrim($envUrl, '/');
+        }
+        return 'http://' . (getenv('BLOCKY_DEV_HOST') ?: '192.168.191.242') . ':5174';
     }
 
     private function getOverlayScript(): string

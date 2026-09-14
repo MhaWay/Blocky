@@ -1,0 +1,25 @@
+.blocky-open-builder {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  margin-left: 8px;
+  padding: 0 12px;
+  border: 1px solid #3858e9;
+  border-radius: 4px;
+  background: #3858e9;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.blocky-open-builder:hover,
+.blocky-open-builder:focus {
+  background: #1835d0;
+  border-color: #1835d0;
+  color: #fff;
+}
+.blocky-open-builder[disabled] {
+  opacity: 0.6;
+  cursor: default;
+}
