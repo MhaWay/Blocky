@@ -33,7 +33,7 @@ final class PageCompiler
         ];
 
         /** @var array{html: string, hash: string, document: string, postId: int, classCandidates: string[]} $result */
-        $result = \apply_filters('blocky/compiler/page_result', $result, $postId, $editorMode);
+        $result = \apply_filters('blocky_compiler_page_result', $result, $postId, $editorMode);
 
         return $result;
     }
@@ -53,7 +53,7 @@ final class PageCompiler
          * Allow third-party block providers to persist additional compile artifacts
          * such as page-scoped CSS, asset manifests, or block-specific metadata.
          */
-        \do_action('blocky/compiler/page_cache_warmed', $postId, $compiled);
+        \do_action('blocky_compiler_page_cache_warmed', $postId, $compiled);
 
         return $compiled;
     }
@@ -94,7 +94,7 @@ final class PageCompiler
         \delete_post_meta($postId, self::CSS_CANDIDATES_META_KEY);
         \delete_post_meta($postId, self::COMPILE_HASH_META_KEY);
 
-        \do_action('blocky/compiler/page_cache_cleared', $postId);
+        \do_action('blocky_compiler_page_cache_cleared', $postId);
     }
 
     public function cachedHtml(int $postId): string
@@ -133,7 +133,7 @@ final class PageCompiler
         $candidates = array_keys($classes);
 
         /** @var string[] $candidates */
-        $candidates = \apply_filters('blocky/compiler/page_class_candidates', $candidates, $html);
+        $candidates = \apply_filters('blocky_compiler_page_class_candidates', $candidates, $html);
 
         sort($candidates);
 

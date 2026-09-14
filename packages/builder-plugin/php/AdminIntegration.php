@@ -266,7 +266,7 @@ final class AdminIntegration
         $assetUrl = \rtrim(BLOCKY_BUILDER_URL, '/') . '/dist';
         foreach ((array) ($entry['css'] ?? []) as $i => $cssFile) {
             if (is_string($cssFile)) {
-                \wp_enqueue_style('blocky-gutenberg-css-' . $i, $assetUrl . '/' . $cssFile, [], null);
+                \wp_enqueue_style('blocky-gutenberg-css-' . $i, $assetUrl . '/' . $cssFile, [], \BLOCKY_CORE_VERSION);
             }
         }
         \wp_enqueue_script_module('blocky-gutenberg-button', $assetUrl . '/' . $entry['file'], [], null);

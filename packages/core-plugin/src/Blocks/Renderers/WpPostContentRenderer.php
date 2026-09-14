@@ -16,7 +16,7 @@ final class WpPostContentRenderer implements BlockRendererInterface
     {
         $postId  = \get_the_ID() ?: 0;
         $content = $postId > 0
-            ? \apply_filters('the_content', \get_post_field('post_content', $postId))
+            ? \apply_filters('the_content', \get_post_field('post_content', $postId)) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- applying core the_content filter intentionally.
             : '';
 
         if ($content === '') {

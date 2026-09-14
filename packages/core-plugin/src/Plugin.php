@@ -88,17 +88,17 @@ final class Plugin
         \add_action(SiteStylesheet::REBUILD_HOOK, static function (): void {
             SiteStylesheet::from_globals()->rebuild();
         });
-        \add_action('blocky/compiler/page_cache_warmed', static function (): void {
+        \add_action('blocky_compiler_page_cache_warmed', static function (): void {
             SiteStylesheet::schedule_rebuild();
         }, 10, 0);
 
         // Allow third-party blocks to register before init fires
-        \do_action('blocky/register_blocks', $this->registry);
+        \do_action('blocky_register_blocks', $this->registry);
 
         // Allow themes/plugins to register theme variants — fires after_setup_theme
         // so the active theme's functions.php has already loaded and hooked in.
         \add_action('after_setup_theme', function (): void {
-            \do_action('blocky/register_themes', $this->themeEngine);
+            \do_action('blocky_register_themes', $this->themeEngine);
         }, 20);
     }
 
@@ -140,7 +140,7 @@ final class Plugin
             return $content;
         }
 
-        $hasFormStatus = isset($_GET['blocky_form']) && \sanitize_key((string) $_GET['blocky_form']) !== '';
+        $hasFormStatus = isset($_GET['blocky_form']) && \sanitize_key((string) $_GET['blocky_form']) !== ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
 
         $cachedHtml = $this->pageCompiler->cachedHtml($postId);
         if (!$hasFormStatus && $cachedHtml !== '') {
@@ -227,7 +227,7 @@ final class Plugin
     {
         $allowed = 'yes' === \get_option('blocky_allow_engine_download', '');
         echo '<div class="wrap"><h1>' . \esc_html__('Gennaker Setup', 'blocky') . '</h1>';
-        if (isset($_GET['allowed'])) {
+        if (isset($_GET['allowed'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             echo '<div class="notice notice-success"><p>' . \esc_html__('Compiler access allowed. Gennaker will download it once, verify the checksum, and never phone home again.', 'blocky') . '</p></div>';
         }
         echo '<p>' . \esc_html__('Gennaker compiles your stylesheets locally using the official, version-pinned Tailwind CSS command-line compiler (v4.3.3). One download, straight from the official Tailwind GitHub releases, verified against the published SHA-256 checksum, stored outside the web-served uploads directory and reused from cache. Nothing is sent back, and site visitors never contact any third-party server.', 'blocky') . '</p>';
@@ -333,7 +333,7 @@ final class Plugin
 
     public function handleFrontendFormSubmission(): void
     {
-        $formId = isset($_POST['_blocky_form_id']) ? \sanitize_text_field((string) $_POST['_blocky_form_id']) : '';
+        $formId = isset($_POST['_blocky_form_id']) ? \sanitize_text_field((string) \wp_unslash($_POST['_blocky_form_id'])) : '';
         $postId = isset($_POST['_blocky_form_post_id']) ? (int) $_POST['_blocky_form_post_id'] : 0;
         $redirectUrl = $this->formRedirectUrl($postId);
 
@@ -341,7 +341,7 @@ final class Plugin
             $this->redirectAfterFormAction('failed', $redirectUrl, $formId);
         }
 
-        $nonce = isset($_POST['_blocky_form_nonce']) ? (string) $_POST['_blocky_form_nonce'] : '';
+        $nonce = isset($_POST['_blocky_form_nonce']) ? (string) \wp_unslash($_POST['_blocky_form_nonce']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
         if ($nonce === '' || !\wp_verify_nonce($nonce, 'blocky_frontend_form_' . $formId)) {
             $this->redirectAfterFormAction('invalid', $redirectUrl, $formId);
         }
@@ -382,7 +382,7 @@ final class Plugin
 
     public function handleFrontendLoginSubmission(): void
     {
-        $formId = isset($_POST['_blocky_form_id']) ? \sanitize_text_field((string) $_POST['_blocky_form_id']) : '';
+        $formId = isset($_POST['_blocky_form_id']) ? \sanitize_text_field((string) \wp_unslash($_POST['_blocky_form_id'])) : '';
         $postId = isset($_POST['_blocky_form_post_id']) ? (int) $_POST['_blocky_form_post_id'] : 0;
         $redirectUrl = $this->formRedirectUrl($postId);
 
@@ -390,13 +390,13 @@ final class Plugin
             $this->redirectAfterLoginAction('failed', $redirectUrl, $formId);
         }
 
-        $nonce = isset($_POST['_blocky_login_nonce']) ? (string) $_POST['_blocky_login_nonce'] : '';
+        $nonce = isset($_POST['_blocky_login_nonce']) ? (string) \wp_unslash($_POST['_blocky_login_nonce']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
         if ($nonce === '' || !\wp_verify_nonce($nonce, 'blocky_frontend_login_' . $formId)) {
             $this->redirectAfterLoginAction('failed', $redirectUrl, $formId);
         }
 
         $username = isset($_POST['log']) ? \sanitize_text_field((string) \wp_unslash($_POST['log'])) : '';
-        $password = isset($_POST['pwd']) ? (string) \wp_unslash($_POST['pwd']) : '';
+        $password = isset($_POST['pwd']) ? (string) \wp_unslash($_POST['pwd']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- passwords pass raw to wp_authenticate()/wp_create_user(); sanitized at validation.
         if ($username === '' || $password === '') {
             $this->redirectAfterLoginAction('invalid', $redirectUrl, $formId);
         }
@@ -411,7 +411,7 @@ final class Plugin
             $this->redirectAfterLoginAction('invalid', $redirectUrl, $formId);
         }
 
-        $successRedirect = isset($_POST['_blocky_login_redirect']) ? \esc_url_raw((string) $_POST['_blocky_login_redirect']) : '';
+        $successRedirect = isset($_POST['_blocky_login_redirect']) ? \esc_url_raw((string) \wp_unslash($_POST['_blocky_login_redirect'])) : '';
         if ($successRedirect !== '') {
             \wp_safe_redirect($successRedirect);
             exit;
@@ -422,7 +422,7 @@ final class Plugin
 
     public function handleFrontendRegisterSubmission(): void
     {
-        $formId = isset($_POST['_blocky_form_id']) ? \sanitize_text_field((string) $_POST['_blocky_form_id']) : '';
+        $formId = isset($_POST['_blocky_form_id']) ? \sanitize_text_field((string) \wp_unslash($_POST['_blocky_form_id'])) : '';
         $postId = isset($_POST['_blocky_form_post_id']) ? (int) $_POST['_blocky_form_post_id'] : 0;
         $redirectUrl = $this->formRedirectUrl($postId);
 
@@ -434,14 +434,14 @@ final class Plugin
             $this->redirectAfterRegisterAction('disabled', $redirectUrl, $formId);
         }
 
-        $nonce = isset($_POST['_blocky_register_nonce']) ? (string) $_POST['_blocky_register_nonce'] : '';
+        $nonce = isset($_POST['_blocky_register_nonce']) ? (string) \wp_unslash($_POST['_blocky_register_nonce']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified via wp_verify_nonce() below.
         if ($nonce === '' || !\wp_verify_nonce($nonce, 'blocky_frontend_register_' . $formId)) {
             $this->redirectAfterRegisterAction('failed', $redirectUrl, $formId);
         }
 
         $username = isset($_POST['user_login']) ? \sanitize_user((string) \wp_unslash($_POST['user_login']), true) : '';
         $email = isset($_POST['user_email']) ? \sanitize_email((string) \wp_unslash($_POST['user_email'])) : '';
-        $password = isset($_POST['user_password']) ? (string) \wp_unslash($_POST['user_password']) : '';
+        $password = isset($_POST['user_password']) ? (string) \wp_unslash($_POST['user_password']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- passwords pass raw to wp_authenticate()/wp_create_user(); sanitized at validation.
         if ($username === '' || $email === '' || $password === '' || !\is_email($email)) {
             $this->redirectAfterRegisterAction('invalid', $redirectUrl, $formId);
         }
@@ -460,7 +460,7 @@ final class Plugin
             \wp_set_auth_cookie($userId, true);
         }
 
-        $successRedirect = isset($_POST['_blocky_register_redirect']) ? \esc_url_raw((string) $_POST['_blocky_register_redirect']) : '';
+        $successRedirect = isset($_POST['_blocky_register_redirect']) ? \esc_url_raw((string) \wp_unslash($_POST['_blocky_register_redirect'])) : '';
         if ($successRedirect !== '') {
             \wp_safe_redirect($successRedirect);
             exit;
@@ -513,19 +513,19 @@ final class Plugin
 
     public function renderAdminCacheNotice(): void
     {
-        if (!\is_admin() || !isset($_GET['blocky_cache'])) {
+        if (!\is_admin() || !isset($_GET['blocky_cache'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             return;
         }
 
-        $result = \sanitize_key((string) $_GET['blocky_cache']);
+        $result = \sanitize_key((string) $_GET['blocky_cache']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
         $message = match ($result) {
             'cleared'          => __('Gennaker page cache cleared.', 'blocky'),
             'rebuilt'          => __('Gennaker page cache rebuilt.', 'blocky'),
             'rebuilt-all'      => sprintf(
                 /* translators: 1: rebuilt page count, 2: failed page count */
                 __('Gennaker cache rebuild complete. %1$d pages rebuilt, %2$d failures.', 'blocky'),
-                isset($_GET['rebuilt_count']) ? (int) $_GET['rebuilt_count'] : 0,
-                isset($_GET['failed_count']) ? (int) $_GET['failed_count'] : 0
+                isset($_GET['rebuilt_count']) ? (int) $_GET['rebuilt_count'] : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
+                isset($_GET['failed_count']) ? (int) $_GET['failed_count'] : 0 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             ),
             'missing-document' => __('No Gennaker document was found for this page.', 'blocky'),
             'failed'           => __('Gennaker cache rebuild failed.', 'blocky'),
@@ -545,11 +545,11 @@ final class Plugin
 
     public function renderAdminFormsNotice(): void
     {
-        if (!\is_admin() || !isset($_GET['page']) || $_GET['page'] !== self::FORMS_PAGE_SLUG || !isset($_GET['blocky_forms'])) {
+        if (!\is_admin() || !isset($_GET['page']) || $_GET['page'] !== self::FORMS_PAGE_SLUG || !isset($_GET['blocky_forms'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             return;
         }
 
-        $result = \sanitize_key((string) $_GET['blocky_forms']);
+        $result = \sanitize_key((string) $_GET['blocky_forms']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
         $message = match ($result) {
             'trashed' => __('Submission moved to trash.', 'blocky'),
             'restored' => __('Submission restored.', 'blocky'),
@@ -758,12 +758,12 @@ final class Plugin
     private function currentToolbarPostId(): int
     {
         if (\is_admin()) {
-            $builderPostId = isset($_GET['post_id']) ? (int) $_GET['post_id'] : 0;
+            $builderPostId = isset($_GET['post_id']) ? (int) $_GET['post_id'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             if ($builderPostId > 0) {
                 return $builderPostId;
             }
 
-            $editorPostId = isset($_GET['post']) ? (int) $_GET['post'] : 0;
+            $editorPostId = isset($_GET['post']) ? (int) $_GET['post'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             if ($editorPostId > 0) {
                 return $editorPostId;
             }
@@ -846,7 +846,7 @@ final class Plugin
             'posts_per_page'         => $postsPerPage,
             'orderby'                => 'modified',
             'order'                  => 'DESC',
-            'meta_query'             => [[
+            'meta_query'             => [[ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- bounded admin listings over meta index.
                 'key'     => '_blocky_document',
                 'compare' => 'EXISTS',
             ]],
@@ -1164,7 +1164,7 @@ final class Plugin
 
     private function selectedFormSubmission(string $selectedTab): ?\WP_Post
     {
-        $submissionId = isset($_GET['submission_id']) ? (int) $_GET['submission_id'] : 0;
+        $submissionId = isset($_GET['submission_id']) ? (int) $_GET['submission_id'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
         if ($submissionId <= 0) {
             return null;
         }
@@ -1237,7 +1237,7 @@ final class Plugin
 
     private function currentFormsTab(): string
     {
-        return (isset($_GET['tab']) && \sanitize_key((string) $_GET['tab']) === 'trash') ? 'trash' : 'submissions';
+        return (isset($_GET['tab']) && \sanitize_key((string) $_GET['tab']) === 'trash') ? 'trash' : 'submissions'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
     }
 
     private function renderFormsTabs(int $activeCount, int $trashCount, string $selectedTab): void

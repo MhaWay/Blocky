@@ -94,7 +94,7 @@ final class BuilderScreen
 
             if ($entry !== null) {
                 foreach ($entry['css'] ?? [] as $i => $cssFile) {
-                    \wp_enqueue_style("blocky-builder-css-{$i}", $assetUrl . '/' . $cssFile, [], null);
+                    \wp_enqueue_style("blocky-builder-css-{$i}", $assetUrl . '/' . $cssFile, [], \BLOCKY_CORE_VERSION);
                 }
                 \wp_enqueue_script_module('blocky-builder', $assetUrl . '/' . $entry['file'], [], null);
             }

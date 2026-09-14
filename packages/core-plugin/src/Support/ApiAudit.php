@@ -67,8 +67,8 @@ final class ApiAudit {
 			? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) )
 			: '';
 
-		$wpdb->insert(
-			$wpdb->prefix . self::TABLE,
+		$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
+			$wpdb->prefix . self::TABLE, // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
 			array(
 				'key_public_id' => substr( $public_id, 0, 12 ),
 				'action'        => substr( $action, 0, 64 ),
@@ -91,8 +91,8 @@ final class ApiAudit {
 		$table = $wpdb->prefix . self::TABLE;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom audit table, reads are admin-only and cheap.
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus a class constant.
-		$rows = $wpdb->get_results(
-			$wpdb->prepare(
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
+			$wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table built from prefix and class constant.
 				'SELECT id, key_public_id, action, detail, ip_hash, created_at FROM ' . $table . ' ORDER BY id DESC LIMIT %d',
 				max( 1, min( 500, $limit ) )

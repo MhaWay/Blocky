@@ -41,3 +41,12 @@ legge input, produce output, parla col DB o decide accessi.
 - Ogni nuovo admin-post/AJAX handler nasce con nonce + capability, senza eccezioni.
 - Ogni nuovo file PHP spedito nasce con la guard.
 - Ogni nuova echo in admin: escape inline nella stessa riga (stile ormai uniforme nel repo).
+
+
+## Traduzioni bundle: lezione dura (2026-07)
+PC segnala load_plugin_textdomain come deprecated, ma l'auto-load di WP copre SOLO le traduzioni di
+translate.wordpress.org e wp-content/languages/plugins/. Le .mo BUNDLE dentro il plugin, senza la chiamata,
+NON vengono caricate: verificato con probe (locale it_IT forzato via mu-plugin): senza call stringhe inglesi,
+con call stringhe italiane. Nel bundle la chiamata viene riscritta dallo script di build per puntare a
+languages/ top-level (domain = slug, .mo engine+builder deduplicate). Il warning PC e' un falso positivo
+documentato: la funzione e' scoraggiata solo quando le traduzioni non le distribuisci tu.
