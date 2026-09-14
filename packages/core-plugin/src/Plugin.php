@@ -71,6 +71,7 @@ final class Plugin
         \add_action('admin_post_blocky_clear_page_cache', [$this, 'handleClearPageCache']);
         \add_action('admin_post_blocky_rebuild_page_cache', [$this, 'handleRebuildPageCache']);
         \add_action('admin_post_blocky_rebuild_all_page_cache', [$this, 'handleRebuildAllPageCache']);
+        \add_action('admin_post_blocky_allow_engine', [$this, 'handleAllowEngine']);
         \add_action('admin_post_blocky_frontend_form_submit', [$this, 'handleFrontendFormSubmission']);
         \add_action('admin_post_blocky_frontend_login_submit', [$this, 'handleFrontendLoginSubmission']);
         \add_action('admin_post_blocky_frontend_register_submit', [$this, 'handleFrontendRegisterSubmission']);
@@ -206,7 +207,6 @@ final class Plugin
             'blocky-setup',
             [$this, 'renderSetupPage']
         );
-        \add_action('admin_post_blocky_allow_engine', [$this, 'handleAllowEngine']);
     }
 
     public function handleAllowEngine(): void
@@ -221,6 +221,7 @@ final class Plugin
             \update_option('blocky_allow_engine_download', 'yes');
         }
         \wp_safe_redirect(\add_query_arg('allowed', '1', \admin_url('admin.php?page=blocky-setup')));
+        exit;
     }
 
     public function renderSetupPage(): void
