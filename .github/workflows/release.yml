@@ -15,7 +15,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with: { version: "9" }
 
       - uses: actions/setup-node@v4
         with:
@@ -31,8 +30,8 @@ jobs:
         run: |
           mkdir -p release
           cp -r packages/theme release/blocky-theme
-          cp -r packages/theme/dist/* release/blocky-theme/dist/ 2>/dev/null || true
-          cd release && zip -r blocky-theme-${{ github.ref_name }}.zip blocky-theme
+          rm -rf release/blocky-theme/node_modules
+          cd release && zip -qr blocky-theme-${{ github.ref_name }}.zip blocky-theme
           cd ..
 
       # ── Package Core Plugin ZIP ───────────────────────────────────────────────
@@ -42,15 +41,18 @@ jobs:
           composer install --no-dev --optimize-autoloader --no-interaction
           cd ../..
           cp -r packages/core-plugin release/blocky-core
-          cd release && zip -r blocky-core-${{ github.ref_name }}.zip blocky-core
+          rm -rf release/blocky-core/node_modules release/blocky-core/tests
+          rm -f release/blocky-core/*.neon release/blocky-core/phpcs.xml release/blocky-core/phpunit.xml
+          cd release && zip -qr blocky-core-${{ github.ref_name }}.zip blocky-core
           cd ..
 
       # ── Package Builder Plugin ZIP ────────────────────────────────────────────
       - name: Package builder plugin
         run: |
           cp -r packages/builder-plugin release/blocky-builder
-          cp -r packages/builder-plugin/dist/* release/blocky-builder/dist/ 2>/dev/null || true
-          cd release && zip -r blocky-builder-${{ github.ref_name }}.zip blocky-builder
+          rm -rf release/blocky-builder/node_modules release/blocky-builder/src release/blocky-builder/scripts
+          rm -f release/blocky-builder/tsconfig.json release/blocky-builder/vite.config.ts
+          cd release && zip -qr blocky-builder-${{ github.ref_name }}.zip blocky-builder
           cd ..
 
       # ── Create GitHub Release ─────────────────────────────────────────────────
@@ -61,4 +63,5 @@ jobs:
             release/blocky-theme-${{ github.ref_name }}.zip
             release/blocky-core-${{ github.ref_name }}.zip
             release/blocky-builder-${{ github.ref_name }}.zip
+          prerelease: true
           generate_release_notes: true
