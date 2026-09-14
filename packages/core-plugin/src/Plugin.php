@@ -187,8 +187,8 @@ final class Plugin
     {
         \register_post_type(self::FORM_SUBMISSION_POST_TYPE, [
             'labels' => [
-                'name' => __('Blocky Form Submissions', 'blocky'),
-                'singular_name' => __('Blocky Form Submission', 'blocky'),
+                'name' => __('Blockwork Form Submissions', 'blocky'),
+                'singular_name' => __('Blockwork Form Submission', 'blocky'),
             ],
             'public' => false,
             'show_ui' => false,
@@ -449,16 +449,16 @@ final class Plugin
 
         $result = \sanitize_key((string) $_GET['blocky_cache']);
         $message = match ($result) {
-            'cleared'          => __('Blocky page cache cleared.', 'blocky'),
-            'rebuilt'          => __('Blocky page cache rebuilt.', 'blocky'),
+            'cleared'          => __('Blockwork page cache cleared.', 'blocky'),
+            'rebuilt'          => __('Blockwork page cache rebuilt.', 'blocky'),
             'rebuilt-all'      => sprintf(
                 /* translators: 1: rebuilt page count, 2: failed page count */
-                __('Blocky cache rebuild complete. %1$d pages rebuilt, %2$d failures.', 'blocky'),
+                __('Blockwork cache rebuild complete. %1$d pages rebuilt, %2$d failures.', 'blocky'),
                 isset($_GET['rebuilt_count']) ? (int) $_GET['rebuilt_count'] : 0,
                 isset($_GET['failed_count']) ? (int) $_GET['failed_count'] : 0
             ),
-            'missing-document' => __('No Blocky document was found for this page.', 'blocky'),
-            'failed'           => __('Blocky cache rebuild failed.', 'blocky'),
+            'missing-document' => __('No Blockwork document was found for this page.', 'blocky'),
+            'failed'           => __('Blockwork cache rebuild failed.', 'blocky'),
             default            => '',
         };
 
@@ -509,19 +509,19 @@ final class Plugin
         $recentPosts = $this->recentBlockyPosts();
 
         echo '<div class="wrap">';
-        echo '<h1>' . \esc_html__('Blocky Cache', 'blocky') . '</h1>';
-        echo '<p>' . \esc_html__('Rebuild or clear the compiled cache for Blocky pages.', 'blocky') . '</p>';
+        echo '<h1>' . \esc_html__('Blockwork Cache', 'blocky') . '</h1>';
+        echo '<p>' . \esc_html__('Rebuild or clear the compiled cache for Blockwork pages.', 'blocky') . '</p>';
 
         $this->renderGlobalCacheToolsCard();
 
         if ($postId > 0) {
             $this->renderCacheToolsCard($postId);
         } else {
-            echo '<div class="notice notice-info"><p>' . \esc_html__('Open a Blocky page in the Builder or choose one of the recent pages below.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-info"><p>' . \esc_html__('Open a Blockwork page in the Builder or choose one of the recent pages below.', 'blocky') . '</p></div>';
         }
 
         if ($recentPosts !== []) {
-            echo '<h2>' . \esc_html__('Recent Blocky Pages', 'blocky') . '</h2>';
+            echo '<h2>' . \esc_html__('Recent Blockwork Pages', 'blocky') . '</h2>';
             echo '<table class="widefat striped"><thead><tr><th>' . \esc_html__('Title', 'blocky') . '</th><th>' . \esc_html__('Type', 'blocky') . '</th><th>' . \esc_html__('Actions', 'blocky') . '</th></tr></thead><tbody>';
 
             foreach ($recentPosts as $post) {
@@ -561,8 +561,8 @@ final class Plugin
         $selectedSubmission = $this->selectedFormSubmission($selectedTab);
 
         echo '<div class="wrap">';
-        echo '<h1>' . \esc_html__('Blocky Forms', 'blocky') . '</h1>';
-        echo '<p>' . \esc_html__('Built-in POST forms are stored as private Blocky submissions and listed here for review.', 'blocky') . '</p>';
+        echo '<h1>' . \esc_html__('Blockwork Forms', 'blocky') . '</h1>';
+        echo '<p>' . \esc_html__('Built-in POST forms are stored as private Blockwork submissions and listed here for review.', 'blocky') . '</p>';
 
         $this->renderFormsTabs(count($activeSubmissions), count($trashedSubmissions), $selectedTab);
 
@@ -571,7 +571,7 @@ final class Plugin
         }
 
         if ($selectedTab !== 'trash' && $forms === []) {
-            echo '<div class="notice notice-info"><p>' . \esc_html__('No Blocky forms were found yet. Add a Form block to a Blocky page to start collecting submissions.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-info"><p>' . \esc_html__('No Blockwork forms were found yet. Add a Form block to a Blockwork page to start collecting submissions.', 'blocky') . '</p></div>';
         } elseif ($selectedTab !== 'trash') {
             echo '<h2>' . \esc_html__('Discovered Forms', 'blocky') . '</h2>';
             echo '<table class="widefat striped"><thead><tr>';
@@ -608,7 +608,7 @@ final class Plugin
         if ($listedSubmissions === []) {
             echo '<div class="notice notice-info"><p>' . \esc_html($selectedTab === 'trash'
                 ? __('The forms trash is empty.', 'blocky')
-                : __('No Blocky form submissions have been stored yet.', 'blocky')) . '</p></div>';
+                : __('No Blockwork form submissions have been stored yet.', 'blocky')) . '</p></div>';
         } else {
             echo '<table class="widefat striped"><thead><tr>';
             echo '<th>' . \esc_html__('Submitted', 'blocky') . '</th>';
@@ -712,10 +712,10 @@ final class Plugin
         echo '<h2 style="margin-top:0;">' . \esc_html__('Global Cache', 'blocky') . '</h2>';
         echo '<p>' . \esc_html(sprintf(
             /* translators: %d: number of Blocky pages */
-            __('Rebuild the compiled frontend cache for all %d Blocky pages.', 'blocky'),
+            __('Rebuild the compiled frontend cache for all %d Blockwork pages.', 'blocky'),
             $totalPages
         )) . '</p>';
-        echo '<p><a class="button button-primary" href="' . $rebuildAllUrl . '">' . \esc_html__('Rebuild All Blocky Cache', 'blocky') . '</a></p>';
+        echo '<p><a class="button button-primary" href="' . $rebuildAllUrl . '">' . \esc_html__('Rebuild All Blockwork Cache', 'blocky') . '</a></p>';
         echo '</div>';
     }
 
@@ -728,7 +728,7 @@ final class Plugin
 
         $document = \get_post_meta($postId, '_blocky_document', true);
         if (!\is_string($document) || $document === '') {
-            echo '<div class="notice notice-warning"><p>' . \esc_html__('This page does not contain a Blocky document.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-warning"><p>' . \esc_html__('This page does not contain a Blockwork document.', 'blocky') . '</p></div>';
             return;
         }
 

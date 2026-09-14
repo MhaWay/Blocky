@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Blocky Builder
- * Plugin URI:  https://github.com/ggally/blocky
- * Description: Visual page builder SPA for the Blocky block system.
+ * Plugin Name: Blockwork Builder
+ * Plugin URI:  https://github.com/MhaWay/Blocky
+ * Description: The Tailwind-native page builder: customizable blocks, translated UI, deterministic static-CSS engine.
  * Version:     0.1.0
  * Requires at least: 6.5
  * Requires PHP: 8.2
@@ -47,7 +47,7 @@ spl_autoload_register(static function (string $class): void {
     if (!defined('BLOCKY_CORE_VERSION')) {
         \add_action('admin_notices', static function (): void {
             echo '<div class="notice notice-error"><p>'
-                . \esc_html__('Blocky Builder requires the Blocky Core plugin to be active.', 'blocky')
+                . \esc_html__('Blockwork Builder requires the Blockwork Core plugin to be active.', 'blocky')
                 . '</p></div>';
         });
         return;
