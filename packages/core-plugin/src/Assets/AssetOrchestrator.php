@@ -98,7 +98,7 @@ final class AssetOrchestrator
 
         // CSS chunks
         foreach ($this->manifest->cssFor($entry) as $i => $cssUrl) {
-            \wp_enqueue_style("blocky-core-css-{$i}", $cssUrl, [], null);
+            \wp_enqueue_style("blocky-core-css-{$i}", $cssUrl, [], \BLOCKY_CORE_VERSION);
         }
 
         // JS module
@@ -118,7 +118,7 @@ final class AssetOrchestrator
             'blocky-theme-variant',
             $variant->cssFile,
             ['blocky-core-css-0'],
-            null
+            \BLOCKY_CORE_VERSION
         );
     }
 

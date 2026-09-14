@@ -96,10 +96,23 @@ export async function ensureCanvasBlock(
     };
   }, blockType);
 
-  const previewFrame = await previewFrameHandle(page, 'transient block insertion');
-  const dataTransfer = await previewFrame.evaluateHandle(() => new DataTransfer());
-  await previewFrame.locator('body').dispatchEvent('drop', { dataTransfer });
-  await expect(frame.locator(`[data-bky-type="${blockType}"]`).first()).toBeVisible();
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const previewFrame = await previewFrameHandle(page, 'transient block insertion');
+      // The preview iframe can reload between handle creation and dispatch;
+      // re-acquire and retry instead of dying on a stale JSHandle.
+      await previewFrame.locator('body').waitFor({ state: 'visible', timeout: 5000 });
+      const dataTransfer = await previewFrame.evaluateHandle(() => new DataTransfer());
+      await previewFrame.locator('body').dispatchEvent('drop', { dataTransfer });
+      await expect(frame.locator(`[data-bky-type="${blockType}"]`).first()).toBeVisible();
+      return;
+    } catch (error) {
+      if (attempt === 2) {
+        throw error;
+      }
+      await page.waitForTimeout(400);
+    }
+  }
 }
 
 export async function selectCanvasBlock(

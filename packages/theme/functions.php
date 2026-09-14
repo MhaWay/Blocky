@@ -254,7 +254,7 @@ function body_classes(array $classes): array
 
 // ── Register theme variants ────────────────────────────────────────────────────
 
-\add_action('blocky/register_themes', __NAMESPACE__ . '\register_theme_variants');
+\add_action('blocky_register_themes', __NAMESPACE__ . '\register_theme_variants');
 
 function register_theme_variants(\Blocky\Core\Tokens\ThemeEngine $engine): void
 {

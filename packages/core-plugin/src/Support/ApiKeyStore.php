@@ -105,7 +105,7 @@ final class ApiKeyStore {
 		$table = self::table_name();
 		global $wpdb;
 
-		$inserted = $wpdb->insert(
+		$inserted = $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
 			$table,
 			array(
 				'public_id'   => $data['public_id'],
@@ -148,9 +148,9 @@ final class ApiKeyStore {
 		$table = self::table_name();
 		global $wpdb;
 
-		$row = $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE secret_hash = %s AND revoked_at IS NULL LIMIT 1",
+		$row = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
+			$wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
+				/* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name is prefix plus class constant. */ "SELECT * FROM {$table} WHERE secret_hash = %s AND revoked_at IS NULL LIMIT 1",
 				$hash
 			),
 			ARRAY_A
@@ -165,7 +165,7 @@ final class ApiKeyStore {
 			return null;
 		}
 
-		$wpdb->update(
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
 			$table,
 			array( 'last_used_at' => current_time( 'mysql' ) ),
 			array( 'id' => (int) $row['id'] ),
@@ -184,7 +184,7 @@ final class ApiKeyStore {
 	 */
 	public static function revoke( string $public_id ): bool {
 		global $wpdb;
-		$updated = $wpdb->update(
+		$updated = $wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
 			self::table_name(),
 			array( 'revoked_at' => current_time( 'mysql' ) ),
 			array( 'public_id' => $public_id )
@@ -202,8 +202,8 @@ final class ApiKeyStore {
 		$table = self::table_name();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- admin-only list from custom table.
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus class constant.
-		$rows = $wpdb->get_results(
-			$wpdb->prepare(
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
+			$wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom tables; object cache intentionally bypassed.
 				/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus class constant. */ 'SELECT id, public_id, name, scopes, created_by, created_at, last_used_at, revoked_at FROM ' . $table . ' ORDER BY id DESC LIMIT 200'
 			),
 			ARRAY_A

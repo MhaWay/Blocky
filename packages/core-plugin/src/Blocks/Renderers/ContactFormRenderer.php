@@ -78,7 +78,7 @@ final class ContactFormRenderer implements BlockRendererInterface
     private static function renderStatus(string $formId, string $successMessage): string
     {
         $status = isset($_GET['blocky_form']) ? sanitize_key((string) $_GET['blocky_form']) : '';
-        $statusFormId = isset($_GET['blocky_form_id']) ? sanitize_text_field((string) $_GET['blocky_form_id']) : '';
+        $statusFormId = isset($_GET['blocky_form_id']) ? sanitize_text_field((string) \wp_unslash($_GET['blocky_form_id'])) : '';
         if ($status === '' || $statusFormId !== $formId) {
             return '';
         }

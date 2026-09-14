@@ -58,17 +58,20 @@ def main():
             fp = os.path.join(root, f)
             c = open(fp, encoding='utf-8').read()
             c = pat.sub(lambda m: m.group(1) + "'gennaker-page-builder'" + m.group(2), c)
-            c = c.replace("load_plugin_textdomain('blocky'", "load_plugin_textdomain('gennaker-page-builder'")
+            c = chr(10).join(((l[:len(l) - len(l.lstrip())] + "\\load_plugin_textdomain('gennaker-page-builder', false, \\dirname(\\plugin_basename(\\dirname(__DIR__) . '/gennaker-page-builder.php')) . '/languages');") if l.strip().lstrip(chr(92)).startswith('load_plugin_textdomain(') else l) for l in c.split(chr(10)))
             open(fp, 'w', encoding='utf-8').write(c)
+    # WordPress.org auto-loads translations for a slug text domain from <plugin>/languages/*.mo.
+    top = os.path.join(OUT, 'languages')
+    os.makedirs(top, exist_ok=True)
     for sub in ('engine', 'builder'):
         d = os.path.join(OUT, sub, 'languages')
         if os.path.isdir(d):
             for f in os.listdir(d):
-                if f.startswith('blocky-'):
-                    os.rename(os.path.join(d, f), os.path.join(d, 'gennaker-page-builder-' + f[7:]))
-            for f in os.listdir(d):
-                if f.endswith(('.po', '.pot')):
-                    os.remove(os.path.join(d, f))
+                if f.startswith('blocky-') and f.endswith('.mo'):
+                    dst = os.path.join(top, 'gennaker-page-builder-' + f[7:])
+                    if not os.path.exists(dst):
+                        shutil.copy(os.path.join(d, f), dst)
+            shutil.rmtree(d)
 
     shutil.copy(os.path.join(HERE, 'gennaker-page-builder.php'), OUT + '/gennaker-page-builder.php')
     shutil.copy(os.path.join(HERE, 'readme.txt'), OUT + '/readme.txt')
