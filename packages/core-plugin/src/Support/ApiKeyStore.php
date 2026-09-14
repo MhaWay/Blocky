@@ -202,7 +202,7 @@ final class ApiKeyStore {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus class constant.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT id, public_id, name, scopes, created_by, created_at, last_used_at, revoked_at FROM ' . $table . ' ORDER BY id DESC LIMIT 200'
+				/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is prefix plus class constant. */ 'SELECT id, public_id, name, scopes, created_by, created_at, last_used_at, revoked_at FROM ' . $table . ' ORDER BY id DESC LIMIT 200'
 			),
 			ARRAY_A
 		);

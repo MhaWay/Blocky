@@ -96,7 +96,8 @@ final class SiteStylesheet {
 			BLOCKY_CORE_DIR . 'resources/css',
 			$base . '/css',
 			rtrim( (string) $uploads['baseurl'], '/' ) . '/blocky/css',
-			new TailwindBinary( $base . '/bin' )
+			// Compiler cache outside the web-served uploads tree (never publicly accessible).
+			new TailwindBinary( \dirname( (string) $uploads['basedir'] ) . '/blocky-engine/bin' )
 		);
 	}
 

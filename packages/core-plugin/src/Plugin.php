@@ -64,6 +64,8 @@ final class Plugin
         \add_action('wp_enqueue_scripts', [$this->assets, 'enqueue']);
         \add_action('save_post',        [$this, 'onSavePost'], 10, 2);
         \add_action('admin_menu',       [$this, 'registerAdminMenuTools'], 90);
+        \add_action('admin_menu',       [$this, 'registerSetupPage'], 89);
+        \add_action('admin_notices',      [$this, 'showSetupNotice']);
         \add_action('admin_post_blocky_clear_page_cache', [$this, 'handleClearPageCache']);
         \add_action('admin_post_blocky_rebuild_page_cache', [$this, 'handleRebuildPageCache']);
         \add_action('admin_post_blocky_rebuild_all_page_cache', [$this, 'handleRebuildAllPageCache']);
@@ -181,6 +183,72 @@ final class Plugin
             self::FORMS_PAGE_SLUG,
             [$this, 'renderFormsToolsPage']
         );
+    }
+
+    /**
+     * First-run setup page: explicit consent for the one-time compiler download.
+     */
+    public function registerSetupPage(): void
+    {
+        if (!\is_admin()) {
+            return;
+        }
+        if (!\current_user_can('manage_options')) {
+            return;
+        }
+        \add_submenu_page(
+            'blocky-builder',
+            \__('Gennaker Setup', 'blocky'),
+            \__('Setup', 'blocky'),
+            'manage_options',
+            'blocky-setup',
+            [$this, 'renderSetupPage']
+        );
+        \add_action('admin_post_blocky_allow_engine', [$this, 'handleAllowEngine']);
+    }
+
+    public function handleAllowEngine(): void
+    {
+        if (!isset($_POST['blocky_allow_nonce']) || !\wp_verify_nonce(\sanitize_text_field(\wp_unslash($_POST['blocky_allow_nonce'])), 'blocky_allow_engine')) {
+            \wp_die(\esc_html__('Security check failed.', 'blocky'));
+        }
+        if (!\current_user_can('manage_options')) {
+            \wp_die(\esc_html__('Not permitted.', 'blocky'));
+        }
+        if (!empty($_POST['blocky_allow_engine'])) {
+            \update_option('blocky_allow_engine_download', 'yes');
+        }
+        \wp_safe_redirect(\add_query_arg('allowed', '1', \admin_url('admin.php?page=blocky-setup')));
+    }
+
+    public function renderSetupPage(): void
+    {
+        $allowed = 'yes' === \get_option('blocky_allow_engine_download', '');
+        echo '<div class="wrap"><h1>' . \esc_html__('Gennaker Setup', 'blocky') . '</h1>';
+        if (isset($_GET['allowed'])) {
+            echo '<div class="notice notice-success"><p>' . \esc_html__('Compiler access allowed. Gennaker will download it once, verify the checksum, and never phone home again.', 'blocky') . '</p></div>';
+        }
+        echo '<p>' . \esc_html__('Gennaker compiles your stylesheets locally using the official, version-pinned Tailwind CSS command-line compiler (v4.3.3). One download, straight from the official Tailwind GitHub releases, verified against the published SHA-256 checksum, stored outside the web-served uploads directory and reused from cache. Nothing is sent back, and site visitors never contact any third-party server.', 'blocky') . '</p>';
+        echo '<form method="post" action="' . \esc_url(\admin_url('admin-post.php')) . '">';
+        \wp_nonce_field('blocky_allow_engine', 'blocky_allow_nonce');
+        echo '<input type="hidden" name="action" value="blocky_allow_engine" />';
+        echo '<p><label><input type="checkbox" name="blocky_allow_engine" value="1"' . ($allowed ? ' checked' : '') . ' /> ' . \esc_html__('I understand and allow Gennaker to download the pinned Tailwind compiler once, from the official GitHub releases, with checksum verification.', 'blocky') . '</label></p>';
+        echo '<p><button type="submit" class="button button-primary">' . \esc_html__('Save settings', 'blocky') . '</button></p>';
+        echo '</form>';
+        echo '<p><em>' . \esc_html__('Until this is confirmed, page saving keeps working; stylesheets use the bundled base vocabulary and interactive blocks keep working, but the static CSS compiler stays inactive.', 'blocky') . '</em></p>';
+        echo '</div>';
+    }
+
+    public function showSetupNotice(): void
+    {
+        if ('yes' === \get_option('blocky_allow_engine_download', '')) {
+            return;
+        }
+        if (!\current_user_can('manage_options')) {
+            return;
+        }
+        $url = \esc_url(\admin_url('admin.php?page=blocky-setup'));
+        echo '<div class="notice notice-info"><p>' . \esc_html__('One step left to unlock the full Gennaker CSS compiler: review and confirm the one-time download of the pinned official Tailwind tool.', 'blocky') . ' <a href="' . \esc_url($url) . '">' . \esc_html__('Open Gennaker Setup', 'blocky') . '</a></p></div>';
     }
 
     public function registerFormSubmissionPostType(): void
@@ -533,8 +601,8 @@ final class Plugin
                 echo '<td><strong>' . \esc_html($title) . '</strong></td>';
                 echo '<td>' . \esc_html((string) $post->post_type) . '</td>';
                 echo '<td>';
-                echo '<a class="button button-secondary" href="' . $cacheUrl . '">' . \esc_html__('Open Cache', 'blocky') . '</a> ';
-                echo '<a class="button" href="' . $builderUrl . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
+                echo '<a class="button button-secondary" href="' . \esc_url($cacheUrl) . '">' . \esc_html__('Open Cache', 'blocky') . '</a> ';
+                echo '<a class="button" href="' . \esc_url($builderUrl) . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
                 echo '</td>';
                 echo '</tr>';
             }
@@ -595,7 +663,7 @@ final class Plugin
                 echo '<td>' . \esc_html((string) $count) . '</td>';
                 echo '<td>' . \esc_html($lastSubmitted) . '</td>';
                 echo '<td>';
-                echo '<a class="button" href="' . $builderUrl . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
+                echo '<a class="button" href="' . \esc_url($builderUrl) . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
                 echo '</td>';
                 echo '</tr>';
             }
@@ -631,14 +699,14 @@ final class Plugin
                 echo '<td>' . \esc_html($submittedAt !== '' ? $submittedAt : (string) $submission->post_date_gmt) . '</td>';
                 echo '<td><code>' . \esc_html($formId) . '</code></td>';
                 echo '<td>' . \esc_html($sourceTitle) . '</td>';
-                echo '<td>' . $this->submissionPayloadPreview($payload) . '</td>';
+                echo '<td>' . \wp_kses_post($this->submissionPayloadPreview($payload)) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper returns pre-escaped markup.
                 echo '<td>';
-                echo '<a class="button button-secondary" href="' . $detailUrl . '">' . \esc_html__('View Submission', 'blocky') . '</a> ';
+                echo '<a class="button button-secondary" href="' . \esc_url($detailUrl) . '">' . \esc_html__('View Submission', 'blocky') . '</a> ';
                 echo $selectedTab === 'trash'
-                    ? $this->restoreSubmissionButton($submission->ID)
-                    : $this->trashSubmissionButton($submission->ID);
+                    ? \wp_kses_post($this->restoreSubmissionButton($submission->ID))
+                    : \wp_kses_post($this->trashSubmissionButton($submission->ID));
                 if ($selectedTab === 'trash') {
-                    echo ' ' . $this->deleteSubmissionButton($submission->ID);
+                    echo ' ' . \wp_kses_post($this->deleteSubmissionButton($submission->ID)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper returns pre-escaped markup.
                 }
                 echo '</td>';
                 echo '</tr>';
@@ -715,7 +783,7 @@ final class Plugin
             __('Rebuild the compiled frontend cache for all %d Gennaker pages.', 'blocky'),
             $totalPages
         )) . '</p>';
-        echo '<p><a class="button button-primary" href="' . $rebuildAllUrl . '">' . \esc_html__('Rebuild All Gennaker Cache', 'blocky') . '</a></p>';
+        echo '<p><a class="button button-primary" href="' . \esc_url($rebuildAllUrl) . '">' . \esc_html__('Rebuild All Gennaker Cache', 'blocky') . '</a></p>';
         echo '</div>';
     }
 
@@ -742,9 +810,9 @@ final class Plugin
         echo '<h2 style="margin-top:0;">' . \esc_html__('Current Page', 'blocky') . '</h2>';
         echo '<p><strong>' . \esc_html($title) . '</strong> <span style="color:#646970;">#' . \esc_html((string) $postId) . '</span></p>';
         echo '<p>';
-        echo '<a class="button button-primary" href="' . $rebuildUrl . '">' . \esc_html__('Rebuild Page Cache', 'blocky') . '</a> ';
-        echo '<a class="button button-secondary" href="' . $clearUrl . '">' . \esc_html__('Clear Page Cache', 'blocky') . '</a> ';
-        echo '<a class="button" href="' . $builderUrl . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
+        echo '<a class="button button-primary" href="' . \esc_url($rebuildUrl) . '">' . \esc_html__('Rebuild Page Cache', 'blocky') . '</a> ';
+        echo '<a class="button button-secondary" href="' . \esc_url($clearUrl) . '">' . \esc_html__('Clear Page Cache', 'blocky') . '</a> ';
+        echo '<a class="button" href="' . \esc_url($builderUrl) . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
         echo '</p>';
         echo '</div>';
     }
@@ -1139,18 +1207,18 @@ final class Plugin
         echo '<p><strong>' . \esc_html($sourceTitle) . '</strong> <span style="color:#646970;">' . \esc_html__('Page', 'blocky') . '</span></p>';
         echo '<p><strong>' . \esc_html__('Form ID:', 'blocky') . '</strong> <code>' . \esc_html($formId) . '</code></p>';
         echo '<p><strong>' . \esc_html__('Submitted:', 'blocky') . '</strong> ' . \esc_html($submittedAt !== '' ? $submittedAt : (string) $submission->post_date_gmt) . '</p>';
-        echo '<div style="margin-top:16px;">' . $this->formatSubmissionPayload($payload) . '</div>';
+        echo '<div style="margin-top:16px;">' . \wp_kses_post($this->formatSubmissionPayload($payload)) . '</div>';
         echo '<p style="margin-top:16px;">';
-        echo '<a class="button button-secondary" href="' . $backUrl . '">' . \esc_html__('Back to All Submissions', 'blocky') . '</a> ';
+        echo '<a class="button button-secondary" href="' . \esc_url($backUrl) . '">' . \esc_html__('Back to All Submissions', 'blocky') . '</a> ';
         if ($builderUrl !== '') {
-            echo '<a class="button" href="' . $builderUrl . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
+            echo '<a class="button" href="' . \esc_url($builderUrl) . '">' . \esc_html__('Open Builder', 'blocky') . '</a>';
         }
         echo ' ';
         echo $selectedTab === 'trash'
-            ? $this->restoreSubmissionButton($submission->ID)
-            : $this->trashSubmissionButton($submission->ID);
+            ? \wp_kses_post($this->restoreSubmissionButton($submission->ID))
+            : \wp_kses_post($this->trashSubmissionButton($submission->ID));
         if ($selectedTab === 'trash') {
-            echo ' ' . $this->deleteSubmissionButton($submission->ID);
+            echo ' ' . \wp_kses_post($this->deleteSubmissionButton($submission->ID)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper returns pre-escaped markup.
         }
         echo '</p>';
         echo '</div>';
@@ -1176,8 +1244,10 @@ final class Plugin
         $trashUrl = \esc_url($this->formsPageUrl('trash'));
 
         echo '<nav class="nav-tab-wrapper" style="margin-top:16px;">';
-        echo '<a class="nav-tab ' . ($selectedTab === 'submissions' ? 'nav-tab-active' : '') . '" href="' . $submissionsUrl . '">' . \esc_html(sprintf(__('Submissions (%d)', 'blocky'), $activeCount)) . '</a>';
-        echo '<a class="nav-tab ' . ($selectedTab === 'trash' ? 'nav-tab-active' : '') . '" href="' . $trashUrl . '">' . \esc_html(sprintf(__('Trash (%d)', 'blocky'), $trashCount)) . '</a>';
+        /* translators: %d: number of submissions. */
+        echo '<a class="nav-tab ' . ($selectedTab === 'submissions' ? 'nav-tab-active' : '') . '" href="' . \esc_url($submissionsUrl) . '">' . \esc_html(sprintf(__('Submissions (%d)', 'blocky'), $activeCount)) . '</a>';
+        /* translators: %d: number of submissions. */
+        echo '<a class="nav-tab ' . ($selectedTab === 'trash' ? 'nav-tab-active' : '') . '" href="' . \esc_url($trashUrl) . '">' . \esc_html(sprintf(__('Trash (%d)', 'blocky'), $trashCount)) . '</a>';
         echo '</nav>';
     }
 

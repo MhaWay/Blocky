@@ -63,6 +63,10 @@ Yes. Gennaker renders its pages independently of the active theme, using its own
 
 English (source), Italian, German, Spanish, French, Brazilian Portuguese. The interface follows the user's WordPress profile language.
 
+= Does the plugin call external services? =
+
+Gennaker is fully self-contained at runtime: no third-party CDN, no tracking, and the frontend never requests anything from us. The one network operation is opt-in: after activation, Gennaker shows a Setup screen that explains and asks the administrator to confirm the one-time download of the official, version-pinned `tailwindcss` command-line compiler (v4.3.3). Until it is confirmed, the download never happens and the plugin keeps working with its bundled base stylesheet directly from its [official GitHub releases](https://github.com/tailwindlabs/tailwindcss/releases), verifies its published SHA-256 checksum, and caches it locally in `wp-content/blocky-engine/` (outside the web-served uploads folder). The binary is used only as a local build tool while the administrator saves or builds, never for site visitors, and the download happens once per server. This is the same compiler Tailwind Labs ships for everyone; pinning plus checksum verification means Gennaker cannot be silently switched to different code.
+
 == Screenshots ==
 
 1. The Gennaker editor: block library on the left, canvas in the middle, token-based inspector on the right.

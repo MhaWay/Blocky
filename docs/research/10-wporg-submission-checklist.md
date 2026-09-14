@@ -61,3 +61,13 @@ verdetto finale. Verifica DPMA su "Blockwork Studio" (DE, 25/35/42) non automati
 - Screenshots reali in assets/wporg/screenshots/; bug wordmark 'Blocky' fissa in Toolbar.tsx corretto (dist rebuild).
 - Upload: wordpress.org/plugins/new con lo zip asset della release v0.2.0-alpha (gennaker-page-builder-0.1.0.zip); review pre-approval 2-15 giorni.
 - NB: bug noto label TEMPLATESTHEME nel tab builder (P0 backlog) visibile nella screenshot-1; re-shoot dopo fix se si vuole.
+
+## Consent gate for the compiler download (added pre-submission)
+Guideline 7: no external contact without explicit consent. Activation shows an admin notice -> "Gennaker > Setup" page with a checkbox that sets
+the blocky_allow_engine_download option; SiteStylesheet::rebuild() refuses to download until it is 'yes' (plugin keeps working on the bundled base
+stylesheet meanwhile). Compiler cache moved from uploads/blocky/bin to wp-content/blocky-engine/bin (never web-served). readme.txt documents the
+service (pinned v4.3.3, official GitHub releases, SHA-256 check, one download, no phone-home). For e2e/dev sites run:
+  wp option update blocky_allow_engine_download yes
+Plugin Check (official plugin, CLI mode) must be ZERO errors before ticking the submission checkbox: the bundle script now (a) renames the text
+domain to the slug and renames .mo files, (b) strips dotfiles, phpunit caches and composer/phpcs/package manifests, (c) ships builder src/ for the
+human-readable-source rule. Repo still uses the blocky domain internally until Phase 2.

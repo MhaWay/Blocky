@@ -58,7 +58,7 @@ final class RegisterFormRenderer implements BlockRendererInterface
 
     private static function field(string $label, string $name, string $type, string $autocomplete): string
     {
-        return '<label class="flex flex-col gap-2 text-sm font-medium text-text-base"><span>' . esc_html__($label, 'blocky') . '</span><input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" autocomplete="' . esc_attr($autocomplete) . '" class="min-h-11 rounded-button border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base outline-none transition-colors focus:border-accent-base" required /></label>';
+        return '<label class="flex flex-col gap-2 text-sm font-medium text-text-base"><span>' . esc_html__($label, 'blocky') . '</span><input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" autocomplete="' . esc_attr($autocomplete) . '" class="min-h-11 rounded-button border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base outline-none transition-colors focus:border-accent-base" required /></label>'; // phpcs:ignore WordPress.WP.I18n -- callers pass literal label strings.
     }
 
     private static function resolveFormId(Node $node, int $postId): string

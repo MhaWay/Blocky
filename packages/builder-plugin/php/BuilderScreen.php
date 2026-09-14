@@ -53,7 +53,7 @@ final class BuilderScreen
         // Inline config BEFORE the module script so window.BlockyBuilderConfig
         // is available when the ES module bundle executes.
         // wp_add_inline_script does NOT work with wp_enqueue_script_module.
-        echo '<script>window.BlockyBuilderConfig = ' . $config . ';</script>';
+        echo '<script>window.BlockyBuilderConfig = ' . $config . ';</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- json_encode output for the JS app.
         echo '<div id="blocky-builder-root" class="blocky-builder-fullscreen"></div>';
     }
 
@@ -224,8 +224,10 @@ final class BuilderScreen
             'library.openClassicEditor' => __('Open Classic Editor', 'blocky'),
             'library.moveToTrash' => __('Move to Trash', 'blocky'),
             'library.contextMenuHint' => __('Right click: page actions', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'library.confirmTrash' => __('Move "%s" to the trash?', 'blocky'),
             'library.recentlyModified' => __('Recently updated', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'library.updatedOn' => __('Updated %s', 'blocky'),
             'templates.kindComponent' => __('Component', 'blocky'),
             'library.componentLabel' => __('Component', 'blocky'),
@@ -246,8 +248,10 @@ final class BuilderScreen
             'templates.openHint' => __('Open this template in the editor', 'blocky'),
             'templates.view' => __('Preview', 'blocky'),
             'templates.trash' => __('Trash', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'templates.trashConfirm' => __('Move template "%s" to the trash?', 'blocky'),
             'templates.recentlyModified' => __('Recently updated', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'templates.updatedOn' => __('Updated %s', 'blocky'),
             'library.singlePostLabel' => __('Single Post', 'blocky'),
             'library.singlePostDescription' => __('Article template: header slot, title, content, author, and post navigation.', 'blocky'),
@@ -262,8 +266,10 @@ final class BuilderScreen
             'pages.builtWith' => __('Built with Gennaker', 'blocky'),
             'pages.view' => __('View', 'blocky'),
             'pages.trash' => __('Trash', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'pages.trashConfirm' => __('Move "%s" to the trash?', 'blocky'),
             'pages.recentlyModified' => __('Recently updated', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'pages.updatedOn' => __('Updated %s', 'blocky'),
             'sidebar.blocks' => __('Blocks', 'blocky'),
             'sidebar.theme' => __('Theme', 'blocky'),
@@ -311,6 +317,7 @@ final class BuilderScreen
             'inspector.noPagesFound' => __('No pages found', 'blocky'),
             'inspector.noPagesFoundDescription' => __('Try a different filter or create a new page.', 'blocky'),
             'inspector.title' => __('Inspector', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'inspector.settingsTitle' => __('%s Settings', 'blocky'),
             'inspector.remove' => __('Remove', 'blocky'),
             'inspector.rootSection' => __('Root section', 'blocky'),
@@ -338,6 +345,7 @@ final class BuilderScreen
             'inspector.selected' => __('Selected', 'blocky'),
             'inspector.useThis' => __('Use this', 'blocky'),
             'inspector.recentlyUpdated' => __('Recently updated', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'inspector.updatedOn' => __('Updated %s', 'blocky'),
             'inspector.mediaLibraryUnavailable' => __('WordPress media library not available.', 'blocky'),
             'inspector.selectMedia' => __('Select Media', 'blocky'),
@@ -393,6 +401,7 @@ final class BuilderScreen
             'inspector.applyMotionSet' => __('Apply Motion Set', 'blocky'),
             'inspector.interactionsTitle' => __('Interactions', 'blocky'),
             'inspector.interactionsDescription' => __('Trigger, action, target, and basic modifiers for runtime behaviors.', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'inspector.interactionRule' => __('Rule %s', 'blocky'),
             'inspector.interactionEvent' => __('Event', 'blocky'),
             'inspector.interactionAction' => __('Action', 'blocky'),
@@ -457,7 +466,9 @@ final class BuilderScreen
             'outline.collapseChildren' => __('Collapse children', 'blocky'),
             'footer.toggleBlocksPanel' => __('Toggle Blocks panel', 'blocky'),
             'footer.toggleInspectorPanel' => __('Toggle Inspector panel', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'footer.blocksCount' => __('%s blocks', 'blocky'),
+            /* translators: %s and %d placeholders are filled in at runtime. */
             'footer.blockCount' => __('%s block', 'blocky'),
             'footer.desktop' => __('Desktop', 'blocky'),
             'footer.tablet' => __('Tablet', 'blocky'),
