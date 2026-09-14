@@ -1,25 +1,26 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Same origin as the WP siteurl: cross-host logins silently drop redirect_to
+const SITE = process.env['BLOCKY_E2E_SITE'] ?? 'http://127.0.0.1:8888';
+
 export default defineConfig({
-  testDir:  './e2e',
-  timeout:  30_000,
-  retries:  process.env['CI'] ? 2 : 0,
+  testDir: './e2e',
+  timeout: 30_000,
+  retries: process.env['CI'] ? 2 : 0,
   reporter: process.env['CI'] ? [['github'], ['html']] : 'list',
 
   use: {
-    baseURL:      'http://127.0.0.1:8888',
-    trace:        'on-first-retry',
-    screenshot:   'only-on-failure',
+    baseURL: SITE,
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
 
-  projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  ],
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 
   // Start wp-env before running tests
   webServer: {
     command: 'pnpm wp-env start',
-    url:     'http://127.0.0.1:8888',
+    url: SITE,
     reuseExistingServer: !process.env['CI'],
     timeout: 60_000,
   },
