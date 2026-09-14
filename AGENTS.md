@@ -3,6 +3,7 @@
 Monorepo pnpm/turbo: @blocky/core-plugin (motore PHP), @blocky/builder-plugin (editor React), @blocky/tokens, @blocky/theme, @blocky/ui-primitives.
 
 ## Leggi prima di toccare
+- docs/research/11-wp-security-handbook-compliance.md — sicurezza WP: regole, mappa compliance, guard ABSPATH su ogni file spedito
 - docs/research/03-blocky-current-state-and-proposals.md — stato attuale + debolezze W1-W9
 - docs/research/04-three-layer-css-and-control-system.md — architettura target (L1 studio / L2 preview / L3 frontend)
 - docs/research/06-strategy-stack-decision.md — decisioni D1-D8 (chiuse: no classi arbitrarie percorso normale, closed-set, one-engine binario, no inline CSS, system fonts default)

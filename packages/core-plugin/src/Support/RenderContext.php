@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Support;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Blocks\Node;
 use Blocky\Core\Blocks\Renderer\Pipeline;
 use Blocky\Core\Tokens\ThemeEngine;

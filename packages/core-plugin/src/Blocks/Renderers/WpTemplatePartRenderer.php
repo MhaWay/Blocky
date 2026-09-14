@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Blocks\Renderers;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Blocks\Node;
 use Blocky\Core\Blocks\Renderer\BlockRendererInterface;
 use Blocky\Core\Support\HtmlString;

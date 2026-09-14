@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Sdk;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Plugin;
 use Blocky\Core\Blocks\BlockDefinition;
 use Blocky\Core\Blocks\Node;

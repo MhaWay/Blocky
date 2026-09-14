@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Tokens;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 /**
  * Resolves a token value through the brand/mode cascade:
  *   brand+mode → brand+light → default+light

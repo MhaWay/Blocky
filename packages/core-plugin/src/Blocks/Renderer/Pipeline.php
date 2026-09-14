@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Blocks\Renderer;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Blocks\BlockDefinition;
 use Blocky\Core\Blocks\Node;
 use Blocky\Core\Blocks\Registry;

@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Blocky\Core\Cli;
 
+defined( 'ABSPATH' ) || exit; // Protect against direct file access.
+
 use Blocky\Core\Support\ApiKeyStore;
 
 /**
