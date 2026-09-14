@@ -1,0 +1,1738 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Blocky 0.1.0\nReport-Msgid-Bugs-To: https://wordpress.org/support/plugin/blocky\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: es_ES\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "%s Settings"
+msgstr "Ajustes de %s"
+
+msgid "%s block"
+msgstr "%s bloque"
+
+msgid "%s blocks"
+msgstr "%s bloques"
+
+msgid "A horizontal separator with decorative divider styles."
+msgstr "Un separador horizontal con estilos decorativos."
+
+msgid "A quote or testimonial block."
+msgstr "Una cita o testimonio."
+
+msgid "A standard page to build freely."
+msgstr "Una página estándar para construir libremente."
+
+msgid "A structured card surface with media, header, body, and footer regions."
+msgstr "Una superficie de tarjeta estructurada con zonas de medio, cabecera, cuerpo y pie."
+
+msgid "Abilities for analyzing and transforming text."
+msgstr "Capacidades para analizar y transformar texto."
+
+msgid "Abilities for managing and organizing content."
+msgstr "Capacidades para gestionar y organizar contenido."
+
+msgid "Accordion"
+msgstr "Acordeón"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Active classes"
+msgstr "Clases activas"
+
+msgid "Add"
+msgstr "Añadir"
+
+msgid "Add CTAs, quick links, or secondary information here."
+msgstr "Añade CTA, enlaces rápidos o información secundaria aquí."
+
+msgid "Add Interaction"
+msgstr "Añadir interacción"
+
+msgid "Add Page"
+msgstr "Añadir página"
+
+msgid "Add button inside"
+msgstr "Añadir botón dentro"
+
+msgid "Add class"
+msgstr "Añadir clase dentro"
+
+msgid "Add heading inside"
+msgstr "Añadir título dentro"
+
+msgid "Add text inside"
+msgstr "Añadir texto dentro"
+
+msgid "Advanced"
+msgstr "Avanzado"
+
+msgid "Alert"
+msgstr "Aviso"
+
+msgid "All Pages"
+msgstr "Todas las páginas"
+
+msgid "All pages are listed. Blocky pages are marked with a badge."
+msgstr "Todas las páginas están listadas. Las páginas de Blocky llevan una insignia."
+
+msgid "Alt Text"
+msgstr "Texto alternativo"
+
+msgid "Analyze Text"
+msgstr "Analizar texto"
+
+msgid "Anchor"
+msgstr "Ancla"
+
+msgid "Animated Headline"
+msgstr "Titular animado"
+
+msgid "Animations"
+msgstr "Animaciones"
+
+msgid "Any Device"
+msgstr "Cualquier dispositivo"
+
+msgid "Any State"
+msgstr "Cualquier estado"
+
+msgid "Apply Motion Set"
+msgstr "Aplicar set de movimiento"
+
+msgid "Approved comments for the current post with simple list styling."
+msgstr "Comentarios aprobados de la publicación actual con estilo de lista simple."
+
+msgid "Archive Posts"
+msgstr "Archivos"
+
+msgid "Article"
+msgstr "Artículo"
+
+msgid "Article Template"
+msgstr "Plantilla de artículo"
+
+msgid "Article template: header slot, title, content, author, and post navigation."
+msgstr "Plantilla de artículo: zona de cabecera, título, contenido, autor y navegación."
+
+msgid "Author Box"
+msgstr "Caja de autor"
+
+msgid "Auto-generated heading index from the current Blocky document."
+msgstr "Índice de titulares generado automáticamente del documento Blocky actual."
+
+msgid "Back to All Submissions"
+msgstr "Volver a todos los envíos"
+
+msgid "Back to Top"
+msgstr "Volver arriba"
+
+msgid "Back to WordPress"
+msgstr "Volver a WordPress"
+
+msgid "Base"
+msgstr "Base"
+
+msgid "Base Template"
+msgstr "Plantilla base"
+
+msgid "Basic"
+msgstr "Básico"
+
+msgid "Basic Gallery"
+msgstr "Galería básica"
+
+msgid "Before After Slider"
+msgstr "Comparador antes/después"
+
+msgid "Block type not found."
+msgstr "Tipo de bloque no encontrado."
+
+msgid "Blocks"
+msgstr "Bloques"
+
+msgid "Blocky"
+msgstr ""
+
+msgid "Blocky Builder"
+msgstr ""
+
+msgid "Blocky Builder requires the Blocky Core plugin to be active."
+msgstr "Blocky Builder requiere que el plugin Blocky Core esté activo."
+
+msgid "Blocky Cache"
+msgstr "Caché de Blocky"
+
+msgid "Blocky Editor"
+msgstr "Editor Blocky"
+
+msgid "Blocky Form Submission"
+msgstr "Envío de formulario Blocky"
+
+msgid "Blocky Form Submissions"
+msgstr "Envíos de formularios Blocky"
+
+msgid "Blocky Forms"
+msgstr "Formularios Blocky"
+
+msgid "Blocky cache rebuild complete. %1$d pages rebuilt, %2$d failures."
+msgstr "Reconstrucción de caché de Blocky completada. %1$d páginas reconstruidas, %2$d fallos."
+
+msgid "Blocky cache rebuild failed."
+msgstr "Error al reconstruir la caché de Blocky."
+
+msgid "Blocky page cache cleared."
+msgstr "Caché de página de Blocky vaciada."
+
+msgid "Blocky page cache rebuilt."
+msgstr "Caché de página de Blocky reconstruida."
+
+msgid "Blog"
+msgstr ""
+
+msgid "Brand"
+msgstr "Marca"
+
+msgid "Breadcrumbs"
+msgstr "Ruta de migas de pan"
+
+msgid "Breakpoint scope"
+msgstr "Alcance de breakpoint"
+
+msgid "Built with Blocky"
+msgstr "Creado con Blocky"
+
+msgid "Built-in POST forms are stored as private Blocky submissions and listed here for review."
+msgstr "Los formularios integrados se guardan como envíos privados de Blocky y se listan aquí para su revisión."
+
+msgid "Built-in storage"
+msgstr "Almacenamiento integrado"
+
+msgid "Bulleted or numbered list."
+msgstr "Lista con viñetas o numerada."
+
+msgid "Button"
+msgstr "Botón"
+
+msgid "Button that lets visitors switch between light and dark mode."
+msgstr "Botón que permite a los visitantes alternar entre modo claro y oscuro."
+
+msgid "Button-like trigger that opens, toggles, or closes an overlay by ID."
+msgstr "Disparador tipo botón que abre, alterna o cierra una superposición por ID."
+
+msgid "Call To Action"
+msgstr "Llamada a la acción"
+
+msgid "Call to action"
+msgstr "Llamada a la acción"
+
+msgid "Card"
+msgstr "Tarjeta"
+
+msgid "Change"
+msgstr "Cambiar"
+
+msgid "Change page"
+msgstr "Cambiar página"
+
+msgid "Checkbox field or checkbox group driven by line-based options."
+msgstr "Campo o grupo de casillas con opciones basadas en líneas."
+
+msgid "Choose page"
+msgstr "Elegir página"
+
+msgid "Class Add"
+msgstr "Añadir clase"
+
+msgid "Class Name"
+msgstr "Nombre de clase"
+
+msgid "Class Remove"
+msgstr "Quitar clase"
+
+msgid "Class Toggle"
+msgstr "Alternar clase"
+
+msgid "Classes"
+msgstr "Clases"
+
+msgid "Classic"
+msgstr "Clásico"
+
+msgid "Classic Editor"
+msgstr "Editor clásico"
+
+msgid "Clear"
+msgstr "Quitar"
+
+msgid "Clear Page Cache"
+msgstr "Vaciar caché de página"
+
+msgid "Click"
+msgstr "Clic"
+
+msgid "Click to change"
+msgstr "Haz clic para cambiar"
+
+msgid "Clickable call to action with slotted content, surface styling, and link target."
+msgstr "Llamada a la acción clicable con contenido en slots, estilo de superficie y destino de enlace."
+
+msgid "Close outline"
+msgstr "Cerrar esquema"
+
+msgid "Close picker"
+msgstr "Cerrar selector"
+
+msgid "Closed-set entrance animations. Honors prefers-reduced-motion and no-JS."
+msgstr "Animaciones de entrada de conjunto cerrado. Respetan el movimiento reducido y funcionan sin JavaScript."
+
+msgid "Code Highlight"
+msgstr "Resaltado de código"
+
+msgid "Collapse children"
+msgstr "Contraer hijos"
+
+msgid "Columns"
+msgstr "Columnas"
+
+msgid "Comment Form"
+msgstr "Formulario de comentarios"
+
+msgid "Comments"
+msgstr "Comentarios"
+
+msgid "Comments are closed."
+msgstr "Los comentarios están cerrados."
+
+msgid "Component"
+msgstr "Componente"
+
+msgid "Conditions"
+msgstr "Condiciones"
+
+msgid "Confirmation dialog preset with default cancel and confirm actions."
+msgstr "Diálogo de confirmación con acciones cancelar/confirmar predeterminadas."
+
+msgid "Consent banner preset that stores accept or reject decisions in a cookie."
+msgstr "Banner de cookies que guarda la decisión de aceptar o rechazar en una cookie."
+
+msgid "Constrained content wrapper with alignment controls."
+msgstr "Contenedor de contenido con ancho limitado y controles de alineación."
+
+msgid "Contact Form"
+msgstr "Formulario de contacto"
+
+msgid "Container"
+msgstr "Contenedor"
+
+msgid "Contains a Blocky document"
+msgstr "Contiene un documento Blocky"
+
+msgid "Contains a reusable Blocky document."
+msgstr "Contiene un documento Blocky reutilizable."
+
+msgid "Content"
+msgstr "Contenido"
+
+msgid "Content Management"
+msgstr "Gestión de contenido"
+
+msgid "Continue in Blocky Editor"
+msgstr "Continuar en el Editor Blocky"
+
+msgid "Cookie"
+msgstr ""
+
+msgid "Cookie Banner"
+msgstr "Banner de cookies"
+
+msgid "Cookie Value"
+msgstr "Valor de la cookie"
+
+msgid "Could not encode document."
+msgstr "No se pudo codificar el documento."
+
+msgid "Countdown"
+msgstr "Cuenta atrás"
+
+msgid "Countdown timer to a target date and time."
+msgstr "Cuenta atrás hasta una fecha y hora objetivo."
+
+msgid "Counter"
+msgstr "Contador"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Create a header, footer or article template above."
+msgstr "Crea primero una plantilla de cabecera, pie o artículo arriba."
+
+msgid "Create a new page from one of the starters above."
+msgstr "Crea una nueva página desde uno de los iniciadores de arriba."
+
+msgid "Create a new page or open an existing post."
+msgstr "Crea una nueva página o abre una publicación existente."
+
+msgid "Create an account"
+msgstr "Crear una cuenta"
+
+msgid "Create reusable parts or a full base template to connect to pages through Blocky WordPress blocks."
+msgstr "Crea partes reutilizables o una plantilla base completa para conectar páginas mediante los bloques de WordPress de Blocky."
+
+msgid "Created page could not be loaded."
+msgstr "La página creada no se pudo cargar."
+
+msgid "Current"
+msgstr "Actual"
+
+msgid "Current Page"
+msgstr "Página actual"
+
+msgid "Current page cannot be inserted into itself"
+msgstr "La página actual no se puede insertar en sí misma"
+
+msgid "Current post author profile with avatar, bio, and archive link."
+msgstr "Perfil del autor de la publicación actual con avatar, biografía y enlace de archivo."
+
+msgid "Custom"
+msgstr "Personalizado"
+
+msgid "Custom Event"
+msgstr "Evento personalizado"
+
+msgid "Custom action"
+msgstr "Acción personalizada"
+
+msgid "Custom chain"
+msgstr "Cadena personalizada"
+
+msgid "Custom variant chain"
+msgstr "Cadena de variantes personalizada"
+
+msgid "Customer quote with optional avatar and role."
+msgstr "Cita de cliente con avatar y rol opcionales."
+
+msgid "Dark"
+msgstr "Oscuro"
+
+msgid "Data Field"
+msgstr "Campo de datos"
+
+msgid "Date, time, or datetime field."
+msgstr "Campo de fecha, hora o fecha y hora."
+
+msgid "Debounce (ms)"
+msgstr ""
+
+msgid "Decoding"
+msgstr "Decodificación"
+
+msgid "Default"
+msgstr "Predeterminado"
+
+msgid "Default Dark"
+msgstr "Oscuro predeterminado"
+
+msgid "Default Light"
+msgstr "Claro predeterminado"
+
+msgid "Delay"
+msgstr "Retraso"
+
+msgid "Delay (ms)"
+msgstr "Retraso (ms)"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Delete Permanently"
+msgstr "Eliminar permanentemente"
+
+msgid "Describe the image"
+msgstr "Describe la imagen"
+
+msgid "Desktop"
+msgstr "Escritorio"
+
+msgid "Device"
+msgstr "Dispositivo"
+
+msgid "Dialog Confirm"
+msgstr "Diálogo de confirmación"
+
+msgid "Discovered Forms"
+msgstr "Formularios detectados"
+
+msgid "Dismiss sticky bar"
+msgstr "Descartar barra fija"
+
+msgid "Displays one WP data value (title, excerpt, image, price, user bio...) of the current item, page or author."
+msgstr "Muestra un valor de datos de WordPress (título, extracto, imagen, precio, bio del autor...) del elemento, página o autor actual."
+
+msgid "Displays the current post or page title."
+msgstr "Muestra el título de la publicación o página actual."
+
+msgid "Displays the featured image of the current post."
+msgstr "Muestra la imagen destacada de la publicación actual."
+
+msgid "Divider"
+msgstr "Divisor"
+
+msgid "Document must be an object."
+msgstr "El documento debe ser un objeto."
+
+msgid "Document must have root and nodes keys."
+msgstr "El documento debe tener las claves root y nodes."
+
+msgid "Document tree unavailable."
+msgstr "Árbol de documento no disponible."
+
+msgid "Drop blocks here"
+msgstr "Suelta bloques aquí"
+
+msgid "Dropdown select driven by line-based options."
+msgstr "Desplegable con opciones basadas en líneas."
+
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgid "Duration"
+msgstr "Duración"
+
+msgid "Easing"
+msgstr "Suavizado"
+
+msgid "Edit element"
+msgstr "Editar elemento"
+
+msgid "Edit with Blocky"
+msgstr "Editar con Blocky"
+
+msgid "Edit with Blocky Builder"
+msgstr "Editar con Blocky Builder"
+
+msgid "Embed Google Maps"
+msgstr "Mapa de Google embebido"
+
+msgid "Embed Iframe"
+msgstr "Iframe embebido"
+
+msgid "Embedded video"
+msgstr "Vídeo embebido"
+
+msgid "Entrance Animation"
+msgstr "Animación de entrada"
+
+msgid "Event"
+msgstr "Evento"
+
+msgid "Executes a WordPress shortcode and renders its output."
+msgstr "Ejecuta un shortcode de WordPress y muestra su salida."
+
+msgid "Expand children"
+msgstr "Expandir hijos"
+
+msgid "FAQ-style accordion driven by title and content pairs."
+msgstr "Acordeón estilo FAQ basado en pares título/contenido."
+
+msgid "Fast"
+msgstr "Rápido"
+
+msgid "Feature box with icon, title, copy, and optional link."
+msgstr "Caja de característica con icono, título, texto y enlace opcional."
+
+msgid "Featured Image"
+msgstr "Imagen destacada"
+
+msgid "Featured Posts"
+msgstr "Publicaciones destacadas"
+
+msgid "Featured or sticky posts presented in a list or grid layout."
+msgstr "Publicaciones destacadas o fijadas presentadas como lista o cuadrícula."
+
+msgid "File upload field with optional multiple selection."
+msgstr "Campo de subida de archivos con selección múltiple opcional."
+
+msgid "Filter by page title or status…"
+msgstr "Filtrar por título o estado de la página…"
+
+msgid "Filter pages"
+msgstr "Filtrar páginas"
+
+msgid "Fixed callout bar that can appear after visitors start scrolling."
+msgstr "Barra fija de aviso que puede aparecer cuando los visitantes empiezan a desplazarse."
+
+msgid "Fixed reading progress indicator that tracks the current page scroll position."
+msgstr "Indicador fijo de progreso de lectura que sigue el desplazamiento de la página."
+
+msgid "Flip Box"
+msgstr "Caja giratoria"
+
+msgid "Floating button that appears after scrolling and smoothly returns to the top of the page."
+msgstr "Botón flotante que aparece tras desplazarse y vuelve suavemente arriba."
+
+msgid "Focal Point"
+msgstr "Punto focal"
+
+msgid "Focus"
+msgstr "Foco"
+
+msgid "Footer"
+msgstr "Pie de página"
+
+msgid "Footer Layout"
+msgstr "Diseño del pie"
+
+msgid "Force override"
+msgstr "Forzar anulación"
+
+msgid "Form"
+msgstr "Formulario"
+
+msgid "Form Checkbox Group"
+msgstr "Grupo de casillas"
+
+msgid "Form Date Field"
+msgstr "Campo de fecha"
+
+msgid "Form File Field"
+msgstr "Campo de archivo"
+
+msgid "Form Hidden Field"
+msgstr "Campo oculto"
+
+msgid "Form Honeypot"
+msgstr "Campo honeypot"
+
+msgid "Form ID:"
+msgstr "ID del formulario:"
+
+msgid "Form Radio Group"
+msgstr "Grupo de opciones"
+
+msgid "Form Select"
+msgstr "Desplegable"
+
+msgid "Form Submit"
+msgstr "Enviar formulario"
+
+msgid "Form Text Field"
+msgstr "Campo de texto"
+
+msgid "Form Textarea"
+msgstr "Área de texto"
+
+msgid "Form container that groups Blocky form fields and submit controls."
+msgstr "Contenedor de formulario que agrupa campos de Blocky y controles de envío."
+
+msgid "Formatted code block with syntax highlighting and optional line numbers."
+msgstr "Bloque de código formateado con resaltado de sintaxis y números de línea opcionales."
+
+msgid "Front and back content card with hover flip effect."
+msgstr "Tarjeta con contenido frontal y trasero y efecto de giro al pasar el ratón."
+
+msgid "Frontend login form with on-page validation feedback."
+msgstr "Formulario de acceso con validación en la propia página."
+
+msgid "Frontend registration form with WordPress account creation."
+msgstr "Formulario de registro con creación de cuenta de WordPress."
+
+msgid "Full-width page section with spacing and background controls."
+msgstr "Sección de ancho completo con controles de espaciado y fondo."
+
+msgid "Generic iframe embed with sandbox and permission controls."
+msgstr "Iframe genérico con controles de sandbox y permisos."
+
+msgid "Global Cache"
+msgstr "Caché global"
+
+msgid "Gradient"
+msgstr "Degradado"
+
+msgid "Grid"
+msgstr "Cuadrícula"
+
+msgid "Grid gallery driven by image IDs or URLs."
+msgstr "Galería de cuadrícula basada en IDs o URLs de imágenes."
+
+msgid "Grid of recent posts with configurable columns and excerpt display."
+msgstr "Cuadrícula de publicaciones recientes con columnas y extractos configurables."
+
+msgid "Guard"
+msgstr "Protección"
+
+msgid "HTML"
+msgstr ""
+
+msgid "Header"
+msgstr "Cabecera"
+
+msgid "Header Layout"
+msgstr "Diseño de cabecera"
+
+msgid "Heading"
+msgstr "Encabezado"
+
+msgid "Headline with rotating highlighted words."
+msgstr "Titular con palabras destacadas en rotación."
+
+msgid "Hero, central content, and a call to action."
+msgstr "Hero, contenido central y una llamada a la acción."
+
+msgid "Hex color picker"
+msgstr "Selector de color hexadecimal"
+
+msgid "Hidden value carried with the form submission."
+msgstr "Valor oculto que se envía con el formulario."
+
+msgid "Hierarchical sitemap for pages with optional recent posts."
+msgstr "Mapa del sitio jerárquico de páginas con publicaciones recientes opcionales."
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Horizontal image carousel driven by image IDs or URLs."
+msgstr "Carrusel horizontal de imágenes basado en IDs o URLs de imágenes."
+
+msgid "Hotspot"
+msgstr "Punto caliente"
+
+msgid "Hover"
+msgstr "Hover"
+
+msgid "Hover Opacity"
+msgstr "Opacidad al pasar"
+
+msgid "Hover Scale"
+msgstr "Escala al pasar"
+
+msgid "Icon"
+msgstr "Icono"
+
+msgid "Icon Box"
+msgstr "Caja de icono"
+
+msgid "Icon List"
+msgstr "Lista de iconos"
+
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Image Box"
+msgstr "Caja de imagen"
+
+msgid "Image Carousel"
+msgstr "Carrusel de imágenes"
+
+msgid "Image Gallery"
+msgstr "Galería de imágenes"
+
+msgid "Image Size"
+msgstr "Tamaño de imagen"
+
+msgid "Image block with alt text, rounded corners, and aspect ratio."
+msgstr "Bloque de imagen con texto alternativo, esquinas redondeadas y relación de aspecto."
+
+msgid "Image hotspots with point labels and supporting copy."
+msgstr "Puntos calientes en imagen con etiquetas y texto de apoyo."
+
+msgid "Inline alert box for status, warning, or error messaging."
+msgstr "Caja de aviso en línea para estado, advertencia o error."
+
+msgid "Inspector"
+msgstr "Inspector"
+
+msgid "Interactions"
+msgstr "Interacciones"
+
+msgid "Interactive image comparison slider."
+msgstr "Comparador interactivo de imágenes."
+
+msgid "Invalid document structure."
+msgstr "Estructura de documento no válida."
+
+msgid "Invalid document."
+msgstr "Documento no válido."
+
+msgid "Invalid or revoked API key."
+msgstr "Clave de API no válida o revocada."
+
+msgid "Invalid post."
+msgstr "Publicación no válida."
+
+msgid "Invalid username or password."
+msgstr "Nombre de usuario o contraseña no válidos."
+
+msgid "Invisible scroll target with an editable anchor id."
+msgstr "Destino de desplazamiento invisible con un ID de ancla editable."
+
+msgid "Key point one\\nKey point two\\nKey point three"
+msgstr "Punto clave uno\nPunto clave dos\nPunto clave tres"
+
+msgid "Landing"
+msgstr ""
+
+msgid "Landing Page"
+msgstr "Página de destino"
+
+msgid "Large numeric highlight with optional prefix, suffix, and caption."
+msgstr "Destacado numérico grande con prefijo, sufijo y leyenda opcionales."
+
+msgid "Last Submission"
+msgstr "Último envío"
+
+msgid "Layout"
+msgstr ""
+
+msgid "Layout with main content and a side column."
+msgstr "Diseño con contenido principal y una columna lateral."
+
+msgid "Light"
+msgstr "Claro"
+
+msgid "Lightbox"
+msgstr ""
+
+msgid "Like"
+msgstr "Me gusta"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "List public taxonomy terms like categories or tags."
+msgstr "Lista términos de taxonomía públicos como categorías o etiquetas."
+
+msgid "Load"
+msgstr "Carga"
+
+msgid "Loading"
+msgstr "Cargando"
+
+msgid "Loading Blocky pages..."
+msgstr "Cargando páginas de Blocky..."
+
+msgid "Loading Blocky pages…"
+msgstr "Cargando páginas de Blocky…"
+
+msgid "Loading pages…"
+msgstr "Cargando páginas…"
+
+msgid "Loading templates…"
+msgstr "Cargando plantillas…"
+
+msgid "Loading theme…"
+msgstr "Cargando tema…"
+
+msgid "Logged In"
+msgstr "Conectado"
+
+msgid "Logged Out"
+msgstr "Desconectado"
+
+msgid "Login Form"
+msgstr "Formulario de acceso"
+
+msgid "Login State"
+msgstr "Estado de conexión"
+
+msgid "Loop block that renders the current archive query with an editor fallback."
+msgstr "Bloque de bucle que muestra la consulta de archivo actual con alternativa en el editor."
+
+msgid "Lost your password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+msgid "Lottie"
+msgstr ""
+
+msgid "Lottie JSON animation with playback controls."
+msgstr "Animación Lottie JSON con controles de reproducción."
+
+msgid "Main content"
+msgstr "Contenido principal"
+
+msgid "Manual class"
+msgstr "Clase manual"
+
+msgid "Map embed using Google Maps query mode or OpenStreetMap coordinates."
+msgstr "Mapa embebido por búsqueda de Google Maps o coordenadas de OpenStreetMap."
+
+msgid "Marketing panel with copy, media, and primary actions."
+msgstr "Panel de marketing con texto, medios y acciones principales."
+
+msgid "Marquee"
+msgstr "Texto en marquesina"
+
+msgid "Media"
+msgstr "Medios"
+
+msgid "Media card with image, title, copy, and optional link."
+msgstr "Tarjeta de medios con imagen, título, texto y enlace opcional."
+
+msgid "Mega Menu"
+msgstr "Mega menú"
+
+msgid "Menu"
+msgstr "Menú"
+
+msgid "Mobile"
+msgstr ""
+
+msgid "Modal Trigger"
+msgstr "Disparador de modal"
+
+msgid "Mode"
+msgstr "Modo"
+
+msgid "Modifiers"
+msgstr "Modificadores"
+
+msgid "Motion Set"
+msgstr "Set de movimiento"
+
+msgid "Move \"%s\" to the trash?"
+msgstr "¿Mover «%s» a la papelera?"
+
+msgid "Move down"
+msgstr "Mover abajo"
+
+msgid "Move left"
+msgstr "Mover a la izquierda"
+
+msgid "Move right"
+msgstr "Mover a la derecha"
+
+msgid "Move template \"%s\" to the trash?"
+msgstr "¿Mover la plantilla «%s» a la papelera?"
+
+msgid "Move to Trash"
+msgstr "Mover a la papelera"
+
+msgid "Move up"
+msgstr "Mover arriba"
+
+msgid "Multi-column layout with independent editable slots."
+msgstr "Diseño multi-columna con slots editables independientes."
+
+msgid "Multi-line text area for longer messages."
+msgstr "Área de texto multilinea para mensajes más largos."
+
+msgid "My Custom Source"
+msgstr "Mi fuente personalizada"
+
+msgid "Nav Menu"
+msgstr "Menú de navegación"
+
+msgid "Navigation Menu"
+msgstr "Menú de navegación"
+
+msgid "Navigation menu sourced from a WP location or a manual fallback list."
+msgstr "Menú de navegación desde una ubicación de WP o una lista manual."
+
+msgid "New Blocky Page"
+msgstr "Nueva página de Blocky"
+
+msgid "New Component"
+msgstr "Nuevo componente"
+
+msgid "New Layout"
+msgstr "Nuevo diseño"
+
+msgid "New Page"
+msgstr "Nueva página"
+
+msgid "New Templates"
+msgstr "Nuevas plantillas"
+
+msgid "New page"
+msgstr "Nueva página"
+
+msgid "No Blocky document was found for this page."
+msgstr "No se encontró un documento Blocky para esta página."
+
+msgid "No Blocky form submissions have been stored yet."
+msgstr "Aún no se han guardado envíos de formularios Blocky."
+
+msgid "No Blocky forms were found yet. Add a Form block to a Blocky page to start collecting submissions."
+msgstr "Aún no se encontraron formularios Blocky. Añade un bloque de formulario a una página Blocky para empezar a recoger envíos."
+
+msgid "No Tailwind utility classes on this block."
+msgstr "No hay clases de utilidad Tailwind en este bloque."
+
+msgid "No WordPress blocks available."
+msgstr "No hay bloques de WordPress disponibles."
+
+msgid "No blocks found."
+msgstr "No se encontraron bloques."
+
+msgid "No comments yet."
+msgstr "Aún no hay comentarios."
+
+msgid "No content blocks."
+msgstr "Sin bloques de contenido."
+
+msgid "No delay"
+msgstr "Sin retraso"
+
+msgid "No document"
+msgstr "Sin documento"
+
+msgid "No document loaded"
+msgstr "Ningún documento cargado"
+
+msgid "No document loaded."
+msgstr "Ningún documento cargado."
+
+msgid "No layout blocks."
+msgstr "Sin bloques de diseño."
+
+msgid "No media selected"
+msgstr "Ningún medio seleccionado"
+
+msgid "No page selected."
+msgstr "Ninguna página seleccionada."
+
+msgid "No pages available yet."
+msgstr "Todavía no hay páginas."
+
+msgid "No pages found"
+msgstr "No se encontraron páginas"
+
+msgid "No public content found."
+msgstr "No se encontró contenido público."
+
+msgid "No saved values"
+msgstr "Sin valores guardados"
+
+msgid "No templates yet"
+msgstr "Aún no hay plantillas"
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Nothing to update."
+msgstr "Nada que actualizar."
+
+msgid "Object Fit"
+msgstr "Ajuste del objeto"
+
+msgid "On Load"
+msgstr "Al cargar"
+
+msgid "On Scroll"
+msgstr "Al desplazarse"
+
+msgid "Once Monthly"
+msgstr "Una vez al mes"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Open Builder"
+msgstr "Abrir el constructor"
+
+msgid "Open Cache"
+msgstr "Abrir caché"
+
+msgid "Open Classic Editor"
+msgstr "Abrir el editor clásico"
+
+msgid "Open a Blocky page in the Builder or choose one of the recent pages below."
+msgstr "Abre una página de Blocky en el constructor o elige una de las páginas recientes de abajo."
+
+msgid "Open in Blocky"
+msgstr "Abrir en Blocky"
+
+msgid "Open in Blocky Editor"
+msgstr "Abrir en el Editor Blocky"
+
+msgid "Open the submission to view all fields."
+msgstr "Abre el envío para ver todos los campos."
+
+msgid "Open this page in the editor"
+msgstr "Abrir esta página en el editor"
+
+msgid "Open this template in the editor"
+msgstr "Abrir esta plantilla en el editor"
+
+msgid "Outline"
+msgstr "Esquema"
+
+msgid "Overlay Close"
+msgstr "Cerrar superposición"
+
+msgid "Overlay Open"
+msgstr "Abrir superposición"
+
+msgid "Overlay Toggle"
+msgstr "Alternar superposición"
+
+msgid "Page"
+msgstr "Página"
+
+msgid "Page Outline"
+msgstr "Esquema de página"
+
+msgid "Page not found."
+msgstr "Página no encontrada."
+
+msgid "Page title"
+msgstr "Título de la página"
+
+msgid "Pages"
+msgstr "Páginas"
+
+msgid "Pagination"
+msgstr "Paginación"
+
+msgid "Pagination links for archive and query-driven templates."
+msgstr "Enlaces de paginación para archivos y plantillas basadas en consultas."
+
+msgid "Performs sentiment analysis on provided text."
+msgstr "Realiza análisis de sentimiento sobre el texto proporcionado."
+
+msgid "Please complete all required fields with valid values."
+msgstr "Completa todos los campos obligatorios con valores válidos."
+
+msgid "Post Content"
+msgstr "Contenido de la publicación"
+
+msgid "Post Navigation"
+msgstr "Navegación de publicaciones"
+
+msgid "Post Title"
+msgstr "Título de la publicación"
+
+msgid "Post not found."
+msgstr "Publicación no encontrada."
+
+msgid "Posts"
+msgstr "Publicaciones"
+
+msgid "Posts Grid"
+msgstr "Cuadrícula de publicaciones"
+
+msgid "Posts List"
+msgstr "Lista de publicaciones"
+
+msgid "Prebuilt share actions for the current page URL."
+msgstr "Acciones de compartir prediseñadas para la URL de la página actual."
+
+msgid "Preset"
+msgstr "Preajuste"
+
+msgid "Prevent Default"
+msgstr "Prevenir predeterminado"
+
+msgid "Preview"
+msgstr "Vista previa"
+
+msgid "Preview Dark"
+msgstr "Vista previa oscura"
+
+msgid "Preview Light"
+msgstr "Vista previa clara"
+
+msgid "Previous and next post links for singular post templates."
+msgstr "Enlaces a publicación anterior y siguiente para plantillas singulares."
+
+msgid "Price List"
+msgstr "Lista de precios"
+
+msgid "Price Table"
+msgstr "Tabla de precios"
+
+msgid "Primary template with header area, dynamic page content, and footer."
+msgstr "Plantilla principal con zona de cabecera, contenido dinámico de la página y pie."
+
+msgid "Products"
+msgstr "Productos"
+
+msgid "Progress Bar"
+msgstr "Barra de progreso"
+
+msgid "Progress indicator with label, percentage, tone, and size controls."
+msgstr "Indicador de progreso con etiqueta, porcentaje, tono y tamaño."
+
+msgid "Publish"
+msgstr "Publicar"
+
+msgid "Query Param"
+msgstr "Parámetro de consulta"
+
+msgid "Query Value"
+msgstr "Valor de consulta"
+
+msgid "Quick navigation with pre-aligned items."
+msgstr "Navegación rápida con elementos prealineados."
+
+msgid "Quote"
+msgstr "Cita"
+
+msgid "Radio group driven by line-based options."
+msgstr "Grupo de opciones con opciones basadas en líneas."
+
+msgid "Rate limit exceeded: 60 requests per minute per key."
+msgstr "Límite de peticiones superado: 60 peticiones por minuto por clave."
+
+msgid "Ready-made contact form preset saved into Blocky form submissions."
+msgstr "Formulario de contacto prediseñado guardado en los envíos de formularios de Blocky."
+
+msgid "Rebuild All Blocky Cache"
+msgstr "Reconstruir toda la caché de Blocky"
+
+msgid "Rebuild Page Cache"
+msgstr "Reconstruir caché de página"
+
+msgid "Rebuild or clear the compiled cache for Blocky pages."
+msgstr "Reconstruye o vacía la caché compilada de las páginas de Blocky."
+
+msgid "Rebuild the compiled frontend cache for all %d Blocky pages."
+msgstr "Reconstruye la caché compilada de front-end de las %d páginas de Blocky."
+
+msgid "Recent Blocky Pages"
+msgstr "Páginas recientes de Blocky"
+
+msgid "Recent Submissions"
+msgstr "Envíos recientes"
+
+msgid "Recently updated"
+msgstr "Actualizado recientemente"
+
+msgid "Register Form"
+msgstr "Formulario de registro"
+
+msgid "Registration is currently disabled on this site."
+msgstr "El registro está desactivado actualmente en este sitio."
+
+msgid "Remember me"
+msgstr "Recordarme"
+
+msgid "Remove"
+msgstr "Quitar"
+
+msgid "Remove class"
+msgstr "Quitar clase"
+
+msgid "Renders output from a WordPress action or filter hook."
+msgstr "Muestra la salida de un action o filter de WordPress."
+
+msgid "Renders the main content of the current post."
+msgstr "Muestra el contenido principal de la publicación actual."
+
+msgid "Replay on re-entry"
+msgstr "Repetir al volver a entrar"
+
+msgid "Reset"
+msgstr "Restablecer"
+
+msgid "Responsive grid container for laying out child blocks."
+msgstr "Contenedor de cuadrícula responsive para colocar bloques hijos."
+
+msgid "Responsive vertical space between blocks."
+msgstr "Espacio vertical responsive entre bloques."
+
+msgid "Restore"
+msgstr "Restaurar"
+
+msgid "Reusable parts and layouts. Click one to edit it."
+msgstr "Partes reutilizables y diseños. Haz clic en uno para editarlo."
+
+msgid "Rich paragraph content with size and color controls."
+msgstr "Contenido de párrafo enriquecido con controles de tamaño y color."
+
+msgid "Right click: page actions"
+msgstr "Clic derecho: acciones de página"
+
+msgid "Root section"
+msgstr "Sección raíz"
+
+msgid "Rows"
+msgstr "Filas"
+
+msgid "Rule %s"
+msgstr "Regla %s"
+
+msgid "Run Once"
+msgstr "Ejecutar una vez"
+
+msgid "Sanitized custom HTML markup."
+msgstr "Marcup HTML personalizado saneado."
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Save Theme"
+msgstr "Guardar tema"
+
+msgid "Saved"
+msgstr "Guardado"
+
+msgid "Saving…"
+msgstr "Guardando…"
+
+msgid "Scroll Progress"
+msgstr "Progreso de scroll"
+
+msgid "Scrolling text or labels with continuous motion."
+msgstr "Texto o etiquetas en desplazamiento continuo."
+
+msgid "Search Form"
+msgstr "Formulario de búsqueda"
+
+msgid "Search blocks"
+msgstr "Buscar bloques"
+
+msgid "Search blocks…"
+msgstr "Buscar bloques…"
+
+msgid "Search by name or status…"
+msgstr "Buscar por nombre o estado…"
+
+msgid "Search pages"
+msgstr "Buscar páginas"
+
+msgid "Search pages…"
+msgstr "Buscar páginas…"
+
+msgid "Search templates…"
+msgstr "Buscar plantillas…"
+
+msgid "Search tokens"
+msgstr "Buscar tokens"
+
+msgid "Search tokens…"
+msgstr "Buscar tokens…"
+
+msgid "Search utilities"
+msgstr "Buscar utilidades"
+
+msgid "Section"
+msgstr "Sección"
+
+msgid "Select"
+msgstr "Seleccionar"
+
+msgid "Select Media"
+msgstr "Seleccionar medios"
+
+msgid "Select a block on the canvas to edit its properties."
+msgstr "Selecciona un bloque en el lienzo para editar sus propiedades."
+
+msgid "Select a page"
+msgstr "Selecciona una página"
+
+msgid "Select a page or create a new layout."
+msgstr "Selecciona una página o crea un nuevo diseño."
+
+msgid "Selected"
+msgstr "Seleccionado"
+
+msgid "Selected Submission"
+msgstr "Envío seleccionado"
+
+msgid "Self-contained media lightbox with trigger and overlay preview."
+msgstr "Lightbox de medios autónomo con disparador y vista previa en superposición."
+
+msgid "Service or menu list with optional descriptions and prices."
+msgstr "Lista de servicios o menú con descripciones y precios opcionales."
+
+msgid "Share Buttons"
+msgstr "Botones de compartir"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "Shortlinkage FTW"
+msgstr ""
+
+msgid "Sidebar"
+msgstr "Barra lateral"
+
+msgid "Sidebar Layout"
+msgstr "Diseño de barra lateral"
+
+msgid "Simple antibot honeypot field kept off-screen in public rendering."
+msgstr "Campo honeypot antiparsas mantenido fuera de pantalla en el render público."
+
+msgid "Simple breadcrumb trail for the current page context."
+msgstr "Sencillo recorrido de migas de pan para el contexto de la página actual."
+
+msgid "Simple classic gallery layout driven by image IDs or URLs."
+msgstr "Galería clásica simple basada en IDs o URLs de imágenes."
+
+msgid "Single Post"
+msgstr "Publicación individual"
+
+msgid "Single collapsible panel with a title and content."
+msgstr "Panel plegable individual con título y contenido."
+
+msgid "Single icon with sizing, tone, surface, and optional link controls."
+msgstr "Icono único con controles de tamaño, tono, superficie y enlace opcional."
+
+msgid "Single pricing card with features and CTA."
+msgstr "Tarjeta de precios individual con características y CTA."
+
+msgid "Single-line text, email, phone, URL, or number field."
+msgstr "Campo de una línea: texto, email, teléfono, URL o número."
+
+msgid "Site search form with inline or stacked layout."
+msgstr "Formulario de búsqueda del sitio con diseño en línea o apilado."
+
+msgid "Sitemap"
+msgstr "Mapa del sitio"
+
+msgid "Slow"
+msgstr "Lento"
+
+msgid "Social Icons"
+msgstr "Iconos sociales"
+
+msgid "Social profile links rendered as icon buttons or chips."
+msgstr "Enlaces de perfiles sociales como botones de icono o chips."
+
+msgid "Spacer"
+msgstr "Espaciador"
+
+msgid "Speed"
+msgstr "Velocidad"
+
+msgid "Standard WordPress page"
+msgstr "Página estándar de WordPress"
+
+msgid "Standard WordPress page without a saved Blocky document."
+msgstr "Página estándar de WordPress sin documento Blocky guardado."
+
+msgid "Star Rating"
+msgstr "Valoración con estrellas"
+
+msgid "Start here: add sections, content, and layout to build the page."
+msgstr "Empieza aquí: añade secciones, contenido y diseño para construir la página."
+
+msgid "Starter for a footer with links and notes."
+msgstr "Plantilla inicial para un pie de página con enlaces y notas."
+
+msgid "Starter for a top bar with branding and navigation."
+msgstr "Plantilla inicial para una barra superior con marca y navegación."
+
+msgid "Sticky Bar"
+msgstr "Barra fija"
+
+msgid "Stop Propagation"
+msgstr "Detener propagación"
+
+msgid "Structure for one item of a grid, list or loop (card, product tile...)."
+msgstr "Estructura para un elemento de una cuadrícula, lista o bucle (tarjeta, ficha de producto...)."
+
+msgid "Style"
+msgstr "Estilo"
+
+msgid "Submission %1$s on %2$s at %3$s"
+msgstr "Envío %1$s el %2$s a las %3$s"
+
+msgid "Submission deleted permanently."
+msgstr "Envío eliminado permanentemente."
+
+msgid "Submission moved to trash."
+msgstr "Envío movido a la papelera."
+
+msgid "Submission restored."
+msgstr "Envío restaurado."
+
+msgid "Submissions"
+msgstr "Envíos"
+
+msgid "Submissions (%d)"
+msgstr "Envíos (%d)"
+
+msgid "Submit button for Blocky forms."
+msgstr "Botón de envío para formularios Blocky."
+
+msgid "Submitted"
+msgstr "Enviado"
+
+msgid "Submitted:"
+msgstr "Enviado:"
+
+msgid "Support"
+msgstr "Soporte"
+
+msgid "Switch theme"
+msgstr "Cambiar tema"
+
+msgid "Tabbed content driven by title and content pairs."
+msgstr "Contenido por pestañas basado en pares título/contenido."
+
+msgid "Table of Contents"
+msgstr "Tabla de contenidos"
+
+msgid "Tablet"
+msgstr "Tableta"
+
+msgid "Tabs"
+msgstr "Pestañas"
+
+msgid "Target"
+msgstr "Destino"
+
+msgid "Taxonomy List"
+msgstr "Lista de taxonomías"
+
+msgid "Template Part"
+msgstr "Parte de plantilla"
+
+msgid "Templates"
+msgstr "Plantillas"
+
+msgid "Testimonial"
+msgstr "Testimonio"
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "Text Processing"
+msgstr "Procesamiento de texto"
+
+msgid "Thanks, we received your message."
+msgstr "Gracias, hemos recibido tu mensaje."
+
+msgid "Thanks, your submission has been saved."
+msgstr "Gracias, tu envío ha sido guardado."
+
+msgid "That username or email is already in use."
+msgstr "Ese nombre de usuario o email ya está en uso."
+
+msgid "The account could not be created. Please try again."
+msgstr "No se pudo crear la cuenta. Inténtalo de nuevo."
+
+msgid "The form could not be saved. Please try again."
+msgstr "No se pudo guardar el formulario. Inténtalo de nuevo."
+
+msgid "The form session expired. Please try again."
+msgstr "La sesión del formulario ha expirado. Inténtalo de nuevo."
+
+msgid "The forms trash is empty."
+msgstr "La papelera de formularios está vacía."
+
+msgid "The login request could not be completed."
+msgstr "No se pudo completar la solicitud de acceso."
+
+msgid "The message could not be sent. Please try again."
+msgstr "No se pudo enviar el mensaje. Inténtalo de nuevo."
+
+msgid "The page could not be moved to trash."
+msgstr "La página no se pudo mover a la papelera."
+
+msgid "The sentiment result: positive, negative, or neutral."
+msgstr "El resultado del sentimiento: positivo, negativo o neutro."
+
+msgid "The submission action could not be completed."
+msgstr "No se pudo completar la acción del envío."
+
+msgid "The text to be analyzed."
+msgstr "El texto a analizar."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Theme Toggle"
+msgstr "Alternador de tema"
+
+msgid "Theme data unavailable."
+msgstr "Datos del tema no disponibles."
+
+msgid "This page does not contain a Blocky document."
+msgstr "Esta página no contiene un documento Blocky."
+
+msgid "This page is edited with Blocky Builder."
+msgstr "Esta página se edita con el Constructor de Blocky."
+
+msgid "Throttle (ms)"
+msgstr ""
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Title cannot be empty."
+msgstr "El título no puede estar vacío."
+
+msgid "Title text with level, tone, and alignment controls."
+msgstr "Texto de título con controles de nivel, tono y alineación."
+
+msgid "Toggle"
+msgstr "Alternar"
+
+msgid "Toggle Blocks panel"
+msgstr "Alternar panel de bloques"
+
+msgid "Toggle Inspector panel"
+msgstr "Alternar panel del inspector"
+
+msgid "Toggle Theme"
+msgstr "Alternar tema"
+
+msgid "Toggle outline"
+msgstr "Alternar esquema"
+
+msgid "Toggle preview theme"
+msgstr "Alternar tema de vista previa"
+
+msgid "Top-level navigation with rich dropdown panels and column-based submenus."
+msgstr "Navegación principal con paneles desplegables ricos y submenús por columnas."
+
+msgid "Transition"
+msgstr "Transición"
+
+msgid "Transparent"
+msgstr "Transparente"
+
+msgid "Trash"
+msgstr "Papelera"
+
+msgid "Trash (%d)"
+msgstr "Papelera (%d)"
+
+msgid "Trashed Submissions"
+msgstr "Envíos en la papelera"
+
+msgid "Trigger"
+msgstr "Disparador"
+
+msgid "Trigger, action, target, and basic modifiers for runtime behaviors."
+msgstr "Disparador, acción, destino y modificadores básicos para comportamientos en tiempo de ejecución."
+
+msgid "Try a different filter or create a new page."
+msgstr "Prueba un filtro diferente o crea una nueva página."
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Unavailable"
+msgstr "No disponible"
+
+msgid "Unknown author"
+msgstr "Autor desconocido"
+
+msgid "Unsaved changes"
+msgstr "Cambios sin guardar"
+
+msgid "Unsupported post status."
+msgstr "Estado de publicación no compatible."
+
+msgid "Updated %s"
+msgstr "Actualizado %s"
+
+msgid "Updated post could not be loaded."
+msgstr "La publicación actualizada no se pudo cargar."
+
+msgid "Use Add Page to create one."
+msgstr "Usa «Añadir página» para crear una."
+
+msgid "Use this"
+msgstr "Usar esto"
+
+msgid "Use this column for the main content of the page."
+msgstr "Usa esta columna para el contenido principal de la página."
+
+msgid "Using the default card. Open Structure to assign a component and design your own item layout."
+msgstr "Se usa la tarjeta predeterminada. Abre Estructura para asignar un componente y diseñar tu propio diseño de elemento."
+
+msgid "Variant prefix"
+msgstr "Prefijo de variante"
+
+msgid "Vertical list of items with a repeated icon marker."
+msgstr "Lista vertical de elementos con un marcador de icono repetido."
+
+msgid "Vertical list of recent posts from a selected post type."
+msgstr "Lista vertical de publicaciones recientes de un tipo de publicación seleccionado."
+
+msgid "Vertical rows layout with independently editable row slots."
+msgstr "Diseño de filas verticales con slots de fila editables de forma independiente."
+
+msgid "Video"
+msgstr "Vídeo"
+
+msgid "View"
+msgstr "Ver"
+
+msgid "View Page"
+msgstr "Ver página"
+
+msgid "View Submission"
+msgstr "Ver envío"
+
+msgid "View all posts"
+msgstr "Ver todas las publicaciones"
+
+msgid "Visual star rating with numeric score and optional label."
+msgstr "Valoración visual con estrellas, puntuación numérica y etiqueta opcional."
+
+msgid "WP"
+msgstr ""
+
+msgid "WP Hook"
+msgstr "Hook de WP"
+
+msgid "Welcome back, you are now signed in."
+msgstr "Bienvenido de nuevo, ya has iniciado sesión."
+
+msgid "WordPress"
+msgstr ""
+
+msgid "WordPress comment form for the current post."
+msgstr "Formulario de comentarios de WordPress para la publicación actual."
+
+msgid "WordPress media library not available."
+msgstr "Biblioteca de medios de WordPress no disponible."
+
+msgid "WordPress page without a saved Blocky document"
+msgstr "Página de WordPress sin documento Blocky guardado"
+
+msgid "You are already signed in."
+msgstr "Ya has iniciado sesión."
+
+msgid "You cannot delete this page."
+msgstr "No puedes eliminar esta página."
+
+msgid "You cannot edit this post."
+msgstr "No puedes editar esta publicación."
+
+msgid "You cannot publish this post."
+msgstr "No puedes publicar esta publicación."
+
+msgid "You do not have permission to manage this page."
+msgstr "No tienes permiso para gestionar esta página."
+
+msgid "YouTube, Vimeo, or direct video URL."
+msgstr "URL de YouTube, Vimeo o vídeo directo."
+
+msgid "Your account has been created."
+msgstr "Tu cuenta ha sido creada."
+
+msgid "blocky:event-name"
+msgstr ""
+
+msgid "is-open"
+msgstr ""
+
+msgid "md:hover"
+msgstr ""
+
+msgid "padding, grid, bg, hover..."
+msgstr ""
+
+msgid "promo_seen"
+msgstr ""
+
+msgid "spring-sale"
+msgstr ""
+
+msgid "utm_campaign"
+msgstr ""
+
+msgid "w-[42rem] md:hover:bg-accent-subtle"
+msgstr ""
+
