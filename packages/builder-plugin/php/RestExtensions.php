@@ -49,6 +49,19 @@ final class RestExtensions
                 'page'     => ['type' => 'integer', 'default' => 1, 'minimum' => 1],
             ],
         ]);
+
+        // POST /blocky/v1/convert/{id} — convert block content into a Blocky document
+        \register_rest_route('blocky/v1', '/convert/(?P<id>\d+)', [
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => [$this, 'convertPost'],
+            'permission_callback' => static fn(\WP_REST_Request $r): bool => \current_user_can('edit_post', (int) $r->get_param('id')),
+        ]);
+    }
+
+    public function convertPost(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
+    {
+        $result = \Blocky\Core\Support\WpBlockConverter::convertPost((int) $request->get_param('id'));
+        return \is_wp_error($result) ? $result : \rest_ensure_response($result);
     }
 
     public function preview(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
