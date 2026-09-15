@@ -29,7 +29,15 @@ if (!defined('ABSPATH')) {
 define('BLOCKY_CORE_VERSION',   '0.1.0');
 define('BLOCKY_CORE_FILE',      __FILE__);
 define('BLOCKY_CORE_DIR',       \plugin_dir_path(__FILE__));
-define('BLOCKY_CORE_URL',       \plugin_dir_url(__FILE__));
+// Runtime-computed so the URL follows the current site_url option
+// (domain migrations, multi-host dev) instead of the bootstrap constant.
+$blockyCoreUrl  = \plugin_dir_url(__FILE__);
+$blockyCorePath = \wp_normalize_path(\plugin_dir_path(__FILE__));
+$blockyContentDir = \wp_normalize_path(WP_CONTENT_DIR);
+if (0 === \strpos($blockyCorePath, $blockyContentDir)) {
+    $blockyCoreUrl = \trailingslashit(\set_url_scheme(\site_url('wp-content' . \substr($blockyCorePath, \strlen($blockyContentDir)))));
+}
+define('BLOCKY_CORE_URL',       $blockyCoreUrl);
 define('BLOCKY_CORE_SLUG',      'blocky-core');
 
 // ── Autoloader ────────────────────────────────────────────────────────────────
