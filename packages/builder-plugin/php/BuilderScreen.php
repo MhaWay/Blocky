@@ -56,7 +56,7 @@ final class BuilderScreen
         // Config via the classic-script shim: inline output through the enqueue
         // API, no hand-printed <script> tag. Classic footer scripts are
         // guaranteed to execute before deferred ES modules.
-        \wp_register_script('blocky-builder-config', false, [], false);
+        \wp_register_script('blocky-builder-config', false, [], \BLOCKY_BUILDER_VERSION, true);
         \wp_add_inline_script(
             'blocky-builder-config',
             'window.BlockyBuilderConfig = ' . $config . ';',

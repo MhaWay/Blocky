@@ -238,7 +238,7 @@ final class AdminIntegration
             'savingLabel'   => \__('Saving…', 'blocky'),
         ]);
 
-        \wp_register_script('blocky-convert-config', false, [], false);
+        \wp_register_script('blocky-convert-config', false, [], \BLOCKY_BUILDER_VERSION, true);
         \wp_add_inline_script('blocky-convert-config', 'window.blockyConvertConfig = ' . $config . ';', 'before');
         \wp_enqueue_script('blocky-convert-config');
 
