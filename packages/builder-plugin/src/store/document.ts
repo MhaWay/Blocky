@@ -70,6 +70,7 @@ interface DocumentState {
   isLoading: boolean;
   isDirty: boolean;
   isSaving: boolean;
+  savePhase: 'idle' | 'saving' | 'styles';
   lastSavedAt: number | null;
   historyDepth: number;
   futureDepth: number;
@@ -1390,6 +1391,7 @@ export const useDocumentStore = create<DocumentState>()(
     isLoading: false,
     isDirty: false,
     isSaving: false,
+    savePhase: 'idle',
     lastSavedAt: null,
     historyDepth: 0,
     futureDepth: 0,
@@ -1453,6 +1455,7 @@ export const useDocumentStore = create<DocumentState>()(
 
       set((s) => {
         s.isSaving = true;
+        s.savePhase = 'saving';
       });
 
       const document = JSON.parse(JSON.stringify(currentDocument)) as BuilderDocument;
@@ -1464,6 +1467,9 @@ export const useDocumentStore = create<DocumentState>()(
         const payload = await saveDocumentResponseFromResponse(res);
         if (!payload) return;
 
+        set((st) => {
+          st.savePhase = 'styles';
+        });
         const previewCss = await compileAndPersistPageCss(postId, payload.classCandidates);
 
         markHistoryBaseline();
@@ -1473,11 +1479,13 @@ export const useDocumentStore = create<DocumentState>()(
           s.previewCss = previewCss;
           s.isDirty = false;
           s.isSaving = false;
+          s.savePhase = 'idle';
           s.lastSavedAt = Date.now();
         });
       } catch {
         set((s) => {
           s.isSaving = false;
+          s.savePhase = 'idle';
         });
       }
     },
@@ -1606,6 +1614,9 @@ export const useDocumentStore = create<DocumentState>()(
         const payload = await saveDocumentResponseFromResponse(saveRes);
         if (!payload) return;
 
+        set((st) => {
+          st.savePhase = 'styles';
+        });
         const previewCss = await compileAndPersistPageCss(postId, payload.classCandidates);
 
         set((s) => {

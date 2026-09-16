@@ -1,5 +1,5 @@
-=== GG-Ally — Page Builder ===
-Contributors: ggallydotnet, mhaway
+=== GG-Ally Page Builder ===
+Contributors: ggallydotnet
 Plugin URI: https://github.com/MhaWay/Blocky
 Tags: page builder, tailwind, blocks, editor, static css
 Requires at least: 6.5
@@ -40,7 +40,7 @@ Site builders and agencies who love Tailwind but need a visual editor their clie
 
 1. In your WordPress admin, go to Plugins > Add New > Upload Plugin.
 2. Upload the ggally-page-builder zip file and activate it.
-3. Click the GG-Ally menu in the admin sidebar, or open any post or page and choose "Edit with GG-Ally".
+3. Click the GG-Ally menu in the admin sidebar, or open any post or page and choose "Edit with GG".
 
 == Frequently Asked Questions ==
 
@@ -50,11 +50,15 @@ No. Tailwind is the engine under the hood; the interface uses plain-language, cl
 
 = Why does my site not load any frontend JavaScript? =
 
-That is by design. Layout and styling are compiled into one static CSS file per site plus per-page chunks. Only interactive blocks load small JS modules, and only when they are actually on the page.
+That is by design. Each page’s styling is compiled into one static, content-hashed CSS file served from the media uploads. Only interactive blocks load small JS modules, and only when they are actually on the page.
 
 = Can I use arbitrary custom CSS classes? =
 
 The normal control path intentionally prevents arbitrary classes to keep output maintainable. An expert "code mode" channel exists for advanced use with a rebuild step.
+
+= How is the CSS compiled? =
+
+The Tailwind CSS compiler is bundled as JavaScript and runs inside your own browser tab while you save in the editor. Nothing is ever downloaded or executed on your server; the compiled result is stored as a static CSS file in your media library and linked from the page.
 
 = Does it work with any theme? =
 
@@ -72,7 +76,7 @@ GG-Ally is fully self-contained at runtime: no third-party CDN, no tracking, and
 
 1. The GG-Ally editor: block library on the left, canvas in the middle, token-based inspector on the right.
 2. Pages list with the GG-Ally badge identifying GG-Ally-built content.
-3. "Edit with GG-Ally" button inside the WordPress editor to convert or open a document.
+3. "Edit with GG" button inside the WordPress editor to convert or open a document.
 4. A published page rendered on the frontend, styled by the compiled static CSS.
 
 == Changelog ==

@@ -6,8 +6,6 @@ set -euo pipefail
 cd "$(dirname "$0")/../../packages/core-plugin"
 
 GRADUATED=(#
-  "src/Compiler/SiteStylesheet.php"
-  "src/Compiler/TailwindBinary.php"
   "src/Support/Access.php"
   "src/Support/ApiAudit.php"
   "src/Support/ApiAuth.php"

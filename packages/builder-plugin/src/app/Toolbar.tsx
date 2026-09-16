@@ -19,6 +19,7 @@ export const Toolbar: FunctionComponent = () => {
   const postId = useDocumentStore((s) => s.postId);
   const isDirty = useDocumentStore((s) => s.isDirty);
   const isSaving = useDocumentStore((s) => s.isSaving);
+  const savePhase = useDocumentStore((s) => s.savePhase);
   const historyDepth = useDocumentStore((s) => s.historyDepth);
   const futureDepth = useDocumentStore((s) => s.futureDepth);
   const save = useDocumentStore((s) => s.save);
@@ -171,7 +172,13 @@ export const Toolbar: FunctionComponent = () => {
             <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13" />
           </svg>
         </button>
-        {isSaving && <span class="text-xs text-text-muted">{t('toolbar.saving', 'Saving…')}</span>}
+        {isSaving && (
+          <span class="text-xs text-text-muted">
+            {savePhase === 'styles'
+              ? t('toolbar.compilingStyles', 'Compiling styles…')
+              : t('toolbar.saving', 'Saving…')}
+          </span>
+        )}
         <button
           type="button"
           disabled={isPageLibraryOpen || postId == null || !isDirty}

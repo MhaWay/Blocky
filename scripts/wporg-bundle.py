@@ -73,6 +73,9 @@ def main():
                         shutil.copy(os.path.join(d, f), dst)
             shutil.rmtree(d)
 
+    os.makedirs(OUT + '/engine/assets/css', exist_ok=True)
+    shutil.copy('/root/state/blocky/packages/builder-plugin/src/styles/generated/tailwind-utility-safelist.css', OUT + '/engine/assets/css/vocabulary-fallback.css')
+
     shutil.copy(os.path.join(HERE, 'ggally-page-builder.php'), OUT + '/ggally-page-builder.php')
     shutil.copy(os.path.join(HERE, 'readme.txt'), OUT + '/readme.txt')
 
