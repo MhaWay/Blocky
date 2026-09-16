@@ -53,8 +53,8 @@ final class AdminIntegration
         $url   = \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $post->ID));
         $built = $this->isBlockyBuilt((int) $post->ID);
         $label = $built
-            ? \__('Edit with Gennaker', 'blocky')
-            : \__('Gennaker Editor', 'blocky');
+            ? \__('Edit with GG', 'blocky')
+            : \__('GG Editor', 'blocky');
         $link  = '<a href="' . $url . '">' . \esc_html($label) . '</a>';
 
         // Elementor-style assignment: on Blocky pages the builder link leads.
@@ -91,11 +91,11 @@ final class AdminIntegration
         foreach ($columns as $key => $label) {
             $with[$key] = $label;
             if ($key === 'title') {
-                $with['blocky_built'] = __('Gennaker', 'blocky');
+                $with['blocky_built'] = __('GG-Builder', 'blocky');
             }
         }
         if (!isset($with['blocky_built'])) {
-            $with = ['blocky_built' => __('Gennaker', 'blocky')] + $with;
+            $with = ['blocky_built' => __('GG-Builder', 'blocky')] + $with;
         }
         return $with;
     }
@@ -106,7 +106,7 @@ final class AdminIntegration
             return;
         }
 
-        echo '<span class="blocky-built-badge" title="' . esc_attr__('Built with Gennaker', 'blocky') . '">' . esc_html__('Gennaker', 'blocky') . '</span>';
+        echo '<span class="blocky-built-badge" title="' . esc_attr__('Built with GG', 'blocky') . '">' . esc_html__('GG-Builder', 'blocky') . '</span>';
     }
 
     /**
@@ -145,11 +145,11 @@ final class AdminIntegration
         $bar->add_node([
             'id'    => 'blocky-editor-link',
             'title' => '<span class="ab-icon dashicons dashicons-grid-view" aria-hidden="true"></span>'
-                     . \esc_html__('Gennaker Editor', 'blocky'),
+                     . \esc_html__('GG Editor', 'blocky'),
             'href'  => \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $postId)),
             'meta'  => [
                 'class' => 'blocky-adminbar-btn',
-                'title' => \__('Edit with Gennaker Builder', 'blocky'),
+                'title' => \__('Edit with GG Builder', 'blocky'),
             ],
         ]);
     }
@@ -160,7 +160,7 @@ final class AdminIntegration
     {
         \add_meta_box(
             'blocky-editor-metabox',
-            \__('Gennaker Editor', 'blocky'),
+            \__('GG Editor', 'blocky'),
             [$this, 'renderMetaBox'],
             null,   // all post-type edit screens
             'side',
@@ -173,12 +173,12 @@ final class AdminIntegration
         $url         = \esc_url(\admin_url('admin.php?page=blocky-builder&post_id=' . $post->ID));
         $hasDocument = \get_post_meta($post->ID, '_blocky_document', true) !== '';
         $label       = $hasDocument
-            ? \__('Continue in Gennaker Editor', 'blocky')
-            : \__('Open in Gennaker Editor', 'blocky');
+            ? \__('Continue in GG Editor', 'blocky')
+            : \__('Open in GG Editor', 'blocky');
 
         if ($hasDocument) {
             echo '<p class="blocky-metabox-notice">'
-               . \esc_html__('This page is edited with Gennaker Builder.', 'blocky')
+               . \esc_html__('This page is edited with GG Builder.', 'blocky')
                . '</p>';
         }
 
@@ -210,9 +210,9 @@ final class AdminIntegration
             'hasDocument' => $hasDocument,
             'builderUrl'  => \esc_url_raw($builderUrl),
             'i18n'        => [
-                'title'  => \__('Gennaker Editor', 'blocky'),
-                'notice' => \__('This page is edited with Gennaker Builder.', 'blocky'),
-                'cta'    => \__('Continue in Gennaker Editor', 'blocky'),
+                'title'  => \__('GG Editor', 'blocky'),
+                'notice' => \__('This page is edited with GG Builder.', 'blocky'),
+                'cta'    => \__('Continue in GG Editor', 'blocky'),
             ],
         ]);
 
@@ -234,7 +234,7 @@ final class AdminIntegration
             'builderUrl'    => \esc_url_raw($builderUrl),
             'postId'        => $postId,
             'hasDocument'   => $hasDocument,
-            'label'         => \__('Edit with Gennaker', 'blocky'),
+            'label'         => \__('Edit with GG', 'blocky'),
             'savingLabel'   => \__('Saving…', 'blocky'),
         ]);
 
@@ -322,15 +322,15 @@ final class AdminIntegration
             var overlay = document.createElement( 'div' );
             overlay.id  = 'blocky-editor-overlay';
             overlay.setAttribute( 'role', 'region' );
-            overlay.setAttribute( 'aria-label', i18n.title || 'Gennaker Editor' );
+            overlay.setAttribute( 'aria-label', i18n.title || 'GG Editor' );
 
             overlay.innerHTML =
                 '<div class="blocky-ov-inner">' +
                     '<span class="blocky-ov-logo" aria-hidden="true">&#9783;</span>' +
-                    '<h2 class="blocky-ov-title">' + ( i18n.title  || 'Gennaker Editor' ) + '</h2>' +
-                    '<p  class="blocky-ov-desc">'  + ( i18n.notice || 'This page is edited with Gennaker Builder.' ) + '</p>' +
+                    '<h2 class="blocky-ov-title">' + ( i18n.title  || 'GG Editor' ) + '</h2>' +
+                    '<p  class="blocky-ov-desc">'  + ( i18n.notice || 'This page is edited with GG Builder.' ) + '</p>' +
                     '<a  class="blocky-ov-btn" href="' + data.builderUrl + '">' +
-                        ( i18n.cta || 'Continue in Gennaker Editor' ) +
+                        ( i18n.cta || 'Continue in GG Editor' ) +
                     '</a>' +
                 '</div>';
 

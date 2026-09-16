@@ -48,7 +48,7 @@ test.describe('Setup consent flow (human path)', () => {
     setConsent('');
     await loginAdmin(page);
     await page.goto(SITE + '/wp-admin/index.php');
-    await expect(page.getByRole('link', { name: 'Open Gennaker Setup' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Open GG Setup' })).toBeVisible();
     const verdict = runRebuildProbe();
     expect(verdict.rebuild).toBe(false);
     expect(verdict.status).toBe('consent_needed');
@@ -60,7 +60,7 @@ test.describe('Setup consent flow (human path)', () => {
     setConsent('');
     await loginAdmin(page);
     await page.goto(SITE + '/wp-admin/admin.php?page=blocky-setup');
-    await expect(page.getByRole('heading', { name: 'Gennaker Setup' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'GG Setup' })).toBeVisible();
     const box = page.locator('input[name="blocky_allow_engine"]');
     await expect(box).not.toBeChecked();
     await box.check();
@@ -68,7 +68,7 @@ test.describe('Setup consent flow (human path)', () => {
     await expect(page.getByText('Compiler access allowed')).toBeVisible();
     expect(consentValue()).toBe('yes');
     await page.goto(SITE + '/wp-admin/index.php');
-    await expect(page.getByRole('link', { name: 'Open Gennaker Setup' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Open GG Setup' })).toHaveCount(0);
     const verdict = runRebuildProbe();
     expect(verdict.rebuild).toBe(true);
   });

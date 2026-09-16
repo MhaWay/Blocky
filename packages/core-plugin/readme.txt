@@ -1,4 +1,4 @@
-=== Gennaker Engine ===
+=== GG Engine ===
 Contributors: mhaway
 Tags: page builder, blocky, tailwind, builder, editor
 Requires at least: 6.4
@@ -8,13 +8,13 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The engine of Gennaker: rendering pipeline, closed-set block registry, three-layer CSS compiler and REST API.
+The engine of GG: rendering pipeline, closed-set block registry, three-layer CSS compiler and REST API.
 
 == Description ==
 
-Gennaker Engine is the rendering engine behind the Gennaker builder: a closed-set block registry,
+GG Engine is the rendering engine behind the GG builder: a closed-set block registry,
 a deterministic CSS compiler (Tailwind vocabulary, static hashed stylesheets, no inline CSS)
-and a REST document API. It must be installed together with the Gennaker Builder plugin.
+and a REST document API. It must be installed together with the GG-Builder plugin.
 
 * 90+ blocks as declarative descriptors (no bespoke inspector code per block)
 * Closed-set controls only: arbitrary CSS is possible solely through an explicit code-mode channel
@@ -27,11 +27,11 @@ and a REST document API. It must be installed together with the Gennaker Builder
 
 1. Upload the blocky-core folder to /wp-content/plugins/.
 2. Activate through the Plugins screen.
-3. Activate Gennaker Builder as well.
+3. Activate GG-Builder as well.
 
 == Frequently Asked Questions ==
 
-= Does Gennaker use Google Fonts? =
+= Does GG use Google Fonts? =
 No. System font stacks by default; fonts can be self-hosted.
 
 = Does it modify my content when converting a page? =

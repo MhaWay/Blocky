@@ -171,7 +171,7 @@ final class Plugin
 
         \add_submenu_page(
             'blocky-builder',
-            \__('Gennaker Cache', 'blocky'),
+            \__('GG Cache', 'blocky'),
             \__('Cache', 'blocky'),
             'edit_posts',
             'blocky-page-cache',
@@ -180,7 +180,7 @@ final class Plugin
 
         \add_submenu_page(
             'blocky-builder',
-            \__('Gennaker Forms', 'blocky'),
+            \__('GG Forms', 'blocky'),
             \__('Forms', 'blocky'),
             'edit_posts',
             self::FORMS_PAGE_SLUG,
@@ -201,7 +201,7 @@ final class Plugin
         }
         \add_submenu_page(
             'blocky-builder',
-            \__('Gennaker Setup', 'blocky'),
+            \__('GG Setup', 'blocky'),
             \__('Setup', 'blocky'),
             'manage_options',
             'blocky-setup',
@@ -227,15 +227,15 @@ final class Plugin
     public function renderSetupPage(): void
     {
         $allowed = 'yes' === \get_option('blocky_allow_engine_download', '');
-        echo '<div class="wrap"><h1>' . \esc_html__('Gennaker Setup', 'blocky') . '</h1>';
+        echo '<div class="wrap"><h1>' . \esc_html__('GG Setup', 'blocky') . '</h1>';
         if (isset($_GET['allowed'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
-            echo '<div class="notice notice-success"><p>' . \esc_html__('Compiler access allowed. Gennaker will download it once, verify the checksum, and never phone home again.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-success"><p>' . \esc_html__('Compiler access allowed. GG will download it once, verify the checksum, and never phone home again.', 'blocky') . '</p></div>';
         }
-        echo '<p>' . \esc_html__('Gennaker compiles your stylesheets locally using the official, version-pinned Tailwind CSS command-line compiler (v4.3.3). One download, straight from the official Tailwind GitHub releases, verified against the published SHA-256 checksum, stored outside the web-served uploads directory and reused from cache. Nothing is sent back, and site visitors never contact any third-party server.', 'blocky') . '</p>';
+        echo '<p>' . \esc_html__('GG compiles your stylesheets locally using the official, version-pinned Tailwind CSS command-line compiler (v4.3.3). One download, straight from the official Tailwind GitHub releases, verified against the published SHA-256 checksum, stored outside the web-served uploads directory and reused from cache. Nothing is sent back, and site visitors never contact any third-party server.', 'blocky') . '</p>';
         echo '<form method="post" action="' . \esc_url(\admin_url('admin-post.php')) . '">';
         \wp_nonce_field('blocky_allow_engine', 'blocky_allow_nonce');
         echo '<input type="hidden" name="action" value="blocky_allow_engine" />';
-        echo '<p><label><input type="checkbox" name="blocky_allow_engine" value="1"' . ($allowed ? ' checked' : '') . ' /> ' . \esc_html__('I understand and allow Gennaker to download the pinned Tailwind compiler once, from the official GitHub releases, with checksum verification.', 'blocky') . '</label></p>';
+        echo '<p><label><input type="checkbox" name="blocky_allow_engine" value="1"' . ($allowed ? ' checked' : '') . ' /> ' . \esc_html__('I understand and allow GG to download the pinned Tailwind compiler once, from the official GitHub releases, with checksum verification.', 'blocky') . '</label></p>';
         echo '<p><button type="submit" class="button button-primary">' . \esc_html__('Save settings', 'blocky') . '</button></p>';
         echo '</form>';
         echo '<p><em>' . \esc_html__('Until this is confirmed, page saving keeps working; stylesheets use the bundled base vocabulary and interactive blocks keep working, but the static CSS compiler stays inactive.', 'blocky') . '</em></p>';
@@ -251,15 +251,15 @@ final class Plugin
             return;
         }
         $url = \esc_url(\admin_url('admin.php?page=blocky-setup'));
-        echo '<div class="notice notice-info"><p>' . \esc_html__('One step left to unlock the full Gennaker CSS compiler: review and confirm the one-time download of the pinned official Tailwind tool.', 'blocky') . ' <a href="' . \esc_url($url) . '">' . \esc_html__('Open Gennaker Setup', 'blocky') . '</a></p></div>';
+        echo '<div class="notice notice-info"><p>' . \esc_html__('One step left to unlock the full GG CSS compiler: review and confirm the one-time download of the pinned official Tailwind tool.', 'blocky') . ' <a href="' . \esc_url($url) . '">' . \esc_html__('Open GG Setup', 'blocky') . '</a></p></div>';
     }
 
     public function registerFormSubmissionPostType(): void
     {
         \register_post_type(self::FORM_SUBMISSION_POST_TYPE, [
             'labels' => [
-                'name' => __('Gennaker Form Submissions', 'blocky'),
-                'singular_name' => __('Gennaker Form Submission', 'blocky'),
+                'name' => __('GG Form Submissions', 'blocky'),
+                'singular_name' => __('GG Form Submission', 'blocky'),
             ],
             'public' => false,
             'show_ui' => false,
@@ -520,16 +520,16 @@ final class Plugin
 
         $result = \sanitize_key((string) $_GET['blocky_cache']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
         $message = match ($result) {
-            'cleared'          => __('Gennaker page cache cleared.', 'blocky'),
-            'rebuilt'          => __('Gennaker page cache rebuilt.', 'blocky'),
+            'cleared'          => __('GG page cache cleared.', 'blocky'),
+            'rebuilt'          => __('GG page cache rebuilt.', 'blocky'),
             'rebuilt-all'      => sprintf(
                 /* translators: 1: rebuilt page count, 2: failed page count */
-                __('Gennaker cache rebuild complete. %1$d pages rebuilt, %2$d failures.', 'blocky'),
+                __('GG cache rebuild complete. %1$d pages rebuilt, %2$d failures.', 'blocky'),
                 isset($_GET['rebuilt_count']) ? (int) $_GET['rebuilt_count'] : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
                 isset($_GET['failed_count']) ? (int) $_GET['failed_count'] : 0 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
             ),
-            'missing-document' => __('No Gennaker document was found for this page.', 'blocky'),
-            'failed'           => __('Gennaker cache rebuild failed.', 'blocky'),
+            'missing-document' => __('No GG document was found for this page.', 'blocky'),
+            'failed'           => __('GG cache rebuild failed.', 'blocky'),
             default            => '',
         };
 
@@ -580,19 +580,19 @@ final class Plugin
         $recentPosts = $this->recentBlockyPosts();
 
         echo '<div class="wrap">';
-        echo '<h1>' . \esc_html__('Gennaker Cache', 'blocky') . '</h1>';
-        echo '<p>' . \esc_html__('Rebuild or clear the compiled cache for Gennaker pages.', 'blocky') . '</p>';
+        echo '<h1>' . \esc_html__('GG Cache', 'blocky') . '</h1>';
+        echo '<p>' . \esc_html__('Rebuild or clear the compiled cache for GG pages.', 'blocky') . '</p>';
 
         $this->renderGlobalCacheToolsCard();
 
         if ($postId > 0) {
             $this->renderCacheToolsCard($postId);
         } else {
-            echo '<div class="notice notice-info"><p>' . \esc_html__('Open a Gennaker page in the Builder or choose one of the recent pages below.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-info"><p>' . \esc_html__('Open a GG page in the Builder or choose one of the recent pages below.', 'blocky') . '</p></div>';
         }
 
         if ($recentPosts !== []) {
-            echo '<h2>' . \esc_html__('Recent Gennaker Pages', 'blocky') . '</h2>';
+            echo '<h2>' . \esc_html__('Recent GG Pages', 'blocky') . '</h2>';
             echo '<table class="widefat striped"><thead><tr><th>' . \esc_html__('Title', 'blocky') . '</th><th>' . \esc_html__('Type', 'blocky') . '</th><th>' . \esc_html__('Actions', 'blocky') . '</th></tr></thead><tbody>';
 
             foreach ($recentPosts as $post) {
@@ -632,8 +632,8 @@ final class Plugin
         $selectedSubmission = $this->selectedFormSubmission($selectedTab);
 
         echo '<div class="wrap">';
-        echo '<h1>' . \esc_html__('Gennaker Forms', 'blocky') . '</h1>';
-        echo '<p>' . \esc_html__('Built-in POST forms are stored as private Gennaker submissions and listed here for review.', 'blocky') . '</p>';
+        echo '<h1>' . \esc_html__('GG Forms', 'blocky') . '</h1>';
+        echo '<p>' . \esc_html__('Built-in POST forms are stored as private GG submissions and listed here for review.', 'blocky') . '</p>';
 
         $this->renderFormsTabs(count($activeSubmissions), count($trashedSubmissions), $selectedTab);
 
@@ -642,7 +642,7 @@ final class Plugin
         }
 
         if ($selectedTab !== 'trash' && $forms === []) {
-            echo '<div class="notice notice-info"><p>' . \esc_html__('No Gennaker forms were found yet. Add a Form block to a Gennaker page to start collecting submissions.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-info"><p>' . \esc_html__('No GG forms were found yet. Add a Form block to a GG page to start collecting submissions.', 'blocky') . '</p></div>';
         } elseif ($selectedTab !== 'trash') {
             echo '<h2>' . \esc_html__('Discovered Forms', 'blocky') . '</h2>';
             echo '<table class="widefat striped"><thead><tr>';
@@ -679,7 +679,7 @@ final class Plugin
         if ($listedSubmissions === []) {
             echo '<div class="notice notice-info"><p>' . \esc_html($selectedTab === 'trash'
                 ? __('The forms trash is empty.', 'blocky')
-                : __('No Gennaker form submissions have been stored yet.', 'blocky')) . '</p></div>';
+                : __('No GG form submissions have been stored yet.', 'blocky')) . '</p></div>';
         } else {
             echo '<table class="widefat striped"><thead><tr>';
             echo '<th>' . \esc_html__('Submitted', 'blocky') . '</th>';
@@ -783,10 +783,10 @@ final class Plugin
         echo '<h2 style="margin-top:0;">' . \esc_html__('Global Cache', 'blocky') . '</h2>';
         echo '<p>' . \esc_html(sprintf(
             /* translators: %d: number of Blocky pages */
-            __('Rebuild the compiled frontend cache for all %d Gennaker pages.', 'blocky'),
+            __('Rebuild the compiled frontend cache for all %d GG pages.', 'blocky'),
             $totalPages
         )) . '</p>';
-        echo '<p><a class="button button-primary" href="' . \esc_url($rebuildAllUrl) . '">' . \esc_html__('Rebuild All Gennaker Cache', 'blocky') . '</a></p>';
+        echo '<p><a class="button button-primary" href="' . \esc_url($rebuildAllUrl) . '">' . \esc_html__('Rebuild All GG Cache', 'blocky') . '</a></p>';
         echo '</div>';
     }
 
@@ -799,7 +799,7 @@ final class Plugin
 
         $document = \get_post_meta($postId, '_blocky_document', true);
         if (!\is_string($document) || $document === '') {
-            echo '<div class="notice notice-warning"><p>' . \esc_html__('This page does not contain a Gennaker document.', 'blocky') . '</p></div>';
+            echo '<div class="notice notice-warning"><p>' . \esc_html__('This page does not contain a GG document.', 'blocky') . '</p></div>';
             return;
         }
 

@@ -21,7 +21,7 @@ test.describe('Builder F9 sidebar pages tab', () => {
 
     // Built-with-Blocky badge shows on a page that has a document.
     await expect(
-      rows.filter({ hasText: 'Audit Grid' }).locator('[title="Built with Gennaker"]')
+      rows.filter({ hasText: 'Audit Grid' }).locator('[title="Built with GG"]')
     ).toBeVisible();
 
     await sidebar.getByPlaceholder(/search pages/i).fill('MCP');
