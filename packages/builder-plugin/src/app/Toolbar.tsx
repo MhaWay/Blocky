@@ -54,7 +54,7 @@ export const Toolbar: FunctionComponent = () => {
           </svg>
           <span class="hidden sm:inline">WordPress</span>
         </a>
-        <span class="font-display text-lg font-bold text-accent-text">Gennaker</span>
+        <span class="font-display text-lg font-bold text-accent-text">GG</span>
         <button
           type="button"
           onClick={() => {

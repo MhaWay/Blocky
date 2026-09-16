@@ -51,3 +51,4 @@ php_error.log
 
 # Local WP stack binaries
 tools/local-wp/bin/
+ux-tmp/

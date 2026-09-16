@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the single-plugin wp.org bundle: gennaker-page-builder.
+"""Build the single-plugin wp.org bundle: ggally-page-builder.
 
 Assembles engine (core-plugin) + builder (builder-plugin) under one plugin
 folder with the main loader, correct permissions (644/755 — WP skips
@@ -9,13 +9,13 @@ import os, re, shutil, subprocess, sys, zipfile
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 PKG = os.path.join(ROOT, 'packages')
-OUT_ROOT = '/tmp/gennaker-bundle'
-OUT = os.path.join(OUT_ROOT, 'gennaker-page-builder')
+OUT_ROOT = '/tmp/ggally-bundle'
+OUT = os.path.join(OUT_ROOT, 'ggally-page-builder')
 HERE = os.path.join(ROOT, 'scripts', 'wporg')
 
 def strip_entry(src, dst):
     s = open(src, encoding='utf-8').read()
-    s = re.sub(r'/\*\*.*?\*/', '/** Bootstrap (loaded by gennaker-page-builder.php). */', s, count=1, flags=re.S)
+    s = re.sub(r'/\*\*.*?\*/', '/** Bootstrap (loaded by ggally-page-builder.php). */', s, count=1, flags=re.S)
     open(dst, 'w', encoding='utf-8').write(s)
 
 def main():
@@ -57,8 +57,8 @@ def main():
                 continue
             fp = os.path.join(root, f)
             c = open(fp, encoding='utf-8').read()
-            c = pat.sub(lambda m: m.group(1) + "'gennaker-page-builder'" + m.group(2), c)
-            c = chr(10).join(((l[:len(l) - len(l.lstrip())] + "\\load_plugin_textdomain('gennaker-page-builder', false, \\dirname(\\plugin_basename(\\dirname(__DIR__) . '/gennaker-page-builder.php')) . '/languages');") if l.strip().lstrip(chr(92)).startswith('load_plugin_textdomain(') else l) for l in c.split(chr(10)))
+            c = pat.sub(lambda m: m.group(1) + "'ggally-page-builder'" + m.group(2), c)
+            c = chr(10).join(((l[:len(l) - len(l.lstrip())] + "\\load_plugin_textdomain('ggally-page-builder', false, \\dirname(\\plugin_basename(\\dirname(__DIR__) . '/ggally-page-builder.php')) . '/languages');") if l.strip().lstrip(chr(92)).startswith('load_plugin_textdomain(') else l) for l in c.split(chr(10)))
             open(fp, 'w', encoding='utf-8').write(c)
     # WordPress.org auto-loads translations for a slug text domain from <plugin>/languages/*.mo.
     top = os.path.join(OUT, 'languages')
@@ -68,12 +68,12 @@ def main():
         if os.path.isdir(d):
             for f in os.listdir(d):
                 if f.startswith('blocky-') and f.endswith('.mo'):
-                    dst = os.path.join(top, 'gennaker-page-builder-' + f[7:])
+                    dst = os.path.join(top, 'ggally-page-builder-' + f[7:])
                     if not os.path.exists(dst):
                         shutil.copy(os.path.join(d, f), dst)
             shutil.rmtree(d)
 
-    shutil.copy(os.path.join(HERE, 'gennaker-page-builder.php'), OUT + '/gennaker-page-builder.php')
+    shutil.copy(os.path.join(HERE, 'ggally-page-builder.php'), OUT + '/ggally-page-builder.php')
     shutil.copy(os.path.join(HERE, 'readme.txt'), OUT + '/readme.txt')
 
     for root, dirs, files in os.walk(OUT):
@@ -81,7 +81,7 @@ def main():
         for f in files:
             os.chmod(os.path.join(root, f), 0o644)
 
-    zip_path = '/tmp/gennaker-page-builder.zip'
+    zip_path = '/tmp/ggally-page-builder.zip'
     zf = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
     for root, dirs, files in os.walk(OUT):
         arc = os.path.relpath(root, OUT_ROOT)

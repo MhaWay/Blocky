@@ -19,7 +19,7 @@ const PAGE_STARTERS: Array<{
     label: t('library.pageStarterLabel', 'Page'),
     description: t('library.pageStarterDescription', 'A standard page to build freely.'),
     icon: 'P',
-    title: t('library.pageStarterTitle', 'New Gennaker Page'),
+    title: t('library.pageStarterTitle', 'New GG Page'),
   },
   {
     id: 'landing',
@@ -179,7 +179,7 @@ export const PageLibrary: FunctionComponent = () => {
             <p class="mt-2 max-w-2xl text-sm text-text-muted">
               {t(
                 'library.newLayoutDescription',
-                'Choose the type of page to generate. Each card creates a new draft page with a different starter, ready to refine in Gennaker.'
+                'Choose the type of page to generate. Each card creates a new draft page with a different starter, ready to refine in GG.'
               )}
             </p>
           </div>
@@ -217,7 +217,7 @@ export const PageLibrary: FunctionComponent = () => {
             <p class="mt-2 max-w-2xl text-sm text-text-muted">
               {t(
                 'library.newTemplatesDescription',
-                'Create reusable parts or a full base template to connect to pages through Gennaker WordPress blocks.'
+                'Create reusable parts or a full base template to connect to pages through GG WordPress blocks.'
               )}
             </p>
           </div>
@@ -339,8 +339,8 @@ const PageCard: FunctionComponent<PageCardProps> = ({ page, onOpen, onContextMen
       <h3 class="line-clamp-2 text-base font-semibold text-text-base">{page.title}</h3>
       <p class="mt-1 text-sm text-text-muted">
         {page.hasDocument
-          ? t('library.containsBlockyDocument', 'Contains a Gennaker document')
-          : t('library.noBlockyDocument', 'WordPress page without a saved Gennaker document')}
+          ? t('library.containsBlockyDocument', 'Contains a GG document')
+          : t('library.noBlockyDocument', 'WordPress page without a saved GG document')}
       </p>
     </div>
 
@@ -373,7 +373,7 @@ const PageContextMenu: FunctionComponent<PageContextMenuProps> = ({
   const actions = [
     {
       id: 'open',
-      label: t('library.openInBlocky', 'Open in Gennaker'),
+      label: t('library.openInBlocky', 'Open in GG'),
       action: () => {
         onClose();
         void onOpen(page.id);

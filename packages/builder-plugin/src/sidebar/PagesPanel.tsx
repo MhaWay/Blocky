@@ -108,7 +108,7 @@ export const PagesPanel: FunctionComponent = () => {
                     {page.hasDocument ? (
                       <span
                         class="rounded-badge bg-accent-base px-1.5 py-px text-[10px] font-bold text-text-on-accent"
-                        title={t('pages.builtWith', 'Built with Gennaker')}
+                        title={t('pages.builtWith', 'Built with GG')}
                       >
                         BK
                       </span>

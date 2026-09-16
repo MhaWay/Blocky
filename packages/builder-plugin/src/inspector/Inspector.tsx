@@ -1477,18 +1477,18 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                 }`}
               >
                 {selectedPage.hasDocument
-                  ? t('inspector.blockyShort', 'Gennaker')
+                  ? t('inspector.blockyShort', 'GG-Builder')
                   : t('inspector.wordpress', 'WordPress')}
               </span>
               <span>
                 {selectedPage.hasDocument
                   ? t(
                       'inspector.containsReusableBlockyDocument',
-                      'Contains a reusable Gennaker document.'
+                      'Contains a reusable GG document.'
                     )
                   : t(
                       'inspector.standardWordPressPageWithoutBlocky',
-                      'Standard WordPress page without a saved Gennaker document.'
+                      'Standard WordPress page without a saved GG document.'
                     )}
               </span>
             </div>
@@ -1526,11 +1526,11 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
       </div>
       <p class="text-xs text-text-faint">
         {isLoadingPages
-          ? t('inspector.loadingBlockyPages', 'Loading Gennaker pages...')
+          ? t('inspector.loadingBlockyPages', 'Loading GG pages...')
           : availablePages.length > 0
             ? t(
                 'inspector.pagesListedHint',
-                'All pages are listed. Gennaker pages are marked with a badge.'
+                'All pages are listed. GG pages are marked with a badge.'
               )
             : t('inspector.noPagesAvailableYet', 'No pages available yet.')}
       </p>
@@ -1583,7 +1583,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
             <div class="flex-1 overflow-y-auto p-5">
               {isLoadingPages ? (
                 <div class="flex min-h-40 items-center justify-center text-sm text-text-muted">
-                  {t('inspector.loadingPages', 'Loading Gennaker pages…')}
+                  {t('inspector.loadingPages', 'Loading GG pages…')}
                 </div>
               ) : filteredPages.length === 0 ? (
                 <div class="flex min-h-40 flex-col items-center justify-center gap-2 text-center text-text-muted">
@@ -1644,7 +1644,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                               }`}
                             >
                               {page.hasDocument
-                                ? t('inspector.blockyShort', 'Gennaker')
+                                ? t('inspector.blockyShort', 'GG-Builder')
                                 : t('inspector.wpShort', 'WP')}
                             </span>
                             <span
@@ -1672,10 +1672,7 @@ const TemplatePartControl: FunctionComponent<TemplatePartControlProps> = ({
                                   'Current page cannot be inserted into itself'
                                 )
                               : page.hasDocument
-                                ? t(
-                                    'inspector.containsBlockyDocument',
-                                    'Contains a Gennaker document'
-                                  )
+                                ? t('inspector.containsBlockyDocument', 'Contains a GG document')
                                 : t('inspector.standardWordPressPage', 'Standard WordPress page')}
                           </span>
                           <span

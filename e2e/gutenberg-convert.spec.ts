@@ -23,10 +23,10 @@ test.describe('Gutenberg to Blocky conversion', () => {
       timeout: 60000,
     });
     const button = page.locator('.blocky-open-builder');
-    await expect(button, 'Edit with Gennaker button in the editor header').toBeVisible({
+    await expect(button, 'Edit with GG button in the editor header').toBeVisible({
       timeout: 30000,
     });
-    await expect(button).toHaveText('Edit with Gennaker');
+    await expect(button).toHaveText('Edit with GG');
 
     await Promise.all([page.waitForURL(/page=blocky-builder/, { timeout: 40000 }), button.click()]);
 
