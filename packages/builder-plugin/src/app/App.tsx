@@ -14,6 +14,7 @@ import { Inspector } from '../inspector/Inspector';
 
 export const App: FunctionComponent = () => {
   const isLoading = useDocumentStore((s) => s.isLoading);
+  const loadError = useDocumentStore((s) => s.loadError);
   const isPageLibraryOpen = useDocumentStore((s) => s.isPageLibraryOpen);
   const leftVisible = useUiStore((s) => s.leftPanelVisible);
   const rightVisible = useUiStore((s) => s.rightPanelVisible);
@@ -74,6 +75,14 @@ export const App: FunctionComponent = () => {
     <div class="blocky-builder-root relative">
       {themeCss && <style id="blocky-ui-theme">{themeCss}</style>}
       <Toolbar />
+      {loadError && (
+        <div
+          class="border-b border-border-base bg-surface-base px-4 py-3 text-sm text-feedback-danger"
+          role="alert"
+        >
+          {loadError}
+        </div>
+      )}
       <div class="flex flex-1 overflow-hidden">
         {!isPageLibraryOpen && leftVisible && <Sidebar />}
         <main class="flex-1 overflow-auto bg-surface-base">
