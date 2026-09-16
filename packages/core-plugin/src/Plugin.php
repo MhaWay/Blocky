@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Protect against direct file access.
 use Blocky\Core\Blocks\Registry;
 use Blocky\Core\Blocks\Renderer\Pipeline;
 use Blocky\Core\Compiler\PageCompiler;
-use Blocky\Core\Compiler\SiteStylesheet;
 use Blocky\Core\Tokens\ThemeEngine;
 use Blocky\Core\Assets\AssetOrchestrator;
 use Blocky\Core\Rest\RestRegistrar;
@@ -67,11 +66,9 @@ final class Plugin
         \add_action('save_post',        [$this, 'onSavePost'], 10, 2);
         \add_action('admin_menu',       [$this, 'registerAdminMenuTools'], 90);
         \add_action('admin_menu',       [$this, 'registerSetupPage'], 89);
-        \add_action('admin_notices',      [$this, 'showSetupNotice']);
         \add_action('admin_post_blocky_clear_page_cache', [$this, 'handleClearPageCache']);
         \add_action('admin_post_blocky_rebuild_page_cache', [$this, 'handleRebuildPageCache']);
         \add_action('admin_post_blocky_rebuild_all_page_cache', [$this, 'handleRebuildAllPageCache']);
-        \add_action('admin_post_blocky_allow_engine', [$this, 'handleAllowEngine']);
         \add_action('admin_post_blocky_frontend_form_submit', [$this, 'handleFrontendFormSubmission']);
         \add_action('admin_post_blocky_frontend_login_submit', [$this, 'handleFrontendLoginSubmission']);
         \add_action('admin_post_blocky_frontend_register_submit', [$this, 'handleFrontendRegisterSubmission']);
@@ -85,13 +82,6 @@ final class Plugin
         \add_action('admin_notices',    [$this, 'renderAdminFormsNotice']);
         \add_filter('the_content',      [$this, 'renderBlockyContent'], 9);
 
-        // Site stylesheet pipeline (L3): debounced CLI rebuilds (docs/research/04).
-        \add_action(SiteStylesheet::REBUILD_HOOK, static function (): void {
-            SiteStylesheet::from_globals()->rebuild();
-        });
-        \add_action('blocky_compiler_page_cache_warmed', static function (): void {
-            SiteStylesheet::schedule_rebuild();
-        }, 10, 0);
 
         // Allow third-party blocks to register before init fires
         \do_action('blocky_register_blocks', $this->registry);
@@ -209,50 +199,41 @@ final class Plugin
         );
     }
 
-    public function handleAllowEngine(): void
-    {
-        if (!isset($_POST['blocky_allow_nonce']) || !\wp_verify_nonce(\sanitize_text_field(\wp_unslash($_POST['blocky_allow_nonce'])), 'blocky_allow_engine')) {
-            \wp_die(\esc_html__('Security check failed.', 'blocky'));
-        }
-        if (!\current_user_can('manage_options')) {
-            \wp_die(\esc_html__('Not permitted.', 'blocky'));
-        }
-        if (!empty($_POST['blocky_allow_engine'])) {
-            \update_option('blocky_allow_engine_download', 'yes');
-        }
-        \wp_safe_redirect(\add_query_arg('allowed', '1', \admin_url('admin.php?page=blocky-setup')));
-        exit;
-    }
 
+    /**
+     * Setup page: pipeline state. CSS is compiled in the admin browser at save
+     * time — the page reports what exists on disk, nothing to consent to.
+     */
     public function renderSetupPage(): void
     {
-        $allowed = 'yes' === \get_option('blocky_allow_engine_download', '');
-        echo '<div class="wrap"><h1>' . \esc_html__('GG Setup', 'blocky') . '</h1>';
-        if (isset($_GET['allowed'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
-            echo '<div class="notice notice-success"><p>' . \esc_html__('Compiler access allowed. GG will download it once, verify the checksum, and never phone home again.', 'blocky') . '</p></div>';
+        $pageIds = \get_posts([
+            'post_type'      => 'any',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'meta_key'       => '_blocky_document', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- admin setup screen only.
+            'no_found_rows'  => true,
+        ]);
+
+        $withCss = 0;
+        foreach ($pageIds as $pageId) {
+            if ((string) \get_post_meta((int) $pageId, PageCompiler::CSS_FILE_META_KEY, true) !== '') {
+                ++$withCss;
+            }
         }
-        echo '<p>' . \esc_html__('GG compiles your stylesheets locally using the official, version-pinned Tailwind CSS command-line compiler (v4.3.3). One download, straight from the official Tailwind GitHub releases, verified against the published SHA-256 checksum, stored outside the web-served uploads directory and reused from cache. Nothing is sent back, and site visitors never contact any third-party server.', 'blocky') . '</p>';
-        echo '<form method="post" action="' . \esc_url(\admin_url('admin-post.php')) . '">';
-        \wp_nonce_field('blocky_allow_engine', 'blocky_allow_nonce');
-        echo '<input type="hidden" name="action" value="blocky_allow_engine" />';
-        echo '<p><label><input type="checkbox" name="blocky_allow_engine" value="1"' . ($allowed ? ' checked' : '') . ' /> ' . \esc_html__('I understand and allow GG to download the pinned Tailwind compiler once, from the official GitHub releases, with checksum verification.', 'blocky') . '</label></p>';
-        echo '<p><button type="submit" class="button button-primary">' . \esc_html__('Save settings', 'blocky') . '</button></p>';
-        echo '</form>';
-        echo '<p><em>' . \esc_html__('Until this is confirmed, page saving keeps working; stylesheets use the bundled base vocabulary and interactive blocks keep working, but the static CSS compiler stays inactive.', 'blocky') . '</em></p>';
+
+        echo '<div class="wrap"><h1>' . \esc_html__('GG Setup', 'blocky') . '</h1>';
+        echo '<p>' . \esc_html__('GG compiles each page stylesheet in your browser the moment you save it, and stores it as a static hashed CSS file. No external services, no downloads.', 'blocky') . '</p>';
+        echo '<p><strong>' . \esc_html(sprintf(
+            /* translators: 1: number of GG pages, 2: number with a compiled stylesheet on disk. */
+            \__('%1$d GG page(s) on this site, %2$d with a compiled stylesheet on disk.', 'blocky'),
+            count($pageIds),
+            $withCss
+        )) . '</strong></p>';
+        echo '<p class="description">' . \esc_html__('If a page is saved without the builder (for example over the REST API), its stylesheet refreshes the next time you save it in GG.', 'blocky') . '</p>';
         echo '</div>';
     }
 
-    public function showSetupNotice(): void
-    {
-        if ('yes' === \get_option('blocky_allow_engine_download', '')) {
-            return;
-        }
-        if (!\current_user_can('manage_options')) {
-            return;
-        }
-        $url = \esc_url(\admin_url('admin.php?page=blocky-setup'));
-        echo '<div class="notice notice-info"><p>' . \esc_html__('One step left to unlock the full GG CSS compiler: review and confirm the one-time download of the pinned official Tailwind tool.', 'blocky') . ' <a href="' . \esc_url($url) . '">' . \esc_html__('Open GG Setup', 'blocky') . '</a></p></div>';
-    }
 
     public function registerFormSubmissionPostType(): void
     {
@@ -745,7 +726,6 @@ final class Plugin
         \flush_rewrite_rules();
         \Blocky\Core\Support\ApiKeyStore::install();
         \Blocky\Core\Support\ApiAudit::install();
-        SiteStylesheet::schedule_rebuild();
     }
 
     /**

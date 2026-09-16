@@ -6,8 +6,6 @@ namespace Blocky\Core\Assets;
 defined( 'ABSPATH' ) || exit; // Protect against direct file access.
 
 use Blocky\Core\Compiler\PageCompiler;
-use Blocky\Core\Compiler\SiteStylesheet;
-use Blocky\Core\Compiler\TailwindBinary;
 use Blocky\Core\Support\CssSanitizer;
 use Blocky\Core\Tokens\ThemeEngine;
 use Blocky\Core\Tokens\ThemeSettings;
@@ -141,6 +139,11 @@ final class AssetOrchestrator
      * needs. Page-scoped meta CSS is served inline ONLY as a stopgap when the
      * server cannot rebuild the stylesheet (no exec) — never in the normal path.
      */
+    /**
+     * Per-page CSS (L3 — docs/research/04): a hashed static file compiled in
+     * the admin browser at save time. The cached meta string is used inline
+     * only when no file exists (for example pages saved via REST only).
+     */
     private function enqueueCompiledPageCss(): void
     {
         if (!\is_singular() || !\is_main_query()) {
@@ -156,28 +159,28 @@ final class AssetOrchestrator
             return;
         }
 
-        $site = SiteStylesheet::from_globals();
-        \wp_enqueue_style(
-            'blocky-site-css',
-            $site->available_url(),
-            [],
-            $site->available_version()
-        );
-
-        $built = (string) \get_option(SiteStylesheet::OPTION_FILE, '');
-        if ($built !== '') {
+        $file = (string) \get_post_meta($postId, PageCompiler::CSS_FILE_META_KEY, true);
+        if ($file !== '') {
+            \wp_enqueue_style('blocky-page-css', $file, [], null); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- filename is content-hashed.
             return;
         }
 
-        // No site file yet: rebuild soon; without exec, serve page CSS inline as stopgap.
-        SiteStylesheet::schedule_rebuild();
-
-        if (TailwindBinary::detect_target() === null || !TailwindBinary::exec_available()) {
-            $css = CssSanitizer::sanitize((string) \get_post_meta($postId, PageCompiler::CSS_CACHE_META_KEY, true));
-            if ($css !== '') {
-                \wp_add_inline_style('blocky-site-css', $css);
-            }
+        $css = CssSanitizer::sanitize((string) \get_post_meta($postId, PageCompiler::CSS_CACHE_META_KEY, true));
+        if ($css !== '') {
+            \wp_register_style('blocky-page-css', false, [], \BLOCKY_CORE_VERSION);
+            \wp_enqueue_style('blocky-page-css');
+            \wp_add_inline_style('blocky-page-css', $css);
+            return;
         }
+
+        // Upgraded pages never re-saved since the browser-compile switch:
+        // ship the full closed-set vocabulary statically until a save replaces it.
+        \wp_enqueue_style(
+            'blocky-page-css',
+            \rtrim(BLOCKY_CORE_URL, '/') . '/assets/css/vocabulary-fallback.css',
+            [],
+            \BLOCKY_CORE_VERSION
+        );
     }
 
     // ── JS config ─────────────────────────────────────────────────────────────

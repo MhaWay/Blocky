@@ -8,7 +8,6 @@ defined( 'ABSPATH' ) || exit; // Protect against direct file access.
 use Blocky\Core\Blocks\Registry;
 use Blocky\Core\Blocks\Renderer\Pipeline;
 use Blocky\Core\Compiler\PageCompiler;
-use Blocky\Core\Compiler\SiteStylesheet;
 use Blocky\Core\Support\CssSanitizer;
 use Blocky\Core\Support\PropsValidator;
 use Blocky\Core\Tokens\ThemeEngine;
@@ -264,7 +263,6 @@ final class DocumentController extends \WP_REST_Controller
             : (string) $request->get_param('css');
         $css       = CssSanitizer::sanitize($css);
         $this->pageCompiler->cacheCompiledCss($postId, $css);
-        SiteStylesheet::schedule_rebuild();
 
         return \rest_ensure_response([
             'saved' => true,
