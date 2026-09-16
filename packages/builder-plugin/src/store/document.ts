@@ -71,6 +71,7 @@ interface DocumentState {
   isDirty: boolean;
   isSaving: boolean;
   savePhase: 'idle' | 'saving' | 'styles';
+  loadError: string | null;
   lastSavedAt: number | null;
   historyDepth: number;
   futureDepth: number;
@@ -1392,6 +1393,7 @@ export const useDocumentStore = create<DocumentState>()(
     isDirty: false,
     isSaving: false,
     savePhase: 'idle',
+    loadError: null,
     lastSavedAt: null,
     historyDepth: 0,
     futureDepth: 0,
@@ -1405,9 +1407,21 @@ export const useDocumentStore = create<DocumentState>()(
       set((s) => {
         s.isLoading = true;
         s.postId = postId;
+        s.loadError = null;
       });
       try {
         const res = await apiFetch(`documents/${postId}`);
+
+        if (res.status === 401 || res.status === 403) {
+          set((st) => {
+            st.isLoading = false;
+            st.loadError = t(
+              'store.noEditPermission',
+              'You do not have permission to edit this page.'
+            );
+          });
+          return;
+        }
         const data = (await res.json()) as {
           document?: BuilderDocument | null;
           html?: unknown;
@@ -1444,6 +1458,7 @@ export const useDocumentStore = create<DocumentState>()(
       } catch {
         set((s) => {
           s.isLoading = false;
+          s.loadError = t('store.loadFailed', 'Failed to load the page.');
         });
       }
     },
