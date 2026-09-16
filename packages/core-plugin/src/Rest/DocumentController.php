@@ -177,6 +177,10 @@ final class DocumentController extends \WP_REST_Controller
         $postId   = (int) $request->get_param('post_id');
         $post     = \get_post($postId);
 
+        if (!\Blocky\Core\Support\Access::allowed_post('documents:read', 'edit_post', $postId)) {
+            return new \WP_Error('rest_forbidden', \__('You are not allowed to edit this post.', 'blocky'), ['status' => 403]);
+        }
+
         if ($post === null) {
             return new \WP_Error('not_found', \__('Post not found.', 'blocky'), ['status' => 404]);
         }
