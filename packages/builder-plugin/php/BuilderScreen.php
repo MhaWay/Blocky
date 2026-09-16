@@ -53,10 +53,16 @@ final class BuilderScreen
                     'locale'             => str_replace('_', '-', \function_exists('get_user_locale') ? \get_user_locale() : \get_locale()),
             'i18n'               => $this->getI18nStrings(),
         ]);
-        // Inline config BEFORE the module script so window.BlockyBuilderConfig
-        // is available when the ES module bundle executes.
-        // wp_add_inline_script does NOT work with wp_enqueue_script_module.
-        echo '<script>window.BlockyBuilderConfig = ' . $config . ';</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- json_encode output for the JS app.
+        // Config via the classic-script shim: inline output through the enqueue
+        // API, no hand-printed <script> tag. Classic footer scripts are
+        // guaranteed to execute before deferred ES modules.
+        \wp_register_script('blocky-builder-config', false, [], \BLOCKY_BUILDER_VERSION, true);
+        \wp_add_inline_script(
+            'blocky-builder-config',
+            'window.BlockyBuilderConfig = ' . $config . ';',
+            'before'
+        );
+        \wp_enqueue_script('blocky-builder-config');
         echo '<div id="blocky-builder-root" class="blocky-builder-fullscreen"></div>';
     }
 
