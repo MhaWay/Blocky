@@ -716,6 +716,7 @@ ${html}
     currentNode = node;
     var id    = node.getAttribute('data-bky-id');
     var label = (node.getAttribute('data-bky-type') || '').split('/').pop() || 'block';
+    label = label.replace(/[^A-Za-z0-9-]/g, '').slice(0, 40) || 'block';
     var isRoot = id === 'root';
     var isGridItem = !!gridParentForNode(node);
     toolbar = document.createElement('div');
