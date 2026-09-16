@@ -238,7 +238,9 @@ final class AdminIntegration
             'savingLabel'   => \__('Saving…', 'blocky'),
         ]);
 
-        echo '<script>window.blockyConvertConfig = ' . $config . ';</script>'; // phpcs:ignore WordPress.Security.EscapeOutput
+        \wp_register_script('blocky-convert-config', false, [], false);
+        \wp_add_inline_script('blocky-convert-config', 'window.blockyConvertConfig = ' . $config . ';', 'before');
+        \wp_enqueue_script('blocky-convert-config');
 
         $buildDir = BLOCKY_BUILDER_DIR . 'dist/';
         $manifestPath = $buildDir . '.vite/manifest.json';
