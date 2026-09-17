@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type Panel = 'blocks' | 'pages' | 'templates' | 'theme';
+type Panel = 'blocks' | 'pages' | 'patterns' | 'templates' | 'theme';
 type DeviceMode = 'desktop' | 'tablet' | 'mobile';
 type ResponsiveBreakpoint = 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type PreviewThemeMode = 'light' | 'dark';

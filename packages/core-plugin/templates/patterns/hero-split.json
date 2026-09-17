@@ -1,0 +1,98 @@
+{
+  "id": "hero-split",
+  "title": "Split hero",
+  "category": "hero",
+  "root": "root",
+  "nodes": {
+    "root": {
+      "id": "root",
+      "type": "bky/section",
+      "props": {
+        "paddingY": "lg",
+        "contentWidth": "container"
+      },
+      "slots": {
+        "default": ["cols"]
+      },
+      "variants": {}
+    },
+    "cols": {
+      "id": "cols",
+      "type": "bky/columns",
+      "props": {
+        "count": 2,
+        "gap": "base",
+        "stackAt": "md"
+      },
+      "slots": {
+        "column-1": ["c0a", "c0b", "c0c"],
+        "column-2": ["c1a", "c1b"]
+      },
+      "variants": {}
+    },
+    "c0a": {
+      "id": "c0a",
+      "type": "bky/heading",
+      "props": {
+        "level": 1,
+        "text": "A page builder that stays out of your way",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "c0b": {
+      "id": "c0b",
+      "type": "bky/text",
+      "props": {
+        "content": "Design pages with a small, fast, closed-set builder. No bloat, no page-speed tax, no mystery markup.",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "c0c": {
+      "id": "c0c",
+      "type": "bky/button",
+      "props": {
+        "label": "Get started",
+        "href": "#",
+        "variant": "primary",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "c1a": {
+      "id": "c1a",
+      "type": "bky/heading",
+      "props": {
+        "level": 3,
+        "text": "Compiled CSS, zero runtime JavaScript",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "c1b": {
+      "id": "c1b",
+      "type": "bky/text",
+      "props": {
+        "content": "Every page ships one small stylesheet. Nothing else loads.",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    }
+  }
+}

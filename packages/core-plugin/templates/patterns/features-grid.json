@@ -1,0 +1,186 @@
+{
+  "id": "features-grid",
+  "title": "Feature grid",
+  "category": "features",
+  "root": "root",
+  "nodes": {
+    "root": {
+      "id": "root",
+      "type": "bky/section",
+      "props": {
+        "paddingY": "lg"
+      },
+      "slots": {
+        "default": ["head", "sub", "cols"]
+      },
+      "variants": {}
+    },
+    "head": {
+      "id": "head",
+      "type": "bky/heading",
+      "props": {
+        "level": 2,
+        "text": "Why teams switch",
+        "align": "center"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "sub": {
+      "id": "sub",
+      "type": "bky/text",
+      "props": {
+        "content": "Three reasons, no fluff.",
+        "align": "center",
+        "color": "muted"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "cols": {
+      "id": "cols",
+      "type": "bky/columns",
+      "props": {
+        "count": 3,
+        "gap": "lg",
+        "stackAt": "md"
+      },
+      "slots": {
+        "column-1": ["i1", "ih1", "it1"],
+        "column-2": ["i2", "ih2", "it2"],
+        "column-3": ["i3", "ih3", "it3"]
+      },
+      "variants": {}
+    },
+    "i1": {
+      "id": "i1",
+      "type": "bky/icon",
+      "props": {
+        "icon": "lucide-zap",
+        "size": "lg",
+        "tone": "accent",
+        "background": "accent",
+        "radius": "full",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "ih1": {
+      "id": "ih1",
+      "type": "bky/heading",
+      "props": {
+        "level": 3,
+        "text": "Fast by construction",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "it1": {
+      "id": "it1",
+      "type": "bky/text",
+      "props": {
+        "content": "One compiled stylesheet per page and no runtime scripts.",
+        "color": "muted",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "i2": {
+      "id": "i2",
+      "type": "bky/icon",
+      "props": {
+        "icon": "lucide-shield-check",
+        "size": "lg",
+        "tone": "accent",
+        "background": "accent",
+        "radius": "full",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "ih2": {
+      "id": "ih2",
+      "type": "bky/heading",
+      "props": {
+        "level": 3,
+        "text": "Deterministic output",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "it2": {
+      "id": "it2",
+      "type": "bky/text",
+      "props": {
+        "content": "Closed-set controls mean every build is reviewable and reproducible.",
+        "color": "muted",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "i3": {
+      "id": "i3",
+      "type": "bky/icon",
+      "props": {
+        "icon": "lucide-rocket",
+        "size": "lg",
+        "tone": "accent",
+        "background": "accent",
+        "radius": "full",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "ih3": {
+      "id": "ih3",
+      "type": "bky/heading",
+      "props": {
+        "level": 3,
+        "text": "Ships today",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "it3": {
+      "id": "it3",
+      "type": "bky/text",
+      "props": {
+        "content": "Works with the WordPress you already run. No lock-in.",
+        "color": "muted",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    }
+  }
+}

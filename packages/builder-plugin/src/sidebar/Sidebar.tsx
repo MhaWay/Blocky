@@ -10,6 +10,7 @@ import type { BlockPresetDefinition } from '../generated/blockPresetCatalog';
 import { ThemePanel } from '../theme/ThemePanel';
 import { OverlayPanel } from './OverlayPanel';
 import { PagesPanel } from './PagesPanel';
+import { PatternsPanel } from './PatternsPanel';
 import { TemplatesPanel } from './TemplatesPanel';
 import { t } from '../i18n';
 
@@ -122,7 +123,7 @@ export const Sidebar: FunctionComponent = () => {
       style={{ width: 'var(--builder-sidebar-width)' }}
     >
       <div class="grid grid-cols-2 gap-1 border-b border-border-subtle p-2">
-        {(['blocks', 'pages', 'templates', 'theme'] as const).map((panel) => (
+        {(['blocks', 'patterns', 'pages', 'templates', 'theme'] as const).map((panel) => (
           <button
             key={panel}
             type="button"
@@ -137,6 +138,7 @@ export const Sidebar: FunctionComponent = () => {
             {
               {
                 blocks: t('sidebar.blocks', 'Blocks'),
+                patterns: t('sidebar.patterns', 'Patterns'),
                 pages: t('sidebar.pages', 'Pages'),
                 templates: t('sidebar.templates', 'Templates'),
                 theme: t('sidebar.theme', 'Theme'),
@@ -147,6 +149,8 @@ export const Sidebar: FunctionComponent = () => {
       </div>
 
       {activePanel === 'pages' && <PagesPanel />}
+
+      {activePanel === 'patterns' && <PatternsPanel />}
 
       {activePanel === 'templates' && <TemplatesPanel />}
 

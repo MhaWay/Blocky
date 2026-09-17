@@ -1,0 +1,83 @@
+{
+  "id": "about-split",
+  "title": "About split",
+  "category": "about",
+  "root": "root",
+  "nodes": {
+    "root": {
+      "id": "root",
+      "type": "bky/section",
+      "props": {
+        "paddingY": "lg"
+      },
+      "slots": {
+        "default": ["cols"]
+      },
+      "variants": {}
+    },
+    "cols": {
+      "id": "cols",
+      "type": "bky/columns",
+      "props": {
+        "count": 2,
+        "gap": "lg",
+        "stackAt": "md"
+      },
+      "slots": {
+        "column-1": ["a1", "a2"],
+        "column-2": ["a3", "a4"]
+      },
+      "variants": {}
+    },
+    "a1": {
+      "id": "a1",
+      "type": "bky/heading",
+      "props": {
+        "level": 2,
+        "text": "Built by people who audit their own HTML",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "a2": {
+      "id": "a2",
+      "type": "bky/text",
+      "props": {
+        "content": "Every control maps to a fixed vocabulary. Every page compiles to one small stylesheet.",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "a3": {
+      "id": "a3",
+      "type": "bky/heading",
+      "props": {
+        "level": 3,
+        "text": "No lock-in",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "a4": {
+      "id": "a4",
+      "type": "bky/text",
+      "props": {
+        "content": "Your content is plain WordPress. Deactivate the plugin and the pages stay readable.",
+        "align": "start"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    }
+  }
+}
