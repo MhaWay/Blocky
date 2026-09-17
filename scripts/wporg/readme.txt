@@ -24,7 +24,7 @@ GG-Ally channels the wind of Tailwind CSS into a fast, predictable page builder 
 **Highlights**
 
 * Visual editor: drag & drop, inline text editing, device preview, undo/redo, layers and pages tabs.
-* 13 layout and content blocks with more on the way: rows, columns, grids, flex, sections, cards, headings, text, images, buttons, forms, galleries, carousels, embeds.
+* 91 blocks out of the box: layout primitives, content widgets, full forms with private submission storage, overlays (popup, drawer, offcanvas, cookie banner), carousels, galleries, embeds, and dynamic WordPress parts.
 * Theme system: design tokens (palette, type scale, spacing, radius) applied across every block, with light/dark variants.
 * Entrance animations, sticky effects and scroll-driven motion, compiled to static CSS.
 * Convert existing Gutenberg posts to GG-Ally pages with one click from the editor header.
@@ -83,7 +83,7 @@ GG-Ally is fully self-contained at runtime: no third-party CDN, no tracking, and
 
 = 0.1.0 =
 * First public release.
-* Visual editor with 13 core blocks, theme tokens, device preview, undo/redo.
+* Visual editor with 91 blocks, theme tokens, device preview, undo/redo.
 * Static CSS compiler (content-hashed files, no inline styles).
 * Entrance animations, sticky/scroll effects.
 * Gutenberg conversion, form submissions, i18n (EN/IT/DE/ES/FR/PT-BR).
