@@ -10,4 +10,5 @@ parameters:
         - tests/phpstan-bootstrap.php
     scanFiles:
         - tests/phpstan/wp-cli-stub.php
+        - tests/phpstan/woocommerce-stub.php
     ignoreErrors: []
