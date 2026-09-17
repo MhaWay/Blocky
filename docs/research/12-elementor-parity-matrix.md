@@ -62,8 +62,14 @@ icon/icon-box/list ✓ MA libreria icone gestita (carica/SVG set/selettore) ⚠ 
 1. **Theme builder template system** (header/footer/archive/single/404 come template con condizioni di
    display): le PRIMITIVE c esistono gi (wp-\* + nav-menu + condizioni del builder menu), manca il CRUD UI
    dei template-part e le conditions. È il pezzo che rende il confronto possibile con Elementor Pro.
-2. **WooCommerce** (loro pagina lista ~15 widget prodotto free/pro): 0 coverage. Il gap singolo
-   più grande. Sottoinsieme ragionato: product-grid, add-to-cart, gallery, meta — su islands runtime.
+2. **WooCommerce** — sottinsieme v1 FATTO (feat/woo-blocks): product-grid (columns closed-set,
+   category slug, on-sale, orderby), product-featured (per productId), product-categories — tutti
+   statici, registrati solo con class_exists('WooCommerce'). L'add-to-cart usa l'URL nativo
+   Woo ?add-to-cart=ID: zero JS custom, niente island (l'island restava per la galleria, non fatta
+   in v1). Lezione dev-site: la pagina carrello creata da Woo e' il blocco JS-rendered -> per il
+   test flow classico si e' messo [woocommerce_cart] nel contenuto; hello theme non stampa le
+   notices fuori dai template Woo; wc_create_product esiste solo in admin (CLI: usare
+   WC_Product_Simple->save()); nell'handler reale il hook e' wp_loaded priorita' 20.
 3. **Icon library gestita** — FATTA (feat/icon-library): 1838 Lucide (ISC) via manifest JSON nel
    plugin, endpoint GET/POST blocky/v1/icons, upload SVG con sanitizer DOM allowlist proprio
    (wp_kses_svg NON esiste nel core: verificare sempre prima di citarlo), controllo inspector

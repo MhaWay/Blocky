@@ -11,6 +11,9 @@ defined( 'ABSPATH' ) || exit; // Protect against direct file access.
 
 use Blocky\Core\Blocks\Renderer\BlockRendererInterface;
 use Blocky\Core\Blocks\Renderers\HeadingRenderer;
+use Blocky\Core\Blocks\Renderers\ProductGridRenderer;
+use Blocky\Core\Blocks\Renderers\ProductFeaturedRenderer;
+use Blocky\Core\Blocks\Renderers\ProductCategoriesRenderer;
 use Blocky\Core\Blocks\Renderers\SectionRenderer;
 use Blocky\Core\Blocks\Renderers\TextRenderer;
 use Blocky\Core\Blocks\Renderers\ButtonRenderer;
@@ -279,6 +282,12 @@ final class Registry
         $this->register(self::makeDataField());
         $this->register(self::makeWpHook());
         $this->register(self::makeThemeToggle());
+
+        if (class_exists('WooCommerce')) {
+            $this->register(self::makeProductGrid());
+            $this->register(self::makeProductFeatured());
+            $this->register(self::makeProductCategories());
+        }
     }
 
     /**
@@ -2102,6 +2111,102 @@ final class Registry
         );
     }
 
+    private static function makeProductGrid(): BlockDefinition
+    {
+        return new BlockDefinition(
+            type: 'bky/product-grid',
+            label: self::tr('Product Grid'),
+            category: 'basic',
+            description: self::tr('Grid of WooCommerce products with static add-to-cart links.'),
+            keywords: ['shop', 'woo', 'products'],
+            icon: '\u{1F6D2}',
+            schema: [
+                'type' => 'object',
+                'properties' => [
+                    'number' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 24, 'default' => 6],
+                    'category' => ['type' => 'string', 'default' => ''],
+                    'orderby' => ['type' => 'string', 'enum' => ['date', 'price', 'popularity', 'title'], 'default' => 'date'],
+                    'onSaleOnly' => ['type' => 'boolean', 'default' => false],
+                    'showPrice' => ['type' => 'boolean', 'default' => true],
+                    'showAddToCart' => ['type' => 'boolean', 'default' => true],
+                    'columns' => ['type' => 'string', 'enum' => ['2', '3', '4'], 'default' => '3'],
+                ],
+            ],
+            variants: [
+                'columns' => ['2' => 'grid-cols-1 md:grid-cols-2', '3' => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3', '4' => 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4'],
+            ],
+            renderer: new ProductGridRenderer(),
+            editorConfig: self::localizeEditorConfig([
+                'tabs' => [
+                    ['id' => 'content', 'label' => 'Content', 'controls' => [
+                        ['id' => 'number', 'type' => 'number', 'label' => 'Products', 'min' => 1, 'max' => 24],
+                        ['id' => 'category', 'type' => 'text', 'label' => 'Category Slug'],
+                        ['id' => 'orderby', 'type' => 'select', 'label' => 'Order By', 'options' => [['date', 'Newest'], ['price', 'Price'], ['popularity', 'Popularity'], ['title', 'Title']]],
+                        ['id' => 'onSaleOnly', 'type' => 'toggle', 'label' => 'On Sale Only'],
+                        ['id' => 'showPrice', 'type' => 'toggle', 'label' => 'Show Price'],
+                        ['id' => 'showAddToCart', 'type' => 'toggle', 'label' => 'Add to Cart Button'],
+                    ]],
+                    ['id' => 'layout', 'label' => 'Layout', 'controls' => [
+                        ['id' => 'columns', 'type' => 'variant', 'label' => 'Columns', 'variantKey' => 'columns'],
+                    ]],
+                ],
+            ]),
+        );
+    }
+    private static function makeProductFeatured(): BlockDefinition
+    {
+        return new BlockDefinition(
+            type: 'bky/product-featured',
+            label: self::tr('Featured Product'),
+            category: 'basic',
+            description: self::tr('Spotlight one WooCommerce product with image, price and add-to-cart.'),
+            keywords: ['shop', 'woo', 'product'],
+            icon: '\u{2B50}',
+            schema: [
+                'type' => 'object',
+                'properties' => [
+                    'productId' => ['type' => 'integer', 'minimum' => 0, 'default' => 0],
+                    'imageSide' => ['type' => 'string', 'enum' => ['left', 'right'], 'default' => 'left'],
+                ],
+            ],
+            variants: [],
+            renderer: new ProductFeaturedRenderer(),
+            editorConfig: self::localizeEditorConfig([
+                'tabs' => [
+                    ['id' => 'content', 'label' => 'Content', 'controls' => [
+                        ['id' => 'productId', 'type' => 'number', 'label' => 'Product ID', 'min' => 0],
+                        ['id' => 'imageSide', 'type' => 'select', 'label' => 'Image Side', 'options' => [['left', 'Left'], ['right', 'Right']]],
+                    ]],
+                ],
+            ]),
+        );
+    }
+    private static function makeProductCategories(): BlockDefinition
+    {
+        return new BlockDefinition(
+            type: 'bky/product-categories',
+            label: self::tr('Product Categories'),
+            category: 'basic',
+            description: self::tr('Links to WooCommerce product categories with counts.'),
+            keywords: ['shop', 'woo', 'categories'],
+            icon: '\u{1F3F7}',
+            schema: [
+                'type' => 'object',
+                'properties' => [
+                    'number' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 30, 'default' => 8],
+                ],
+            ],
+            variants: [],
+            renderer: new ProductCategoriesRenderer(),
+            editorConfig: self::localizeEditorConfig([
+                'tabs' => [
+                    ['id' => 'content', 'label' => 'Content', 'controls' => [
+                        ['id' => 'number', 'type' => 'number', 'label' => 'Maximum', 'min' => 1, 'max' => 30],
+                    ]],
+                ],
+            ]),
+        );
+    }
     private static function makeFeaturedPosts(): BlockDefinition
     {
         return new BlockDefinition(
