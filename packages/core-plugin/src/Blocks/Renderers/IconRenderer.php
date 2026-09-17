@@ -65,10 +65,11 @@ final class IconRenderer implements BlockRendererInterface
             ],
         ]);
 
+        $svg = \Blocky\Core\Support\IconLibrary::markup($icon);
         $iconHtml = HtmlString::element(
             'span',
-            ['class' => trim("inline-flex items-center justify-center leading-none {$classes}"), 'aria-hidden' => 'true'],
-            \esc_html($icon === '' ? '★' : $icon),
+            ['class' => trim("inline-flex items-center justify-center leading-none {$classes}"), 'data-bky-icon' => $icon],
+            $svg ?? \esc_html($icon === '' ? '★' : $icon),
         )->toString();
 
         $content = $href !== ''

@@ -1,6 +1,7 @@
 import type { FunctionComponent, JSX } from 'preact';
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import { useDocumentStore } from '../store/document';
+import { IconPicker } from './IconPicker';
 import type { MoveDirection } from '../store/document';
 import { useUiStore } from '../store/ui';
 import { useBlockRegistry } from '../store/blockRegistry';
@@ -198,7 +199,8 @@ interface BlockControl {
     | 'number'
     | 'range'
     | 'color'
-    | 'media';
+    | 'media'
+    | 'icon';
   label: string;
   variantKey?: string;
   options?: Array<[string | number, string]>;
@@ -885,6 +887,10 @@ const ControlField: FunctionComponent<ControlFieldProps> = ({
         />
       </label>
     );
+  }
+
+  if (control.type === 'icon') {
+    return <IconPicker value={strVal} label={control.label} onChange={onChange} />;
   }
 
   if (control.type === 'number' || control.type === 'range') {
@@ -4729,6 +4735,7 @@ function isControlType(type: string): type is BlockControl['type'] {
     'range',
     'color',
     'media',
+    'icon',
   ].includes(type);
 }
 

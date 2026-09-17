@@ -24,6 +24,7 @@ final class RestRegistrar
     {
         (new ThemesController($this->themeEngine))->register_routes();
         (new BlocksController($this->registry))->register_routes();
+        (new IconController())->register_routes();
         (new DocumentController($this->registry, $this->themeEngine, $this->pageCompiler))->register_routes();
         (new McpController(new DocumentController($this->registry, $this->themeEngine, $this->pageCompiler), $this->registry))->register_routes();
     }

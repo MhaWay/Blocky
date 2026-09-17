@@ -85,7 +85,7 @@ final class IconBoxRenderer implements BlockRendererInterface
         ]);
 
         $inner =
-            '<span class="inline-flex shrink-0 leading-none ' . \esc_attr($iconClasses) . '">' . \esc_html($icon === '' ? '✨' : $icon) . '</span>' .
+            '<span class="inline-flex shrink-0 leading-none ' . \esc_attr($iconClasses) . '">' . ( \Blocky\Core\Support\IconLibrary::markup($icon) ?? \esc_html($icon === '' ? '✨' : $icon) ) . '</span>' .
             '<div class="flex min-w-0 flex-1 flex-col gap-2">' .
                 ($title !== '' ? '<h3 class="text-lg font-semibold">' . \esc_html($title) . '</h3>' : '') .
                 ($text !== '' ? '<p class="text-sm leading-6 text-inherit/80">' . \esc_html($text) . '</p>' : '') .
