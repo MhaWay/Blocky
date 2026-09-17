@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { useUiStore } from './ui';
 import {
   collectMegaMenuCustomSlotNames,
   defaultMegaMenuItems,
@@ -28,7 +29,6 @@ interface SaveDocumentResponse {
   html?: unknown;
   classCandidates?: unknown;
 }
-
 export type InsertPosition = 'before' | 'after' | 'inside';
 export type MoveDirection = 'up' | 'down' | 'left' | 'right';
 export type PageStarterId =
@@ -44,6 +44,17 @@ export type PageStarterId =
 export interface GridPlacement {
   column: number;
   row: number;
+}
+
+export interface BuilderPattern {
+  id: string;
+  title: string;
+  category: string;
+  root: string;
+  nodes: Record<
+    string,
+    { id: string; type: string; props: Record<string, unknown>; slots: Record<string, string[]> }
+  >;
 }
 
 export interface BuilderPageRecord {
@@ -101,6 +112,12 @@ interface DocumentState {
   ) => void;
   removeBlock: (id: string) => void;
   duplicateBlock: (id: string) => void;
+  patterns: BuilderPattern[];
+  patternsLoaded: boolean;
+  loadPatterns: () => Promise<void>;
+  insertPattern: (pattern: BuilderPattern) => void;
+  savePattern: (title: string) => Promise<boolean>;
+  deletePattern: (id: string) => Promise<void>;
   moveBlock: (id: string, direction: MoveDirection) => void;
   moveBlockTo: (
     id: string,
@@ -1400,6 +1417,8 @@ export const useDocumentStore = create<DocumentState>()(
     postId: null,
     currentPost: null,
     pages: [],
+    patterns: [],
+    patternsLoaded: false,
     isLoadingPages: false,
     isPageLibraryOpen: false,
 
@@ -1915,6 +1934,82 @@ export const useDocumentStore = create<DocumentState>()(
       } catch {
         /* preview errors are non-fatal */
       }
+    },
+
+    async loadPatterns() {
+      try {
+        const res = await apiFetch('patterns');
+        const data = (await res.json()) as { patterns?: BuilderPattern[] };
+        set((s) => {
+          s.patterns = data.patterns ?? [];
+          s.patternsLoaded = true;
+        });
+      } catch {
+        /* pattern list errors are non-fatal */
+      }
+    },
+
+    insertPattern(pattern) {
+      let insertedRoot: string | null = null;
+      set((s) => {
+        if (!s.document) return;
+        const idMap = new Map<string, string>();
+        const cloneInto = (sourceId: string): string | null => {
+          const src = pattern.nodes[sourceId];
+          if (!src) return null;
+          const newId = makeId();
+          idMap.set(sourceId, newId);
+          const newSlots: Record<string, string[]> = {};
+          Object.entries(src.slots).forEach(([slotName, children]) => {
+            newSlots[slotName] = children
+              .map((c) => cloneInto(c))
+              .filter((c): c is string => c !== null);
+          });
+          s.document!.nodes[newId] = {
+            id: newId,
+            type: src.type,
+            props: JSON.parse(JSON.stringify(src.props)) as Record<string, unknown>,
+            slots: newSlots,
+            variants: {},
+          };
+          return newId;
+        };
+        const newRoot = cloneInto(pattern.root);
+        if (!newRoot) return;
+        const docRoot = s.document.nodes[s.document.root];
+        if (!docRoot) return;
+        (docRoot.slots.default ??= []).push(newRoot);
+        insertedRoot = newRoot;
+        s.isDirty = true;
+      });
+      if (insertedRoot) useUiStore.getState().selectNode(insertedRoot);
+      void get().refreshPreview();
+    },
+
+    async savePattern(title) {
+      const { document } = get();
+      if (!document || !title.trim()) return false;
+      try {
+        const res = await apiFetch('patterns', 'POST', {
+          title,
+          nodes: document.nodes,
+          root: document.root,
+        });
+        if (!res.ok) return false;
+        await get().loadPatterns();
+        return true;
+      } catch {
+        return false;
+      }
+    },
+
+    async deletePattern(id) {
+      try {
+        await apiFetch('patterns/' + id, 'DELETE');
+      } catch {
+        /* ignore */
+      }
+      await get().loadPatterns();
     },
   }))
 );

@@ -1,0 +1,86 @@
+{
+  "id": "quote-duo",
+  "title": "Testimonials",
+  "category": "social-proof",
+  "root": "root",
+  "nodes": {
+    "root": {
+      "id": "root",
+      "type": "bky/section",
+      "props": {
+        "paddingY": "lg"
+      },
+      "slots": {
+        "default": ["head", "cols"]
+      },
+      "variants": {}
+    },
+    "head": {
+      "id": "head",
+      "type": "bky/heading",
+      "props": {
+        "level": 2,
+        "text": "What users say",
+        "align": "center"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "cols": {
+      "id": "cols",
+      "type": "bky/columns",
+      "props": {
+        "count": 2,
+        "gap": "lg",
+        "stackAt": "md"
+      },
+      "slots": {
+        "column-1": ["card1"],
+        "column-2": ["card2"]
+      },
+      "variants": {}
+    },
+    "card1": {
+      "id": "card1",
+      "type": "bky/card",
+      "props": {},
+      "slots": {
+        "default": ["q1"]
+      },
+      "variants": {}
+    },
+    "card2": {
+      "id": "card2",
+      "type": "bky/card",
+      "props": {},
+      "slots": {
+        "default": ["q2"]
+      },
+      "variants": {}
+    },
+    "q1": {
+      "id": "q1",
+      "type": "bky/testimonial",
+      "props": {
+        "quote": "We removed four page-builder plugins and the site got faster. The output is actually inspectable."
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "q2": {
+      "id": "q2",
+      "type": "bky/testimonial",
+      "props": {
+        "quote": "The first builder where the frontend HTML looks like something I would write by hand."
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    }
+  }
+}

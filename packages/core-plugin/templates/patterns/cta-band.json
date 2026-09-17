@@ -1,0 +1,60 @@
+{
+  "id": "cta-band",
+  "title": "Call to action",
+  "category": "cta",
+  "root": "root",
+  "nodes": {
+    "root": {
+      "id": "root",
+      "type": "bky/section",
+      "props": {
+        "paddingY": "lg"
+      },
+      "slots": {
+        "default": ["h", "t", "b"]
+      },
+      "variants": {}
+    },
+    "h": {
+      "id": "h",
+      "type": "bky/heading",
+      "props": {
+        "level": 2,
+        "text": "Ready to build your next page?",
+        "align": "center"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "t": {
+      "id": "t",
+      "type": "bky/text",
+      "props": {
+        "content": "Install, open the builder, publish.",
+        "align": "center",
+        "color": "muted"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    },
+    "b": {
+      "id": "b",
+      "type": "bky/button",
+      "props": {
+        "label": "Start now",
+        "href": "#",
+        "variant": "primary",
+        "size": "lg",
+        "align": "center"
+      },
+      "slots": {
+        "default": []
+      },
+      "variants": {}
+    }
+  }
+}
