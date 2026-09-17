@@ -1406,7 +1406,7 @@ final class Registry
             editorConfig: self::localizeEditorConfig([
                 'tabs' => [
                     ['id' => 'content', 'label' => 'Content', 'controls' => [
-                        ['id' => 'icon', 'type' => 'text', 'label' => 'Icon'],
+                        ['id' => 'icon', 'type' => 'icon', 'label' => 'Icon'],
                         ['id' => 'href', 'type' => 'text', 'label' => 'Link'],
                         ['id' => 'target', 'type' => 'select', 'label' => 'Open in new tab', 'options' => [['_self', 'Same Tab'], ['_blank', 'New Tab']]],
                     ]],
@@ -1471,7 +1471,7 @@ final class Registry
             editorConfig: self::localizeEditorConfig([
                 'tabs' => [
                     ['id' => 'content', 'label' => 'Content', 'controls' => [
-                        ['id' => 'icon', 'type' => 'text', 'label' => 'Icon'],
+                        ['id' => 'icon', 'type' => 'icon', 'label' => 'Icon'],
                         ['id' => 'title', 'type' => 'text', 'label' => 'Title'],
                         ['id' => 'text', 'type' => 'richtext', 'label' => 'Text'],
                         ['id' => 'href', 'type' => 'text', 'label' => 'Link'],
@@ -1522,7 +1522,7 @@ final class Registry
             editorConfig: self::localizeEditorConfig([
                 'tabs' => [
                     ['id' => 'content', 'label' => 'Content', 'controls' => [
-                        ['id' => 'icon', 'type' => 'text', 'label' => 'Icon'],
+                        ['id' => 'icon', 'type' => 'icon', 'label' => 'Icon'],
                         ['id' => 'items', 'type' => 'richtext', 'label' => 'Items'],
                     ]],
                     ['id' => 'layout', 'label' => 'Layout', 'controls' => [
@@ -1638,7 +1638,7 @@ final class Registry
                     ['id' => 'content', 'label' => 'Content', 'controls' => [
                         ['id' => 'title', 'type' => 'text', 'label' => 'Title'],
                         ['id' => 'message', 'type' => 'richtext', 'label' => 'Message'],
-                        ['id' => 'icon', 'type' => 'text', 'label' => 'Icon'],
+                        ['id' => 'icon', 'type' => 'icon', 'label' => 'Icon'],
                     ]],
                     ['id' => 'style', 'label' => 'Style', 'controls' => [
                         ['id' => 'tone', 'type' => 'variant', 'label' => 'Tone', 'variantKey' => 'tone'],

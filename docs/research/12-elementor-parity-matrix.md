@@ -53,8 +53,12 @@ icon/icon-box/list ✓ MA libreria icone gestita (carica/SVG set/selettore) ⚠ 
    dei template-part e le conditions. È il pezzo che rende il confronto possibile con Elementor Pro.
 2. **WooCommerce** (loro pagina lista ~15 widget prodotto free/pro): 0 coverage. Il gap singolo
    più grande. Sottoinsieme ragionato: product-grid, add-to-cart, gallery, meta — su islands runtime.
-3. **Icon library gestita**: blocchi iconici ok, ma senza set caricabili/SVG manager i contenuti
-   reali restano bloccati. 1-2 descriptor + una UI pannello.
+3. **Icon library gestita** — FATTA (feat/icon-library): 1838 Lucide (ISC) via manifest JSON nel
+   plugin, endpoint GET/POST blocky/v1/icons, upload SVG con sanitizer DOM allowlist proprio
+   (wp_kses_svg NON esiste nel core: verificare sempre prima di citarlo), controllo inspector
+   closed-set 'icon' (picker+cerca+upload+glyph legacy), renderer inline SVG con classe lucide-{name}.
+   Il core blocca gli upload SVG di default: filtri upload_mimes temporanei attorno alla sola
+   scrittura gia sanificata.
 4. **Template/Pattern library cloud**: contenuto, non codice — leva GG-Ally studio (lead-gen),
    self-hosted v1 su JSON deterministico (già formato naturale dei nostri documenti).
 
