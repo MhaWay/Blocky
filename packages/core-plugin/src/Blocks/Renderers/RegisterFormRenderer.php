@@ -49,9 +49,9 @@ final class RegisterFormRenderer implements BlockRendererInterface
             . HtmlString::void('input', ['type' => 'hidden', 'name' => '_blocky_register_redirect', 'value' => $redirectUrl])->toString()
             . HtmlString::void('input', ['type' => 'hidden', 'name' => '_blocky_register_autologin', 'value' => $loginAfterRegister ? '1' : '0'])->toString()
             . wp_nonce_field('blocky_frontend_register_' . $formId, '_blocky_register_nonce', false, false)
-            . self::field('Username', 'user_login', 'text', 'username')
-            . self::field('Email', 'user_email', 'email', 'email')
-            . self::field('Password', 'user_password', 'password', 'new-password')
+            . self::field(__('Username', 'blocky'), 'user_login', 'text', 'username')
+            . self::field(__('Email', 'blocky'), 'user_email', 'email', 'email')
+            . self::field(__('Password', 'blocky'), 'user_password', 'password', 'new-password')
             . '<button type="submit" class="inline-flex items-center justify-center rounded-button bg-accent-base px-4 py-3 text-sm font-medium text-text-on-accent transition-colors hover:bg-accent-hover">' . esc_html($submitLabel) . '</button>'
             . '</form>';
 
@@ -60,7 +60,7 @@ final class RegisterFormRenderer implements BlockRendererInterface
 
     private static function field(string $label, string $name, string $type, string $autocomplete): string
     {
-        return '<label class="flex flex-col gap-2 text-sm font-medium text-text-base"><span>' . esc_html__($label, 'blocky') . '</span><input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" autocomplete="' . esc_attr($autocomplete) . '" class="min-h-11 rounded-button border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base outline-none transition-colors focus:border-accent-base" required /></label>'; // phpcs:ignore WordPress.WP.I18n -- callers pass literal label strings.
+        return '<label class="flex flex-col gap-2 text-sm font-medium text-text-base"><span>' . esc_html($label) . '</span><input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" autocomplete="' . esc_attr($autocomplete) . '" class="min-h-11 rounded-button border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base outline-none transition-colors focus:border-accent-base" required /></label>'; // phpcs:ignore WordPress.WP.I18n -- callers pass literal label strings.
     }
 
     private static function resolveFormId(Node $node, int $postId): string

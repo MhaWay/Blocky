@@ -26,18 +26,12 @@ if (!defined('ABSPATH')) {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-define('BLOCKY_CORE_VERSION',   '0.1.0');
+define('BLOCKY_CORE_VERSION',   '0.1.1');
 define('BLOCKY_CORE_FILE',      __FILE__);
 define('BLOCKY_CORE_DIR',       \plugin_dir_path(__FILE__));
-// Runtime-computed so the URL follows the current site_url option
-// (domain migrations, multi-host dev) instead of the bootstrap constant.
-$blockyCoreUrl  = \plugin_dir_url(__FILE__);
-$blockyCorePath = \wp_normalize_path(\plugin_dir_path(__FILE__));
-$blockyContentDir = \wp_normalize_path(WP_CONTENT_DIR);
-if (0 === \strpos($blockyCorePath, $blockyContentDir)) {
-    $blockyCoreUrl = \trailingslashit(\set_url_scheme(\site_url('wp-content' . \substr($blockyCorePath, \strlen($blockyContentDir)))));
-}
-define('BLOCKY_CORE_URL',       $blockyCoreUrl);
+// URL derived from the plugin path: plugin_dir_url() honors WP_CONTENT_DIR
+// and custom content locations automatically (no hardcoded wp-content).
+define('BLOCKY_CORE_URL',       \trailingslashit(\plugin_dir_url(__FILE__)));
 define('BLOCKY_CORE_SLUG',      'blocky-core');
 
 // ── Autoloader ────────────────────────────────────────────────────────────────
@@ -76,10 +70,14 @@ if (file_exists(BLOCKY_CORE_DIR . 'vendor/autoload.php')) {
 
 // ── Activation / Deactivation hooks ──────────────────────────────────────────
 
-\register_activation_hook(__FILE__, static function (): void {
+// Hooks are registered against the MAIN plugin file when bundled
+// (engine/engine.php alone is not the activated plugin, so __FILE__ would
+// silently skip Plugin::onActivate and the API-key/audit tables).
+$blockyMain = defined('GGALLY_MAIN_PLUGIN_FILE') ? (string) \GGALLY_MAIN_PLUGIN_FILE : __FILE__;
+\register_activation_hook($blockyMain, static function (): void {
     \Blocky\Core\Plugin::onActivate();
 });
 
-\register_deactivation_hook(__FILE__, static function (): void {
+\register_deactivation_hook($blockyMain, static function (): void {
     \Blocky\Core\Plugin::onDeactivate();
 });

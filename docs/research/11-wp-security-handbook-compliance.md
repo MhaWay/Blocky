@@ -50,3 +50,22 @@ NON vengono caricate: verificato con probe (locale it_IT forzato via mu-plugin):
 con call stringhe italiane. Nel bundle la chiamata viene riscritta dallo script di build per puntare a
 languages/ top-level (domain = slug, .mo engine+builder deduplicate). Il warning PC e' un falso positivo
 documentato: la funzione e' scoraggiata solo quando le traduzioni non le distribuisci tu.
+
+## Round-2 review wp.org (2026-09): quattro lezioni
+
+1. **Activation hook nel bundle**: `register_activation_hook(__FILE__)` in blocky-core.php, copiato a
+   `engine/engine.php` nel bundle, si aggancia a un file che NON e' il plugin attivato -> le tabelle
+   api_keys/api_audit non nascevano su install pulita (bug reale, trovato dal review tool). Ora: costante
+   `GGALLY_MAIN_PLUGIN_FILE` definita nel loader, hook registrata su quella. Test definitivo: drop tabelle
+   via $wpdb -> `wp plugin activate` -> le tabelle ricompaiono. Attenzione: `wp db query` nel container
+   pulito non ha il client mysql, e lo stato tra tentativi falliti puo' ingannare — sempre ripartire da zero.
+2. **gettext con variabili**: i wrapper tipo `tr($text)` NON sono trasparenti al POT extractor — il
+   parser legge il codice, non lo esegue. Fix: 190 label di registro convertite a `__('Literal','blocky')`
+   inline; catalog.php mai-eseguito con 337 letterali copre le stringhe annidate localizzate a runtime.
+   Le stringhe user-supplied (label form) NON vanno nei gettext: solo `esc_html($val)`.
+3. **URL delle sottocartelle**: il trucco `site_url('wp-content' . substr(path))` per seguire site_url a
+   runtime era peggio del problema (spezza WP_CONTENT_DIR custom, gia' gestito da plugin_dir_url()). Due
+   righe tolte, via PHPStan-free: e' il bootstrap.
+4. **Naming global**: una variabile locale al bootstrap ma a global scope (`$bkyMain`) genera warning
+   PC NonPrefixedVariableFound. Regola: anche le variabili dei file bootstrap usano il prefix.
+
