@@ -370,9 +370,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/heading',
-            label: self::tr('Heading'),
+            label: __('Heading', 'blocky'),
             category: 'basic',
-            description: self::tr('Title text with level, tone, and alignment controls.'),
+            description: __('Title text with level, tone, and alignment controls.', 'blocky'),
             keywords: ['title', 'headline', 'h1', 'h2'],
             icon: 'H',
             schema: [
@@ -419,9 +419,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/section',
-            label: self::tr('Section'),
+            label: __('Section', 'blocky'),
             category: 'layout',
-            description: self::tr('Full-width page section with spacing and background controls.'),
+            description: __('Full-width page section with spacing and background controls.', 'blocky'),
             keywords: ['layout', 'wrapper', 'band', 'area'],
             icon: 'S',
             schema: [
@@ -566,9 +566,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/text',
-            label: self::tr('Text'),
+            label: __('Text', 'blocky'),
             category: 'basic',
-            description: self::tr('Rich paragraph content with size and color controls.'),
+            description: __('Rich paragraph content with size and color controls.', 'blocky'),
             keywords: ['paragraph', 'copy', 'body'],
             icon: 'T',
             schema: [
@@ -606,9 +606,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/button',
-            label: self::tr('Button'),
+            label: __('Button', 'blocky'),
             category: 'basic',
-            description: self::tr('Clickable call to action with slotted content, surface styling, and link target.'),
+            description: __('Clickable call to action with slotted content, surface styling, and link target.', 'blocky'),
             keywords: ['cta', 'link', 'action'],
             icon: 'B',
             schema: [
@@ -721,9 +721,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/image',
-            label: self::tr('Image'),
+            label: __('Image', 'blocky'),
             category: 'media',
-            description: self::tr('Image block with alt text, rounded corners, and aspect ratio.'),
+            description: __('Image block with alt text, rounded corners, and aspect ratio.', 'blocky'),
             keywords: ['media', 'photo', 'picture'],
             icon: 'I',
             schema: [
@@ -794,9 +794,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/grid',
-            label: self::tr('Grid'),
+            label: __('Grid', 'blocky'),
             category: 'layout',
-            description: self::tr('Responsive grid container for laying out child blocks.'),
+            description: __('Responsive grid container for laying out child blocks.', 'blocky'),
             keywords: ['layout', 'columns', 'cards'],
             icon: 'G',
             schema: [
@@ -935,9 +935,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/rows',
-            label: self::tr('Rows'),
+            label: __('Rows', 'blocky'),
             category: 'layout',
-            description: self::tr('Vertical rows layout with independently editable row slots.'),
+            description: __('Vertical rows layout with independently editable row slots.', 'blocky'),
             keywords: ['layout', 'stack', 'row', 'vertical'],
             icon: 'R',
             schema: [
@@ -1035,9 +1035,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/container',
-            label: self::tr('Container'),
+            label: __('Container', 'blocky'),
             category: 'layout',
-            description: self::tr('Constrained content wrapper with alignment controls.'),
+            description: __('Constrained content wrapper with alignment controls.', 'blocky'),
             keywords: ['layout', 'wrapper', 'width'],
             icon: 'C',
             schema: [
@@ -1105,9 +1105,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/columns',
-            label: self::tr('Columns'),
+            label: __('Columns', 'blocky'),
             category: 'layout',
-            description: self::tr('Multi-column layout with independent editable slots.'),
+            description: __('Multi-column layout with independent editable slots.', 'blocky'),
             keywords: ['layout', 'split', 'column'],
             icon: 'Cols',
             schema: [
@@ -1264,9 +1264,9 @@ final class Registry
                     ]],
                 ],
             ]),
-            label: self::tr('Card'),
+            label: __('Card', 'blocky'),
             category: 'layout',
-            description: self::tr('A structured card surface with media, header, body, and footer regions.'),
+            description: __('A structured card surface with media, header, body, and footer regions.', 'blocky'),
             keywords: ['box', 'panel', 'container', 'surface', 'media', 'header', 'footer'],
             icon: 'C',
         );
@@ -1309,9 +1309,9 @@ final class Registry
                     ]],
                 ],
             ]),
-            label: self::tr('Divider'),
+            label: __('Divider', 'blocky'),
             category: 'content',
-            description: self::tr('A horizontal separator with decorative divider styles.'),
+            description: __('A horizontal separator with decorative divider styles.', 'blocky'),
             keywords: ['line', 'separator', 'rule'],
             icon: '-',
         );
@@ -1349,9 +1349,9 @@ final class Registry
                     ]],
                 ],
             ]),
-            label: self::tr('Spacer'),
+            label: __('Spacer', 'blocky'),
             category: 'content',
-            description: self::tr('Responsive vertical space between blocks.'),
+            description: __('Responsive vertical space between blocks.', 'blocky'),
             keywords: ['gap', 'margin', 'spacing'],
             icon: '+',
         );
@@ -1370,9 +1370,9 @@ final class Registry
             ],
             variants: [],
             renderer: new ListRenderer(),
-            label: self::tr('List'),
+            label: __('List', 'blocky'),
             category: 'content',
-            description: self::tr('Bulleted or numbered list.'),
+            description: __('Bulleted or numbered list.', 'blocky'),
             keywords: ['ul', 'ol', 'bullets', 'numbered'],
             icon: 'L',
         );
@@ -1382,9 +1382,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/icon',
-            label: self::tr('Icon'),
+            label: __('Icon', 'blocky'),
             category: 'basic',
-            description: self::tr('Single icon with sizing, tone, surface, and optional link controls.'),
+            description: __('Single icon with sizing, tone, surface, and optional link controls.', 'blocky'),
             keywords: ['symbol', 'emoji', 'icon'],
             icon: '☆',
             schema: [
@@ -1439,9 +1439,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/icon-box',
-            label: self::tr('Icon Box'),
+            label: __('Icon Box', 'blocky'),
             category: 'basic',
-            description: self::tr('Feature box with icon, title, copy, and optional link.'),
+            description: __('Feature box with icon, title, copy, and optional link.', 'blocky'),
             keywords: ['feature', 'icon', 'card'],
             icon: '✦',
             schema: [
@@ -1509,9 +1509,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/icon-list',
-            label: self::tr('Icon List'),
+            label: __('Icon List', 'blocky'),
             category: 'basic',
-            description: self::tr('Vertical list of items with a repeated icon marker.'),
+            description: __('Vertical list of items with a repeated icon marker.', 'blocky'),
             keywords: ['list', 'benefits', 'checklist'],
             icon: '✓',
             schema: [
@@ -1549,9 +1549,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/image-box',
-            label: self::tr('Image Box'),
+            label: __('Image Box', 'blocky'),
             category: 'basic',
-            description: self::tr('Media card with image, title, copy, and optional link.'),
+            description: __('Media card with image, title, copy, and optional link.', 'blocky'),
             keywords: ['image', 'card', 'feature'],
             icon: '▣',
             schema: [
@@ -1622,9 +1622,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/alert',
-            label: self::tr('Alert'),
+            label: __('Alert', 'blocky'),
             category: 'basic',
-            description: self::tr('Inline alert box for status, warning, or error messaging.'),
+            description: __('Inline alert box for status, warning, or error messaging.', 'blocky'),
             keywords: ['notice', 'warning', 'message'],
             icon: '!',
             schema: [
@@ -1662,9 +1662,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/progress-bar',
-            label: self::tr('Progress Bar'),
+            label: __('Progress Bar', 'blocky'),
             category: 'basic',
-            description: self::tr('Progress indicator with label, percentage, tone, and size controls.'),
+            description: __('Progress indicator with label, percentage, tone, and size controls.', 'blocky'),
             keywords: ['progress', 'meter', 'loading'],
             icon: '▤',
             schema: [
@@ -1707,9 +1707,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/counter',
-            label: self::tr('Counter'),
+            label: __('Counter', 'blocky'),
             category: 'basic',
-            description: self::tr('Large numeric highlight with optional prefix, suffix, and caption.'),
+            description: __('Large numeric highlight with optional prefix, suffix, and caption.', 'blocky'),
             keywords: ['metric', 'stat', 'number'],
             icon: '#',
             schema: [
@@ -1754,9 +1754,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/star-rating',
-            label: self::tr('Star Rating'),
+            label: __('Star Rating', 'blocky'),
             category: 'basic',
-            description: self::tr('Visual star rating with numeric score and optional label.'),
+            description: __('Visual star rating with numeric score and optional label.', 'blocky'),
             keywords: ['rating', 'review', 'stars'],
             icon: '★',
             schema: [
@@ -1799,9 +1799,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/anchor',
-            label: self::tr('Anchor'),
+            label: __('Anchor', 'blocky'),
             category: 'basic',
-            description: self::tr('Invisible scroll target with an editable anchor id.'),
+            description: __('Invisible scroll target with an editable anchor id.', 'blocky'),
             keywords: ['anchor', 'jump link', 'scroll'],
             icon: '#',
             schema: [
@@ -1828,9 +1828,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/social-icons',
-            label: self::tr('Social Icons'),
+            label: __('Social Icons', 'blocky'),
             category: 'basic',
-            description: self::tr('Social profile links rendered as icon buttons or chips.'),
+            description: __('Social profile links rendered as icon buttons or chips.', 'blocky'),
             keywords: ['social', 'profiles', 'icons'],
             icon: '@',
             schema: [
@@ -1878,9 +1878,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/share-buttons',
-            label: self::tr('Share Buttons'),
+            label: __('Share Buttons', 'blocky'),
             category: 'basic',
-            description: self::tr('Prebuilt share actions for the current page URL.'),
+            description: __('Prebuilt share actions for the current page URL.', 'blocky'),
             keywords: ['share', 'social', 'buttons'],
             icon: '⇪',
             schema: [
@@ -1927,9 +1927,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/search-form',
-            label: self::tr('Search Form'),
+            label: __('Search Form', 'blocky'),
             category: 'basic',
-            description: self::tr('Site search form with inline or stacked layout.'),
+            description: __('Site search form with inline or stacked layout.', 'blocky'),
             keywords: ['search', 'form', 'query'],
             icon: '?',
             schema: [
@@ -1973,9 +1973,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/nav-menu',
-            label: self::tr('Nav Menu'),
+            label: __('Nav Menu', 'blocky'),
             category: 'basic',
-            description: self::tr('Navigation menu sourced from a WP location or a manual fallback list.'),
+            description: __('Navigation menu sourced from a WP location or a manual fallback list.', 'blocky'),
             keywords: ['menu', 'navigation', 'header'],
             icon: '≡',
             schema: [
@@ -2014,9 +2014,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/breadcrumbs',
-            label: self::tr('Breadcrumbs'),
+            label: __('Breadcrumbs', 'blocky'),
             category: 'basic',
-            description: self::tr('Simple breadcrumb trail for the current page context.'),
+            description: __('Simple breadcrumb trail for the current page context.', 'blocky'),
             keywords: ['breadcrumb', 'trail', 'navigation'],
             icon: '/',
             schema: [
@@ -2043,9 +2043,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/posts-list',
-            label: self::tr('Posts List'),
+            label: __('Posts List', 'blocky'),
             category: 'basic',
-            description: self::tr('Vertical list of recent posts from a selected post type.'),
+            description: __('Vertical list of recent posts from a selected post type.', 'blocky'),
             keywords: ['posts', 'query', 'list'],
             icon: '≣',
             schema: [
@@ -2076,9 +2076,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/posts-grid',
-            label: self::tr('Posts Grid'),
+            label: __('Posts Grid', 'blocky'),
             category: 'basic',
-            description: self::tr('Grid of recent posts with configurable columns and excerpt display.'),
+            description: __('Grid of recent posts with configurable columns and excerpt display.', 'blocky'),
             keywords: ['posts', 'grid', 'query'],
             icon: '▦',
             schema: [
@@ -2115,9 +2115,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/product-grid',
-            label: self::tr('Product Grid'),
+            label: __('Product Grid', 'blocky'),
             category: 'basic',
-            description: self::tr('Grid of WooCommerce products with static add-to-cart links.'),
+            description: __('Grid of WooCommerce products with static add-to-cart links.', 'blocky'),
             keywords: ['shop', 'woo', 'products'],
             icon: '\u{1F6D2}',
             schema: [
@@ -2157,9 +2157,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/product-featured',
-            label: self::tr('Featured Product'),
+            label: __('Featured Product', 'blocky'),
             category: 'basic',
-            description: self::tr('Spotlight one WooCommerce product with image, price and add-to-cart.'),
+            description: __('Spotlight one WooCommerce product with image, price and add-to-cart.', 'blocky'),
             keywords: ['shop', 'woo', 'product'],
             icon: '\u{2B50}',
             schema: [
@@ -2185,9 +2185,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/product-categories',
-            label: self::tr('Product Categories'),
+            label: __('Product Categories', 'blocky'),
             category: 'basic',
-            description: self::tr('Links to WooCommerce product categories with counts.'),
+            description: __('Links to WooCommerce product categories with counts.', 'blocky'),
             keywords: ['shop', 'woo', 'categories'],
             icon: '\u{1F3F7}',
             schema: [
@@ -2211,9 +2211,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/featured-posts',
-            label: self::tr('Featured Posts'),
+            label: __('Featured Posts', 'blocky'),
             category: 'query',
-            description: self::tr('Featured or sticky posts presented in a list or grid layout.'),
+            description: __('Featured or sticky posts presented in a list or grid layout.', 'blocky'),
             keywords: ['featured', 'sticky', 'posts', 'query'],
             icon: '★',
             schema: [
@@ -2248,9 +2248,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/taxonomy-list',
-            label: self::tr('Taxonomy List'),
+            label: __('Taxonomy List', 'blocky'),
             category: 'query',
-            description: self::tr('List public taxonomy terms like categories or tags.'),
+            description: __('List public taxonomy terms like categories or tags.', 'blocky'),
             keywords: ['taxonomy', 'terms', 'categories', 'tags'],
             icon: '#',
             schema: [
@@ -2283,9 +2283,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/archive-posts',
-            label: self::tr('Archive Posts'),
+            label: __('Archive Posts', 'blocky'),
             category: 'basic',
-            description: self::tr('Loop block that renders the current archive query with an editor fallback.'),
+            description: __('Loop block that renders the current archive query with an editor fallback.', 'blocky'),
             keywords: ['archive', 'posts', 'loop'],
             icon: 'A',
             schema: [
@@ -2314,9 +2314,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/pagination',
-            label: self::tr('Pagination'),
+            label: __('Pagination', 'blocky'),
             category: 'basic',
-            description: self::tr('Pagination links for archive and query-driven templates.'),
+            description: __('Pagination links for archive and query-driven templates.', 'blocky'),
             keywords: ['pagination', 'pages', 'navigation'],
             icon: '→',
             schema: [
@@ -2349,9 +2349,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/image-gallery',
-            label: self::tr('Image Gallery'),
+            label: __('Image Gallery', 'blocky'),
             category: 'basic',
-            description: self::tr('Grid gallery driven by image IDs or URLs.'),
+            description: __('Grid gallery driven by image IDs or URLs.', 'blocky'),
             keywords: ['gallery', 'images', 'grid'],
             icon: '▥',
             schema: [
@@ -2390,9 +2390,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/basic-gallery',
-            label: self::tr('Basic Gallery'),
+            label: __('Basic Gallery', 'blocky'),
             category: 'basic',
-            description: self::tr('Simple classic gallery layout driven by image IDs or URLs.'),
+            description: __('Simple classic gallery layout driven by image IDs or URLs.', 'blocky'),
             keywords: ['gallery', 'images'],
             icon: '▤',
             schema: [
@@ -2426,9 +2426,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/image-carousel',
-            label: self::tr('Image Carousel'),
+            label: __('Image Carousel', 'blocky'),
             category: 'basic',
-            description: self::tr('Horizontal image carousel driven by image IDs or URLs.'),
+            description: __('Horizontal image carousel driven by image IDs or URLs.', 'blocky'),
             keywords: ['carousel', 'slider', 'images'],
             icon: '⇆',
             schema: [
@@ -2539,9 +2539,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/call-to-action',
-            label: self::tr('Call To Action'),
+            label: __('Call To Action', 'blocky'),
             category: 'basic',
-            description: self::tr('Marketing panel with copy, media, and primary actions.'),
+            description: __('Marketing panel with copy, media, and primary actions.', 'blocky'),
             keywords: ['cta', 'hero', 'promotion'],
             icon: '⇢',
             schema: [
@@ -2600,9 +2600,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/testimonial',
-            label: self::tr('Testimonial'),
+            label: __('Testimonial', 'blocky'),
             category: 'basic',
-            description: self::tr('Customer quote with optional avatar and role.'),
+            description: __('Customer quote with optional avatar and role.', 'blocky'),
             keywords: ['quote', 'review', 'customer'],
             icon: '❞',
             schema: [
@@ -2644,9 +2644,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/price-table',
-            label: self::tr('Price Table'),
+            label: __('Price Table', 'blocky'),
             category: 'basic',
-            description: self::tr('Single pricing card with features and CTA.'),
+            description: __('Single pricing card with features and CTA.', 'blocky'),
             keywords: ['pricing', 'plans', 'subscription'],
             icon: '$',
             schema: [
@@ -2698,9 +2698,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/price-list',
-            label: self::tr('Price List'),
+            label: __('Price List', 'blocky'),
             category: 'basic',
-            description: self::tr('Service or menu list with optional descriptions and prices.'),
+            description: __('Service or menu list with optional descriptions and prices.', 'blocky'),
             keywords: ['menu', 'pricing', 'list'],
             icon: '≣',
             schema: [
@@ -2733,9 +2733,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/flip-box',
-            label: self::tr('Flip Box'),
+            label: __('Flip Box', 'blocky'),
             category: 'basic',
-            description: self::tr('Front and back content card with hover flip effect.'),
+            description: __('Front and back content card with hover flip effect.', 'blocky'),
             keywords: ['flip', 'card', 'interactive'],
             icon: '⟲',
             schema: [
@@ -2784,9 +2784,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/hotspot',
-            label: self::tr('Hotspot'),
+            label: __('Hotspot', 'blocky'),
             category: 'basic',
-            description: self::tr('Image hotspots with point labels and supporting copy.'),
+            description: __('Image hotspots with point labels and supporting copy.', 'blocky'),
             keywords: ['hotspot', 'image', 'annotation'],
             icon: '⊕',
             schema: [
@@ -2819,9 +2819,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/before-after-slider',
-            label: self::tr('Before After Slider'),
+            label: __('Before After Slider', 'blocky'),
             category: 'basic',
-            description: self::tr('Interactive image comparison slider.'),
+            description: __('Interactive image comparison slider.', 'blocky'),
             keywords: ['before', 'after', 'comparison'],
             icon: '⇄',
             schema: [
@@ -2856,9 +2856,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/countdown',
-            label: self::tr('Countdown'),
+            label: __('Countdown', 'blocky'),
             category: 'basic',
-            description: self::tr('Countdown timer to a target date and time.'),
+            description: __('Countdown timer to a target date and time.', 'blocky'),
             keywords: ['timer', 'launch', 'deadline'],
             icon: '⏱',
             schema: [
@@ -2896,9 +2896,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/animated-headline',
-            label: self::tr('Animated Headline'),
+            label: __('Animated Headline', 'blocky'),
             category: 'basic',
-            description: self::tr('Headline with rotating highlighted words.'),
+            description: __('Headline with rotating highlighted words.', 'blocky'),
             keywords: ['headline', 'text', 'animated'],
             icon: '✦',
             schema: [
@@ -2942,9 +2942,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/marquee',
-            label: self::tr('Marquee'),
+            label: __('Marquee', 'blocky'),
             category: 'basic',
-            description: self::tr('Scrolling text or labels with continuous motion.'),
+            description: __('Scrolling text or labels with continuous motion.', 'blocky'),
             keywords: ['ticker', 'marquee', 'scroll'],
             icon: '⇢',
             schema: [
@@ -2984,9 +2984,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/lottie',
-            label: self::tr('Lottie'),
+            label: __('Lottie', 'blocky'),
             category: 'basic',
-            description: self::tr('Lottie JSON animation with playback controls.'),
+            description: __('Lottie JSON animation with playback controls.', 'blocky'),
             keywords: ['lottie', 'animation', 'json'],
             icon: '◌',
             schema: [
@@ -3025,9 +3025,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/embed-google-maps',
-            label: self::tr('Embed Google Maps'),
+            label: __('Embed Google Maps', 'blocky'),
             category: 'basic',
-            description: self::tr('Map embed using Google Maps query mode or OpenStreetMap coordinates.'),
+            description: __('Map embed using Google Maps query mode or OpenStreetMap coordinates.', 'blocky'),
             keywords: ['map', 'google', 'osm', 'embed'],
             icon: 'Map',
             schema: [
@@ -3073,9 +3073,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/embed-iframe',
-            label: self::tr('Embed Iframe'),
+            label: __('Embed Iframe', 'blocky'),
             category: 'basic',
-            description: self::tr('Generic iframe embed with sandbox and permission controls.'),
+            description: __('Generic iframe embed with sandbox and permission controls.', 'blocky'),
             keywords: ['iframe', 'embed', 'external'],
             icon: 'Frm',
             schema: [
@@ -3119,9 +3119,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/code-highlight',
-            label: self::tr('Code Highlight'),
+            label: __('Code Highlight', 'blocky'),
             category: 'basic',
-            description: self::tr('Formatted code block with syntax highlighting and optional line numbers.'),
+            description: __('Formatted code block with syntax highlighting and optional line numbers.', 'blocky'),
             keywords: ['code', 'snippet', 'highlight'],
             icon: '</>',
             schema: [
@@ -3158,9 +3158,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/mega-menu',
-            label: self::tr('Mega Menu'),
+            label: __('Mega Menu', 'blocky'),
             category: 'basic',
-            description: self::tr('Top-level navigation with rich dropdown panels and column-based submenus.'),
+            description: __('Top-level navigation with rich dropdown panels and column-based submenus.', 'blocky'),
             keywords: ['mega', 'menu', 'navigation', 'dropdown'],
             icon: '▤',
             schema: [
@@ -3273,9 +3273,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/login-form',
-            label: self::tr('Login Form'),
+            label: __('Login Form', 'blocky'),
             category: 'basic',
-            description: self::tr('Frontend login form with on-page validation feedback.'),
+            description: __('Frontend login form with on-page validation feedback.', 'blocky'),
             keywords: ['login', 'auth', 'form'],
             icon: 'In',
             schema: [
@@ -3330,9 +3330,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/register-form',
-            label: self::tr('Register Form'),
+            label: __('Register Form', 'blocky'),
             category: 'basic',
-            description: self::tr('Frontend registration form with WordPress account creation.'),
+            description: __('Frontend registration form with WordPress account creation.', 'blocky'),
             keywords: ['register', 'signup', 'auth', 'form'],
             icon: 'Up',
             schema: [
@@ -3385,9 +3385,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/contact-form',
-            label: self::tr('Contact Form'),
+            label: __('Contact Form', 'blocky'),
             category: 'basic',
-            description: self::tr('Ready-made contact form preset saved into GG form submissions.'),
+            description: __('Ready-made contact form preset saved into GG form submissions.', 'blocky'),
             keywords: ['contact', 'form', 'message'],
             icon: 'Mail',
             schema: [
@@ -3444,9 +3444,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/author-box',
-            label: self::tr('Author Box'),
+            label: __('Author Box', 'blocky'),
             category: 'basic',
-            description: self::tr('Current post author profile with avatar, bio, and archive link.'),
+            description: __('Current post author profile with avatar, bio, and archive link.', 'blocky'),
             keywords: ['author', 'profile', 'bio'],
             icon: 'Au',
             schema: [
@@ -3500,9 +3500,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/comments',
-            label: self::tr('Comments'),
+            label: __('Comments', 'blocky'),
             category: 'basic',
-            description: self::tr('Approved comments for the current post with simple list styling.'),
+            description: __('Approved comments for the current post with simple list styling.', 'blocky'),
             keywords: ['comments', 'discussion'],
             icon: 'Cm',
             schema: [
@@ -3535,9 +3535,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/comment-form',
-            label: self::tr('Comment Form'),
+            label: __('Comment Form', 'blocky'),
             category: 'basic',
-            description: self::tr('WordPress comment form for the current post.'),
+            description: __('WordPress comment form for the current post.', 'blocky'),
             keywords: ['comment', 'reply', 'form'],
             icon: 'Cf',
             schema: [
@@ -3566,9 +3566,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/post-navigation',
-            label: self::tr('Post Navigation'),
+            label: __('Post Navigation', 'blocky'),
             category: 'basic',
-            description: self::tr('Previous and next post links for singular post templates.'),
+            description: __('Previous and next post links for singular post templates.', 'blocky'),
             keywords: ['post', 'navigation', 'previous', 'next'],
             icon: '↔',
             schema: [
@@ -3603,9 +3603,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/sitemap',
-            label: self::tr('Sitemap'),
+            label: __('Sitemap', 'blocky'),
             category: 'basic',
-            description: self::tr('Hierarchical sitemap for pages with optional recent posts.'),
+            description: __('Hierarchical sitemap for pages with optional recent posts.', 'blocky'),
             keywords: ['sitemap', 'pages', 'navigation'],
             icon: 'Map',
             schema: [
@@ -3640,9 +3640,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/table-of-contents',
-            label: self::tr('Table of Contents'),
+            label: __('Table of Contents', 'blocky'),
             category: 'basic',
-            description: self::tr('Auto-generated heading index from the current GG document.'),
+            description: __('Auto-generated heading index from the current GG document.', 'blocky'),
             keywords: ['toc', 'contents', 'headings', 'anchor'],
             icon: 'ToC',
             schema: [
@@ -3673,9 +3673,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/scroll-progress',
-            label: self::tr('Scroll Progress'),
+            label: __('Scroll Progress', 'blocky'),
             category: 'basic',
-            description: self::tr('Fixed reading progress indicator that tracks the current page scroll position.'),
+            description: __('Fixed reading progress indicator that tracks the current page scroll position.', 'blocky'),
             keywords: ['scroll', 'progress', 'reading', 'indicator'],
             icon: 'Scp',
             schema: [
@@ -3706,9 +3706,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/sticky-bar',
-            label: self::tr('Sticky Bar'),
+            label: __('Sticky Bar', 'blocky'),
             category: 'basic',
-            description: self::tr('Fixed callout bar that can appear after visitors start scrolling.'),
+            description: __('Fixed callout bar that can appear after visitors start scrolling.', 'blocky'),
             keywords: ['sticky', 'bar', 'announcement', 'cta'],
             icon: 'Sty',
             schema: [
@@ -3747,9 +3747,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/back-to-top',
-            label: self::tr('Back to Top'),
+            label: __('Back to Top', 'blocky'),
             category: 'basic',
-            description: self::tr('Floating button that appears after scrolling and smoothly returns to the top of the page.'),
+            description: __('Floating button that appears after scrolling and smoothly returns to the top of the page.', 'blocky'),
             keywords: ['back to top', 'scroll', 'floating button'],
             icon: 'Top',
             schema: [
@@ -3808,9 +3808,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/cookie-banner',
-            label: self::tr('Cookie Banner'),
+            label: __('Cookie Banner', 'blocky'),
             category: 'basic',
-            description: self::tr('Consent banner preset that stores accept or reject decisions in a cookie.'),
+            description: __('Consent banner preset that stores accept or reject decisions in a cookie.', 'blocky'),
             keywords: ['cookie', 'consent', 'banner', 'overlay'],
             icon: 'Ckb',
             schema: [
@@ -3860,9 +3860,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/lightbox',
-            label: self::tr('Lightbox'),
+            label: __('Lightbox', 'blocky'),
             category: 'basic',
-            description: self::tr('Self-contained media lightbox with trigger and overlay preview.'),
+            description: __('Self-contained media lightbox with trigger and overlay preview.', 'blocky'),
             keywords: ['lightbox', 'media', 'image', 'video'],
             icon: 'Lbx',
             schema: [
@@ -3915,9 +3915,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/tabs',
-            label: self::tr('Tabs'),
+            label: __('Tabs', 'blocky'),
             category: 'basic',
-            description: self::tr('Tabbed content driven by title and content pairs.'),
+            description: __('Tabbed content driven by title and content pairs.', 'blocky'),
             keywords: ['tabs', 'panels', 'switcher'],
             icon: '⊞',
             schema: [
@@ -3944,9 +3944,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/accordion',
-            label: self::tr('Accordion'),
+            label: __('Accordion', 'blocky'),
             category: 'basic',
-            description: self::tr('FAQ-style accordion driven by title and content pairs.'),
+            description: __('FAQ-style accordion driven by title and content pairs.', 'blocky'),
             keywords: ['accordion', 'faq'],
             icon: '≣',
             schema: [
@@ -3973,9 +3973,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/toggle',
-            label: self::tr('Toggle'),
+            label: __('Toggle', 'blocky'),
             category: 'basic',
-            description: self::tr('Single collapsible panel with a title and content.'),
+            description: __('Single collapsible panel with a title and content.', 'blocky'),
             keywords: ['toggle', 'collapse'],
             icon: '▾',
             schema: [
@@ -4004,9 +4004,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form',
-            label: self::tr('Form'),
+            label: __('Form', 'blocky'),
             category: 'basic',
-            description: self::tr('Form container that groups GG form fields and submit controls.'),
+            description: __('Form container that groups GG form fields and submit controls.', 'blocky'),
             keywords: ['form', 'fields', 'submit'],
             icon: 'Frm',
             schema: [
@@ -4071,9 +4071,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-text',
-            label: self::tr('Form Text Field'),
+            label: __('Form Text Field', 'blocky'),
             category: 'basic',
-            description: self::tr('Single-line text, email, phone, URL, or number field.'),
+            description: __('Single-line text, email, phone, URL, or number field.', 'blocky'),
             keywords: ['form', 'input', 'text'],
             icon: 'Txt',
             schema: [
@@ -4114,9 +4114,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-textarea',
-            label: self::tr('Form Textarea'),
+            label: __('Form Textarea', 'blocky'),
             category: 'basic',
-            description: self::tr('Multi-line text area for longer messages.'),
+            description: __('Multi-line text area for longer messages.', 'blocky'),
             keywords: ['form', 'textarea', 'message'],
             icon: 'Txa',
             schema: [
@@ -4155,9 +4155,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-select',
-            label: self::tr('Form Select'),
+            label: __('Form Select', 'blocky'),
             category: 'basic',
-            description: self::tr('Dropdown select driven by line-based options.'),
+            description: __('Dropdown select driven by line-based options.', 'blocky'),
             keywords: ['form', 'select', 'dropdown'],
             icon: 'Sel',
             schema: [
@@ -4196,9 +4196,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-radio',
-            label: self::tr('Form Radio Group'),
+            label: __('Form Radio Group', 'blocky'),
             category: 'basic',
-            description: self::tr('Radio group driven by line-based options.'),
+            description: __('Radio group driven by line-based options.', 'blocky'),
             keywords: ['form', 'radio', 'choices'],
             icon: 'Rad',
             schema: [
@@ -4239,9 +4239,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-checkbox',
-            label: self::tr('Form Checkbox Group'),
+            label: __('Form Checkbox Group', 'blocky'),
             category: 'basic',
-            description: self::tr('Checkbox field or checkbox group driven by line-based options.'),
+            description: __('Checkbox field or checkbox group driven by line-based options.', 'blocky'),
             keywords: ['form', 'checkbox', 'choices'],
             icon: 'Chk',
             schema: [
@@ -4282,9 +4282,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-date',
-            label: self::tr('Form Date Field'),
+            label: __('Form Date Field', 'blocky'),
             category: 'basic',
-            description: self::tr('Date, time, or datetime field.'),
+            description: __('Date, time, or datetime field.', 'blocky'),
             keywords: ['form', 'date', 'time'],
             icon: 'Dat',
             schema: [
@@ -4325,9 +4325,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-file',
-            label: self::tr('Form File Field'),
+            label: __('Form File Field', 'blocky'),
             category: 'basic',
-            description: self::tr('File upload field with optional multiple selection.'),
+            description: __('File upload field with optional multiple selection.', 'blocky'),
             keywords: ['form', 'file', 'upload'],
             icon: 'Fil',
             schema: [
@@ -4364,9 +4364,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-hidden',
-            label: self::tr('Form Hidden Field'),
+            label: __('Form Hidden Field', 'blocky'),
             category: 'basic',
-            description: self::tr('Hidden value carried with the form submission.'),
+            description: __('Hidden value carried with the form submission.', 'blocky'),
             keywords: ['form', 'hidden'],
             icon: 'Hid',
             schema: [
@@ -4393,9 +4393,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-field-honeypot',
-            label: self::tr('Form Honeypot'),
+            label: __('Form Honeypot', 'blocky'),
             category: 'basic',
-            description: self::tr('Simple antibot honeypot field kept off-screen in public rendering.'),
+            description: __('Simple antibot honeypot field kept off-screen in public rendering.', 'blocky'),
             keywords: ['form', 'honeypot', 'spam'],
             icon: 'Hon',
             schema: [
@@ -4422,9 +4422,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/form-submit',
-            label: self::tr('Form Submit'),
+            label: __('Form Submit', 'blocky'),
             category: 'basic',
-            description: self::tr('Submit button for GG forms.'),
+            description: __('Submit button for GG forms.', 'blocky'),
             keywords: ['form', 'submit', 'button'],
             icon: 'Sub',
             schema: [
@@ -4531,9 +4531,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/dialog-confirm',
-            label: self::tr('Dialog Confirm'),
+            label: __('Dialog Confirm', 'blocky'),
             category: 'basic',
-            description: self::tr('Confirmation dialog preset with default cancel and confirm actions.'),
+            description: __('Confirmation dialog preset with default cancel and confirm actions.', 'blocky'),
             keywords: ['dialog', 'confirm', 'overlay'],
             icon: 'Cfm',
             schema: [
@@ -4579,9 +4579,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/modal-trigger',
-            label: self::tr('Modal Trigger'),
+            label: __('Modal Trigger', 'blocky'),
             category: 'basic',
-            description: self::tr('Button-like trigger that opens, toggles, or closes an overlay by ID.'),
+            description: __('Button-like trigger that opens, toggles, or closes an overlay by ID.', 'blocky'),
             keywords: ['overlay', 'trigger', 'button'],
             icon: 'Trg',
             schema: [
@@ -4738,9 +4738,9 @@ final class Registry
             ],
             variants: [],
             renderer: new QuoteRenderer(),
-            label: self::tr('Quote'),
+            label: __('Quote', 'blocky'),
             category: 'content',
-            description: self::tr('A quote or testimonial block.'),
+            description: __('A quote or testimonial block.', 'blocky'),
             keywords: ['testimonial', 'blockquote', 'review'],
             icon: 'Q',
         );
@@ -4759,9 +4759,9 @@ final class Registry
             ],
             variants: [],
             renderer: new VideoRenderer(),
-            label: self::tr('Video'),
+            label: __('Video', 'blocky'),
             category: 'media',
-            description: self::tr('YouTube, Vimeo, or direct video URL.'),
+            description: __('YouTube, Vimeo, or direct video URL.', 'blocky'),
             keywords: ['embed', 'youtube', 'vimeo', 'media'],
             icon: 'V',
             editorConfig: self::localizeEditorConfig([
@@ -4787,9 +4787,9 @@ final class Registry
             ],
             variants: [],
             renderer: new HtmlRenderer(),
-            label: self::tr('HTML'),
+            label: __('HTML', 'blocky'),
             category: 'advanced',
-            description: self::tr('Sanitized custom HTML markup.'),
+            description: __('Sanitized custom HTML markup.', 'blocky'),
             keywords: ['code', 'markup', 'custom'],
             icon: '</>',
         );
@@ -4799,9 +4799,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/wp-post-title',
-            label: self::tr('Post Title'),
+            label: __('Post Title', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Displays the current post or page title.'),
+            description: __('Displays the current post or page title.', 'blocky'),
             keywords: ['title', 'heading', 'post', 'page', 'wordpress'],
             icon: 'WP',
             schema: [
@@ -4827,9 +4827,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/wp-post-content',
-            label: self::tr('Post Content'),
+            label: __('Post Content', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Renders the main content of the current post.'),
+            description: __('Renders the main content of the current post.', 'blocky'),
             keywords: ['content', 'body', 'post', 'page', 'wordpress'],
             icon: 'WP',
             schema: ['type' => 'object', 'properties' => []],
@@ -4842,9 +4842,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/wp-featured-image',
-            label: self::tr('Featured Image'),
+            label: __('Featured Image', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Displays the featured image of the current post.'),
+            description: __('Displays the featured image of the current post.', 'blocky'),
             keywords: ['image', 'thumbnail', 'featured', 'post', 'wordpress'],
             icon: 'WP',
             schema: [
@@ -4872,9 +4872,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/wp-shortcode',
-            label: self::tr('Shortcode'),
+            label: __('Shortcode', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Executes a WordPress shortcode and renders its output.'),
+            description: __('Executes a WordPress shortcode and renders its output.', 'blocky'),
             keywords: ['shortcode', 'plugin', 'widget', 'wordpress'],
             icon: '[…]',
             schema: [
@@ -4905,9 +4905,9 @@ final class Registry
 
         return new BlockDefinition(
             type: 'bky/data-field',
-            label: self::tr('Data Field'),
+            label: __('Data Field', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Displays one WP data value (title, excerpt, image, price, user bio...) of the current item, page or author.'),
+            description: __('Displays one WP data value (title, excerpt, image, price, user bio...) of the current item, page or author.', 'blocky'),
             keywords: ['dynamic', 'data', 'field', 'loop', 'title', 'image', 'price'],
             icon: 'DF',
             schema: [
@@ -4934,9 +4934,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/wp-template-part',
-            label: self::tr('Template Part'),
+            label: __('Template Part', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Renders another GG-built page inside the current layout for reusable headers, footers, sidebars, and sections.'),
+            description: __('Renders another GG-built page inside the current layout for reusable headers, footers, sidebars, and sections.', 'blocky'),
             keywords: ['template', 'partial', 'header', 'footer', 'sidebar', 'wordpress'],
             icon: 'WP',
             schema: [
@@ -4961,9 +4961,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/theme-toggle',
-            label: self::tr('Theme Toggle'),
+            label: __('Theme Toggle', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Button that lets visitors switch between light and dark mode.'),
+            description: __('Button that lets visitors switch between light and dark mode.', 'blocky'),
             keywords: ['theme', 'dark', 'light', 'mode', 'toggle', 'switch'],
             icon: '🎨',
             schema: [
@@ -4994,9 +4994,9 @@ final class Registry
     {
         return new BlockDefinition(
             type: 'bky/wp-hook',
-            label: self::tr('WP Hook'),
+            label: __('WP Hook', 'blocky'),
             category: 'wordpress',
-            description: self::tr('Renders output from a WordPress action or filter hook.'),
+            description: __('Renders output from a WordPress action or filter hook.', 'blocky'),
             keywords: ['hook', 'action', 'filter', 'do_action', 'apply_filters', 'wordpress'],
             icon: '⚡',
             schema: [

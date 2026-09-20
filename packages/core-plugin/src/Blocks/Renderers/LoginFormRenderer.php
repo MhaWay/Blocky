@@ -49,8 +49,8 @@ final class LoginFormRenderer implements BlockRendererInterface
             . HtmlString::void('input', ['type' => 'hidden', 'name' => '_blocky_form_post_id', 'value' => $postId > 0 ? (string) $postId : ''])->toString()
             . HtmlString::void('input', ['type' => 'hidden', 'name' => '_blocky_login_redirect', 'value' => $redirectUrl])->toString()
             . wp_nonce_field('blocky_frontend_login_' . $formId, '_blocky_login_nonce', false, false)
-            . self::field('Username or email', 'log', 'text', 'username')
-            . self::field('Password', 'pwd', 'password', 'current-password')
+            . self::field(__('Username or email', 'blocky'), 'log', 'text', 'username')
+            . self::field(__('Password', 'blocky'), 'pwd', 'password', 'current-password')
             . ($showRemember ? '<label class="inline-flex items-center gap-3 text-sm text-text-base"><input type="checkbox" name="rememberme" value="forever" class="h-4 w-4 rounded border-border-base" /><span>' . esc_html__('Remember me', 'blocky') . '</span></label>' : '')
             . '<button type="submit" class="inline-flex items-center justify-center rounded-button bg-accent-base px-4 py-3 text-sm font-medium text-text-on-accent transition-colors hover:bg-accent-hover">' . esc_html($buttonLabel) . '</button>'
             . $links
@@ -61,7 +61,7 @@ final class LoginFormRenderer implements BlockRendererInterface
 
     private static function field(string $label, string $name, string $type, string $autocomplete): string
     {
-        return '<label class="flex flex-col gap-2 text-sm font-medium text-text-base"><span>' . esc_html__($label, 'blocky') . '</span><input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" autocomplete="' . esc_attr($autocomplete) . '" class="min-h-11 rounded-button border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base outline-none transition-colors focus:border-accent-base" required /></label>'; // phpcs:ignore WordPress.WP.I18n -- callers pass literal label strings.
+        return '<label class="flex flex-col gap-2 text-sm font-medium text-text-base"><span>' . esc_html($label) . '</span><input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" autocomplete="' . esc_attr($autocomplete) . '" class="min-h-11 rounded-button border border-border-base bg-surface-elevated px-3 py-2 text-sm text-text-base outline-none transition-colors focus:border-accent-base" required /></label>'; // phpcs:ignore WordPress.WP.I18n -- callers pass literal label strings.
     }
 
     private static function resolveFormId(Node $node, int $postId, string $prefix): string
