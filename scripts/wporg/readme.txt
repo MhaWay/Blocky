@@ -5,7 +5,7 @@ Tags: page builder, tailwind, blocks, editor, static css
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,7 +81,7 @@ GG-Ally is fully self-contained at runtime: no third-party CDN, no tracking, and
 
 == Changelog ==
 
-= 0.1.2 =
+= 0.1.3 =
 * REST: library page creation/deletion now require edit_pages/delete_pages (previously only post-level capabilities were checked for page actions).
 * REST: saved patterns read/write require manage_options (site-wide content).
 * Hardening: third-party hook output in the hook-block renderer is filtered through wp_kses_post.

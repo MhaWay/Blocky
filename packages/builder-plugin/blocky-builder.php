@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('BLOCKY_BUILDER_VERSION', '0.1.2');
+define('BLOCKY_BUILDER_VERSION', '0.1.3');
 define('BLOCKY_BUILDER_FILE',    __FILE__);
 define('BLOCKY_BUILDER_DIR',     \plugin_dir_path(__FILE__));
 // URL derived from the plugin path: plugin_dir_url() honors WP_CONTENT_DIR

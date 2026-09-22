@@ -3,7 +3,7 @@
  * Plugin Name:       GG-Ally Page Builder
  * Plugin URI:        https://github.com/MhaWay/Blocky
  * Description:       The Tailwind-native page builder by GG-Ally. Design visually; output is static hashed CSS with no runtime.lated UI, and a deterministic static-CSS engine. No bloat, no arbitrary CSS classes, no runtime overhead.
- * Version:           0.1.2
+ * Version:           0.1.3
  * Requires at least: 6.5
  * Requires PHP:      8.2
  * Author:            GG-Ally

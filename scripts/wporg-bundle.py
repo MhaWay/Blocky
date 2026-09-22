@@ -28,10 +28,13 @@ def main():
     for m in os.listdir(src):
         if m.startswith('.'):
             continue
-        if m in ('readme.txt', 'blocky-core.php', 'node_modules', 'tests'):
+        if m in ('readme.txt', 'blocky-core.php', 'node_modules', 'tests', 'vite.config.ts'):
             continue
         s, d = os.path.join(src, m), os.path.join(OUT, 'engine', m)
-        (shutil.copytree if os.path.isdir(s) else shutil.copy2)(s, d)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, ignore=shutil.ignore_patterns('*.ts', '*.map', 'vite.config.ts', 'tsconfig.json'))
+        else:
+            shutil.copy2(s, d)
     strip_entry(os.path.join(src, 'blocky-core.php'), OUT + '/engine/engine.php')
     # Production-only PHP deps (drops phpstan/phpunit phars).
     subprocess.run(['composer', 'install', '--no-dev', '--quiet', '--no-interaction',
@@ -42,10 +45,13 @@ def main():
     for m in os.listdir(src):
         if m.startswith('.'):
             continue
-        if m in ('readme.txt', 'blocky-builder.php', 'node_modules', 'tests', 'scripts'):
+        if m in ('readme.txt', 'blocky-builder.php', 'node_modules', 'tests', 'scripts', 'vite.config.ts'):
             continue
         s, d = os.path.join(src, m), os.path.join(OUT, 'builder', m)
-        (shutil.copytree if os.path.isdir(s) else shutil.copy2)(s, d)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, ignore=shutil.ignore_patterns('*.ts', '*.map', 'vite.config.ts', 'tsconfig.json'))
+        else:
+            shutil.copy2(s, d)
     strip_entry(os.path.join(src, 'blocky-builder.php'), OUT + '/builder/builder.php')
 
     # Text domain must equal slug for the directory (Plugin Check ERROR otherwise).
