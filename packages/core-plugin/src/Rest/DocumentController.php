@@ -56,7 +56,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::CREATABLE,
                 'callback'            => [$this, 'createLibraryPage'],
-                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'edit_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'edit_pages'),
                 'args'                => [
                     'title' => ['required' => false, 'type' => 'string'],
                 ],
@@ -67,7 +67,7 @@ final class DocumentController extends \WP_REST_Controller
             [
                 'methods'             => \WP_REST_Server::DELETABLE,
                 'callback'            => [$this, 'deleteLibraryPage'],
-                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'delete_posts'),
+                'permission_callback' => fn() => \Blocky\Core\Support\Access::allowed('documents:write', 'delete_pages'),
                 'args'                => [
                     'post_id' => ['required' => true, 'type' => 'integer'],
                 ],

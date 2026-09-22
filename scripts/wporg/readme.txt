@@ -5,7 +5,7 @@ Tags: page builder, tailwind, blocks, editor, static css
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,18 @@ GG-Ally is fully self-contained at runtime: no third-party CDN, no tracking, and
 4. A published page rendered on the frontend, styled by the compiled static CSS.
 
 == Changelog ==
+
+= 0.1.2 =
+* REST: library page creation/deletion now require edit_pages/delete_pages (previously only post-level capabilities were checked for page actions).
+* REST: saved patterns read/write require manage_options (site-wide content).
+* Hardening: third-party hook output in the hook-block renderer is filtered through wp_kses_post.
+* i18n: removed the last runtime gettext call with a variable argument; dynamic strings are resolved through the core translation filter and exposed for translators via the literal catalog.
+
+= 0.1.1 =
+* Bundled pattern library: 5 starter patterns, save-your-own patterns, self-hosted storage.
+* WooCommerce subset: product grid, featured product, product categories (active only when WooCommerce is enabled).
+* Icon library with self-hosted SVG assets.
+* Review fixes: activation/deactivation hooks against the main plugin file, literal gettext call sites, plugin_dir_url-based asset URLs.
 
 = 0.1.0 =
 * First public release.

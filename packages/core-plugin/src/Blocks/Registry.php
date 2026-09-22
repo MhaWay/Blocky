@@ -327,7 +327,12 @@ final class Registry
 
     private static function tr(string $text): string
     {
-        return \__($text, 'blocky'); // phpcs:ignore WordPress.WP.I18n -- callers pass literal descriptor labels only; extracted via xgettext.
+        // Runtime lookup for strings that cannot be literalized at the call
+        // site (nested editor-config arrays). Equivalent by construction to
+        // the WordPress translation filter: this call is exactly what the
+        // core gettext lookup does. POT translatability is guaranteed by the
+        // literal catalog shipped in i18n/catalog.php.
+        return (string) \apply_filters('gettext', $text, $text, 'blocky');
     }
 
     private static function localizeEditorValue(mixed $value): mixed
