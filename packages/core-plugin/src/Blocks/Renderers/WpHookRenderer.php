@@ -38,11 +38,11 @@ final class WpHookRenderer implements BlockRendererInterface
         }
 
         if ($type === 'filter') {
-            $output = (string) \apply_filters($hookName, ''); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook names come from registered block descriptors, a closed set.
+            $output = (string) \wp_kses_post(\apply_filters($hookName, '')); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook names come from registered block descriptors, a closed set.
         } else {
             \ob_start();
             \do_action($hookName); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook names come from registered block descriptors, a closed set.
-            $output = (string) \ob_get_clean();
+            $output = (string) \wp_kses_post((string) \ob_get_clean());
         }
 
         if ($output === '') {

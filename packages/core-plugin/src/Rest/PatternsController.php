@@ -45,7 +45,7 @@ final class PatternsController {
             [
                 'methods'             => 'POST',
                 'callback'            => [$this, 'savePattern'],
-                'permission_callback' => static fn(): bool => Access::allowed('documents:write', 'edit_posts'),
+                'permission_callback' => static fn(): bool => Access::allowed('documents:write', 'manage_options'),
                 'args'                => [
                     'title' => ['required' => true, 'type' => 'string'],
                     'nodes' => ['required' => true, 'type' => 'object'],
@@ -57,7 +57,7 @@ final class PatternsController {
             [
                 'methods'             => 'DELETE',
                 'callback'            => [$this, 'deletePattern'],
-                'permission_callback' => static fn(): bool => Access::allowed('documents:write', 'edit_posts'),
+                'permission_callback' => static fn(): bool => Access::allowed('documents:write', 'manage_options'),
             ],
         ]);
     }
