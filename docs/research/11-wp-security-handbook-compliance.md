@@ -69,3 +69,25 @@ documentato: la funzione e' scoraggiata solo quando le traduzioni non le distrib
 4. **Naming global**: una variabile locale al bootstrap ma a global scope (`$bkyMain`) genera warning
    PC NonPrefixedVariableFound. Regola: anche le variabili dei file bootstrap usano il prefix.
 
+
+
+## Round-3 review wp.org (2026-09): sei lezioni brevi
+
+1. **Le cap di rotta contano sulle rotte che CREANO oggetti.** Le write post-scoped erano
+   giagate bene (meta-cap edit_post via Access::allowed_post), ma POST /library creava una
+   pagina nuova con la sola edit_posts: un author NON puo creare pagine → serve edit_pages
+   (e delete_pages per la libreria). Regola: se la rotta crea/elimina contenuti di un post
+   type X, usare le primitive map del post type, non un proxy generico.
+2. **Auth cookie senza nonce: le scritture rispondono 401.** I test REST fatti a mano via
+   curl/requests devono estrarre il nonce dalle pagine admin (rest_nonce) e mandare
+   X-WP-Nonce; chi lo dimentica vede 401 e crede siano cap rotte.
+3. **wp eval + rest_do_request e inaffidabile** (404 spurii, contesto CLI): testare via HTTP
+   vero, browser-like.
+4. **Anche UN solo __( $var ) superstite viene segnalato.** Fix onesto: apply_filters(
+   'gettext', $text, $text, 'domain' ) (che e esattamente cio che __ fa), con la catalog
+   letterale che resta unica fonte per il POT.
+5. **Output da hook altrui → wp_kses_post** nel renderer hook: hardening da una riga, zero
+   regressioni nei 45 e2e.
+6. **Versione: ogni upload deve averla nuova. Changelog readme completo** (0.1.1 era sparito!).
+   Tables create-on-activate = api_keys/api_audit via dbDelta; i documenti stanno in postmeta:
+   non descrivere mai in reply tabelle che il codice non crea.
