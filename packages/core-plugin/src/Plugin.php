@@ -21,7 +21,7 @@ use Blocky\Core\Rest\RestRegistrar;
  */
 final class Plugin
 {
-    private const FORM_SUBMISSION_POST_TYPE = 'bky_form_entry';
+    private const FORM_SUBMISSION_POST_TYPE = 'ggapb_form_entry';
     private const FORMS_PAGE_SLUG = 'blocky-forms';
 
     private static ?self $instance = null;
@@ -726,6 +726,27 @@ final class Plugin
         \flush_rewrite_rules();
         \Blocky\Core\Support\ApiKeyStore::install();
         \Blocky\Core\Support\ApiAudit::install();
+        self::migrateFormEntryPostType();
+    }
+
+    /**
+     * One-time migration of form submissions to the longer post-type prefix (0.1.4).
+     */
+    private static function migrateFormEntryPostType(): void
+    {
+        if (\get_option('ggapb_form_entry_migrated') === '1') {
+            return;
+        }
+
+        /** @var \wpdb $wpdb */
+        global $wpdb;
+        $wpdb->update(
+            $wpdb->posts,
+            ['post_type' => self::FORM_SUBMISSION_POST_TYPE],
+            ['post_type' => 'bky_form_entry']
+        );
+        \wp_cache_flush();
+        \update_option('ggapb_form_entry_migrated', '1');
     }
 
     /**
@@ -1145,8 +1166,13 @@ final class Plugin
 
     private function selectedFormSubmission(string $selectedTab): ?\WP_Post
     {
-        $submissionId = isset($_GET['submission_id']) ? (int) $_GET['submission_id'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
+        $submissionId = isset($_GET['submission_id']) ? (int) $_GET['submission_id'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter, nonce verified below.
         if ($submissionId <= 0) {
+            return null;
+        }
+
+        $nonce = isset($_GET['_wpnonce']) ? (string) \wp_unslash($_GET['_wpnonce']) : '';
+        if (!\wp_verify_nonce($nonce, 'blocky_view_submission')) {
             return null;
         }
 
@@ -1209,11 +1235,11 @@ final class Plugin
 
     private function formSubmissionAdminUrl(int $submissionId, string $tab = 'submissions'): string
     {
-        return \add_query_arg([
+        return \wp_nonce_url(\add_query_arg([
             'page' => self::FORMS_PAGE_SLUG,
             'tab' => $tab,
             'submission_id' => $submissionId,
-        ], \admin_url('admin.php'));
+        ], \admin_url('admin.php')), 'blocky_view_submission');
     }
 
     private function currentFormsTab(): string
@@ -1252,7 +1278,13 @@ final class Plugin
             $args['submission_id'] = $submissionId;
         }
 
-        return \add_query_arg($args, \admin_url('admin.php'));
+        $url = \add_query_arg($args, \admin_url('admin.php'));
+
+        if ($submissionId !== null && $submissionId > 0) {
+            $url = \wp_nonce_url($url, 'blocky_view_submission');
+        }
+
+        return $url;
     }
 
     private function formSubmissionActionUrl(string $action, string $nonceAction, int $submissionId, string $tab): string

@@ -68,10 +68,6 @@ final class CountdownRenderer implements BlockRendererInterface
 
     private static function script(RenderContext $ctx): string
     {
-        if ($ctx->isEditorMode()) {
-            return '';
-        }
-
-        return '<script>(function(){var root=document.currentScript.closest("[data-bky-countdown-root]");if(!root)return;var target=root.getAttribute("data-bky-target-date");if(!target)return;var nodes={days:root.querySelector("[data-bky-countdown-unit=days]"),hours:root.querySelector("[data-bky-countdown-unit=hours]"),minutes:root.querySelector("[data-bky-countdown-unit=minutes]"),seconds:root.querySelector("[data-bky-countdown-unit=seconds]")};var targetTime=Date.parse(target);if(Number.isNaN(targetTime))return;function draw(){var diff=Math.max(0,targetTime-Date.now());var days=Math.floor(diff/86400000);var hours=Math.floor(diff%86400000/3600000);var minutes=Math.floor(diff%3600000/60000);var seconds=Math.floor(diff%60000/1000);nodes.days.textContent=String(days).padStart(2,"0");nodes.hours.textContent=String(hours).padStart(2,"0");nodes.minutes.textContent=String(minutes).padStart(2,"0");nodes.seconds.textContent=String(seconds).padStart(2,"0");}draw();window.setInterval(draw,1000);})();</script>';
+        return '';
     }
 }

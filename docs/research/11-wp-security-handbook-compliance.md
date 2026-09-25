@@ -91,3 +91,22 @@ documentato: la funzione e' scoraggiata solo quando le traduzioni non le distrib
 6. **Versione: ogni upload deve averla nuova. Changelog readme completo** (0.1.1 era sparito!).
    Tables create-on-activate = api_keys/api_audit via dbDelta; i documenti stanno in postmeta:
    non descrivere mai in reply tabelle che il codice non crea.
+
+## Round-4 review wp.org (2026-09): tre lezioni brevi
+
+1. **Niente inline script nei renderer.** Otto renderer emittevano <script> DOM-ready + un
+   <style> per i keyframes di Marquee: tutti rimossi. Il DOM resta nei renderer, la logica
+   vive in src/islands.ts, bundled nel modulo enqueueato blocky-core. roots() usa il selettore
+   + ':not([data-bky-id])' per non toccare il canvas dell'editor. I keyframes bky-marquee
+   ora stanno in styles/animations.css (importata dal CSS generato, quindi enqueue pulita).
+   Attenzione: se un upgrade lascia render cache vecchie in DB, quelle contengono ancora
+   inline script — il compile-hash non copre il codice PHP, quindi va considerato l'attr
+   di versione nel payload della cache in futuro (todo: cache-key v3).
+2. **Nonce sulle letture sensibili.** selectedFormSubmission() leggeva $_GET['submission_id']
+   senza nonce: ora l'URL admin e' generato da wp_nonce_url() e validato con
+   wp_verify_nonce(..., 'blocky_view_submission') prima di leggere qualunque input.
+3. **Prefix >= 4 caratteri.** 'bky_' era troppo corto: rinominati transient (ggapb_rate_),
+   post type (ggapb_form_entry, con migrazione one-shot $wpdb->update + cache flush all'activate),
+   cookie e chiavi (ggapb_live_/ggapb_brand/ggapb_mode). Le chiavi legacy 'bky_live_*' restano
+   verificabili (doppio prefisso, nessuna rottura per i key file esistenti). 'blocky_' e'
+   >= 7 caratteri quindi ammessa, e gli handle/hooks non sono stati rinominati.

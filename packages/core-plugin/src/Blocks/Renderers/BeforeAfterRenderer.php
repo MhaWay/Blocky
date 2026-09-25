@@ -45,10 +45,6 @@ final class BeforeAfterRenderer implements BlockRendererInterface
 
     private static function script(RenderContext $ctx): string
     {
-        if ($ctx->isEditorMode()) {
-            return '';
-        }
-
-        return '<script>(function(){var root=document.currentScript.closest("[data-bky-before-after-root]");if(!root)return;var range=root.querySelector("[data-bky-before-after-range]");if(!range)return;var update=function(){root.style.setProperty("--bky-before-after",range.value+"%");};range.addEventListener("input",update);update();})();</script>';
+        return '';
     }
 }

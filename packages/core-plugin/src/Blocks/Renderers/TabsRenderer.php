@@ -26,7 +26,7 @@ final class TabsRenderer implements BlockRendererInterface
             $panels .= '<div role="tabpanel" data-bky-panel="' . $index . '"' . ($isActive ? '' : ' hidden') . ' class="rounded-card border border-border-subtle bg-surface-base p-5 text-sm leading-6 text-text-base">' . \esc_html($item['content']) . '</div>';
         }
 
-        $script = $ctx->isEditorMode() ? '' : '<script>(function(){var root=document.currentScript.closest("[data-bky-tabs-root]");if(!root)return;root.querySelectorAll("[data-bky-tab]").forEach(function(button){button.addEventListener("click",function(){var index=button.getAttribute("data-bky-tab");root.querySelectorAll("[data-bky-tab]").forEach(function(tab){var active=tab.getAttribute("data-bky-tab")===index;tab.setAttribute("aria-selected",active?"true":"false");tab.className="rounded-button px-4 py-2 text-sm font-medium "+(active?"bg-accent-base text-text-on-accent":"bg-surface-elevated text-text-base");});root.querySelectorAll("[data-bky-panel]").forEach(function(panel){panel.hidden=panel.getAttribute("data-bky-panel")!==index;});});});})();</script>';
+        $script = '';
 
         return HtmlString::element('div', $ctx->blockAttrs($node, ['data-bky-tabs-root' => $groupId, 'class' => 'space-y-4']), '<div class="flex flex-wrap gap-2" role="tablist">' . $buttons . '</div><div class="space-y-3">' . $panels . '</div>' . $script);
     }

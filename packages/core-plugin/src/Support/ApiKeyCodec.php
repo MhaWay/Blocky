@@ -25,7 +25,14 @@ final class ApiKeyCodec {
 	 *
 	 * @var string
 	 */
-	public const PREFIX = 'bky_live_';
+	public const PREFIX = 'ggapb_live_';
+
+	/**
+	 * Prefixes accepted for keys issued before 0.1.4.
+	 *
+	 * @var string[]
+	 */
+	public const LEGACY_PREFIXES = array( 'bky_live_' );
 
 	/**
 	 * Crockford-ish lowercase alphabet (no i, l, o, u to avoid ambiguity).
@@ -59,7 +66,7 @@ final class ApiKeyCodec {
 	 */
 	public static function parse( string $token ): ?string {
 		$token = trim( $token );
-		$shape = self::PREFIX . '[0-9a-hjkmnp-tv-z]{12}_[0-9a-hjkmnp-tv-z]{40}';
+		$shape = '(?:' . preg_quote( self::PREFIX, '/' ) . '|bky_live_)[0-9a-hjkmnp-tv-z]{12}_[0-9a-hjkmnp-tv-z]{40}';
 
 		if ( 1 !== preg_match( '/^' . $shape . '$/', $token ) ) {
 			return null;
@@ -75,11 +82,19 @@ final class ApiKeyCodec {
 	 * @return string|null Public id or null when malformed.
 	 */
 	public static function public_id_from_key( string $key ): ?string {
-		if ( 0 !== strpos( $key, self::PREFIX ) ) {
+		$prefix = null;
+		foreach ( array_merge( array( self::PREFIX ), self::LEGACY_PREFIXES ) as $candidate ) {
+			if ( 0 === strpos( $key, $candidate ) ) {
+				$prefix = $candidate;
+				break;
+			}
+		}
+
+		if ( null === $prefix ) {
 			return null;
 		}
 
-		$rest = substr( $key, strlen( self::PREFIX ) );
+		$rest = substr( $key, strlen( $prefix ) );
 		$idx  = strpos( $rest, '_' );
 		if ( false === $idx ) {
 			return null;

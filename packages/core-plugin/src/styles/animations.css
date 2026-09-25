@@ -251,3 +251,13 @@
     animation: none;
   }
 }
+
+/* Marquee island keyframes (always available; only used by the marquee block). */
+@keyframes bky-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}

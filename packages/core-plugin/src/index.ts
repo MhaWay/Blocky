@@ -1,5 +1,6 @@
 import 'highlight.js/styles/github-dark.css';
 import './styles/animations.css';
+import './islands';
 
 interface OverlayApi {
   open: (id: string, trigger?: HTMLElement | null) => boolean;

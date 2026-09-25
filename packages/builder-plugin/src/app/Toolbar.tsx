@@ -5,8 +5,8 @@ import { t } from '../i18n';
 
 const API_BASE = window.BlockyBuilderConfig?.restUrl ?? '/wp-json/blocky/v1/';
 const NONCE = window.BlockyBuilderConfig?.nonce ?? '';
-const BUILDER_BRAND_COOKIE = 'bky_builder_brand';
-const BUILDER_MODE_COOKIE = 'bky_builder_mode';
+const BUILDER_BRAND_COOKIE = 'ggapb_builder_brand';
+const BUILDER_MODE_COOKIE = 'ggapb_builder_mode';
 
 interface ThemeVariant {
   id: string;

@@ -70,7 +70,9 @@ final class ImageCarouselRenderer implements BlockRendererInterface
 
         return HtmlString::element(
             'div',
-            $ctx->blockAttrs($node, ['data-bky-carousel-root' => $rootId, 'class' => 'space-y-4']),
+            $ctx->blockAttrs($node, ['data-bky-carousel-root' => $rootId,
+                'data-bky-carousel-autoplay' => $autoPlay ? 'true' : 'false',
+                'data-bky-carousel-interval' => (string) $interval, 'class' => 'space-y-4']),
             '<div data-bky-carousel-track class="' . \esc_attr(trim('flex overflow-x-auto snap-x snap-mandatory scroll-smooth ' . $trackClasses)) . '">' . $slides . '</div>'
             . $controls
             . self::script($ctx, $autoPlay, $interval)
@@ -109,10 +111,6 @@ final class ImageCarouselRenderer implements BlockRendererInterface
 
     private static function script(RenderContext $ctx, bool $autoPlay, int $interval): string
     {
-        if ($ctx->isEditorMode()) {
-            return '';
-        }
-
-        return '<script>(function(){var root=document.currentScript.closest("[data-bky-carousel-root]");if(!root)return;var track=root.querySelector("[data-bky-carousel-track]");if(!track)return;var slides=[].slice.call(root.querySelectorAll("[data-bky-carousel-slide]"));var dots=[].slice.call(root.querySelectorAll("[data-bky-carousel-dot]"));if(!slides.length)return;var index=0;var timer=null;function sync(){dots.forEach(function(dot,i){dot.className="h-2.5 w-2.5 rounded-full transition-colors "+(i===index?"bg-accent-base":"bg-border-strong/40");});}function go(next){index=(next+slides.length)%slides.length;slides[index].scrollIntoView({behavior:"smooth",inline:"start",block:"nearest"});sync();}function restart(){if(!' . ($autoPlay ? 'true' : 'false') . ')return;if(timer)window.clearInterval(timer);timer=window.setInterval(function(){go(index+1);},' . $interval . ');}var prev=root.querySelector("[data-bky-carousel-prev]");var next=root.querySelector("[data-bky-carousel-next]");if(prev)prev.addEventListener("click",function(){go(index-1);restart();});if(next)next.addEventListener("click",function(){go(index+1);restart();});dots.forEach(function(dot,i){dot.addEventListener("click",function(){go(i);restart();});});sync();restart();})();</script>';
+        return '';
     }
 }

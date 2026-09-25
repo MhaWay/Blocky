@@ -38,7 +38,6 @@ final class MarqueeRenderer implements BlockRendererInterface
             '<div class="flex min-w-max gap-4 whitespace-nowrap [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">'
             . '<div class="flex min-w-max gap-4 [animation:bky-marquee_var(--bky-marquee-speed)_linear_infinite] ' . esc_attr(trim($trackClasses . ' ' . $pauseAttr)) . '" style="--bky-marquee-speed:' . $speed . 's">' . $content . '</div>'
             . '</div>'
-            . '<style>@keyframes bky-marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}</style>'
         );
     }
 

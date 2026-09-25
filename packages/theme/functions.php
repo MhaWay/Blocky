@@ -132,8 +132,8 @@ function inject_mode_script(): void
     ?>
     <script>
     (function(){
-        var m=document.cookie.match(/bky_mode=(light|dark|auto)/);
-        var b=document.cookie.match(/bky_brand=([a-z0-9_-]+)/);
+        var m=document.cookie.match(/ggapb_mode=(light|dark|auto)/);
+        var b=document.cookie.match(/ggapb_brand=([a-z0-9_-]+)/);
         var mode=m?m[1]:'auto';
         var brand=b?b[1]:'default';
         document.documentElement.dataset.mode=mode;

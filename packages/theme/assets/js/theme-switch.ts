@@ -3,8 +3,8 @@
  * Handles: mode (light/dark/auto), brand switching, persistence via cookie + localStorage
  */
 
-const COOKIE_MODE = 'bky_mode';
-const COOKIE_BRAND = 'bky_brand';
+const COOKIE_MODE = 'ggapb_mode';
+const COOKIE_BRAND = 'ggapb_brand';
 const STORAGE_MODE = 'bky-theme-mode';
 const STORAGE_BRAND = 'bky-theme-brand';
 

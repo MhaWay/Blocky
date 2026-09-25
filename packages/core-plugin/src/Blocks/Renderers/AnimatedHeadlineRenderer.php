@@ -55,10 +55,6 @@ final class AnimatedHeadlineRenderer implements BlockRendererInterface
 
     private static function script(RenderContext $ctx): string
     {
-        if ($ctx->isEditorMode()) {
-            return '';
-        }
-
-        return '<script>(function(){var root=document.currentScript.closest("[data-bky-animated-headline-root]");if(!root)return;var target=root.querySelector("[data-bky-animated-word]");if(!target)return;var encoded=root.getAttribute("data-bky-animated-words")||"";var words=[];try{words=JSON.parse(atob(encoded));}catch(error){words=[];}if(!Array.isArray(words)){words=[];}words=words.map(function(item){return String(item||"").trim();}).filter(Boolean);if(words.length<2)return;var effect=root.getAttribute("data-bky-animated-effect")||"rotate";var interval=Number(root.getAttribute("data-bky-animated-interval")||"3000");var index=0;function renderWord(next){if(effect==="typing"){target.textContent="";var chars=next.split("");var cursor=0;var typing=window.setInterval(function(){target.textContent=chars.slice(0,cursor+1).join("");cursor+=1;if(cursor>=chars.length){window.clearInterval(typing);}},40);return;}target.style.transition="opacity 220ms ease, transform 220ms ease";target.style.opacity="0";target.style.transform=effect==="slide"?"translateY(35%)":"rotateX(-18deg)";window.setTimeout(function(){target.textContent=next;target.style.opacity="1";target.style.transform="translateY(0) rotateX(0deg)";},200);}window.setInterval(function(){index=(index+1)%words.length;renderWord(words[index]);},Math.max(1000,interval));})();</script>';
+        return '';
     }
 }
