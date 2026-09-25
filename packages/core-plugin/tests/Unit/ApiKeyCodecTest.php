@@ -24,8 +24,8 @@ final class ApiKeyCodecTest extends TestCase {
 	 */
 	public function test_generate_parse_verify_roundtrip(): void {
 		$data = ApiKeyCodec::generate();
-		self::assertStringStartsWith( 'bky_live_', $data['secret'] );
-		self::assertSame( 62, strlen( $data['secret'] ) ); // Prefix 9 + public 12 + separator 1 + secret 40.
+		self::assertStringStartsWith( ApiKeyCodec::PREFIX, $data['secret'] );
+		self::assertSame( 64, strlen( $data['secret'] ) ); // Prefix 11 + public 12 + separator 1 + secret 40.
 		self::assertSame( 64, strlen( $data['hash'] ) );
 
 		$public_id = ApiKeyCodec::public_id_from_key( $data['secret'] );
@@ -36,6 +36,10 @@ final class ApiKeyCodecTest extends TestCase {
 
 		$forged = 'bky_live_' . str_repeat( 'a', 12 ) . '_' . str_repeat( 'b', 40 );
 		self::assertFalse( ApiKeyCodec::verify( $forged, $data['hash'] ) );
+
+		$legacy = 'bky_live_' . str_repeat( 'c', 12 ) . '_' . str_repeat( 'd', 40 );
+		self::assertNotNull( ApiKeyCodec::parse( $legacy ) );
+		self::assertSame( str_repeat( 'c', 12 ), ApiKeyCodec::public_id_from_key( $legacy ) );
 	}
 
 	/**

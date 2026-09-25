@@ -65,10 +65,6 @@ final class HotspotRenderer implements BlockRendererInterface
 
     private static function script(RenderContext $ctx): string
     {
-        if ($ctx->isEditorMode()) {
-            return '';
-        }
-
-        return '<script>(function(){var root=document.currentScript.closest("[data-bky-hotspot-root]");if(!root)return;var buttons=[].slice.call(root.querySelectorAll("[data-bky-hotspot-button]"));var panels=[].slice.call(root.querySelectorAll("[data-bky-hotspot-panel]"));if(!buttons.length||!panels.length)return;function activate(index){buttons.forEach(function(button,i){button.classList.toggle("ring-4",i===index);button.classList.toggle("ring-white/60",i===index);});panels.forEach(function(panel,i){panel.classList.toggle("hidden",i!==index);});}buttons.forEach(function(button,index){button.addEventListener("click",function(){activate(index);});});activate(0);})();</script>';
+        return '';
     }
 }

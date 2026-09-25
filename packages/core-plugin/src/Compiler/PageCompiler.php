@@ -170,7 +170,19 @@ final class PageCompiler
 
     private function documentHash(string $document): string
     {
-        return md5($document);
+        $version = \defined('BLOCKY_CORE_VERSION') ? (string) \constant('BLOCKY_CORE_VERSION') : '';
+        return md5($document . $version);
+    }
+
+    /**
+     * Freshness check for the frontend HTML cache: a page is fresh only when its
+     * stored compile hash matches the current document AND the current engine build
+     * (so an upgrade that changes renderer output rebuilds the cache on first view).
+     */
+    public function cacheIsFresh(int $postId, string $document): bool
+    {
+        $stored = \get_post_meta($postId, self::COMPILE_HASH_META_KEY, true);
+        return \is_string($stored) && $stored !== '' && \hash_equals($stored, $this->documentHash($document));
     }
 
     /**

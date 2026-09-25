@@ -76,7 +76,7 @@ final class ThemeEngine
             return $this->activeBrand;
         }
 
-        $cookie = isset($_COOKIE['bky_brand']) ? \sanitize_text_field(\wp_unslash($_COOKIE['bky_brand'])) : '';
+        $cookie = isset($_COOKIE['ggapb_brand']) ? \sanitize_text_field(\wp_unslash($_COOKIE['ggapb_brand'])) : '';
         $brand  = preg_match('/^[a-z0-9\-]{1,64}$/', $cookie) ? $cookie : 'default';
 
         // Ensure the requested brand is registered
@@ -98,7 +98,7 @@ final class ThemeEngine
             return $this->activeMode;
         }
 
-        $cookie = isset($_COOKIE['bky_mode']) ? \sanitize_text_field(\wp_unslash($_COOKIE['bky_mode'])) : '';
+        $cookie = isset($_COOKIE['ggapb_mode']) ? \sanitize_text_field(\wp_unslash($_COOKIE['ggapb_mode'])) : '';
         $this->activeMode = in_array($cookie, ['light', 'dark'], true) ? $cookie : 'light';
         return $this->activeMode;
     }

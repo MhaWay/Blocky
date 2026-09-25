@@ -4,7 +4,7 @@ type Panel = 'blocks' | 'pages' | 'patterns' | 'templates' | 'theme';
 type DeviceMode = 'desktop' | 'tablet' | 'mobile';
 type ResponsiveBreakpoint = 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type PreviewThemeMode = 'light' | 'dark';
-const PREVIEW_THEME_COOKIE = 'bky_builder_preview_mode';
+const PREVIEW_THEME_COOKIE = 'ggapb_builder_preview_mode';
 
 interface FloatingPosition {
   x: number;

@@ -44,7 +44,7 @@ final class ApiAuth {
 	public static function authenticate( $value ) {
 		$token = self::bearer_token();
 
-		if ( null === $token || 0 !== strpos( $token, ApiKeyCodec::PREFIX ) ) {
+		if ( null === $token || ! self::has_key_prefix( $token ) ) {
 			return $value;
 		}
 
@@ -71,6 +71,21 @@ final class ApiAuth {
 		// Core application-passwords (prio 20) already rejected
 		// our bearer scheme; a verified key must assert auth itself.
 		return true;
+	}
+
+	/**
+	 * Whether a presented token carries our (current or legacy) key prefix.
+	 *
+	 * @param string $token Raw bearer token.
+	 * @return bool True when prefixed.
+	 */
+	private static function has_key_prefix( string $token ): bool {
+		foreach ( array_merge( array( ApiKeyCodec::PREFIX ), ApiKeyCodec::LEGACY_PREFIXES ) as $prefix ) {
+			if ( 0 === strpos( $token, $prefix ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

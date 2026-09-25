@@ -5,7 +5,7 @@ Tags: page builder, tailwind, blocks, editor, static css
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.1.3
+Stable tag: 0.1.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,16 @@ GG-Ally is fully self-contained at runtime: no third-party CDN, no tracking, and
 
 == Changelog ==
 
+= 0.1.4 =
+* Compliance: all per-block inline <script> and <style> tags removed; interactive block
+  behaviour (tabs, carousels, hotspots, countdown, before/after, animated headline,
+  theme toggle) now runs from a single script loaded through wp_enqueue_script, and the
+  marquee keyframes moved to the enqueued stylesheet.
+* Admin: the submissions detail view link carries a nonce and the view is only honoured
+  with a valid nonce check.
+* Prefixes: form-entry post type and API rate-limit transient renamed to a longer
+  prefix (one-time migration of existing entries on update); API keys keep accepting
+  previously issued prefixes.
 = 0.1.3 =
 * REST: library page creation/deletion now require edit_pages/delete_pages (previously only post-level capabilities were checked for page actions).
 * REST: saved patterns read/write require manage_options (site-wide content).

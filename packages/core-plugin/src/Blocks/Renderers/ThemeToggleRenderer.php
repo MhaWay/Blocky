@@ -42,31 +42,14 @@ final class ThemeToggleRenderer implements BlockRendererInterface
             return HtmlString::element('span', $ctx->blockAttrs($node, ['class' => $buttonClass, 'style' => 'cursor:default']), $inner);
         }
 
-        // Frontend: toggle cookie + reload
-        $onclick = "
-(function(){
-  var c = document.cookie.match(/bky_mode=([^;]+)/);
-  var cur = c ? c[1] : 'light';
-  var next = cur === 'dark' ? 'light' : 'dark';
-  document.cookie = 'bky_mode=' + next + '; path=/; SameSite=Lax';
-  location.reload();
-})()";
 
         $inner = '<span aria-hidden="true" style="font-size:1.1em" class="bky-theme-toggle-icon">☀️</span>'
-            . '<span class="bky-theme-toggle-label">' . $labelText . '</span>'
-            . '<script>'
-            . '(function(){'
-            . 'var c=document.cookie.match(/bky_mode=([^;]+)/);'
-            . 'var m=c?c[1]:"light";'
-            . 'var el=document.currentScript.previousElementSibling.previousElementSibling;'
-            . 'if(el) el.textContent=m==="dark"?"🌙":"☀️";'
-            . '})();'
-            . '</script>';
+            . '<span class="bky-theme-toggle-label">' . $labelText . '</span>';
 
         return HtmlString::element('button', $ctx->blockAttrs($node, [
             'type'    => 'button',
             'class'   => $buttonClass,
-            'onclick' => trim($onclick),
+            'data-bky-theme-toggle' => 'true',
         ]), $inner);
     }
 }

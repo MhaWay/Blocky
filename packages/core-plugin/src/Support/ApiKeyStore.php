@@ -237,7 +237,7 @@ final class ApiKeyStore {
 	 * @return bool True when the request fits in the current window.
 	 */
 	public static function rate_limit_ok( string $public_id ): bool {
-		$key   = 'bky_rate_' . $public_id . '_' . (string) (int) floor( microtime( true ) / 60 );
+		$key   = 'ggapb_rate_' . $public_id . '_' . (string) (int) floor( microtime( true ) / 60 );
 		$count = (int) get_transient( $key );
 		if ( $count >= self::RATE_LIMIT_PER_MINUTE ) {
 			return false;
