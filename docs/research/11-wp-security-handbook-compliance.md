@@ -110,3 +110,16 @@ documentato: la funzione e' scoraggiata solo quando le traduzioni non le distrib
    cookie e chiavi (ggapb_live_/ggapb_brand/ggapb_mode). Le chiavi legacy 'bky_live_*' restano
    verificabili (doppio prefisso, nessuna rottura per i key file esistenti). 'blocky_' e'
    >= 7 caratteri quindi ammessa, e gli handle/hooks non sono stati rinominati.
+
+## Round-4 follow-up (v0.1.4) — cache invalidation across upgrades
+
+When renderer output changes (e.g. inline script/style removed in favour of the
+enqueued blocky-core runtime), sites upgrading would keep serving the old cached
+HTML forever: PageCompiler::cachedHtml() returns the stored string with no
+version check. Fixes shipped in v0.1.4:
+
+- documentHash() mixes BLOCKY_CORE_VERSION into the compile hash, so an engine
+  bump can never match a stored hash.
+- cacheIsFresh(postId, document) re-validates the stored _blocky_compile_hash on
+  the frontend read path (Plugin.php), so stale cache is not served even when
+  the document is unchanged.

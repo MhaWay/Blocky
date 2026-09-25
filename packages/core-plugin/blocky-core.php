@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-define('BLOCKY_CORE_VERSION',   '0.1.3');
+define('BLOCKY_CORE_VERSION',   '0.1.4');
 define('BLOCKY_CORE_FILE',      __FILE__);
 define('BLOCKY_CORE_DIR',       \plugin_dir_path(__FILE__));
 // URL derived from the plugin path: plugin_dir_url() honors WP_CONTENT_DIR

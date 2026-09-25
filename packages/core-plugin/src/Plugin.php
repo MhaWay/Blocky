@@ -134,7 +134,7 @@ final class Plugin
         $hasFormStatus = isset($_GET['blocky_form']) && \sanitize_key((string) $_GET['blocky_form']) !== ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view filter; no state change.
 
         $cachedHtml = $this->pageCompiler->cachedHtml($postId);
-        if (!$hasFormStatus && $cachedHtml !== '') {
+        if ( ! $hasFormStatus && $cachedHtml !== '' && $this->pageCompiler->cacheIsFresh( $postId, $document ) ) {
             return $cachedHtml;
         }
 
