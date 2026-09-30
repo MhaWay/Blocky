@@ -123,3 +123,28 @@ version check. Fixes shipped in v0.1.4:
 - cacheIsFresh(postId, document) re-validates the stored _blocky_compile_hash on
   the frontend read path (Plugin.php), so stale cache is not served even when
   the document is unchanged.
+
+## Round-5 follow-up (v0.1.5) — output escaping gate on content callbacks
+
+The 2026-10 review flagged (1) content/render callbacks returning rendered HTML
+without escaping at the return point and (2) the submissions-view link nonce being
+read from $_GET with only wp_unslash(). Findings and fixes:
+
+- Escaping is per value, not per string: every attribute goes through
+  HtmlString::buildAttrs() which runs esc_attr() centrally, text props through
+  esc_html()/esc_html__ (171 uses across renderers), URLs through esc_url(),
+  rich-text props through wp_kses_post(). IconLibrary sanitises SVG through DOM
+  allow-lists (no script/event-handler/xlink:href).
+- New defence-in-depth layer: Support/FrontendHtml applies a final wp_kses() gate
+  to the HTML returned by the the_content filter (Plugin::renderBlockyContent,
+  both cached and fresh paths) and by the block render callback
+  (Pipeline::renderFromGutenberg). The allow-list mirrors the engine markup
+  vocabulary (data-* islands, enumerated aria-* keys because the kses wildcard
+  does not work for them, lowercase kses keys so SVG attributes survive).
+  Extensible via the blocky_frontend_html_allowed_html filter.
+- FrontendHtml::sanitize() on cached + freshly rendered fixture pages produces
+  byte-identical HTML (no regression on islands/animations/forms), and the full
+  e2e suite (45 tests) passes.
+- The view-submission link nonce is now sanitize_text_field( wp_unslash( ... ) )
+  before wp_verify_nonce().
+
