@@ -128,6 +128,8 @@ final class Pipeline
         // Minimal context
         $ctx = RenderContext::makeMinimal();
 
-        return $definition->render($node, $ctx)->toString();
+        return \Blocky\Core\Support\FrontendHtml::sanitize(
+            $definition->render($node, $ctx)->toString()
+        );
     }
 }

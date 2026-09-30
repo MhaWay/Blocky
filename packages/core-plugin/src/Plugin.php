@@ -135,13 +135,13 @@ final class Plugin
 
         $cachedHtml = $this->pageCompiler->cachedHtml($postId);
         if ( ! $hasFormStatus && $cachedHtml !== '' && $this->pageCompiler->cacheIsFresh( $postId, $document ) ) {
-            return $cachedHtml;
+            return \Blocky\Core\Support\FrontendHtml::sanitize( $cachedHtml );
         }
 
         try {
             $this->renderingBlockyContent = true;
             $pipeline = new Pipeline($this->registry, $this->themeEngine);
-            return $pipeline->renderDocument($document, false, $postId)->toString();
+            return \Blocky\Core\Support\FrontendHtml::sanitize($pipeline->renderDocument($document, false, $postId)->toString());
         } catch (\Throwable) {
             return $content;
         } finally {
@@ -1171,7 +1171,7 @@ final class Plugin
             return null;
         }
 
-        $nonce = isset($_GET['_wpnonce']) ? (string) \wp_unslash($_GET['_wpnonce']) : '';
+        $nonce = isset($_GET['_wpnonce']) ? \sanitize_text_field(\wp_unslash((string) $_GET['_wpnonce'])) : '';
         if (!\wp_verify_nonce($nonce, 'blocky_view_submission')) {
             return null;
         }
